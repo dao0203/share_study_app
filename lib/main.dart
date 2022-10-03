@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_study_app/view/title_page.dart';
+import 'package:share_study_app/top_page/title_page.dart';
 
 void main() {
   runApp(const MyApp());
