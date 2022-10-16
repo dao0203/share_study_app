@@ -22,11 +22,15 @@ class QuestionPage extends StatelessWidget {
         child: Column(
           children: [
             Container(
+              //投稿画面の中身
               width: 307,
               height: 272,
-              color: Colors.grey[100],
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(20),
+              ),
+
               child: Column(
-                //投稿画面の中身
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //項目の中身
