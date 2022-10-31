@@ -16,15 +16,37 @@ class QuestionPostPage extends StatefulWidget {
   State<QuestionPostPage> createState() => _QuestionPostPage();
 }
 
-class _QuestionPostPage extends State<QuestionPostPage> {
-  var selectedValue = "科目を選択してください";
-  var dropDownLists = <String>["科目を選択してください", "科目１", "科目２"];
-  late File _image; //カメラから画像を取得
-  final picker = ImagePicker(); //カメラから画像を取得するメソッドを宣言
+List<String> getSubjects() {
+  return [];
+}
 
-  Future getImageFromCamera() async {
-    final PickedFile = await picker.getImage(source: ImageSource.camera);
-  }
+getId() {
+  var id;
+  return id;
+}
+
+getuserId() {
+  var userId;
+  return userId;
+}
+
+getTitleContent() {
+  var titleContent;
+  return titleContent;
+}
+
+getQuestionContent() {
+  var questionContent = TextEditingController();
+  return questionContent;
+}
+
+class _QuestionPostPage extends State<QuestionPostPage> {
+  var id = getId();
+  var userId = getuserId();
+  var title = getTitleContent();
+  var questionContent = getQuestionContent();
+  var classId = "科目を選択してください";
+  var dropDownLists = getSubjects();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +68,21 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     //項目の中身
-
+                    Text("タイトル"),
+                    TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 1,
+                      minLines: 1,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.grey[100],
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        helperMaxLines: 10,
+                      ),
+                    ),
                     Text("科目"),
                     SizedBox(height: 10), //間隔を開ける
                     /*科目選択ボタン*/
@@ -62,10 +98,10 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                       onChanged: (value) {
                         setState(() {
                           //List中にnullがある場合はエラーを返す
-                          selectedValue = value ?? "エラー";
+                          classId = value ?? "エラー";
                         });
                       },
-                      value: selectedValue,
+                      value: classId,
                     ),
                     Text("質問内容"),
                     SizedBox(height: 10), //間隔を開ける
@@ -73,32 +109,32 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                     TextField(
                       //質問内容入力
                       keyboardType: TextInputType.multiline,
-                      maxLines: null,
+                      maxLines: 4,
+                      minLines: 4,
+                      controller: title, //タイトルをここで取得
+
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.grey[100],
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey),
+                          borderSide: BorderSide.none,
                         ),
-                        hintText: '質問を入力（230文字以内）',
+                        helperMaxLines: 10,
                       ),
                     ),
                     /**写真アップロードボタン */
                     SizedBox(height: 20), //間隔を開ける
                     Text("写真をアップロード"),
                     SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        FloatingActionButton(
-                          onPressed: () {},
-                          child: Icon(Icons.add_a_photo),
-                        ),
-                        FloatingActionButton(
-                          onPressed: () {},
-                          child: Icon(Icons.photo_library),
-                        )
-                      ],
-                    )
+                    SizedBox(
+                      width: 180,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {}, //写真機能とギャラリー機能をしたい
+                        child: Text("＋写真をアップロード"),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -109,7 +145,30 @@ class _QuestionPostPage extends State<QuestionPostPage> {
             /**投稿するボタン */
             ElevatedButton(
               style: ElevatedButton.styleFrom(minimumSize: Size(200, 50)),
-              onPressed: () {},
+              onPressed: () {
+                //投稿ボタンを押したときの動作
+                showDialog(
+                    context: context,
+                    builder: (_) {
+                      return AlertDialog(
+                        title: Text('投稿しますか？'),
+                        actions: [
+                          GestureDetector(
+                            child: Text('いいえ'),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          GestureDetector(
+                            child: Text('はい'),
+                            onTap: () {
+                              CircularProgressIndicator();
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              },
               child: Text("投稿"),
             ),
           ],
