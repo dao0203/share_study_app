@@ -1,9 +1,77 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:share_study_app/top_page/login_page.dart';
-import 'package:share_study_app/top_page/sign_up_page.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  clientId: '711995609799-lburp88a2ti6rv5g5tgajb6vdub1s6t5.apps.googleusercontent.com',
+  scopes: <String>[
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ],
+);
 
 class TitlePage extends StatelessWidget {
-  const TitlePage({super.key});
+  GoogleSignInAccount? account;
+
+  TitlePage({super.key}) {
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) async {
+      if (account != null) {
+        final http.Response response = await http.get(
+          Uri.parse('https://people.googleapis.com/v1/people/me/connection?requestMask.includeField=person.names'),
+          headers: await account.authHeaders,
+        );
+        this.account = account;
+
+        if (response.statusCode != 200) {
+          print(response.body);
+        }
+      }
+    });
+
+    _googleSignIn.signInSilently();
+  }
+
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  // Firestoreのユーザ情報にgoogle account IDをいれる
+  // ログイン時に照会して、既存なら読み込む
+  // 存在しなければ新しくデータを追加
+  Future<void> _referFirestore() async {
+    if (account != null) {
+      final snapshot = await FirebaseFirestore.instance.collection('users').get();
+      bool isExist = false;
+
+      for (final doc in snapshot.docs) {
+        try {
+          if (doc['googleAccountId'] == account!.id) {
+            isExist = true;
+            break;
+          }
+        } catch (error) {
+          print(error);
+        }
+      }
+
+      if (!isExist) {
+        Map<String, dynamic> data = {
+          'name': account!.displayName,
+          'googleAccountId': account!.id
+        };
+        await FirebaseFirestore.instance.collection('users').add(data);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +97,10 @@ class TitlePage extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton.icon(
                   onPressed: () {
+                    _handleSignIn();
+                    _referFirestore();
                     Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const LoginPage()
+                      builder: (context) => const NextPage()
                     ));
                   },
                   icon: const Icon(Icons.login),
@@ -38,25 +108,28 @@ class TitlePage extends StatelessWidget {
                 ),
               )
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: SizedBox(
-                width: 200,
-                height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const SignUpPage()
-                    ));
-                  },
-                  icon: const Icon(Icons.edit_outlined),
-                  label: const Text('sign up'),
-                ),
-              )
-            )
           ],
         ),
       ),
+    );
+  }
+}
+
+class NextPage extends StatelessWidget {
+  const NextPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Share study')
+      ),
+      body: Center(
+        child: Text(
+          "Next Page.",
+          style: Theme.of(context).textTheme.headline2,
+        ),
+      )
     );
   }
 }
