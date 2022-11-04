@@ -22,12 +22,14 @@ class TitlePage extends StatelessWidget {
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) async {
       if (account != null) {
         final http.Response response = await http.get(
-          Uri.parse('https://people.googleapis.com/v1/people/me/connection?requestMask.includeField=person.names'),
+          // Uri.parse('https://people.googleapis.com/v1/people/me/connection?requestMask.includeField=person.names'),
+          Uri.parse("https://people.googleapis.com/v1/people/me?personFields=names,genders,emailAddresses,phoneNumbers"),
           headers: await account.authHeaders,
         );
         this.account = account;
 
         if (response.statusCode != 200) {
+          print("Response error!!");
           print(response.body);
         }
       }
@@ -40,6 +42,7 @@ class TitlePage extends StatelessWidget {
     try {
       await _googleSignIn.signIn();
     } catch (error) {
+      print("Sign in error");
       print(error);
     }
   }
@@ -70,6 +73,8 @@ class TitlePage extends StatelessWidget {
         };
         await FirebaseFirestore.instance.collection('users').add(data);
       }
+
+      print("name: ${account!.displayName}, id: ${account!.id}");
     }
   }
 
