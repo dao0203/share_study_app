@@ -42,3 +42,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+# 開発用で編集中
+lib/main.dart
