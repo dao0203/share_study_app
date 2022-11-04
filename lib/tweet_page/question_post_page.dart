@@ -16,38 +16,23 @@ class QuestionPostPage extends StatefulWidget {
   State<QuestionPostPage> createState() => _QuestionPostPage();
 }
 
-List<String> getSubjects() {
-  return [];
-}
-
-getId() {
-  var id;
-  return id;
-}
-
-getuserId() {
+class dataArguments {
+  final List<String> DropdownLists = [];
+  var Id;
   var userId;
-  return userId;
-}
-
-getTitleContent() {
   var titleContent;
-  return titleContent;
-}
+  var questionContent = "";
 
-getQuestionContent() {
-  var questionContent = TextEditingController();
-  return questionContent;
+  dataArguments(
+      {required this.Id,
+      required this.userId,
+      required this.titleContent,
+      required this.questionContent});
 }
 
 class _QuestionPostPage extends State<QuestionPostPage> {
-  var id = getId();
-  var userId = getuserId();
-  var title = getTitleContent();
-  var questionContent = getQuestionContent();
+  List<String> dropdownLists = [];
   var classId = "科目を選択してください";
-  var dropDownLists = getSubjects();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +55,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                     //項目の中身
                     Text("タイトル"),
                     TextField(
-                      keyboardType: TextInputType.multiline,
+                      //タイトルを入力
                       maxLines: 1,
                       minLines: 1,
                       decoration: InputDecoration(
@@ -87,7 +72,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                     SizedBox(height: 10), //間隔を開ける
                     /*科目選択ボタン*/
                     DropdownButton(
-                      items: dropDownLists
+                      items: dropdownLists
                           .map(
                             (String list) => DropdownMenuItem(
                               value: list,
@@ -111,7 +96,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
                       minLines: 4,
-                      controller: title, //タイトルをここで取得
+                      //controller:  //タイトルをここで取得
 
                       decoration: InputDecoration(
                         filled: true,
