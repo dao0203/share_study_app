@@ -1,12 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:share_study_app/top_page/next_page.dart';
+
+// Googleサインイン用
+// scopeなどを設定
 GoogleSignIn _googleSignIn = GoogleSignIn(
   clientId: '711995609799-lburp88a2ti6rv5g5tgajb6vdub1s6t5.apps.googleusercontent.com',
   scopes: <String>[
@@ -15,67 +16,109 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
   ],
 );
 
-class TitlePage extends StatelessWidget {
-  GoogleSignInAccount? account;
+// ページのWidget
+class TitlePage extends StatefulWidget {
+  const TitlePage({super.key});
 
-  TitlePage({super.key}) {
+  @override
+  State<TitlePage> createState() => _TitlePageState();  
+}
+
+// ページのState
+class _TitlePageState extends State<TitlePage> {
+  GoogleSignInAccount? account; // GoogleAccount
+  bool? successSignIn;          // サインインが成功したかどうか
+
+  _TitlePageState() {
+
+    // アカウントがログイン/変更された時の処理
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) async {
       if (account != null) {
-        final http.Response response = await http.get(
-          // Uri.parse('https://people.googleapis.com/v1/people/me/connection?requestMask.includeField=person.names'),
-          Uri.parse("https://people.googleapis.com/v1/people/me?personFields=names,genders,emailAddresses,phoneNumbers"),
-          headers: await account.authHeaders,
-        );
-        this.account = account;
+        setState(() {
+          this.account = account;
+          successSignIn = true;
+        });
 
-        if (response.statusCode != 200) {
-          print("Response error!!");
-          print(response.body);
-        }
+        // FirestoreのテーブルからdocumentIDを取得
+        // 取得できたらページ遷移
+        getDocId().then((docId) => {
+          if (docId != null) {
+            goToNextPage(docId),
+          } else {
+            print("document ID is null."),
+          }
+        });
       }
     });
 
-    _googleSignIn.signInSilently();
+    // キャッシュなどで既にログインしてた場合の処理（たぶん）
+    _googleSignIn.signInSilently()
+      .then((account) {
+        this.account = account;
+      });
   }
 
+  // サインイン
   Future<void> _handleSignIn() async {
     try {
       await _googleSignIn.signIn();
     } catch (error) {
-      print("Sign in error");
+      setState(() {
+        successSignIn = false;
+      });
+      print("Sign in error!!");
       print(error);
     }
   }
 
-  // Firestoreのユーザ情報にgoogle account IDをいれる
-  // ログイン時に照会して、既存なら読み込む
-  // 存在しなければ新しくデータを追加
-  Future<void> _referFirestore() async {
+  // ページ遷移
+  // 次のページにdocumentIDだけ渡す。
+  // tableから値引っ張る処理は遷移後のページでやる。（いまのところ）
+  void goToNextPage(String docId) {
+    // 遷移後のページに渡す値を設定
+    RouteSettings settings = RouteSettings(
+      arguments: docId
+    );
+
+    // ページ遷移
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const NextPage(),
+        settings: settings,              
+      )
+    );
+  }
+
+  // Firestoreから、googleAccountIDを使ってDocumentIDを取得
+  Future<String?> getDocId() async {
     if (account != null) {
-      final snapshot = await FirebaseFirestore.instance.collection('users').get();
-      bool isExist = false;
+      final table = FirebaseFirestore.instance.collection('users');
+      final snapshot = await table
+        .where('googleAccountId', isEqualTo: account!.id)
+        .get();
 
-      for (final doc in snapshot.docs) {
-        try {
-          if (doc['googleAccountId'] == account!.id) {
-            isExist = true;
-            break;
-          }
-        } catch (error) {
-          print(error);
-        }
+      if (snapshot.size == 1) {
+        // whereで正しく検索できた場合
+        return snapshot.docs.first.id;
+
+      } else if (snapshot.size == 0) {
+        // まだ存在していない場合、テーブルに追加 => 生成されたdocIDを返す
+        final docId = await register(table);
+        return docId;
       }
-
-      if (!isExist) {
-        Map<String, dynamic> data = {
-          'name': account!.displayName,
-          'googleAccountId': account!.id
-        };
-        await FirebaseFirestore.instance.collection('users').add(data);
-      }
-
-      print("name: ${account!.displayName}, id: ${account!.id}");
+    } else {
+      return null;
     }
+  }
+
+  // テーブルへのデータ追加
+  Future<String> register(CollectionReference<Map<String, dynamic>> table) async {
+    Map<String, dynamic> data = {
+      'name': account!.displayName,
+      'googleAccountId': account!.id,
+    };
+    final docRef = await table.add(data);
+    return docRef.id;
   }
 
   @override
@@ -101,18 +144,26 @@ class TitlePage extends StatelessWidget {
                 width: 200,
                 height: 50,
                 child: ElevatedButton.icon(
-                  onPressed: () {
-                    _handleSignIn();
-                    _referFirestore();
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const NextPage()
-                    ));
+                  onPressed: () async {
+                    await _handleSignIn();
                   },
                   icon: const Icon(Icons.login),
                   label: const Text('login'),
                 ),
               )
             ),
+
+            // サインインに失敗した場合、エラーテキストを画面に表示
+            if (successSignIn != null)
+              if ((successSignIn!) == false)
+                const Text(
+                  "Sign in Failure!",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                    fontSize: 70,
+                  ),
+                )
           ],
         ),
       ),
@@ -120,21 +171,4 @@ class TitlePage extends StatelessWidget {
   }
 }
 
-class NextPage extends StatelessWidget {
-  const NextPage({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Share study')
-      ),
-      body: Center(
-        child: Text(
-          "Next Page.",
-          style: Theme.of(context).textTheme.headline2,
-        ),
-      )
-    );
-  }
-}
