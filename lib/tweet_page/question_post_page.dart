@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:share_study_app/tweet_page/LoadingProgressIndicator.dart';
 
 /*投稿画面の初期状態画面
 
@@ -147,7 +148,12 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                           GestureDetector(
                             child: Text('はい'),
                             onTap: () {
-                              CircularProgressIndicator();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        LoadingProgressIndicator()),
+                              );
                             },
                           ),
                         ],
