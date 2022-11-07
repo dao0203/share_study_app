@@ -3,15 +3,15 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:share_study_app/tweet_page/question_post_page.dart';
 
-class Guruguru extends StatefulWidget {
-  const Guruguru({super.key});
+class LoadingProgressIndicator extends StatefulWidget {
+  const LoadingProgressIndicator({super.key});
 
   @override
-  State<Guruguru> createState() => _Guruguru();
+  State<LoadingProgressIndicator> createState() => _LoadingProgressIndicator();
 }
 
 /*非同期処理するときの待ち時間 */
-class _Guruguru extends State<Guruguru> {
+class _LoadingProgressIndicator extends State<LoadingProgressIndicator> {
   bool loading = true;
 
   @override
