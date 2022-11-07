@@ -19,7 +19,7 @@ class _LoadingProgressIndicator extends State<LoadingProgressIndicator> {
     return loading
         ? Scaffold(
             appBar: AppBar(
-              title: const Text("ロード中"),
+              title: const Text("投稿中です･･･"),
               automaticallyImplyLeading: false,
             ),
             body: Center(
