@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:share_study_app/data/question_data.dart';
 import 'package:share_study_app/tweet_page/loading_progress_indicator.dart';
 
 /*投稿画面の初期状態画面
@@ -18,9 +19,17 @@ class QuestionPostPage extends StatefulWidget {
 }
 
 class _QuestionPostPage extends State<QuestionPostPage> {
-  List<String> dropdownLists = [];
-  var classId = "科目を選択してください";
-  var loading = false;
+  var questionData = QuestionData(
+    dropDownLists: [],
+    id: "1",
+    userId: "2",
+    titleContent: "",
+    questionContent: "",
+    attFiles: "",
+  );
+  var classId = "科目を選択してください"; //科目を入れる
+  var loading = false; //ロード中の画面遷移の仕方
+  var fileHave = false;
   @override
   Widget build(BuildContext context) {
     return loading
@@ -62,7 +71,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                           SizedBox(height: 10), //間隔を開ける
                           /*科目選択ボタン*/
                           DropdownButton(
-                            items: dropdownLists
+                            items: questionData.dropDownLists
                                 .map(
                                   (String list) => DropdownMenuItem(
                                     value: list,
