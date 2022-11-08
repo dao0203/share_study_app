@@ -17,20 +17,6 @@ class QuestionPostPage extends StatefulWidget {
   State<QuestionPostPage> createState() => _QuestionPostPage();
 }
 
-class dataArguments {
-  final List<String> DropdownLists = [];
-  var Id;
-  var userId;
-  var titleContent;
-  var questionContent = "";
-
-  dataArguments(
-      {required this.Id,
-      required this.userId,
-      required this.titleContent,
-      required this.questionContent});
-}
-
 class _QuestionPostPage extends State<QuestionPostPage> {
   List<String> dropdownLists = [];
   var classId = "科目を選択してください";
