@@ -145,7 +145,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                                 GestureDetector(
                                   child: Text(
                                     'いいえ',
-                                    style: TextStyle(color: Colors.black),
+                                    style: TextStyle(color: Colors.blue),
                                   ),
                                   onTap: () {
                                     Navigator.of(context).pop();
