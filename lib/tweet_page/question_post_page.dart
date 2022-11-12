@@ -3,7 +3,6 @@ import 'package:flutter/physics.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:share_study_app/data/question_data.dart';
 import 'package:share_study_app/tweet_page/loading_progress_indicator.dart';
 
@@ -29,7 +28,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
   );
   var classId = "科目を選択してください"; //科目を入れる
   var loading = false; //ロード中の画面遷移の仕方
-  var fileHave = false;
+  var fileHave = false; //写真をアップしているかしていないか
   @override
   Widget build(BuildContext context) {
     return loading
@@ -109,16 +108,22 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                           ),
                           /**写真アップロードボタン */
                           SizedBox(height: 20), //間隔を開ける
-                          Text("写真をアップロード"),
-                          SizedBox(height: 5),
-                          SizedBox(
-                            width: 180,
-                            height: 50,
-                            child: ElevatedButton(
-                              onPressed: () {}, //写真機能とギャラリー機能をしたい
-                              child: Text("＋写真をアップロード"),
-                            ),
-                          ),
+                          fileHave
+                              ? loadingProgressIndicator() //今は任意のwidgetだが、作成中のwidgetに変更する予定
+                              : Column(
+                                  children: [
+                                    Text("写真をアップロード"),
+                                    SizedBox(height: 5),
+                                    SizedBox(
+                                      width: 180,
+                                      height: 50,
+                                      child: ElevatedButton(
+                                        onPressed: () {}, //写真機能とギャラリー機能をしたい
+                                        child: Text("＋写真をアップロード"),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                         ],
                       ),
                     ),
@@ -138,13 +143,19 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                               title: Text('投稿しますか？'),
                               actions: [
                                 GestureDetector(
-                                  child: Text('いいえ'),
+                                  child: Text(
+                                    'いいえ',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
                                   onTap: () {
                                     Navigator.of(context).pop();
                                   },
                                 ),
                                 GestureDetector(
-                                  child: Text('はい'),
+                                  child: Text(
+                                    'はい',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
                                   onTap: () {},
                                 ),
                               ],
