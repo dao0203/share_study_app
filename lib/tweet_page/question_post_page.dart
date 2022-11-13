@@ -119,7 +119,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                                       width: 180,
                                       height: 50,
                                       child: ElevatedButton(
-                                        onPressed: () {}, //写真機能とギャラリー機能をしたい
+                                        onPressed: () {}, //写真機能とギャラリー機能
                                         child: Text("＋写真をアップロード"),
                                       ),
                                     ),
@@ -157,7 +157,12 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                                     'はい',
                                     style: TextStyle(color: Colors.blue),
                                   ),
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    setState(() {
+                                      loading = !loading;
+                                    });
+                                  },
                                 ),
                               ],
                             );

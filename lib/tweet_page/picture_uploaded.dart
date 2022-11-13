@@ -11,6 +11,7 @@ Widget PictureUploaded() {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: Image.network(
+              //今はネットからだが、アップロードした写真を表示する予定
               '',
               errorBuilder: (c, o, s) {
                 return const Icon(
