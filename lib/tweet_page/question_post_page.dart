@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'dart:io';
 import 'package:share_study_app/data/question_data.dart';
 import 'package:share_study_app/tweet_page/loading_progress_indicator.dart';
+import 'package:share_study_app/tweet_page/picture_upload.dart';
 import 'picture_uploaded.dart';
 
 /*投稿画面の初期状態画面
@@ -119,7 +120,9 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                                       width: 180,
                                       height: 50,
                                       child: ElevatedButton(
-                                        onPressed: () {}, //写真機能とギャラリー機能
+                                        onPressed: () {
+                                          select_icon(context);
+                                        }, //写真機能とギャラリー機能
                                         child: Text("＋写真をアップロード"),
                                       ),
                                     ),
