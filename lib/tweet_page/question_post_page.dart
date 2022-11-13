@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'dart:io';
 import 'package:share_study_app/data/question_data.dart';
 import 'package:share_study_app/tweet_page/loading_progress_indicator.dart';
+import 'picture_uploaded.dart';
 
 /*投稿画面の初期状態画面
 
@@ -109,7 +110,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                           /**写真アップロードボタン */
                           SizedBox(height: 20), //間隔を開ける
                           fileHave
-                              ? loadingProgressIndicator() //今は任意のwidgetだが、作成中のwidgetに変更する予定
+                              ? PictureUploaded() //今は任意のwidgetだが、作成中のwidgetに変更する予定
                               : Column(
                                   children: [
                                     Text("写真をアップロード"),
