@@ -8,13 +8,7 @@
  */
 
 import "package:flutter/material.dart";
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'dart:convert';
-
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 
 Future<XFile?> select_picture(BuildContext context) async {
   const String SELECT_ICON = "写真をアップロード";
@@ -55,8 +49,8 @@ Future<XFile?> select_picture(BuildContext context) async {
 
   final XFile? pickedFile = await picker.pickImage(
     source: _img_src,
-    maxWidth: 10,
-    maxHeight: 10,
+    maxWidth: 70,
+    maxHeight: 70,
   );
 
   if (pickedFile == null) {

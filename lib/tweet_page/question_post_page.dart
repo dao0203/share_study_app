@@ -1,12 +1,15 @@
+/**
+ * 必要なパッケージのインストールとして下記を実行
+ * flutter pub add image_picker_for_web
+ * flutter pub add firebase_storage URL:https://pub.dev/packages/firebase_storage/install
+ * 
+ */
+
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'dart:io';
 import 'package:share_study_app/data/question_data.dart';
 import 'package:share_study_app/tweet_page/loading_progress_indicator.dart';
-import 'package:share_study_app/tweet_page/picture_upload.dart';
-import 'picture_uploaded.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 /*投稿画面の初期状態画面
 
@@ -30,7 +33,16 @@ class _QuestionPostPage extends State<QuestionPostPage> {
   );
   var classId = "科目を選択してください"; //科目を入れる
   var loading = false; //ロード中の画面遷移の仕方
-  var fileHave = false; //写真をアップしているかしていないか
+  var _isfiled = false; //写真をアップしているかしていないか
+  XFile? _pickedFile;
+  void _setImageFileListFromFile(XFile? value) {
+    _pickedFile = value;
+    value == null ? _isfiled = false : _isfiled = true;
+  }
+
+  final storage = FirebaseStorage.instance;
+  final storageRef = FirebaseStorage.instance.ref();
+
   @override
   Widget build(BuildContext context) {
     return loading
@@ -110,9 +122,48 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                           ),
                           /**写真アップロードボタン */
                           SizedBox(height: 20), //間隔を開ける
-                          fileHave
-                              ? PictureUploaded() //今は任意のwidgetだが、作成中のwidgetに変更する予定
+                          _isfiled
+                              ? Column(
+                                  //写真あり
+                                  children: [
+                                    SizedBox(
+                                      height: 90,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(3.0),
+                                            child: Image.network(
+                                              "",
+                                              errorBuilder: (c, o, s) {
+                                                return const Icon(
+                                                  Icons.error,
+                                                  color: Colors.red,
+                                                );
+                                              },
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          SizedBox(width: 50),
+                                          ElevatedButton(
+                                            child: Text('写真を削除'),
+                                            onPressed: () {
+                                              _pickedFile = null;
+                                              setState(() {
+                                                _setImageFileListFromFile(
+                                                    _pickedFile);
+                                              });
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )
                               : Column(
+                                  //写真なし
                                   children: [
                                     Text("写真をアップロード"),
                                     SizedBox(height: 5),
@@ -120,10 +171,14 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                                       width: 180,
                                       height: 50,
                                       child: ElevatedButton(
-                                        onPressed: () {
-                                          select_icon(context);
-                                        }, //写真機能とギャラリー機能
                                         child: Text("＋写真をアップロード"),
+                                        onPressed: () async {
+                                          // var picture = await select_picture(
+                                          //     context); //写真機能とギャラリー機能
+                                          // setState(() {
+                                          //   _setImageFileListFromFile(picture);
+                                          // });
+                                        },
                                       ),
                                     ),
                                   ],
