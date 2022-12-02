@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_study_app/tweet_page/loading_progress_indicator.dart';
+import 'package:share_study_app/add_answer/add_answer.dart';
 
 /*投稿画面の初期状態画面
 
@@ -158,6 +159,19 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                     },
                     child: Text("投稿"),
                   ),
+                  TextButton(
+                    child: Text("質問回答"),
+                    onPressed: () {
+                      // （1） 指定した画面に遷移する
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              // （2） 実際に表示するページ(ウィジェット)を指定する
+                              builder: (context) => AddAnswerPage(
+                                    title: '',
+                                  )));
+                    },
+                  )
                 ],
               ),
             ),
