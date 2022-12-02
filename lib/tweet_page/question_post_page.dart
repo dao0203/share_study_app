@@ -159,19 +159,6 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                     },
                     child: Text("投稿"),
                   ),
-                  TextButton(
-                    child: Text("質問回答"),
-                    onPressed: () {
-                      // （1） 指定した画面に遷移する
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              // （2） 実際に表示するページ(ウィジェット)を指定する
-                              builder: (context) => AddAnswerPage(
-                                    title: '',
-                                  )));
-                    },
-                  )
                 ],
               ),
             ),
