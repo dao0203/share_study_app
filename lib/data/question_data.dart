@@ -21,12 +21,14 @@ part 'question_data.g.dart';
 
 @freezed
 class QuestionData with _$QuestionData {
+  /**データの送信メソッド */
+  void execute() {}
   const factory QuestionData({
-    required List<String> dropDownLists,
-    required String id,
-    required String userId,
-    required String titleContent,
-    required String questionContent,
+    required String qSubId, //科目を格納
+    required String qId, //質問ID
+    required String userId, //ユーザーID
+    required String titleContent, //タイトル名
+    required String questionContent, //質問内容
     // required String attFiles,
   }) = _QuestionData;
 

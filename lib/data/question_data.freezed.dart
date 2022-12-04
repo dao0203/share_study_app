@@ -20,10 +20,10 @@ QuestionData _$QuestionDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$QuestionData {
-  List<String> get dropDownLists => throw _privateConstructorUsedError;
-  String get id => throw _privateConstructorUsedError;
-  String get userId => throw _privateConstructorUsedError;
-  String get titleContent => throw _privateConstructorUsedError;
+  String get qSubId => throw _privateConstructorUsedError; //科目を格納
+  String get qId => throw _privateConstructorUsedError; //質問ID
+  String get userId => throw _privateConstructorUsedError; //ユーザーID
+  String get titleContent => throw _privateConstructorUsedError; //タイトル名
   String get questionContent => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,8 +39,8 @@ abstract class $QuestionDataCopyWith<$Res> {
       _$QuestionDataCopyWithImpl<$Res, QuestionData>;
   @useResult
   $Res call(
-      {List<String> dropDownLists,
-      String id,
+      {String qSubId,
+      String qId,
       String userId,
       String titleContent,
       String questionContent});
@@ -59,20 +59,20 @@ class _$QuestionDataCopyWithImpl<$Res, $Val extends QuestionData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? dropDownLists = null,
-    Object? id = null,
+    Object? qSubId = null,
+    Object? qId = null,
     Object? userId = null,
     Object? titleContent = null,
     Object? questionContent = null,
   }) {
     return _then(_value.copyWith(
-      dropDownLists: null == dropDownLists
-          ? _value.dropDownLists
-          : dropDownLists // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      qSubId: null == qSubId
+          ? _value.qSubId
+          : qSubId // ignore: cast_nullable_to_non_nullable
+              as String,
+      qId: null == qId
+          ? _value.qId
+          : qId // ignore: cast_nullable_to_non_nullable
               as String,
       userId: null == userId
           ? _value.userId
@@ -99,8 +99,8 @@ abstract class _$$_QuestionDataCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<String> dropDownLists,
-      String id,
+      {String qSubId,
+      String qId,
       String userId,
       String titleContent,
       String questionContent});
@@ -117,20 +117,20 @@ class __$$_QuestionDataCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? dropDownLists = null,
-    Object? id = null,
+    Object? qSubId = null,
+    Object? qId = null,
     Object? userId = null,
     Object? titleContent = null,
     Object? questionContent = null,
   }) {
     return _then(_$_QuestionData(
-      dropDownLists: null == dropDownLists
-          ? _value._dropDownLists
-          : dropDownLists // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      qSubId: null == qSubId
+          ? _value.qSubId
+          : qSubId // ignore: cast_nullable_to_non_nullable
+              as String,
+      qId: null == qId
+          ? _value.qId
+          : qId // ignore: cast_nullable_to_non_nullable
               as String,
       userId: null == userId
           ? _value.userId
@@ -152,35 +152,33 @@ class __$$_QuestionDataCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
   const _$_QuestionData(
-      {required final List<String> dropDownLists,
-      required this.id,
+      {required this.qSubId,
+      required this.qId,
       required this.userId,
       required this.titleContent,
-      required this.questionContent})
-      : _dropDownLists = dropDownLists;
+      required this.questionContent});
 
   factory _$_QuestionData.fromJson(Map<String, dynamic> json) =>
       _$$_QuestionDataFromJson(json);
 
-  final List<String> _dropDownLists;
   @override
-  List<String> get dropDownLists {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_dropDownLists);
-  }
-
+  final String qSubId;
+//科目を格納
   @override
-  final String id;
+  final String qId;
+//質問ID
   @override
   final String userId;
+//ユーザーID
   @override
   final String titleContent;
+//タイトル名
   @override
   final String questionContent;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'QuestionData(dropDownLists: $dropDownLists, id: $id, userId: $userId, titleContent: $titleContent, questionContent: $questionContent)';
+    return 'QuestionData(qSubId: $qSubId, qId: $qId, userId: $userId, titleContent: $titleContent, questionContent: $questionContent)';
   }
 
   @override
@@ -188,8 +186,8 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'QuestionData'))
-      ..add(DiagnosticsProperty('dropDownLists', dropDownLists))
-      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('qSubId', qSubId))
+      ..add(DiagnosticsProperty('qId', qId))
       ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('titleContent', titleContent))
       ..add(DiagnosticsProperty('questionContent', questionContent));
@@ -200,9 +198,8 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_QuestionData &&
-            const DeepCollectionEquality()
-                .equals(other._dropDownLists, _dropDownLists) &&
-            (identical(other.id, id) || other.id == id) &&
+            (identical(other.qSubId, qSubId) || other.qSubId == qSubId) &&
+            (identical(other.qId, qId) || other.qId == qId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.titleContent, titleContent) ||
                 other.titleContent == titleContent) &&
@@ -213,12 +210,7 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_dropDownLists),
-      id,
-      userId,
-      titleContent,
-      questionContent);
+      runtimeType, qSubId, qId, userId, titleContent, questionContent);
 
   @JsonKey(ignore: true)
   @override
@@ -236,8 +228,8 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
 
 abstract class _QuestionData implements QuestionData {
   const factory _QuestionData(
-      {required final List<String> dropDownLists,
-      required final String id,
+      {required final String qSubId,
+      required final String qId,
       required final String userId,
       required final String titleContent,
       required final String questionContent}) = _$_QuestionData;
@@ -246,14 +238,14 @@ abstract class _QuestionData implements QuestionData {
       _$_QuestionData.fromJson;
 
   @override
-  List<String> get dropDownLists;
-  @override
-  String get id;
-  @override
+  String get qSubId;
+  @override //科目を格納
+  String get qId;
+  @override //質問ID
   String get userId;
-  @override
+  @override //ユーザーID
   String get titleContent;
-  @override
+  @override //タイトル名
   String get questionContent;
   @override
   @JsonKey(ignore: true)

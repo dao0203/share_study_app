@@ -8,10 +8,8 @@ part of 'question_data.dart';
 
 _$_QuestionData _$$_QuestionDataFromJson(Map<String, dynamic> json) =>
     _$_QuestionData(
-      dropDownLists: (json['dropDownLists'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      id: json['id'] as String,
+      qSubId: json['qSubId'] as String,
+      qId: json['qId'] as String,
       userId: json['userId'] as String,
       titleContent: json['titleContent'] as String,
       questionContent: json['questionContent'] as String,
@@ -19,8 +17,8 @@ _$_QuestionData _$$_QuestionDataFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_QuestionDataToJson(_$_QuestionData instance) =>
     <String, dynamic>{
-      'dropDownLists': instance.dropDownLists,
-      'id': instance.id,
+      'qSubId': instance.qSubId,
+      'qId': instance.qId,
       'userId': instance.userId,
       'titleContent': instance.titleContent,
       'questionContent': instance.questionContent,
