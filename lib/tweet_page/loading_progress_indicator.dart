@@ -1,3 +1,4 @@
+/**写真を実装するときに使用。時間の都合上、始めは使わないので、コメントアウトしておきます */
 // import 'package:flutter/material.dart';
 
 // Widget loadingProgressIndicator() {

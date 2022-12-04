@@ -1,3 +1,4 @@
+/*写真をアップロードする際に使用。最初の実装には使わないファイル */
 /**
  * 必要なパッケージのインストールとして下記を実行
  * flutter pub add firebase_core    URL:https://pub.dev/packages/firebase_core/install
