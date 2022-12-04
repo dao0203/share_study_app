@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_study_app/tweet_page/loading_progress_indicator.dart';
+import 'package:share_study_app/add_answer/add_answer.dart';
 
 /*投稿画面の初期状態画面
 
