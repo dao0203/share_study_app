@@ -27,7 +27,7 @@ class QuestionData with _$QuestionData {
     required String userId,
     required String titleContent,
     required String questionContent,
-    required String attFiles,
+    // required String attFiles,
   }) = _QuestionData;
 
   factory QuestionData.fromJson(Map<String, Object?> json) =>

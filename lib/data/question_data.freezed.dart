@@ -25,7 +25,6 @@ mixin _$QuestionData {
   String get userId => throw _privateConstructorUsedError;
   String get titleContent => throw _privateConstructorUsedError;
   String get questionContent => throw _privateConstructorUsedError;
-  String get attFiles => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,8 +43,7 @@ abstract class $QuestionDataCopyWith<$Res> {
       String id,
       String userId,
       String titleContent,
-      String questionContent,
-      String attFiles});
+      String questionContent});
 }
 
 /// @nodoc
@@ -66,7 +64,6 @@ class _$QuestionDataCopyWithImpl<$Res, $Val extends QuestionData>
     Object? userId = null,
     Object? titleContent = null,
     Object? questionContent = null,
-    Object? attFiles = null,
   }) {
     return _then(_value.copyWith(
       dropDownLists: null == dropDownLists
@@ -89,10 +86,6 @@ class _$QuestionDataCopyWithImpl<$Res, $Val extends QuestionData>
           ? _value.questionContent
           : questionContent // ignore: cast_nullable_to_non_nullable
               as String,
-      attFiles: null == attFiles
-          ? _value.attFiles
-          : attFiles // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 }
@@ -110,8 +103,7 @@ abstract class _$$_QuestionDataCopyWith<$Res>
       String id,
       String userId,
       String titleContent,
-      String questionContent,
-      String attFiles});
+      String questionContent});
 }
 
 /// @nodoc
@@ -130,7 +122,6 @@ class __$$_QuestionDataCopyWithImpl<$Res>
     Object? userId = null,
     Object? titleContent = null,
     Object? questionContent = null,
-    Object? attFiles = null,
   }) {
     return _then(_$_QuestionData(
       dropDownLists: null == dropDownLists
@@ -153,10 +144,6 @@ class __$$_QuestionDataCopyWithImpl<$Res>
           ? _value.questionContent
           : questionContent // ignore: cast_nullable_to_non_nullable
               as String,
-      attFiles: null == attFiles
-          ? _value.attFiles
-          : attFiles // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -169,8 +156,7 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
       required this.id,
       required this.userId,
       required this.titleContent,
-      required this.questionContent,
-      required this.attFiles})
+      required this.questionContent})
       : _dropDownLists = dropDownLists;
 
   factory _$_QuestionData.fromJson(Map<String, dynamic> json) =>
@@ -191,12 +177,10 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
   final String titleContent;
   @override
   final String questionContent;
-  @override
-  final String attFiles;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'QuestionData(dropDownLists: $dropDownLists, id: $id, userId: $userId, titleContent: $titleContent, questionContent: $questionContent, attFiles: $attFiles)';
+    return 'QuestionData(dropDownLists: $dropDownLists, id: $id, userId: $userId, titleContent: $titleContent, questionContent: $questionContent)';
   }
 
   @override
@@ -208,8 +192,7 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('titleContent', titleContent))
-      ..add(DiagnosticsProperty('questionContent', questionContent))
-      ..add(DiagnosticsProperty('attFiles', attFiles));
+      ..add(DiagnosticsProperty('questionContent', questionContent));
   }
 
   @override
@@ -224,9 +207,7 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
             (identical(other.titleContent, titleContent) ||
                 other.titleContent == titleContent) &&
             (identical(other.questionContent, questionContent) ||
-                other.questionContent == questionContent) &&
-            (identical(other.attFiles, attFiles) ||
-                other.attFiles == attFiles));
+                other.questionContent == questionContent));
   }
 
   @JsonKey(ignore: true)
@@ -237,8 +218,7 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
       id,
       userId,
       titleContent,
-      questionContent,
-      attFiles);
+      questionContent);
 
   @JsonKey(ignore: true)
   @override
@@ -260,8 +240,7 @@ abstract class _QuestionData implements QuestionData {
       required final String id,
       required final String userId,
       required final String titleContent,
-      required final String questionContent,
-      required final String attFiles}) = _$_QuestionData;
+      required final String questionContent}) = _$_QuestionData;
 
   factory _QuestionData.fromJson(Map<String, dynamic> json) =
       _$_QuestionData.fromJson;
@@ -276,8 +255,6 @@ abstract class _QuestionData implements QuestionData {
   String get titleContent;
   @override
   String get questionContent;
-  @override
-  String get attFiles;
   @override
   @JsonKey(ignore: true)
   _$$_QuestionDataCopyWith<_$_QuestionData> get copyWith =>
