@@ -94,7 +94,7 @@ class _TitlePageState extends State<TitlePage> {
       if (snapshot.size == 1) {
         // whereで正しく検索できた場合
         return snapshot.docs.first.id;
-      } else if (snapshot.size == 0) {
+      } else {
         // まだ存在していない場合、テーブルに追加 => 生成されたdocIDを返す
         final docId = await register(table);
         return docId;
