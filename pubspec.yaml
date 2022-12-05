@@ -42,6 +42,8 @@ dependencies:
   cloud_firestore: ^3.5.1
   http: ^0.13.5
   flutter_dotenv: ^5.0.2
+  hooks_riverpod: ^2.0.1
+  image_picker: ^0.8.6
 
 dev_dependencies:
   flutter_test:
