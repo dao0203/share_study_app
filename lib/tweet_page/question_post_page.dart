@@ -24,28 +24,28 @@ class QuestionPostPage extends StatefulWidget {
 }
 
 class _QuestionPostPage extends State<QuestionPostPage> {
+  List<String> subjectList = [];
   var questionData = QuestionData(
-    dropDownLists: [],
-    id: "1",
-    userId: "2",
-    titleContent: "",
-    questionContent: "",
+    qSubId: "", //科目ID
+    qId: "", //質問ID
+    userId: "", //ユーザーID
+    titleContent: "", //タイトルID
+    questionContent: "", //質問内容
     // attFiles: "",//画像アップロードする際に使用する
   );
   var classId = "科目を選択してください"; //科目を入れる
 
-  /**画像アップロードする際のに使用する */
+  /**画像アップロードする際に使用する */
   // var _isfiled = false; //写真をアップしているかしていないか
   // XFile? _pickedFile;
   // void _setImageFileListFromFile(XFile? value) {
   //   _pickedFile = value;
   //   value == null ? _isfiled = false : _isfiled = true;
   // }
-
-  final storage = FirebaseStorage.instance;
-  final storageRef = FirebaseStorage.instance.ref();
-  late File _image;
-  final ImagePicker _picker = ImagePicker();
+  // final storage = FirebaseStorage.instance;
+  // final storageRef = FirebaseStorage.instance.ref();
+  // late File _image;
+  // final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -81,12 +81,16 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                         ),
                         helperMaxLines: 10,
                       ),
+                      onChanged: (value) {
+                        //タイトルを変更
+                        questionData.copyWith(titleContent: value);
+                      },
                     ),
                     Text("科目"),
                     SizedBox(height: 10), //間隔を開ける
                     /*科目選択ボタン*/
                     DropdownButton(
-                      items: questionData.dropDownLists
+                      items: subjectList
                           .map(
                             (String list) => DropdownMenuItem(
                               value: list,
@@ -98,6 +102,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                         setState(() {
                           //List中にnullがある場合はエラーを返す
                           classId = value ?? "エラー";
+                          questionData.copyWith(qSubId: classId);
                         });
                       },
                       value: classId,
@@ -121,6 +126,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                         ),
                         helperMaxLines: 10,
                       ),
+                      onChanged: (value) {},
                     ),
                     /**写真アップロードボタン */
                     SizedBox(height: 20), //間隔を開ける
