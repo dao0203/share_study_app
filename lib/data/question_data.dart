@@ -21,8 +21,6 @@ part 'question_data.g.dart';
 
 @freezed
 class QuestionData with _$QuestionData {
-  /**データの送信メソッド */
-  void execute() {}
   const factory QuestionData({
     required String qSubId, //科目を格納
     required String qId, //質問ID
@@ -31,7 +29,6 @@ class QuestionData with _$QuestionData {
     required String questionContent, //質問内容
     // required String attFiles,
   }) = _QuestionData;
-
   factory QuestionData.fromJson(Map<String, Object?> json) =>
       _$QuestionDataFromJson(json);
 }
