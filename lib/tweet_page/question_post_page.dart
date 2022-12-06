@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:image_picker_web/image_picker_web.dart';
 
+
 /*投稿画面の初期状態画面
 
 @author 佐藤佑哉
