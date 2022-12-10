@@ -13,6 +13,7 @@ _$_QuestionData _$$_QuestionDataFromJson(Map<String, dynamic> json) =>
       userId: json['userId'] as String,
       titleContent: json['titleContent'] as String,
       questionContent: json['questionContent'] as String,
+      email: json['email'] as String,
     );
 
 Map<String, dynamic> _$$_QuestionDataToJson(_$_QuestionData instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$_QuestionDataToJson(_$_QuestionData instance) =>
       'userId': instance.userId,
       'titleContent': instance.titleContent,
       'questionContent': instance.questionContent,
+      'email': instance.email,
     };

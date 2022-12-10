@@ -12,7 +12,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:image_picker_web/image_picker_web.dart';
 
-
 /*投稿画面の初期状態画面
 
 @author 佐藤佑哉
@@ -32,6 +31,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
     userId: "", //ユーザーID
     titleContent: "", //タイトルID
     questionContent: "", //質問内容
+    email: "",
     // attFiles: "",//画像アップロードする際に使用する
   );
   var classId = "科目を選択してください"; //科目を入れる

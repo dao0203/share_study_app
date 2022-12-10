@@ -24,7 +24,8 @@ mixin _$QuestionData {
   String get qId => throw _privateConstructorUsedError; //質問ID
   String get userId => throw _privateConstructorUsedError; //ユーザーID
   String get titleContent => throw _privateConstructorUsedError; //タイトル名
-  String get questionContent => throw _privateConstructorUsedError;
+  String get questionContent => throw _privateConstructorUsedError; //質問内容
+  String get email => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $QuestionDataCopyWith<$Res> {
       String qId,
       String userId,
       String titleContent,
-      String questionContent});
+      String questionContent,
+      String email});
 }
 
 /// @nodoc
@@ -64,6 +66,7 @@ class _$QuestionDataCopyWithImpl<$Res, $Val extends QuestionData>
     Object? userId = null,
     Object? titleContent = null,
     Object? questionContent = null,
+    Object? email = null,
   }) {
     return _then(_value.copyWith(
       qSubId: null == qSubId
@@ -86,6 +89,10 @@ class _$QuestionDataCopyWithImpl<$Res, $Val extends QuestionData>
           ? _value.questionContent
           : questionContent // ignore: cast_nullable_to_non_nullable
               as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -103,7 +110,8 @@ abstract class _$$_QuestionDataCopyWith<$Res>
       String qId,
       String userId,
       String titleContent,
-      String questionContent});
+      String questionContent,
+      String email});
 }
 
 /// @nodoc
@@ -122,6 +130,7 @@ class __$$_QuestionDataCopyWithImpl<$Res>
     Object? userId = null,
     Object? titleContent = null,
     Object? questionContent = null,
+    Object? email = null,
   }) {
     return _then(_$_QuestionData(
       qSubId: null == qSubId
@@ -144,6 +153,10 @@ class __$$_QuestionDataCopyWithImpl<$Res>
           ? _value.questionContent
           : questionContent // ignore: cast_nullable_to_non_nullable
               as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -156,7 +169,8 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
       required this.qId,
       required this.userId,
       required this.titleContent,
-      required this.questionContent});
+      required this.questionContent,
+      required this.email});
 
   factory _$_QuestionData.fromJson(Map<String, dynamic> json) =>
       _$$_QuestionDataFromJson(json);
@@ -175,10 +189,13 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
 //タイトル名
   @override
   final String questionContent;
+//質問内容
+  @override
+  final String email;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'QuestionData(qSubId: $qSubId, qId: $qId, userId: $userId, titleContent: $titleContent, questionContent: $questionContent)';
+    return 'QuestionData(qSubId: $qSubId, qId: $qId, userId: $userId, titleContent: $titleContent, questionContent: $questionContent, email: $email)';
   }
 
   @override
@@ -190,7 +207,8 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
       ..add(DiagnosticsProperty('qId', qId))
       ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('titleContent', titleContent))
-      ..add(DiagnosticsProperty('questionContent', questionContent));
+      ..add(DiagnosticsProperty('questionContent', questionContent))
+      ..add(DiagnosticsProperty('email', email));
   }
 
   @override
@@ -204,13 +222,14 @@ class _$_QuestionData with DiagnosticableTreeMixin implements _QuestionData {
             (identical(other.titleContent, titleContent) ||
                 other.titleContent == titleContent) &&
             (identical(other.questionContent, questionContent) ||
-                other.questionContent == questionContent));
+                other.questionContent == questionContent) &&
+            (identical(other.email, email) || other.email == email));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, qSubId, qId, userId, titleContent, questionContent);
+      runtimeType, qSubId, qId, userId, titleContent, questionContent, email);
 
   @JsonKey(ignore: true)
   @override
@@ -232,7 +251,8 @@ abstract class _QuestionData implements QuestionData {
       required final String qId,
       required final String userId,
       required final String titleContent,
-      required final String questionContent}) = _$_QuestionData;
+      required final String questionContent,
+      required final String email}) = _$_QuestionData;
 
   factory _QuestionData.fromJson(Map<String, dynamic> json) =
       _$_QuestionData.fromJson;
@@ -247,6 +267,8 @@ abstract class _QuestionData implements QuestionData {
   String get titleContent;
   @override //タイトル名
   String get questionContent;
+  @override //質問内容
+  String get email;
   @override
   @JsonKey(ignore: true)
   _$$_QuestionDataCopyWith<_$_QuestionData> get copyWith =>
