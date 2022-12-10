@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThreadPage extends StatefulWidget {
-  const ThreadPage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const ThreadPage({Key? key}) : super(key: key);
   @override
   State<ThreadPage> createState() => _ThreadPageState();
 }
@@ -12,7 +11,7 @@ class _ThreadPageState extends State<ThreadPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text("質問閲覧画面"),
       ),
       body: ListView(
         children: <Widget>[
@@ -53,12 +52,12 @@ Widget _questionItem(BuildContext context, QuestionArguments question,
     stateText = "👑Best Answered!!👑";
     buttonText = "回答を見る";
     color = Colors.amber[50];
-    routeName = "/ap_ba";
+    routeName = "/avp";
   } else {
     stateText = "'😔Best answer not provided...😔'";
     buttonText = "回答する";
     color = Colors.blueGrey[50];
-    routeName = "/ap_nba";
+    routeName = "/avp";
   }
   return GestureDetector(
     child: Card(
@@ -72,7 +71,7 @@ Widget _questionItem(BuildContext context, QuestionArguments question,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10, left: 10),
           child: _UserInfo(
             qUserId: question.qUserId,
           ),
@@ -148,6 +147,8 @@ class _FooterButton extends StatelessWidget {
         TextButton(
           child: Text(buttonText),
           onPressed: () {
+            // 詳細ページに押された質問の情報を渡す
+            // qId,qUserId,qSubId,qTitle,questionを渡す
             Navigator.pushNamed(context, routeName); //回答ページに遷移
           },
         ),
