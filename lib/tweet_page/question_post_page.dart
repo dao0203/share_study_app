@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:share_study_app/data/question_data.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:share_study_app/firestore_api.dart';
 // import 'package:image_picker_web/image_picker_web.dart';
 
 /*投稿画面の初期状態画面
@@ -25,6 +26,7 @@ class QuestionPostPage extends StatefulWidget {
 
 class _QuestionPostPage extends State<QuestionPostPage> {
   List<String> subjectList = [];
+  late FirestoreApi firestoreApi = new FirestoreApi();
   var questionData = QuestionData(
     qSubId: "", //科目ID
     qId: "", //質問ID
@@ -84,7 +86,8 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                       ),
                       onChanged: (value) {
                         //タイトルを変更
-                        questionData.copyWith(titleContent: value);
+                        questionData =
+                            questionData.copyWith(titleContent: value);
                       },
                     ),
                     Text("科目"),
@@ -127,7 +130,10 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                         ),
                         helperMaxLines: 10,
                       ),
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        questionData =
+                            questionData.copyWith(questionContent: value);
+                      },
                     ),
                     /**写真アップロードボタン */
                     SizedBox(height: 20), //間隔を開ける
@@ -237,7 +243,11 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                               style: TextStyle(color: Colors.blue),
                             ),
                             onTap: () {
-                              Navigator.of(context).pop();
+                              firestoreApi.postQuestion(questionData);
+                              print(questionData);
+                              setState(() {
+                                Navigator.of(context).pop();
+                              });
                             },
                           ),
                         ],

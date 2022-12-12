@@ -1,65 +1,37 @@
-/**
- * FirestoreApの関数を集約するファイル
- * 
+/* 
  * @author 佐藤佑哉
  */
-import 'dart:async';
-import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../data/question_data.dart';
-import 'package:http/http.dart' as http;
 
-class ApiResults {
-  final String message;
-  ApiResults({
-    required this.message,
-  });
-  factory ApiResults.fromJson(Map<String, dynamic> json) {
-    return ApiResults(
-      message: json['message'],
-    );
-  }
-}
-
-class QuestionPostRequest {
-  final String title;
-  final String content;
-  final String sub_name;
-  final String email;
-  QuestionPostRequest({
-    required this.title,
-    required this.content,
-    required this.sub_name,
-    required this.email,
-  });
-  Map<String, dynamic> toJson() => {
-        'title': title,
-        'sub_name': sub_name,
-        'content': content,
-        'email': email,
-      };
-}
+FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class FirestoreApi {
-  /**
-   * 質問GETメソッド
-   */
+  /*コレクションリファーレンスを追加*/
+  CollectionReference answers = firestore.collection("answers");
+  CollectionReference questions = firestore.collection("questions");
+  CollectionReference subjects = firestore.collection("subjects");
+  DateTime createdDate = DateTime.now(); //現在の時刻を指定
 
-  /**
-   * 質問POSTメソッド
-   */
-  Future<ApiResults> fetchApiResults() async {
-    var url =
-        "https://asia-northeast1-sharestud.cloudfunctions.net/add_question";
-    var request = new QuestionPostRequest(
-        title: "", content: '', sub_name: '', email: '');
-    final response = await http.post(Uri.parse(url),
-        body: json.encode(request.toJson()),
-        headers: {"Content-Type": "application/json"});
-    if (response.statusCode == 200) {
-      return ApiResults.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed');
-    }
+  // Future<List<String>> fetchAnswer_browse(String question_Id)async{
+
+  // }
+
+  Future<List<String>>getSubject()async{
+    return subjects.get().then((value) => (value.))
   }
+  /**
+   * 質問投稿メソッド
+   */
+  Future<void> postQuestion(QuestionData questionData) async =>
+      await questions.add({
+        "title": questionData.titleContent,
+        "text_content": questionData.questionContent,
+        "sub_name": questionData.qSubId,
+        "quesition_id": questionData.qId,
+        "email": questionData.email,
+        "created_date": createdDate
+      });
 }
