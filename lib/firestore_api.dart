@@ -19,9 +19,9 @@ class FirestoreApi {
 
   // }
 
-  Future<List<String>>getSubject()async{
-    return subjects.get().then((value) => (value.))
-  }
+  // Future<List<String>>getSubject()async{
+  //   // return subjects.get().then((value) => (value.))
+  // }
   /**
    * 質問投稿メソッド
    */
