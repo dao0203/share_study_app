@@ -4,15 +4,14 @@
 //参考 https://pub.dev/packages/google_sign_in/install
 
 import 'dart:async';
-import 'dart:convert' show json;
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:http/http.dart' as http;
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   // Optional clientId
-  clientId: '711995609799-lburp88a2ti6rv5g5tgajb6vdub1s6t5.apps.googleusercontent.com',
+  clientId:
+      '711995609799-lburp88a2ti6rv5g5tgajb6vdub1s6t5.apps.googleusercontent.com',
   scopes: <String>[
     'email',
     'https://www.googleapis.com/auth/contacts.readonly',
