@@ -18,10 +18,16 @@ class FirestoreApi {
   // Future<List<String>> fetchAnswer_browse(String question_Id)async{
 
   // }
+  /**
+   * 科目取得メソッド
+   */
+  void getSubject() async {
+    subjects.get().then(
+          (value) => print("subject is fetched"),
+          onError: (e) => print("subjects error $e"),
+        );
+  }
 
-  // Future<List<String>>getSubject()async{
-  //   // return subjects.get().then((value) => (value.))
-  // }
   /**
    * 質問投稿メソッド
    */
