@@ -5,7 +5,6 @@
  * 
  */
 
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:share_study_app/data/question_post_data.dart';
 import 'package:image_picker/image_picker.dart';
