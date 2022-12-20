@@ -25,13 +25,13 @@ class FirestoreApi {
   /**
    * 質問投稿メソッド
    */
-  Future<void> postQuestion(QuestionData questionData) async =>
+  Future<void> postQuestion(QuestionPostData questionData) async =>
       await questions.add({
         "title": questionData.titleContent,
-        "text_content": questionData.questionContent,
-        "sub_name": questionData.qSubId,
-        "quesition_id": questionData.qId,
+        "textContent": questionData.questionContent,
+        "subName": questionData.qSubId,
+        "quesitionId": questionData.qId,
         "email": questionData.email,
-        "created_date": createdDate
+        "createDdate": createdDate
       });
 }
