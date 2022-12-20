@@ -27,7 +27,7 @@ class QuestionPostPage extends StatefulWidget {
 class _QuestionPostPage extends State<QuestionPostPage> {
   List<String> subjectList = [];
   late FirestoreApi firestoreApi = new FirestoreApi();
-  var questionData = QuestionData(
+  var questionData = QuestionPostData(
     qSubId: "", //科目ID
     qId: "", //質問ID
     userId: "", //ユーザーID
