@@ -36,7 +36,7 @@ class AnswerViewPage extends StatelessWidget {
             ),
           ),
           //質問のcardの表示
-          _QuestionCard(
+          QuestionCard(
             qUserId: qUserId,
             qSubId: qSubId,
             qTitle: qTitle,
@@ -51,7 +51,7 @@ class AnswerViewPage extends StatelessWidget {
               ),
             ),
           ),
-          _AnswerCards(
+          AnswerCards(
             list: list,
           ),
           // return Card(
@@ -64,12 +64,12 @@ class AnswerViewPage extends StatelessWidget {
 }
 
 // 質問のcardを表示する部分
-class _QuestionCard extends StatelessWidget {
+class QuestionCard extends StatelessWidget {
   final String qUserId;
   final String qSubId;
   final String qTitle;
   final String question;
-  const _QuestionCard(
+  const QuestionCard(
       {Key? key,
       required this.qUserId,
       required this.qSubId,
@@ -117,9 +117,9 @@ class _QuestionCard extends StatelessWidget {
 }
 
 // 回答のcardを表示する部分
-class _AnswerCards extends StatelessWidget {
+class AnswerCards extends StatelessWidget {
   final List<List<String>> list;
-  const _AnswerCards({Key? key, required this.list}) : super(key: key);
+  const AnswerCards({Key? key, required this.list}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

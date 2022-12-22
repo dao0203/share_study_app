@@ -18,20 +18,20 @@ class _ThreadPageState extends State<ThreadPage> {
           //ダミーの質問
           // ここは数十件(50とか？)まとめてロードしてページ分けで表示するようにしたい
           //BAとNBAは本来分けずに一つのwidgetで表示する
-          _baQuestionItem(context),
-          _baQuestionItem(context),
-          _nbaQuestionItem(context),
-          _baQuestionItem(context),
-          _nbaQuestionItem(context),
-          _baQuestionItem(context),
-          _baQuestionItem(context),
-          _nbaQuestionItem(context),
-          _nbaQuestionItem(context),
-          _nbaQuestionItem(context),
-          _baQuestionItem(context),
-          _baQuestionItem(context),
-          _nbaQuestionItem(context),
-          _baQuestionItem(context),
+          baQuestionItem(context),
+          baQuestionItem(context),
+          nbaQuestionItem(context),
+          baQuestionItem(context),
+          nbaQuestionItem(context),
+          baQuestionItem(context),
+          baQuestionItem(context),
+          nbaQuestionItem(context),
+          nbaQuestionItem(context),
+          nbaQuestionItem(context),
+          baQuestionItem(context),
+          baQuestionItem(context),
+          nbaQuestionItem(context),
+          baQuestionItem(context),
         ],
       ),
     );
@@ -41,7 +41,7 @@ class _ThreadPageState extends State<ThreadPage> {
 //質問と解答のセット
 //解答があるか判断して回答するか詳細を見るかを判断
 //answerは var list(複数解答が付きうるので)で，bestanswerはString
-Widget _questionItem(BuildContext context, QuestionArguments question,
+Widget questionItem(BuildContext context, QuestionArguments question,
     AnswerArguments answer, bool isBestAnswered) {
   var stateText = "";
   var buttonText = "";
@@ -65,29 +65,29 @@ Widget _questionItem(BuildContext context, QuestionArguments question,
       child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 10, left: 10),
-          child: _Header(
+          child: Header(
             stateText: stateText,
             qSubId: question.qSubId,
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 10, left: 10),
-          child: _UserInfo(
+          child: UserInfo(
             qUserId: question.qUserId,
           ),
         ),
-        _Question(qTitle: question.qTitle, question: question.question),
-        _FooterButton(buttonText: buttonText, routeName: routeName),
+        Question(qTitle: question.qTitle, question: question.question),
+        FooterButton(buttonText: buttonText, routeName: routeName),
       ]),
     ),
   );
 }
 
 // QuestionItemのBA状態と科目IDを表示する部分
-class _Header extends StatelessWidget {
+class Header extends StatelessWidget {
   final String stateText;
   final String qSubId;
-  const _Header({Key? key, required this.stateText, required this.qSubId})
+  const Header({Key? key, required this.stateText, required this.qSubId})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -101,10 +101,10 @@ class _Header extends StatelessWidget {
 }
 
 // QuestionItemのユーザー情報を表示する部分
-class _UserInfo extends StatelessWidget {
+class UserInfo extends StatelessWidget {
   // ユーザーアイコンのデータも受け取る
   final String qUserId;
-  const _UserInfo({Key? key, required this.qUserId}) : super(key: key);
+  const UserInfo({Key? key, required this.qUserId}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(children: <Widget>[
@@ -115,10 +115,10 @@ class _UserInfo extends StatelessWidget {
 }
 
 // QuestionItemの質問タイトルと内容を表示する部分
-class _Question extends StatelessWidget {
+class Question extends StatelessWidget {
   final String qTitle;
   final String question;
-  const _Question({Key? key, required this.qTitle, required this.question})
+  const Question({Key? key, required this.qTitle, required this.question})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -133,10 +133,10 @@ class _Question extends StatelessWidget {
 }
 
 // QuestionItemのページ遷移ボタンの部分
-class _FooterButton extends StatelessWidget {
+class FooterButton extends StatelessWidget {
   final String buttonText;
   final String routeName;
-  const _FooterButton(
+  const FooterButton(
       {Key? key, required this.buttonText, required this.routeName})
       : super(key: key);
   @override
@@ -228,7 +228,7 @@ class GetAnswerArguments {
 // DBから質問を受け取って表示widgetに渡すwidget
 // BAとNBAになっているが，実際はDBからの取得値によって勝手に分岐するように実装する
 //ベストアンサーされているもの
-Widget _baQuestionItem(BuildContext context) {
+Widget baQuestionItem(BuildContext context) {
   var isBestAnswered = false;
   //質問の構造体
   var question = GetQuestionArguments().getQuestionArguments();
@@ -237,15 +237,15 @@ Widget _baQuestionItem(BuildContext context) {
   //質問を受け取る処理
   if (answer.answer == "") {
     isBestAnswered = false;
-    return _questionItem(context, question, answer, isBestAnswered);
+    return questionItem(context, question, answer, isBestAnswered);
   } else {
     isBestAnswered = true;
-    return _questionItem(context, question, answer, isBestAnswered);
+    return questionItem(context, question, answer, isBestAnswered);
   }
 }
 
 //ベストアンサーされていないもの
-Widget _nbaQuestionItem(BuildContext context) {
+Widget nbaQuestionItem(BuildContext context) {
   bool isBestAnswered;
   // GetQuestionArgumentsで質問を受け取る
   var question = GetQuestionArguments().getQuestionArguments();
@@ -255,9 +255,9 @@ Widget _nbaQuestionItem(BuildContext context) {
   //質問を受け取る処理
   if (answer.answer == "") {
     isBestAnswered = false;
-    return _questionItem(context, question, answer, isBestAnswered);
+    return questionItem(context, question, answer, isBestAnswered);
   } else {
     isBestAnswered = true;
-    return _questionItem(context, question, answer, isBestAnswered);
+    return questionItem(context, question, answer, isBestAnswered);
   }
 }
