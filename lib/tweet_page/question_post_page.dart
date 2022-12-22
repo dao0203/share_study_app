@@ -7,7 +7,7 @@
 
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:share_study_app/data/question_data.dart';
+import 'package:share_study_app/data/question_post_data.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:share_study_app/firestore_api.dart';
@@ -27,7 +27,7 @@ class QuestionPostPage extends StatefulWidget {
 class _QuestionPostPage extends State<QuestionPostPage> {
   List<String> subjectList = [];
   late FirestoreApi firestoreApi = new FirestoreApi();
-  var questionData = QuestionData(
+  var questionData = QuestionPostData(
     qSubId: "", //科目ID
     qId: "", //質問ID
     userId: "", //ユーザーID

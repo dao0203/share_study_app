@@ -4,7 +4,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../data/question_data.dart';
+import 'data/question_post_data.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -25,13 +25,13 @@ class FirestoreApi {
   /**
    * 質問投稿メソッド
    */
-  Future<void> postQuestion(QuestionData questionData) async =>
+  Future<void> postQuestion(QuestionPostData questionData) async =>
       await questions.add({
         "title": questionData.titleContent,
-        "text_content": questionData.questionContent,
-        "sub_name": questionData.qSubId,
-        "quesition_id": questionData.qId,
+        "textContent": questionData.questionContent,
+        "subName": questionData.qSubId,
+        "quesitionId": questionData.qId,
         "email": questionData.email,
-        "created_date": createdDate
+        "createDdate": createdDate
       });
 }
