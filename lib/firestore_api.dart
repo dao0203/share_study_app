@@ -18,8 +18,9 @@ class FirestoreApi {
   CollectionReference answers = firestore.collection("answers");
   CollectionReference questions = firestore.collection("questions");
   CollectionReference subjects = firestore.collection("subjects");
+  CollectionReference googleAcountId = firestore.collection("user");
   DateTime createdDate = DateTime.now(); //現在の時刻を指定
-  List<QuestionBrowseData> _questionBrowse = [];
+
   // Future<List<String>> fetchAnswer_browse(String question_Id)async{
 
   // }
@@ -36,22 +37,34 @@ class FirestoreApi {
   /**
    * 質問閲覧メソッド
    */
-  Future getQuestion() async {
-    final snapshot =
-        await questions.orderBy("created_date", descending: true).get();
-    final qId = snapshot.docs.map((doc) => _questionBrowse);
+  Future<List<QuestionBrowseData>> getQuestion() async {
+    final List<QuestionBrowseData> = {
+      
+    }; 
+    
   }
 
   /**
    * 質問投稿メソッド
+   * 
    */
   Future<void> postQuestion(QuestionPostData questionData) async =>
-      await questions.add({
-        "title": questionData.titleContent,
-        "textContent": questionData.questionContent,
-        "subName": questionData.qSubId,
-        "quesitionId": questionData.qId,
-        "email": questionData.email,
-        "createDdate": createdDate
-      });
+      await questions.add(
+        {
+          "title": questionData.titleContent, //タイトル内容
+          "text_content": questionData.questionContent, //質問内容
+          "sub_name": questionData.qSubId, //科目ID
+          "email": questionData.email, //e-mailアドレス
+          "created_at": createdDate //現在の時刻
+        },
+      );
+
+      Future<void> postAnswer(AnswerPostData answerPostData) async =>
+      await answers.add(
+        {
+          "email":answerPostData.email,
+          ""
+        }
+      )
 }
+
