@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AnswerPostData {
   String get answerText => throw _privateConstructorUsedError; //解答
-  String get email => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError; //email
+  String get questionId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AnswerPostDataCopyWith<AnswerPostData> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $AnswerPostDataCopyWith<$Res> {
           AnswerPostData value, $Res Function(AnswerPostData) then) =
       _$AnswerPostDataCopyWithImpl<$Res, AnswerPostData>;
   @useResult
-  $Res call({String answerText, String email});
+  $Res call({String answerText, String email, String questionId});
 }
 
 /// @nodoc
@@ -48,6 +49,7 @@ class _$AnswerPostDataCopyWithImpl<$Res, $Val extends AnswerPostData>
   $Res call({
     Object? answerText = null,
     Object? email = null,
+    Object? questionId = null,
   }) {
     return _then(_value.copyWith(
       answerText: null == answerText
@@ -57,6 +59,10 @@ class _$AnswerPostDataCopyWithImpl<$Res, $Val extends AnswerPostData>
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      questionId: null == questionId
+          ? _value.questionId
+          : questionId // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -70,7 +76,7 @@ abstract class _$$_AnswerPostDataCopyWith<$Res>
       __$$_AnswerPostDataCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String answerText, String email});
+  $Res call({String answerText, String email, String questionId});
 }
 
 /// @nodoc
@@ -86,6 +92,7 @@ class __$$_AnswerPostDataCopyWithImpl<$Res>
   $Res call({
     Object? answerText = null,
     Object? email = null,
+    Object? questionId = null,
   }) {
     return _then(_$_AnswerPostData(
       answerText: null == answerText
@@ -96,6 +103,10 @@ class __$$_AnswerPostDataCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      questionId: null == questionId
+          ? _value.questionId
+          : questionId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -103,17 +114,23 @@ class __$$_AnswerPostDataCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_AnswerPostData implements _AnswerPostData {
-  const _$_AnswerPostData({required this.answerText, required this.email});
+  const _$_AnswerPostData(
+      {required this.answerText,
+      required this.email,
+      required this.questionId});
 
   @override
   final String answerText;
 //解答
   @override
   final String email;
+//email
+  @override
+  final String questionId;
 
   @override
   String toString() {
-    return 'AnswerPostData(answerText: $answerText, email: $email)';
+    return 'AnswerPostData(answerText: $answerText, email: $email, questionId: $questionId)';
   }
 
   @override
@@ -123,11 +140,13 @@ class _$_AnswerPostData implements _AnswerPostData {
             other is _$_AnswerPostData &&
             (identical(other.answerText, answerText) ||
                 other.answerText == answerText) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.questionId, questionId) ||
+                other.questionId == questionId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, answerText, email);
+  int get hashCode => Object.hash(runtimeType, answerText, email, questionId);
 
   @JsonKey(ignore: true)
   @override
@@ -139,12 +158,15 @@ class _$_AnswerPostData implements _AnswerPostData {
 abstract class _AnswerPostData implements AnswerPostData {
   const factory _AnswerPostData(
       {required final String answerText,
-      required final String email}) = _$_AnswerPostData;
+      required final String email,
+      required final String questionId}) = _$_AnswerPostData;
 
   @override
   String get answerText;
   @override //解答
   String get email;
+  @override //email
+  String get questionId;
   @override
   @JsonKey(ignore: true)
   _$$_AnswerPostDataCopyWith<_$_AnswerPostData> get copyWith =>
