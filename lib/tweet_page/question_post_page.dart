@@ -28,7 +28,6 @@ class _QuestionPostPage extends State<QuestionPostPage> {
   late FirestoreApi firestoreApi = new FirestoreApi();
   var questionData = QuestionPostData(
     qSubId: "", //科目ID
-    qId: "", //質問ID
     userId: "", //ユーザーID
     titleContent: "", //タイトルID
     questionContent: "", //質問内容
