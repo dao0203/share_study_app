@@ -38,10 +38,9 @@ class FirestoreApi {
    * 質問閲覧メソッド
    */
   Future<List<QuestionBrowseData>> getQuestion() async {
-    final List<QuestionBrowseData> = {
-      
-    }; 
-    
+    final List<QuestionBrowseData> questionBrowseData = [];
+
+    return questionBrowseData;
   }
 
   /**
@@ -59,12 +58,13 @@ class FirestoreApi {
         },
       );
 
-      Future<void> postAnswer(AnswerPostData answerPostData) async =>
-      await answers.add(
-        {
-          "email":answerPostData.email,
-          ""
-        }
-      )
+/**
+ * 回答投稿メソッド
+ */
+  Future<void> postAnswer(AnswerPostData answerPostData) async =>
+      await answers.add({
+        "answer_text": answerPostData.answerText, //回答内容
+        "email": answerPostData.email, //e-mailアドレス
+        "question_id": answerPostData.questionId //質問ID
+      });
 }
-
