@@ -27,11 +27,15 @@ class FirestoreApi {
   /**
    * 科目取得メソッド
    */
-  void getSubject() async {
-    subjects.get().then(
-          (value) => print("subject is fetched"),
-          onError: (e) => print("subjects error $e"),
-        );
+  Future<List<String>> getSubject() async {
+    List<String> subjectsList = [
+      await subjects.get().then((QuerySnapshot snapshot) {
+        snapshot.docs.forEach((doc) {
+          doc.get("subject_name");
+        });
+      })
+    ];
+    return subjectsList;
   }
 
   /**
