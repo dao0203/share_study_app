@@ -51,6 +51,10 @@ class _$AnswerPostDataCopyWithImpl<$Res, $Val extends AnswerPostData>
     Object? email = null,
     Object? questionId = null,
   }) {
+    /** とりあえず、nullだった場合はエラーを投げる */
+    if (answerText == null || email == null || questionId == null) {
+      throw NullThrownError();
+    }
     return _then(_value.copyWith(
       answerText: null == answerText
           ? _value.answerText
@@ -94,6 +98,10 @@ class __$$_AnswerPostDataCopyWithImpl<$Res>
     Object? email = null,
     Object? questionId = null,
   }) {
+    /** とりあえず、nullだった場合はエラーを投げる */
+    if (answerText == null || email == null || questionId == null) {
+      throw NullThrownError();
+    }
     return _then(_$_AnswerPostData(
       answerText: null == answerText
           ? _value.answerText
