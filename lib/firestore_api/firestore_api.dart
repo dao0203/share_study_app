@@ -1,15 +1,14 @@
 /* 
  * @author 佐藤佑哉
  */
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 /* freezedファイル */
-import 'data/question_post_data.dart';
-import 'data/answer_browse_data.dart';
-import 'data/question_browse_data.dart';
-import 'data/answer_post_data.dart';
+import '../data/question_post_data.dart';
+import '../data/answer_browse_data.dart';
+import '../data/question_browse_data.dart';
+import '../data/answer_post_data.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -20,23 +19,6 @@ class FirestoreApi {
   CollectionReference subjects = firestore.collection("subjects");
   CollectionReference googleAcountId = firestore.collection("user");
   DateTime createdDate = DateTime.now(); //現在の時刻を指定
-
-  // Future<List<String>> fetchAnswer_browse(String question_Id)async{
-
-  // }
-  /**
-   * 科目取得メソッド
-   */
-  // Future<List<String>> getSubject() async {
-  //   List<String> subjectsList = [
-  //     await subjects.get().then((QuerySnapshot snapshot) {
-  //       snapshot.docs.forEach((doc) {
-  //         doc.get("subject_name");
-  //       });
-  //     })
-  //   ];
-  //   return subjectsList;
-  // }
 
   /**
    * 質問閲覧メソッド
