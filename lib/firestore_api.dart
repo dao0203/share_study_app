@@ -27,16 +27,16 @@ class FirestoreApi {
   /**
    * 科目取得メソッド
    */
-  Future<List<String>> getSubject() async {
-    List<String> subjectsList = [
-      await subjects.get().then((QuerySnapshot snapshot) {
-        snapshot.docs.forEach((doc) {
-          doc.get("subject_name");
-        });
-      })
-    ];
-    return subjectsList;
-  }
+  // Future<List<String>> getSubject() async {
+  //   List<String> subjectsList = [
+  //     await subjects.get().then((QuerySnapshot snapshot) {
+  //       snapshot.docs.forEach((doc) {
+  //         doc.get("subject_name");
+  //       });
+  //     })
+  //   ];
+  //   return subjectsList;
+  // }
 
   /**
    * 質問閲覧メソッド
