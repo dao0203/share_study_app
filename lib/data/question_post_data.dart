@@ -22,7 +22,6 @@ part 'question_post_data.freezed.dart';
 class QuestionPostData with _$QuestionPostData {
   const factory QuestionPostData({
     required String qSubId, //科目を格納
-    required String qId, //質問ID
     required String userId, //ユーザーID
     required String titleContent, //タイトル名
     required String questionContent, //質問内容
