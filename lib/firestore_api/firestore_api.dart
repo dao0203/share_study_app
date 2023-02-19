@@ -1,7 +1,7 @@
 /* 
  * @author 佐藤佑哉
  */
-import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 /* freezedファイル */
@@ -19,6 +19,20 @@ class FirestoreApi {
   CollectionReference subjects = firestore.collection("subjects");
   CollectionReference googleAcountId = firestore.collection("user");
   DateTime createdDate = DateTime.now(); //現在の時刻を指定
+
+  Future<Map<String, String>> getDocumentIdAndSubject() async {
+    Map<String, String> result = {};
+
+    QuerySnapshot querySnapshot = await subjects.get();
+
+    querySnapshot.docs.forEach(
+      (doc) {
+        result[doc.id] = doc.get("subject_name");
+      },
+    );
+
+    return result;
+  }
 
   /**
    * 質問閲覧メソッド
