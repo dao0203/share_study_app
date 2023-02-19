@@ -20,6 +20,9 @@ class FirestoreApi {
   CollectionReference googleAcountId = firestore.collection("user");
   DateTime createdDate = DateTime.now(); //現在の時刻を指定
 
+  /**
+   * 科目取得メソッド
+   */
   Future<Map<String, String>> getDocumentIdAndSubject() async {
     Map<String, String> result = {};
 
@@ -30,7 +33,6 @@ class FirestoreApi {
         result[doc.id] = doc.get("subject_name");
       },
     );
-
     return result;
   }
 
@@ -52,7 +54,7 @@ class FirestoreApi {
         {
           "title": questionData.titleContent, //タイトル内容
           "text_content": questionData.questionContent, //質問内容
-          "sub_name": questionData.qSubId, //科目ID
+          "subject_id": questionData.qSubId, //科目ID
           "email": questionData.email, //e-mailアドレス
           "created_at": createdDate //現在の時刻
         },
