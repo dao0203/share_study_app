@@ -5,11 +5,14 @@
  * 
  */
 
+import 'dart:developer';
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:share_study_app/data/question_post_data.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:share_study_app/firestore_api.dart';
+import 'package:share_study_app/firestore_api/firestore_api.dart';
 // import 'package:image_picker_web/image_picker_web.dart';
 
 /*投稿画面の初期状態画面
@@ -24,17 +27,39 @@ class QuestionPostPage extends StatefulWidget {
 }
 
 class _QuestionPostPage extends State<QuestionPostPage> {
-  List<String> subjectList = [];
-  late FirestoreApi firestoreApi = new FirestoreApi();
+  FirestoreApi firestoreApi = new FirestoreApi();
+  late Map<String, String> subjects = {};
+
+  /* フィールド名 */
+  late String qSubId = "";
+  late String titleContent = "";
+  late String questionContent = "";
+
   var questionData = QuestionPostData(
     qSubId: "", //科目ID
-    userId: "", //ユーザーID
+    userId: "0", //ユーザーID
     titleContent: "", //タイトルID
     questionContent: "", //質問内容
-    email: "",
+    email: "0",
     // attFiles: "",//画像アップロードする際に使用する
   );
   var classId = "科目を選択してください"; //科目を入れる
+
+// ドロップダウンアイテムに使うデータを非同期処理で代入するメソッド
+  Future<void> loadDropDownItems() async {
+    final items = await firestoreApi.getDocumentIdAndSubject();
+    setState(() {
+      subjects = items;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future<void>(() async {
+      await loadDropDownItems();
+    });
+  }
 
   /**画像アップロードする際に使用する */
   // var _isfiled = false; //写真をアップしているかしていないか
@@ -84,30 +109,58 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                       ),
                       onChanged: (value) {
                         //タイトルを変更
-                        questionData =
-                            questionData.copyWith(titleContent: value);
+                        titleContent = value;
                       },
                     ),
                     Text("科目"),
                     SizedBox(height: 10), //間隔を開ける
                     /*科目選択ボタン*/
-                    DropdownButton(
-                      items: subjectList
-                          .map(
-                            (String list) => DropdownMenuItem(
-                              value: list,
-                              child: Text(list),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          //List中にnullがある場合はエラーを返す
-                          classId = value ?? "エラー";
-                          questionData.copyWith(qSubId: classId);
-                        });
+                    // DropdownButton(
+                    //   value: classId,
+                    //   hint: const Text("科目を選択して下さい"),
+                    //   items: subjects.entries
+                    //       .map(
+                    //         (entry) => DropdownMenuItem(
+                    //           value: entry.key,
+                    //           child: Text(entry.value),
+                    //         ),
+                    //       )
+                    //       .toList(),
+                    //   onChanged: (value) {
+                    //     setState(() {
+                    //       //List中にnullがある場合はエラーを返す
+                    //       classId = value ?? "エラー";
+                    //       questionData.copyWith(qSubId: classId);
+                    //     });
+                    //   },
+                    // ),
+                    FutureBuilder<Map<String, String>>(
+                      future: firestoreApi.getDocumentIdAndSubject(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          // データをまだ取得できていない場合、ローディングスピンナーを表示する
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          // データ取得時にエラーが発生した場合、エラーメッセージを表示する
+                          return Text("Error: ${snapshot.error}");
+                        } else {
+                          // 取得したマップを使用して、DropdownButtonを構築
+                          return DropdownButton<String>(
+                            items: snapshot.data?.entries.map((entry) {
+                              return DropdownMenuItem<String>(
+                                value: entry.key,
+                                child: Text(entry.value),
+                              );
+                            }).toList(),
+                            //選択されたキーバリューをquestionDataに格納
+                            onChanged: (value) {
+                              qSubId = value.toString();
+                              print(qSubId);
+                            },
+                          );
+                        }
                       },
-                      value: classId,
                     ),
                     Text("質問内容"),
                     SizedBox(height: 10), //間隔を開ける
@@ -117,7 +170,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
                       minLines: 4,
-                      //controller:  //タイトルをここで取得
+                      controller: TextEditingController(text: "$subjects"),
 
                       decoration: InputDecoration(
                         filled: true,
@@ -128,9 +181,9 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                         ),
                         helperMaxLines: 10,
                       ),
+
                       onChanged: (value) {
-                        questionData =
-                            questionData.copyWith(questionContent: value);
+                        questionContent = value;
                       },
                     ),
                     /**写真アップロードボタン */
@@ -241,8 +294,15 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                               style: TextStyle(color: Colors.blue),
                             ),
                             onTap: () {
-                              firestoreApi.postQuestion(questionData);
-                              print(questionData);
+                              final questionDatacopy = questionData.copyWith(
+                                email: "1",
+                                userId: "1",
+                                qSubId: qSubId,
+                                titleContent: titleContent,
+                                questionContent: questionContent,
+                              );
+                              firestoreApi.postQuestion(questionDatacopy);
+
                               setState(() {
                                 Navigator.of(context).pop();
                               });
