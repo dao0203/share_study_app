@@ -37,12 +37,23 @@ class FirestoreApi {
   }
 
   /**
-   * 質問閲覧メソッド
+   * 科目IDで検索して科目名を返すメソッド
    */
-  Future<List<QuestionBrowseData>> getQuestion() async {
-    final List<QuestionBrowseData> questionBrowseData = [];
 
-    return questionBrowseData;
+  /**
+   * 質問取得メソッド
+   */
+  Future<Map<String, Map<String, dynamic>>> getQuestion() async {
+    QuerySnapshot querySnapshot = await questions.get();
+
+    //ドキュメントIDをキーとして、questionのフィールドの全データを抽出する
+    final result = <String, Map<String, dynamic>>{};
+
+    for (final doc in querySnapshot.docs) {
+      result[doc.id] = doc.data() as Map<String, dynamic>;
+    }
+
+    return result;
   }
 
   /**
