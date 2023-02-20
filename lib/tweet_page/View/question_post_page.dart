@@ -170,7 +170,6 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
                       minLines: 4,
-                      controller: TextEditingController(text: "$subjects"),
 
                       decoration: InputDecoration(
                         filled: true,
