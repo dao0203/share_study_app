@@ -1,7 +1,7 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
+import 'package:share_study_app/questions_list/answer_view_page.dart';
+import 'package:share_study_app/tweet_page/View/question_post_page.dart';
 
 class ThreadPage extends StatefulWidget {
   const ThreadPage({Key? key}) : super(key: key);
@@ -24,11 +24,22 @@ class _ThreadPageState extends State<ThreadPage> {
       appBar: AppBar(
         title: const Text("質問閲覧画面"),
       ),
+
+      //フローティングボタン
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("質問投稿"),
         icon: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => const QuestionPostPage()),
+            ),
+          );
+        },
       ),
+
+      //画面
       body: Center(
         //Futurebuilderを用いる
         child: FutureBuilder(
@@ -37,12 +48,12 @@ class _ThreadPageState extends State<ThreadPage> {
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 //エラーが発生した場合
-                return Center(
+                return const Center(
                   child: Text("errorが発生しました"),
                 );
               } else if (!snapshot.hasData) {
                 //データの読み込み中
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
@@ -55,6 +66,19 @@ class _ThreadPageState extends State<ThreadPage> {
                       children: [
                         Text("${item.value["title"]}"),
                         Text("${item.value["text_content"]}"),
+                        TextButton(
+                          onPressed: () {
+                            MaterialPageRoute(
+                              builder: (context) => AnswerView(
+                                subjectId: item.value["subject_id"],
+                                questionId: item.key,
+                                title: item.value["title"],
+                                textContent: item.value["text_content"],
+                              ),
+                            );
+                          },
+                          child: const Text("回答を表示"),
+                        ),
                       ],
                     ),
                   );
