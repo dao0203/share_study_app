@@ -60,15 +60,6 @@ class _$QuestionPostDataCopyWithImpl<$Res, $Val extends QuestionPostData>
     Object? questionContent = null,
     Object? email = null,
   }) {
-    //どれかがnullだった場合に、とりあえずエラーを投げる
-    if (qSubId == null ||
-        userId == null ||
-        titleContent == null ||
-        questionContent == null ||
-        email == null) {
-      throw NullThrownError();
-    }
-
     return _then(_value.copyWith(
       qSubId: null == qSubId
           ? _value.qSubId
@@ -127,14 +118,6 @@ class __$$_QuestionPostDataCopyWithImpl<$Res>
     Object? questionContent = null,
     Object? email = null,
   }) {
-    //どれかがnullだった場合に、とりあえずエラーを投げる
-    if (qSubId == null ||
-        userId == null ||
-        titleContent == null ||
-        questionContent == null ||
-        email == null) {
-      throw NullThrownError();
-    }
     return _then(_$_QuestionPostData(
       qSubId: null == qSubId
           ? _value.qSubId
