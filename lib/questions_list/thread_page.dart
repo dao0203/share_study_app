@@ -68,12 +68,15 @@ class _ThreadPageState extends State<ThreadPage> {
                         Text("${item.value["text_content"]}"),
                         TextButton(
                           onPressed: () {
-                            MaterialPageRoute(
-                              builder: (context) => AnswerView(
-                                subjectId: item.value["subject_id"],
-                                questionId: item.key,
-                                title: item.value["title"],
-                                textContent: item.value["text_content"],
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AnswerView(
+                                  subjectId: item.value["subject_id"],
+                                  questionId: item.key,
+                                  title: item.value["title"],
+                                  textContent: item.value["text_content"],
+                                ),
                               ),
                             );
                           },
