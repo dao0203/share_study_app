@@ -90,7 +90,7 @@ class _TitlePageState extends State<TitlePage> {
     if (account != null) {
       final table = FirebaseFirestore.instance.collection('users');
       final snapshot =
-          await table.where('googleAccountId', isEqualTo: account!.id).get();
+          await table.where('google_account_id', isEqualTo: account!.id).get();
 
       if (snapshot.size == 1) {
         // whereで正しく検索できた場合
@@ -110,7 +110,7 @@ class _TitlePageState extends State<TitlePage> {
       CollectionReference<Map<String, dynamic>> table) async {
     Map<String, dynamic> data = {
       'name': account!.displayName,
-      'googleAccountId': account!.id,
+      'google_account_id': account!.id,
     };
     final docRef = await table.add(data);
     return docRef.id;

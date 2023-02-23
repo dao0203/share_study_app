@@ -15,7 +15,6 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class FirestoreApi {
   /*コレクションリファーレンスを追加*/
-
   CollectionReference questions = firestore.collection("questions");
   CollectionReference subjects = firestore.collection("subjects");
   CollectionReference googleAcountId = firestore.collection("user");
@@ -43,14 +42,10 @@ class FirestoreApi {
   //質問取得メソッド
   Future<Map<String, Map<String, dynamic>>> getQuestions() async {
     QuerySnapshot querySnapshot = await questions.get();
-
-    //ドキュメントIDをキーとして、questionのフィールドの全データを抽出する
     final result = <String, Map<String, dynamic>>{};
-
     for (final doc in querySnapshot.docs) {
       result[doc.id] = doc.data() as Map<String, dynamic>;
     }
-
     return result;
   }
 
@@ -72,7 +67,7 @@ class FirestoreApi {
           "title": questionData.titleContent, //タイトル内容
           "text_content": questionData.questionContent, //質問内容
           "subject_id": questionData.qSubId, //科目ID
-          "google_account_id": questionData.email, //e-mailアドレス
+          "google_account_id": questionData.googleAccountId, //googleAccountId
           "created_at": createdDate //現在の時刻
         },
       );

@@ -25,7 +25,7 @@ class QuestionPostData with _$QuestionPostData {
     required String userId, //ユーザーID
     required String titleContent, //タイトル名
     required String questionContent, //質問内容
-    required String email,
+    required String googleAccountId, //グーグルアカウントID
     // required String attFiles,
   }) = _QuestionPostData;
 }

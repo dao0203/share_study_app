@@ -35,7 +35,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
     userId: "0", //ユーザーID
     titleContent: "", //タイトルID
     questionContent: "", //質問内容
-    email: "0",
+    googleAccountId: "0",
     // attFiles: "",//画像アップロードする際に使用する
   );
   var classId = "科目を選択してください"; //科目を入れる
@@ -288,7 +288,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                             ),
                             onTap: () {
                               final questionDatacopy = questionData.copyWith(
-                                email: "1",
+                                googleAccountId: "1",
                                 userId: "1",
                                 qSubId: qSubId,
                                 titleContent: titleContent,

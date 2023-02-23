@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AnswerPostData {
   String get answerText => throw _privateConstructorUsedError; //解答
-  String get email => throw _privateConstructorUsedError;
+  String get googleAccountId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AnswerPostDataCopyWith<AnswerPostData> get copyWith =>
@@ -30,7 +30,7 @@ abstract class $AnswerPostDataCopyWith<$Res> {
           AnswerPostData value, $Res Function(AnswerPostData) then) =
       _$AnswerPostDataCopyWithImpl<$Res, AnswerPostData>;
   @useResult
-  $Res call({String answerText, String email});
+  $Res call({String answerText, String googleAccountId});
 }
 
 /// @nodoc
@@ -47,16 +47,16 @@ class _$AnswerPostDataCopyWithImpl<$Res, $Val extends AnswerPostData>
   @override
   $Res call({
     Object? answerText = null,
-    Object? email = null,
+    Object? googleAccountId = null,
   }) {
     return _then(_value.copyWith(
       answerText: null == answerText
           ? _value.answerText
           : answerText // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      googleAccountId: null == googleAccountId
+          ? _value.googleAccountId
+          : googleAccountId // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -70,7 +70,7 @@ abstract class _$$_AnswerPostDataCopyWith<$Res>
       __$$_AnswerPostDataCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String answerText, String email});
+  $Res call({String answerText, String googleAccountId});
 }
 
 /// @nodoc
@@ -85,16 +85,16 @@ class __$$_AnswerPostDataCopyWithImpl<$Res>
   @override
   $Res call({
     Object? answerText = null,
-    Object? email = null,
+    Object? googleAccountId = null,
   }) {
     return _then(_$_AnswerPostData(
       answerText: null == answerText
           ? _value.answerText
           : answerText // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      googleAccountId: null == googleAccountId
+          ? _value.googleAccountId
+          : googleAccountId // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -103,17 +103,18 @@ class __$$_AnswerPostDataCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_AnswerPostData implements _AnswerPostData {
-  const _$_AnswerPostData({required this.answerText, required this.email});
+  const _$_AnswerPostData(
+      {required this.answerText, required this.googleAccountId});
 
   @override
   final String answerText;
 //解答
   @override
-  final String email;
+  final String googleAccountId;
 
   @override
   String toString() {
-    return 'AnswerPostData(answerText: $answerText, email: $email)';
+    return 'AnswerPostData(answerText: $answerText, googleAccountId: $googleAccountId)';
   }
 
   @override
@@ -123,11 +124,12 @@ class _$_AnswerPostData implements _AnswerPostData {
             other is _$_AnswerPostData &&
             (identical(other.answerText, answerText) ||
                 other.answerText == answerText) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.googleAccountId, googleAccountId) ||
+                other.googleAccountId == googleAccountId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, answerText, email);
+  int get hashCode => Object.hash(runtimeType, answerText, googleAccountId);
 
   @JsonKey(ignore: true)
   @override
@@ -139,12 +141,12 @@ class _$_AnswerPostData implements _AnswerPostData {
 abstract class _AnswerPostData implements AnswerPostData {
   const factory _AnswerPostData(
       {required final String answerText,
-      required final String email}) = _$_AnswerPostData;
+      required final String googleAccountId}) = _$_AnswerPostData;
 
   @override
   String get answerText;
   @override //解答
-  String get email;
+  String get googleAccountId;
   @override
   @JsonKey(ignore: true)
   _$$_AnswerPostDataCopyWith<_$_AnswerPostData> get copyWith =>

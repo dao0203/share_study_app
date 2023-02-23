@@ -20,7 +20,7 @@ mixin _$QuestionPostData {
   String get userId => throw _privateConstructorUsedError; //ユーザーID
   String get titleContent => throw _privateConstructorUsedError; //タイトル名
   String get questionContent => throw _privateConstructorUsedError; //質問内容
-  String get email => throw _privateConstructorUsedError;
+  String get googleAccountId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $QuestionPostDataCopyWith<QuestionPostData> get copyWith =>
@@ -38,7 +38,7 @@ abstract class $QuestionPostDataCopyWith<$Res> {
       String userId,
       String titleContent,
       String questionContent,
-      String email});
+      String googleAccountId});
 }
 
 /// @nodoc
@@ -58,7 +58,7 @@ class _$QuestionPostDataCopyWithImpl<$Res, $Val extends QuestionPostData>
     Object? userId = null,
     Object? titleContent = null,
     Object? questionContent = null,
-    Object? email = null,
+    Object? googleAccountId = null,
   }) {
     return _then(_value.copyWith(
       qSubId: null == qSubId
@@ -77,9 +77,9 @@ class _$QuestionPostDataCopyWithImpl<$Res, $Val extends QuestionPostData>
           ? _value.questionContent
           : questionContent // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      googleAccountId: null == googleAccountId
+          ? _value.googleAccountId
+          : googleAccountId // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -98,7 +98,7 @@ abstract class _$$_QuestionPostDataCopyWith<$Res>
       String userId,
       String titleContent,
       String questionContent,
-      String email});
+      String googleAccountId});
 }
 
 /// @nodoc
@@ -116,7 +116,7 @@ class __$$_QuestionPostDataCopyWithImpl<$Res>
     Object? userId = null,
     Object? titleContent = null,
     Object? questionContent = null,
-    Object? email = null,
+    Object? googleAccountId = null,
   }) {
     return _then(_$_QuestionPostData(
       qSubId: null == qSubId
@@ -135,9 +135,9 @@ class __$$_QuestionPostDataCopyWithImpl<$Res>
           ? _value.questionContent
           : questionContent // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      googleAccountId: null == googleAccountId
+          ? _value.googleAccountId
+          : googleAccountId // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -153,7 +153,7 @@ class _$_QuestionPostData
       required this.userId,
       required this.titleContent,
       required this.questionContent,
-      required this.email});
+      required this.googleAccountId});
 
   @override
   final String qSubId;
@@ -168,11 +168,11 @@ class _$_QuestionPostData
   final String questionContent;
 //質問内容
   @override
-  final String email;
+  final String googleAccountId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'QuestionPostData(qSubId: $qSubId, userId: $userId, titleContent: $titleContent, questionContent: $questionContent, email: $email)';
+    return 'QuestionPostData(qSubId: $qSubId, userId: $userId, titleContent: $titleContent, questionContent: $questionContent, googleAccountId: $googleAccountId)';
   }
 
   @override
@@ -184,7 +184,7 @@ class _$_QuestionPostData
       ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('titleContent', titleContent))
       ..add(DiagnosticsProperty('questionContent', questionContent))
-      ..add(DiagnosticsProperty('email', email));
+      ..add(DiagnosticsProperty('googleAccountId', googleAccountId));
   }
 
   @override
@@ -198,12 +198,13 @@ class _$_QuestionPostData
                 other.titleContent == titleContent) &&
             (identical(other.questionContent, questionContent) ||
                 other.questionContent == questionContent) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.googleAccountId, googleAccountId) ||
+                other.googleAccountId == googleAccountId));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, qSubId, userId, titleContent, questionContent, email);
+  int get hashCode => Object.hash(runtimeType, qSubId, userId, titleContent,
+      questionContent, googleAccountId);
 
   @JsonKey(ignore: true)
   @override
@@ -218,7 +219,7 @@ abstract class _QuestionPostData implements QuestionPostData {
       required final String userId,
       required final String titleContent,
       required final String questionContent,
-      required final String email}) = _$_QuestionPostData;
+      required final String googleAccountId}) = _$_QuestionPostData;
 
   @override
   String get qSubId;
@@ -229,7 +230,7 @@ abstract class _QuestionPostData implements QuestionPostData {
   @override //タイトル名
   String get questionContent;
   @override //質問内容
-  String get email;
+  String get googleAccountId;
   @override
   @JsonKey(ignore: true)
   _$$_QuestionPostDataCopyWith<_$_QuestionPostData> get copyWith =>
