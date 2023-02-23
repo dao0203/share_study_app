@@ -43,7 +43,7 @@ class _ThreadPageState extends State<ThreadPage> {
       body: Center(
         //Futurebuilderを用いる
         child: FutureBuilder(
-            future: firestoreApi.getQuestion(), //getQuestion()でデータをAPIから取得
+            future: firestoreApi.getQuestions(), //getQuestion()でデータをAPIから取得
 
             builder: (context, snapshot) {
               if (snapshot.hasError) {
@@ -72,10 +72,7 @@ class _ThreadPageState extends State<ThreadPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => AnswerView(
-                                  subjectId: item.value["subject_id"],
                                   questionId: item.key,
-                                  title: item.value["title"],
-                                  textContent: item.value["text_content"],
                                 ),
                               ),
                             );
