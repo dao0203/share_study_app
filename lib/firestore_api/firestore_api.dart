@@ -55,6 +55,8 @@ class FirestoreApi {
     await questions.doc(questionId).get().then(((value) {
       if (value.exists) {
         result = value.data() as Map<String, dynamic>;
+      } else {
+        return null;
       }
     }));
     return result;
@@ -66,7 +68,7 @@ class FirestoreApi {
         {
           "title": questionData.titleContent, //タイトル内容
           "text_content": questionData.questionContent, //質問内容
-          "subject_id": questionData.qSubId, //科目ID
+          "subject_name": questionData.qSubName, //科目ID
           "google_account_id": questionData.googleAccountId, //googleAccountId
           "created_at": createdDate //現在の時刻
         },

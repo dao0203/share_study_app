@@ -26,12 +26,12 @@ class _QuestionPostPage extends State<QuestionPostPage> {
   late Map<String, String> subjects = {};
 
   /* フィールド名 */
-  late String qSubId = "";
+  late String qSubName = "";
   late String titleContent = "";
   late String questionContent = "";
 
   var questionData = const QuestionPostData(
-    qSubId: "", //科目ID
+    qSubName: "", //科目ID
     userId: "0", //ユーザーID
     titleContent: "", //タイトルID
     questionContent: "", //質問内容
@@ -144,13 +144,13 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                           return DropdownButton<String>(
                             items: snapshot.data?.entries.map((entry) {
                               return DropdownMenuItem<String>(
-                                value: entry.key,
+                                value: entry.value,
                                 child: Text(entry.value),
                               );
                             }).toList(),
-                            //選択されたキーバリューをquestionDataに格納
+                            //選択された科目名を追加
                             onChanged: (value) {
-                              qSubId = value.toString();
+                              qSubName = value.toString();
                             },
                           );
                         }
@@ -290,7 +290,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                               final questionDatacopy = questionData.copyWith(
                                 googleAccountId: "1",
                                 userId: "1",
-                                qSubId: qSubId,
+                                qSubName: qSubName,
                                 titleContent: titleContent,
                                 questionContent: questionContent,
                               );
