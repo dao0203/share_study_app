@@ -1,11 +1,7 @@
 /* 
  * @author 佐藤佑哉
  */
-
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /* freezedファイル */
 import '../data/question_post_data.dart';
@@ -15,9 +11,9 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class FirestoreApi {
   /*コレクションリファーレンスを追加*/
-
   CollectionReference questions = firestore.collection("questions");
   CollectionReference subjects = firestore.collection("subjects");
+  CollectionReference answers = firestore.collection("answers");
   CollectionReference googleAcountId = firestore.collection("user");
   DateTime createdDate = DateTime.now(); //現在の時刻を指定
 
@@ -28,7 +24,7 @@ class FirestoreApi {
     QuerySnapshot querySnapshot = await subjects.get();
 
     for (var doc in querySnapshot.docs) {
-      result[doc.id] = doc.get("subject_name");
+      result[doc.id] = doc.get("subjectName");
     }
     return result;
   }
@@ -36,21 +32,17 @@ class FirestoreApi {
   // 科目IDで検索して科目名を返すメソッド
   Future<String> getSubjectName(String documentId) async {
     DocumentSnapshot documentSnapshot = await subjects.doc(documentId).get();
-    final result = documentSnapshot.get("subject_name");
+    final result = documentSnapshot.get("subjectName");
     return result;
   }
 
   //質問取得メソッド
   Future<Map<String, Map<String, dynamic>>> getQuestions() async {
     QuerySnapshot querySnapshot = await questions.get();
-
-    //ドキュメントIDをキーとして、questionのフィールドの全データを抽出する
     final result = <String, Map<String, dynamic>>{};
-
     for (final doc in querySnapshot.docs) {
       result[doc.id] = doc.data() as Map<String, dynamic>;
     }
-
     return result;
   }
 
@@ -60,6 +52,8 @@ class FirestoreApi {
     await questions.doc(questionId).get().then(((value) {
       if (value.exists) {
         result = value.data() as Map<String, dynamic>;
+      } else {
+        return null;
       }
     }));
     return result;
@@ -70,19 +64,45 @@ class FirestoreApi {
       await questions.add(
         {
           "title": questionData.titleContent, //タイトル内容
-          "text_content": questionData.questionContent, //質問内容
-          "subject_id": questionData.qSubId, //科目ID
-          "email": questionData.email, //e-mailアドレス
-          "created_at": createdDate //現在の時刻
+          "textContent": questionData.questionContent, //質問内容
+          "subjectName": questionData.qSubName, //科目ID
+          "googleAccountId": questionData.googleAccountId, //googleAccountId
+          "createdAt": createdDate, //現在の時刻
+          "answerIds": []
         },
       );
 
+  //回答GETメソッド
+  Future<Map<String, Map<String, dynamic>>> getAnswers(
+      String questionId) async {
+    QuerySnapshot querySnapshot =
+        await questions.doc(questionId).collection("answers").get();
+    final result = <String, Map<String, dynamic>>{};
+    for (final doc in querySnapshot.docs) {
+      result[doc.id] = doc.data() as Map<String, dynamic>;
+    }
+    return result;
+  }
+
   //回答投稿メソッド
-  // Future<void> postAnswer(AnswerPostData answerPostData) async =>
-  //     await questions.doc("")..add({
-  //       "answer_text": answerPostData.answerText, //回答内容
-  //       "email": answerPostData.email, //e-mailアドレス
-  //       "question_id": answerPostData.questionId //質問ID
-  //     });
-  Future<void> getAnswers
+  Future<void> postAnswer(
+      AnswerPostData answerPostData, String questionId) async {
+    // 回答をFirestoreに格納
+    final answerDocRef = await answers.add(
+      {
+        "answerText": answerPostData.answerText,
+        "googleAccountId": answerPostData.answerText,
+        "createdAt": createdDate,
+        "questionId": questionId
+      },
+    );
+    //直後に生成された回答IDを格納
+    final answerId = answerDocRef.id;
+    //questionsの特定のフィールドに格納
+    await questions.doc(questionId).update(
+      {
+        "answerIds": FieldValue.arrayUnion([answerId]),
+      },
+    );
+  }
 }

@@ -26,16 +26,16 @@ class _QuestionPostPage extends State<QuestionPostPage> {
   late Map<String, String> subjects = {};
 
   /* フィールド名 */
-  late String qSubId = "";
+  late String qSubName = "";
   late String titleContent = "";
   late String questionContent = "";
 
   var questionData = const QuestionPostData(
-    qSubId: "", //科目ID
+    qSubName: "", //科目ID
     userId: "0", //ユーザーID
     titleContent: "", //タイトルID
     questionContent: "", //質問内容
-    email: "0",
+    googleAccountId: "0",
     // attFiles: "",//画像アップロードする際に使用する
   );
   var classId = "科目を選択してください"; //科目を入れる
@@ -144,13 +144,13 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                           return DropdownButton<String>(
                             items: snapshot.data?.entries.map((entry) {
                               return DropdownMenuItem<String>(
-                                value: entry.key,
+                                value: entry.value,
                                 child: Text(entry.value),
                               );
                             }).toList(),
-                            //選択されたキーバリューをquestionDataに格納
+                            //選択された科目名を追加
                             onChanged: (value) {
-                              qSubId = value.toString();
+                              qSubName = value.toString();
                             },
                           );
                         }
@@ -288,9 +288,9 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                             ),
                             onTap: () {
                               final questionDatacopy = questionData.copyWith(
-                                email: "1",
+                                googleAccountId: "1",
                                 userId: "1",
-                                qSubId: qSubId,
+                                qSubName: qSubName,
                                 titleContent: titleContent,
                                 questionContent: questionContent,
                               );

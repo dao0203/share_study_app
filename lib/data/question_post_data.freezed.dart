@@ -16,11 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$QuestionPostData {
-  String get qSubId => throw _privateConstructorUsedError; //科目を格納
+  String get qSubName => throw _privateConstructorUsedError; //科目を格納
   String get userId => throw _privateConstructorUsedError; //ユーザーID
   String get titleContent => throw _privateConstructorUsedError; //タイトル名
   String get questionContent => throw _privateConstructorUsedError; //質問内容
-  String get email => throw _privateConstructorUsedError;
+  String get googleAccountId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $QuestionPostDataCopyWith<QuestionPostData> get copyWith =>
@@ -34,11 +34,11 @@ abstract class $QuestionPostDataCopyWith<$Res> {
       _$QuestionPostDataCopyWithImpl<$Res, QuestionPostData>;
   @useResult
   $Res call(
-      {String qSubId,
+      {String qSubName,
       String userId,
       String titleContent,
       String questionContent,
-      String email});
+      String googleAccountId});
 }
 
 /// @nodoc
@@ -54,16 +54,16 @@ class _$QuestionPostDataCopyWithImpl<$Res, $Val extends QuestionPostData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? qSubId = null,
+    Object? qSubName = null,
     Object? userId = null,
     Object? titleContent = null,
     Object? questionContent = null,
-    Object? email = null,
+    Object? googleAccountId = null,
   }) {
     return _then(_value.copyWith(
-      qSubId: null == qSubId
-          ? _value.qSubId
-          : qSubId // ignore: cast_nullable_to_non_nullable
+      qSubName: null == qSubName
+          ? _value.qSubName
+          : qSubName // ignore: cast_nullable_to_non_nullable
               as String,
       userId: null == userId
           ? _value.userId
@@ -77,9 +77,9 @@ class _$QuestionPostDataCopyWithImpl<$Res, $Val extends QuestionPostData>
           ? _value.questionContent
           : questionContent // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      googleAccountId: null == googleAccountId
+          ? _value.googleAccountId
+          : googleAccountId // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -94,11 +94,11 @@ abstract class _$$_QuestionPostDataCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String qSubId,
+      {String qSubName,
       String userId,
       String titleContent,
       String questionContent,
-      String email});
+      String googleAccountId});
 }
 
 /// @nodoc
@@ -112,16 +112,16 @@ class __$$_QuestionPostDataCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? qSubId = null,
+    Object? qSubName = null,
     Object? userId = null,
     Object? titleContent = null,
     Object? questionContent = null,
-    Object? email = null,
+    Object? googleAccountId = null,
   }) {
     return _then(_$_QuestionPostData(
-      qSubId: null == qSubId
-          ? _value.qSubId
-          : qSubId // ignore: cast_nullable_to_non_nullable
+      qSubName: null == qSubName
+          ? _value.qSubName
+          : qSubName // ignore: cast_nullable_to_non_nullable
               as String,
       userId: null == userId
           ? _value.userId
@@ -135,9 +135,9 @@ class __$$_QuestionPostDataCopyWithImpl<$Res>
           ? _value.questionContent
           : questionContent // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      googleAccountId: null == googleAccountId
+          ? _value.googleAccountId
+          : googleAccountId // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -149,14 +149,14 @@ class _$_QuestionPostData
     with DiagnosticableTreeMixin
     implements _QuestionPostData {
   const _$_QuestionPostData(
-      {required this.qSubId,
+      {required this.qSubName,
       required this.userId,
       required this.titleContent,
       required this.questionContent,
-      required this.email});
+      required this.googleAccountId});
 
   @override
-  final String qSubId;
+  final String qSubName;
 //科目を格納
   @override
   final String userId;
@@ -168,11 +168,11 @@ class _$_QuestionPostData
   final String questionContent;
 //質問内容
   @override
-  final String email;
+  final String googleAccountId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'QuestionPostData(qSubId: $qSubId, userId: $userId, titleContent: $titleContent, questionContent: $questionContent, email: $email)';
+    return 'QuestionPostData(qSubName: $qSubName, userId: $userId, titleContent: $titleContent, questionContent: $questionContent, googleAccountId: $googleAccountId)';
   }
 
   @override
@@ -180,11 +180,11 @@ class _$_QuestionPostData
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'QuestionPostData'))
-      ..add(DiagnosticsProperty('qSubId', qSubId))
+      ..add(DiagnosticsProperty('qSubName', qSubName))
       ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('titleContent', titleContent))
       ..add(DiagnosticsProperty('questionContent', questionContent))
-      ..add(DiagnosticsProperty('email', email));
+      ..add(DiagnosticsProperty('googleAccountId', googleAccountId));
   }
 
   @override
@@ -192,18 +192,20 @@ class _$_QuestionPostData
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_QuestionPostData &&
-            (identical(other.qSubId, qSubId) || other.qSubId == qSubId) &&
+            (identical(other.qSubName, qSubName) ||
+                other.qSubName == qSubName) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.titleContent, titleContent) ||
                 other.titleContent == titleContent) &&
             (identical(other.questionContent, questionContent) ||
                 other.questionContent == questionContent) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.googleAccountId, googleAccountId) ||
+                other.googleAccountId == googleAccountId));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, qSubId, userId, titleContent, questionContent, email);
+  int get hashCode => Object.hash(runtimeType, qSubName, userId, titleContent,
+      questionContent, googleAccountId);
 
   @JsonKey(ignore: true)
   @override
@@ -214,14 +216,14 @@ class _$_QuestionPostData
 
 abstract class _QuestionPostData implements QuestionPostData {
   const factory _QuestionPostData(
-      {required final String qSubId,
+      {required final String qSubName,
       required final String userId,
       required final String titleContent,
       required final String questionContent,
-      required final String email}) = _$_QuestionPostData;
+      required final String googleAccountId}) = _$_QuestionPostData;
 
   @override
-  String get qSubId;
+  String get qSubName;
   @override //科目を格納
   String get userId;
   @override //ユーザーID
@@ -229,7 +231,7 @@ abstract class _QuestionPostData implements QuestionPostData {
   @override //タイトル名
   String get questionContent;
   @override //質問内容
-  String get email;
+  String get googleAccountId;
   @override
   @JsonKey(ignore: true)
   _$$_QuestionPostDataCopyWith<_$_QuestionPostData> get copyWith =>
