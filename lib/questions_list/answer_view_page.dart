@@ -1,4 +1,6 @@
 // import 'dart:developer';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
@@ -30,36 +32,38 @@ class _AnswerViewState extends State<AnswerView> {
         title: const Text("回答一覧"),
       ),
       body: Center(
-        child: Column(
-          children: [
-            FutureBuilder(
-              future: firestoreApi.getSelectedQuestion(questionId),
-              builder: ((context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Text("Error：${snapshot.error},$questionId");
-                  } else {
-                    final data = snapshot.data!.data() as Map<String, dynamic>;
+        child: FutureBuilder(
+          future: firestoreApi.getSelectedQuestion(questionId),
+          builder: ((context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return Text("Error：${snapshot.error},$questionId");
+              } else {
+                final data = snapshot.data!.data() as Map<String, dynamic>;
 
-                    return Column(
-                      children: [
-                        Card(
+                return ListView(
+                  children: [
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Expanded(
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(data["title"]),
                               Text(data["textContent"]),
                             ],
                           ),
-                        )
-                      ],
-                    );
-                  }
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              }),
-            ),
-          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          }),
         ),
       ),
     );

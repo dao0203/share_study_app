@@ -61,25 +61,32 @@ class _ThreadPageState extends State<ThreadPage> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final item = snapshot.data!.entries.elementAt(index);
-                  return Card(
-                    child: Column(
-                      children: [
-                        Text("${item.value["title"]}"),
-                        Text("${item.value["textContent"]}"),
-                        TextButton(
-                          child: const Text("回答を表示"),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AnswerView(
-                                  questionId: item.key,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("${item.value["title"]}"),
+                          Text("${item.value["textContent"]}"),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              child: const Text("回答を表示"),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AnswerView(
+                                      questionId: item.key,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
