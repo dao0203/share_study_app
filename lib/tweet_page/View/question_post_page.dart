@@ -1,18 +1,13 @@
-/**
- * 必要なパッケージのインストールとして下記を実行
- * flutter pub add image_picker_for_web
- * flutter pub add firebase_storage URL:https://pub.dev/packages/firebase_storage/install
- * 
- */
-
-import 'dart:developer';
-import 'dart:html';
+//
+//   必要なパッケージのインストールとして下記を実行
+//   flutter pub add image_picker_for_web
+//   flutter pub add firebase_storage URL:https://pub.dev/packages/firebase_storage/install
+//
 
 import 'package:flutter/material.dart';
 import 'package:share_study_app/data/question_post_data.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
+import 'package:share_study_app/questions_list/thread_page.dart';
 // import 'package:image_picker_web/image_picker_web.dart';
 
 /*投稿画面の初期状態画面
@@ -27,7 +22,7 @@ class QuestionPostPage extends StatefulWidget {
 }
 
 class _QuestionPostPage extends State<QuestionPostPage> {
-  FirestoreApi firestoreApi = new FirestoreApi();
+  FirestoreApi firestoreApi = FirestoreApi();
   late Map<String, String> subjects = {};
 
   /* フィールド名 */
@@ -35,7 +30,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
   late String titleContent = "";
   late String questionContent = "";
 
-  var questionData = QuestionPostData(
+  var questionData = const QuestionPostData(
     qSubId: "", //科目ID
     userId: "0", //ユーザーID
     titleContent: "", //タイトルID
@@ -61,7 +56,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
     });
   }
 
-  /**画像アップロードする際に使用する */
+  // 画像アップロードする際に使用する
   // var _isfiled = false; //写真をアップしているかしていないか
   // XFile? _pickedFile;
   // void _setImageFileListFromFile(XFile? value) {
@@ -93,7 +88,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     //項目の中身
-                    Text("タイトル"),
+                    const Text("タイトル"),
                     TextField(
                       //タイトルを入力
                       maxLines: 1,
@@ -112,8 +107,8 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                         titleContent = value;
                       },
                     ),
-                    Text("科目"),
-                    SizedBox(height: 10), //間隔を開ける
+                    const Text("科目"),
+                    const SizedBox(height: 10), //間隔を開ける
                     /*科目選択ボタン*/
                     // DropdownButton(
                     //   value: classId,
@@ -156,21 +151,19 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                             //選択されたキーバリューをquestionDataに格納
                             onChanged: (value) {
                               qSubId = value.toString();
-                              print(qSubId);
                             },
                           );
                         }
                       },
                     ),
-                    Text("質問内容"),
-                    SizedBox(height: 10), //間隔を開ける
+                    const Text("質問内容"),
+                    const SizedBox(height: 10), //間隔を開ける
 
                     TextField(
                       //質問内容入力
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
                       minLines: 4,
-                      controller: TextEditingController(text: "$subjects"),
 
                       decoration: InputDecoration(
                         filled: true,
@@ -187,7 +180,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                       },
                     ),
                     /**写真アップロードボタン */
-                    SizedBox(height: 20), //間隔を開ける
+                    const SizedBox(height: 20), //間隔を開ける
                     // _isfiled
                     //     ? Column(
                     //         //写真あり
@@ -265,22 +258,22 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             /**投稿するボタン */
             ElevatedButton(
-              style: ElevatedButton.styleFrom(minimumSize: Size(200, 50)),
+              style: ElevatedButton.styleFrom(minimumSize: const Size(200, 50)),
               onPressed: () {
                 //投稿ボタンを押したときの動作
                 showDialog(
                     context: context,
                     builder: (_) {
                       return AlertDialog(
-                        title: Text('投稿しますか？'),
+                        title: const Text('投稿しますか？'),
                         actions: [
                           GestureDetector(
-                            child: Text(
+                            child: const Text(
                               'いいえ',
                               style: TextStyle(color: Colors.blue),
                             ),
@@ -289,7 +282,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                             },
                           ),
                           GestureDetector(
-                            child: Text(
+                            child: const Text(
                               'はい',
                               style: TextStyle(color: Colors.blue),
                             ),
@@ -303,8 +296,13 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                               );
                               firestoreApi.postQuestion(questionDatacopy);
 
+                              //質問閲覧ページに戻る
                               setState(() {
-                                Navigator.of(context).pop();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) =>
+                                            const ThreadPage())));
                               });
                             },
                           ),
@@ -312,7 +310,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                       );
                     });
               },
-              child: Text("投稿"),
+              child: const Text("投稿"),
             ),
           ],
         ),

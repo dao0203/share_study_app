@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -45,7 +46,7 @@ class _TitlePageState extends State<TitlePage> {
                 }
               else
                 {
-                  print("document ID is null."),
+                  log("document ID is null."),
                 }
             });
       }
@@ -65,8 +66,8 @@ class _TitlePageState extends State<TitlePage> {
       setState(() {
         successSignIn = false;
       });
-      print("Sign in error!!");
-      print(error);
+      log("Sign in error!!");
+      log(error.toString());
     }
   }
 

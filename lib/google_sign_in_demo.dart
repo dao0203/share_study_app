@@ -4,6 +4,7 @@
 //参考 https://pub.dev/packages/google_sign_in/install
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -27,7 +28,7 @@ class SignInDemo extends StatefulWidget {
 
 class SignInDemoState extends State<SignInDemo> {
   GoogleSignInAccount? _currentUser;
-  String _contactText = '';
+  final String _contactText = '';
 
   @override
   void initState() {
@@ -40,29 +41,11 @@ class SignInDemoState extends State<SignInDemo> {
     _googleSignIn.signInSilently();
   }
 
-  String? _pickFirstNamedContact(Map<String, dynamic> data) {
-    final List<dynamic>? connections = data['connections'] as List<dynamic>?;
-    final Map<String, dynamic>? contact = connections?.firstWhere(
-      (dynamic contact) => contact['names'] != null,
-      orElse: () => null,
-    ) as Map<String, dynamic>?;
-    if (contact != null) {
-      final Map<String, dynamic>? name = contact['names'].firstWhere(
-        (dynamic name) => name['displayName'] != null,
-        orElse: () => null,
-      ) as Map<String, dynamic>?;
-      if (name != null) {
-        return name['displayName'] as String?;
-      }
-    }
-    return null;
-  }
-
   Future<void> _handleSignIn() async {
     try {
       await _googleSignIn.signIn();
     } catch (error) {
-      print(error);
+      log(error.toString());
     }
   }
 

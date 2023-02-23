@@ -1,14 +1,14 @@
-/**
- * 必要なパッケージのインストールとして下記を実行
- * flutter pub run build_runner build --delete-conflicting-outputs
- * 参考：https://pub.dev/packages/freezed
- * flutter pub add freezed_annotation
- * flutter pub add --dev build_runner
- * flutter pub add --dev freezed
- * flutter pub add json_annotation
- * flutter pub add --dev json_serializable
- * 参考：https://github.com/rrousselGit/freezed
- */
+//
+//   必要なパッケージのインストールとして下記を実行
+//   flutter pub run build_runner build --delete-conflicting-outputs
+//   参考：https://pub.dev/packages/freezed
+//   flutter pub add freezed_annotation
+//   flutter pub add --dev build_runner
+//   flutter pub add --dev freezed
+//   flutter pub add json_annotation
+//   flutter pub add --dev json_serializable
+//   参考：https://github.com/rrousselGit/freezed
+//
 // This file is "main.dart"
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';

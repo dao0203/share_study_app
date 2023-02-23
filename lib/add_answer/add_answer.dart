@@ -60,7 +60,7 @@ class _AddAnswerPage extends State<AddAnswerPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             //質問表示部分
             SizedBox(
@@ -75,18 +75,18 @@ class _AddAnswerPage extends State<AddAnswerPage> {
                   children: [
                     //項目の中身
                     Text("質問：${q.qTitle}"),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text("科目:${q.qSubject}"),
-                    SizedBox(height: 10), //間隔を開ける
+                    const SizedBox(height: 10), //間隔を開ける
                     /*科目選択ボタン*/
                     Text("質問内容:${q.question}"),
-                    SizedBox(height: 20), //間隔を開ける
+                    const SizedBox(height: 20), //間隔を開ける
                   ],
                 ),
               ),
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             //回答入力部分
             SizedBox(
@@ -99,10 +99,10 @@ class _AddAnswerPage extends State<AddAnswerPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     //項目の中身
-                    Text("回答"),
+                    const Text("回答"),
 
                     //間隔を開ける
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
 
                     TextField(
                       // 回答入力
@@ -121,7 +121,7 @@ class _AddAnswerPage extends State<AddAnswerPage> {
                       ),
                     ),
 
-                    SizedBox(height: 20), //間隔を開ける
+                    const SizedBox(height: 20), //間隔を開ける
                   ],
                 ),
               ),
@@ -129,30 +129,32 @@ class _AddAnswerPage extends State<AddAnswerPage> {
 
             /**投稿するボタン */
             ElevatedButton(
-              style: ElevatedButton.styleFrom(minimumSize: Size(200, 50)),
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(200, 50),
+              ),
               onPressed: () {
                 //投稿ボタンを押したときの動作
                 showDialog(
                     context: context,
                     builder: (_) {
                       return AlertDialog(
-                        title: Text('投稿しますか？'),
+                        title: const Text('投稿しますか？'),
                         actions: [
                           GestureDetector(
-                            child: Text('いいえ'),
+                            child: const Text('いいえ'),
                             onTap: () {
                               Navigator.of(context).pop();
                             },
                           ),
                           GestureDetector(
-                            child: Text('はい'),
+                            child: const Text('はい'),
                             onTap: () {},
                           ),
                         ],
                       );
                     });
               },
-              child: Text("投稿"),
+              child: const Text("投稿"),
             ),
           ],
         ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:share_study_app/firestore_api/firestore_api.dart';
+import 'package:share_study_app/questions_list/answer_view_page.dart';
+import 'package:share_study_app/tweet_page/View/question_post_page.dart';
 
 class ThreadPage extends StatefulWidget {
   const ThreadPage({Key? key}) : super(key: key);
@@ -7,32 +10,100 @@ class ThreadPage extends StatefulWidget {
 }
 
 class _ThreadPageState extends State<ThreadPage> {
+  //FirestoreApiを使用
+  FirestoreApi firestoreApi = FirestoreApi();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("質問閲覧画面"),
       ),
-      body: ListView(
-        children: <Widget>[
-          //ダミーの質問
-          // ここは数十件(50とか？)まとめてロードしてページ分けで表示するようにしたい
-          //BAとNBAは本来分けずに一つのwidgetで表示する
-          baQuestionItem(context),
-          baQuestionItem(context),
-          nbaQuestionItem(context),
-          baQuestionItem(context),
-          nbaQuestionItem(context),
-          baQuestionItem(context),
-          baQuestionItem(context),
-          nbaQuestionItem(context),
-          nbaQuestionItem(context),
-          nbaQuestionItem(context),
-          baQuestionItem(context),
-          baQuestionItem(context),
-          nbaQuestionItem(context),
-          baQuestionItem(context),
-        ],
+
+      //フローティングボタン
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("質問投稿"),
+        icon: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => const QuestionPostPage()),
+            ),
+          );
+        },
+      ),
+
+      //画面
+      body: Center(
+        //Futurebuilderを用いる
+        child: FutureBuilder(
+            future: firestoreApi.getQuestions(), //getQuestion()でデータをAPIから取得
+
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                //エラーが発生した場合
+                return const Center(
+                  child: Text("errorが発生しました"),
+                );
+              } else if (!snapshot.hasData) {
+                //データの読み込み中
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final item = snapshot.data!.entries.elementAt(index);
+                  return Card(
+                    child: Column(
+                      children: [
+                        Text("${item.value["title"]}"),
+                        Text("${item.value["text_content"]}"),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AnswerView(
+                                  questionId: item.key,
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text("回答を表示"),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                // children: <Widget>[
+                //ダミーの質問
+                // ここは数十件(50とか？)まとめてロードしてページ分けで表示するようにしたい
+                //BAとNBAは本来分けずに一つのwidgetで表示する
+                // baQuestionItem(context),
+                // baQuestionItem(context),
+                // nbaQuestionItem(context),
+                // baQuestionItem(context),
+                // nbaQuestionItem(context),
+                // baQuestionItem(context),
+                // baQuestionItem(context),
+                // nbaQuestionItem(context),
+                // nbaQuestionItem(context),
+                // nbaQuestionItem(context),
+                // baQuestionItem(context),
+                // baQuestionItem(context),
+                // nbaQuestionItem(context),
+                // baQuestionItem(context),
+                // ],
+              );
+            }),
       ),
     );
   }
