@@ -47,30 +47,25 @@ class FirestoreApi {
   }
 
   //質問IDで検索して質問を返すメソッド
-  Future<Map<String, dynamic>> getSelectedQuestion(String questionId) async {
-    Map<String, dynamic> result = {};
-    await questions.doc(questionId).get().then(((value) {
-      if (value.exists) {
-        result = value.data() as Map<String, dynamic>;
-      } else {
-        return null;
-      }
-    }));
-    return result;
+  Future<DocumentSnapshot> getSelectedQuestion(String questionId) async {
+    final docSnapShot = await questions.doc(questionId).get();
+    return docSnapShot;
   }
 
   // 質問投稿メソッド
-  Future<void> postQuestion(QuestionPostData questionData) async =>
-      await questions.add(
-        {
-          "title": questionData.titleContent, //タイトル内容
-          "textContent": questionData.questionContent, //質問内容
-          "subjectName": questionData.qSubName, //科目ID
-          "googleAccountId": questionData.googleAccountId, //googleAccountId
-          "createdAt": createdDate, //現在の時刻
-          "answerIds": []
-        },
-      );
+  Future<void> postQuestion(QuestionPostData questionData) async {
+    final List<String> emptyList = [];
+    await questions.add(
+      {
+        "title": questionData.titleContent, //タイトル内容
+        "textContent": questionData.questionContent, //質問内容
+        "subjectName": questionData.qSubName, //科目ID
+        "googleAccountId": questionData.googleAccountId, //googleAccountId
+        "createdAt": createdDate, //現在の時刻
+        "answerIds": emptyList
+      },
+    );
+  }
 
   //回答GETメソッド
   Future<Map<String, Map<String, dynamic>>> getAnswers(

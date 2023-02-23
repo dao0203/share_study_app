@@ -1,4 +1,5 @@
 // import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
 
@@ -33,23 +34,20 @@ class _AnswerViewState extends State<AnswerView> {
           children: [
             FutureBuilder(
               future: firestoreApi.getSelectedQuestion(questionId),
-              builder:
-                  ((context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+              builder: ((context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasError) {
                     return Text("Error：${snapshot.error},$questionId");
                   } else {
-                    final data = snapshot.data!;
-                    final title = data["title"];
-                    final textContent = data["text_content"];
+                    final data = snapshot.data!.data() as Map<String, dynamic>;
 
                     return Column(
                       children: [
                         Card(
                           child: Column(
                             children: [
-                              Text(title),
-                              Text(textContent),
+                              Text(data["title"]),
+                              Text(data["textContent"]),
                             ],
                           ),
                         )
