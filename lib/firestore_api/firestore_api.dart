@@ -1,11 +1,7 @@
 /* 
  * @author 佐藤佑哉
  */
-
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /* freezedファイル */
 import '../data/question_post_data.dart';
@@ -17,6 +13,7 @@ class FirestoreApi {
   /*コレクションリファーレンスを追加*/
   CollectionReference questions = firestore.collection("questions");
   CollectionReference subjects = firestore.collection("subjects");
+  CollectionReference answers = firestore.collection("answers");
   CollectionReference googleAcountId = firestore.collection("user");
   DateTime createdDate = DateTime.now(); //現在の時刻を指定
 
@@ -70,7 +67,8 @@ class FirestoreApi {
           "textContent": questionData.questionContent, //質問内容
           "subjectName": questionData.qSubName, //科目ID
           "googleAccountId": questionData.googleAccountId, //googleAccountId
-          "createdAt": createdDate //現在の時刻
+          "createdAt": createdDate, //現在の時刻
+          "answerIds": []
         },
       );
 
@@ -89,12 +87,21 @@ class FirestoreApi {
   //回答投稿メソッド
   Future<void> postAnswer(
       AnswerPostData answerPostData, String questionId) async {
-    await questions.doc(questionId).collection("answers").add(
+    // 回答をFirestoreに格納
+    final answerDocRef = await answers.add(
       {
         "answerText": answerPostData.answerText,
         "googleAccountId": answerPostData.answerText,
         "createdAt": createdDate,
-        "questionId": []
+        "questionId": questionId
+      },
+    );
+    //直後に生成された回答IDを格納
+    final answerId = answerDocRef.id;
+    //questionsの特定のフィールドに格納
+    await questions.doc(questionId).update(
+      {
+        "answerIds": FieldValue.arrayUnion([answerId]),
       },
     );
   }
