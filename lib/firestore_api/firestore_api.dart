@@ -2,7 +2,10 @@
  * @author 佐藤佑哉
  */
 
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /* freezedファイル */
 import '../data/question_post_data.dart';
@@ -12,7 +15,7 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class FirestoreApi {
   /*コレクションリファーレンスを追加*/
-  CollectionReference answers = firestore.collection("answers");
+
   CollectionReference questions = firestore.collection("questions");
   CollectionReference subjects = firestore.collection("subjects");
   CollectionReference googleAcountId = firestore.collection("user");
@@ -31,9 +34,14 @@ class FirestoreApi {
   }
 
   // 科目IDで検索して科目名を返すメソッド
+  Future<String> getSubjectName(String documentId) async {
+    DocumentSnapshot documentSnapshot = await subjects.doc(documentId).get();
+    final result = documentSnapshot.get("subject_name");
+    return result;
+  }
 
-  //科目取得メソッド
-  Future<Map<String, Map<String, dynamic>>> getQuestion() async {
+  //質問取得メソッド
+  Future<Map<String, Map<String, dynamic>>> getQuestions() async {
     QuerySnapshot querySnapshot = await questions.get();
 
     //ドキュメントIDをキーとして、questionのフィールドの全データを抽出する
@@ -43,6 +51,17 @@ class FirestoreApi {
       result[doc.id] = doc.data() as Map<String, dynamic>;
     }
 
+    return result;
+  }
+
+  //質問IDで検索して質問を返すメソッド
+  Future<Map<String, dynamic>> getSelectedQuestion(String questionId) async {
+    Map<String, dynamic> result = {};
+    await questions.doc(questionId).get().then(((value) {
+      if (value.exists) {
+        result = value.data() as Map<String, dynamic>;
+      }
+    }));
     return result;
   }
 
@@ -59,10 +78,11 @@ class FirestoreApi {
       );
 
   //回答投稿メソッド
-  Future<void> postAnswer(AnswerPostData answerPostData) async =>
-      await answers.add({
-        "answer_text": answerPostData.answerText, //回答内容
-        "email": answerPostData.email, //e-mailアドレス
-        "question_id": answerPostData.questionId //質問ID
-      });
+  // Future<void> postAnswer(AnswerPostData answerPostData) async =>
+  //     await questions.doc("")..add({
+  //       "answer_text": answerPostData.answerText, //回答内容
+  //       "email": answerPostData.email, //e-mailアドレス
+  //       "question_id": answerPostData.questionId //質問ID
+  //     });
+  Future<void> getAnswers
 }

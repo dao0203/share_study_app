@@ -1,4 +1,72 @@
+// import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:share_study_app/firestore_api/firestore_api.dart';
+
+class AnswerView extends StatefulWidget {
+  const AnswerView({super.key, required this.questionId});
+
+  final String questionId;
+
+  @override
+  State<AnswerView> createState() => _AnswerViewState();
+}
+
+class _AnswerViewState extends State<AnswerView> {
+  FirestoreApi firestoreApi = FirestoreApi();
+  late String questionId;
+
+  @override
+  void initState() {
+    super.initState();
+    //遷移
+    questionId = widget.questionId;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("回答一覧"),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            FutureBuilder(
+              future: firestoreApi.getSelectedQuestion(questionId),
+              builder:
+                  ((context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Text("Error：${snapshot.error},$questionId");
+                  } else {
+                    final data = snapshot.data!;
+                    final title = data["title"];
+                    final textContent = data["text_content"];
+
+                    return Column(
+                      children: [
+                        Card(
+                          child: Column(
+                            children: [
+                              Text(title),
+                              Text(textContent),
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  }
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 //ベストアンサーされている質問の質問・回答閲覧ページ
 class AnswerViewPage extends StatelessWidget {
