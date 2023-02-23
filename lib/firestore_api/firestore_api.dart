@@ -27,7 +27,7 @@ class FirestoreApi {
     QuerySnapshot querySnapshot = await subjects.get();
 
     for (var doc in querySnapshot.docs) {
-      result[doc.id] = doc.get("subject_name");
+      result[doc.id] = doc.get("subjectName");
     }
     return result;
   }
@@ -35,7 +35,7 @@ class FirestoreApi {
   // 科目IDで検索して科目名を返すメソッド
   Future<String> getSubjectName(String documentId) async {
     DocumentSnapshot documentSnapshot = await subjects.doc(documentId).get();
-    final result = documentSnapshot.get("subject_name");
+    final result = documentSnapshot.get("subjectName");
     return result;
   }
 
@@ -67,10 +67,10 @@ class FirestoreApi {
       await questions.add(
         {
           "title": questionData.titleContent, //タイトル内容
-          "text_content": questionData.questionContent, //質問内容
-          "subject_name": questionData.qSubName, //科目ID
-          "google_account_id": questionData.googleAccountId, //googleAccountId
-          "created_at": createdDate //現在の時刻
+          "textContent": questionData.questionContent, //質問内容
+          "subjectName": questionData.qSubName, //科目ID
+          "googleAccountId": questionData.googleAccountId, //googleAccountId
+          "createdAt": createdDate //現在の時刻
         },
       );
 
@@ -91,9 +91,10 @@ class FirestoreApi {
       AnswerPostData answerPostData, String questionId) async {
     await questions.doc(questionId).collection("answers").add(
       {
-        "answer_text": answerPostData.answerText,
-        "google_account_id": answerPostData.answerText,
-        "created_at": createdDate,
+        "answerText": answerPostData.answerText,
+        "googleAccountId": answerPostData.answerText,
+        "createdAt": createdDate,
+        "questionId": []
       },
     );
   }

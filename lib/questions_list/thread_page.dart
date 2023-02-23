@@ -61,27 +61,29 @@ class _ThreadPageState extends State<ThreadPage> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final item = snapshot.data!.entries.elementAt(index);
-                  return Card(
-                    child: Column(
-                      children: [
-                        Text("${item.value["title"]}"),
-                        Text("${item.value["text_content"]}"),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AnswerView(
-                                  questionId: item.key,
-                                ),
+                  return snapshot.data!.isEmpty
+                      ? Card(
+                          child: Column(
+                            children: [
+                              Text("${item.value["title"]}"),
+                              Text("${item.value["textContent"]}"),
+                              TextButton(
+                                child: const Text("回答を表示"),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AnswerView(
+                                        questionId: item.key,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                          child: const Text("回答を表示"),
-                        ),
-                      ],
-                    ),
-                  );
+                            ],
+                          ),
+                        )
+                      : const Text("まだ質問は投稿されていません");
                 },
                 // children: <Widget>[
                 //ダミーの質問
