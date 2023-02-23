@@ -72,17 +72,32 @@ class FirestoreApi {
           "title": questionData.titleContent, //タイトル内容
           "text_content": questionData.questionContent, //質問内容
           "subject_id": questionData.qSubId, //科目ID
-          "email": questionData.email, //e-mailアドレス
+          "google_account_id": questionData.email, //e-mailアドレス
           "created_at": createdDate //現在の時刻
         },
       );
 
+  //回答GETメソッド
+  Future<Map<String, Map<String, dynamic>>> getAnswers(
+      String questionId) async {
+    QuerySnapshot querySnapshot =
+        await questions.doc(questionId).collection("answers").get();
+    final result = <String, Map<String, dynamic>>{};
+    for (final doc in querySnapshot.docs) {
+      result[doc.id] = doc.data() as Map<String, dynamic>;
+    }
+    return result;
+  }
+
   //回答投稿メソッド
-  // Future<void> postAnswer(AnswerPostData answerPostData) async =>
-  //     await questions.doc("")..add({
-  //       "answer_text": answerPostData.answerText, //回答内容
-  //       "email": answerPostData.email, //e-mailアドレス
-  //       "question_id": answerPostData.questionId //質問ID
-  //     });
-  Future<void> getAnswers
+  Future<void> postAnswer(
+      AnswerPostData answerPostData, String questionId) async {
+    await questions.doc(questionId).collection("answers").add(
+      {
+        "answer_text": answerPostData.answerText,
+        "google_account_id": answerPostData.answerText,
+        "created_at": createdDate,
+      },
+    );
+  }
 }
