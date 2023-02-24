@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_study_app/data/answer_post_data.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
+import 'package:share_study_app/questions_list/thread_page.dart';
 
 class QuestionArguments {
   final String qId;
@@ -155,6 +156,7 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                         ),
                         helperMaxLines: 10,
                       ),
+                      onChanged: (value) => answerText = value,
                     ),
 
                     const SizedBox(height: 20), //間隔を開ける
@@ -184,7 +186,18 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                           ),
                           GestureDetector(
                             child: const Text('はい'),
-                            onTap: () {},
+                            onTap: () {
+                              final _isPostedAnswerPageCopy =
+                                  _isPostedAnswerData.copyWith(
+                                      answerText: answerText);
+                              firestoreApi.postAnswer(
+                                  _isPostedAnswerPageCopy, questionId);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const ThreadPage(),
+                                  ));
+                            },
                           ),
                         ],
                       );
