@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:share_study_app/add_answer/add_answer.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
 
@@ -67,31 +68,38 @@ class _AnswerViewState extends State<AnswerView> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.height * 0.8,
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //質問タイトル
-                              Text(
-                                questionItems["title"],
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.0,
+                      child: AnimationLimiter(
+                        child: AnimationConfiguration.staggeredList(
+                          position: 0,
+                          child: SlideAnimation(
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //質問タイトル
+                                    Text(
+                                      questionItems["title"],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0,
+                                      ),
+                                    ),
+                                    //科目名
+                                    Text(
+                                      questionItems["subjectName"],
+                                      style: const TextStyle(fontSize: 19.0),
+                                    ),
+                                    // 質問内容
+                                    Text(
+                                      questionItems["textContent"],
+                                      style: const TextStyle(fontSize: 16.0),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              //科目名
-                              Text(
-                                questionItems["subjectName"],
-                                style: const TextStyle(fontSize: 19.0),
-                              ),
-                              // 質問内容
-                              Text(
-                                questionItems["textContent"],
-                                style: const TextStyle(fontSize: 16.0),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
@@ -104,33 +112,42 @@ class _AnswerViewState extends State<AnswerView> {
                           if (answerSnapshot.hasError) {
                             return Text("Error：${answerSnapshot.error}");
                           } else {
-                            return ListView.builder(
-                                shrinkWrap: true, //ListViewが必要なだけの高さを持つようにする
-                                itemCount: answerSnapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  //回答のデータをindexごとに表示するための変数
-                                  final answerItems = answerSnapshot
-                                      .data!.entries
-                                      .elementAt(index);
-                                  return SizedBox(
-                                    height: 100,
-                                    width: MediaQuery.of(context).size.height *
-                                        0.8,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Card(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                                "${answerItems.value["answerText"]}"),
-                                          ],
+                            return AnimationLimiter(
+                              child: ListView.builder(
+                                  shrinkWrap: true, //ListViewが必要なだけの高さを持つようにする
+                                  itemCount: answerSnapshot.data!.length,
+                                  itemBuilder: (context, index) {
+                                    //回答のデータをindexごとに表示するための変数
+                                    final answerItems = answerSnapshot
+                                        .data!.entries
+                                        .elementAt(index);
+                                    return AnimationConfiguration.staggeredList(
+                                      position: index,
+                                      child: SlideAnimation(
+                                        child: SizedBox(
+                                          height: 100,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.8,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Card(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                      "${answerItems.value["answerText"]}"),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                });
+                                    );
+                                  }),
+                            );
                           }
                         } else {
                           return const Center(
