@@ -1,5 +1,6 @@
-// import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:share_study_app/add_answer/add_answer.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
 
 class AnswerView extends StatefulWidget {
@@ -28,40 +29,123 @@ class _AnswerViewState extends State<AnswerView> {
       appBar: AppBar(
         title: const Text("回答一覧"),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            FutureBuilder(
-              future: firestoreApi.getSelectedQuestion(questionId),
-              builder:
-                  ((context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Text("Error：${snapshot.error},$questionId");
-                  } else {
-                    final data = snapshot.data!;
-                    final title = data["title"];
-                    final textContent = data["text_content"];
 
-                    return Column(
-                      children: [
-                        Card(
+      //フローティングアクションボタン
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("回答投稿"),
+        icon: const Icon(Icons.question_answer),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => PostAnswerPage(
+                    questionId: questionId,
+                  )),
+            ),
+          );
+        },
+      ),
+
+      //スクロール可能にする
+      body: Center(
+        child: FutureBuilder(
+          //質問データを抽出
+          future: firestoreApi.getSelectedQuestion(questionId),
+
+          builder:
+              ((context, AsyncSnapshot<DocumentSnapshot> questionSnapshot) {
+            if (questionSnapshot.connectionState == ConnectionState.done) {
+              if (questionSnapshot.hasError) {
+                return Text("Error：${questionSnapshot.error}");
+              } else {
+                //質問データをMap型に格納
+                final questionItems =
+                    questionSnapshot.data!.data() as Map<String, dynamic>;
+
+                //質問データをUIに表示
+                return Column(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.height * 0.8,
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(title),
-                              Text(textContent),
+                              //質問タイトル
+                              Text(
+                                questionItems["title"],
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                ),
+                              ),
+                              //科目名
+                              Text(
+                                questionItems["subjectName"],
+                                style: const TextStyle(fontSize: 19.0),
+                              ),
+                              // 質問内容
+                              Text(
+                                questionItems["textContent"],
+                                style: const TextStyle(fontSize: 16.0),
+                              ),
                             ],
                           ),
-                        )
-                      ],
-                    );
-                  }
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              }),
-            ),
-          ],
+                        ),
+                      ),
+                    ),
+                    FutureBuilder(
+                      future: firestoreApi.getAnswers(questionId),
+                      builder: ((context, answerSnapshot) {
+                        if (answerSnapshot.connectionState ==
+                            ConnectionState.done) {
+                          if (answerSnapshot.hasError) {
+                            return Text("Error：${answerSnapshot.error}");
+                          } else {
+                            return ListView.builder(
+                                shrinkWrap: true, //ListViewが必要なだけの高さを持つようにする
+                                itemCount: answerSnapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  //回答のデータをindexごとに表示するための変数
+                                  final answerItems = answerSnapshot
+                                      .data!.entries
+                                      .elementAt(index);
+                                  return SizedBox(
+                                    height: 100,
+                                    width: MediaQuery.of(context).size.height *
+                                        0.8,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Card(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                "${answerItems.value["answerText"]}"),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
+                          }
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }),
+                    ),
+                  ],
+                );
+              }
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          }),
         ),
       ),
     );

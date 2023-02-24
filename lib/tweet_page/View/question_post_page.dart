@@ -30,7 +30,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
   late String titleContent = "";
   late String questionContent = "";
 
-  var questionData = const QuestionPostData(
+  final _isPostedQuestionData = const QuestionPostData(
     qSubName: "", //科目ID
     userId: "0", //ユーザーID
     titleContent: "", //タイトルID
@@ -287,7 +287,8 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                               style: TextStyle(color: Colors.blue),
                             ),
                             onTap: () {
-                              final questionDatacopy = questionData.copyWith(
+                              final questionDatacopy =
+                                  _isPostedQuestionData.copyWith(
                                 googleAccountId: "1",
                                 userId: "1",
                                 qSubName: qSubName,
@@ -297,13 +298,16 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                               firestoreApi.postQuestion(questionDatacopy);
 
                               //質問閲覧ページに戻る
-                              setState(() {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: ((context) =>
-                                            const ThreadPage())));
-                              });
+                              // Navigator.popUntil(
+                              //   context,
+                              //   ((route) => route.settings.name == "/home"),
+                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ThreadPage(),
+                                ),
+                              );
                             },
                           ),
                         ],
