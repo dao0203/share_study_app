@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-class AddAnswerPage extends StatefulWidget {
-  const AddAnswerPage({super.key, required this.title});
-  final String title;
+class PostAnswerPage extends StatefulWidget {
+  const PostAnswerPage({super.key});
   @override
-  State<AddAnswerPage> createState() => _AddAnswerPage();
+  State<PostAnswerPage> createState() => _PostAnswerPage();
 }
 
 class QuestionArguments {
@@ -40,7 +39,7 @@ class AnswerArguments {
       required this.attFiles});
 }
 
-class _AddAnswerPage extends State<AddAnswerPage> {
+class _PostAnswerPage extends State<PostAnswerPage> {
   @override
   Widget build(BuildContext context) {
     QuestionArguments q = const QuestionArguments(
