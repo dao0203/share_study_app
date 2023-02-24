@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-
-class PostAnswerPage extends StatefulWidget {
-  const PostAnswerPage({super.key});
-  @override
-  State<PostAnswerPage> createState() => _PostAnswerPage();
-}
+import 'package:share_study_app/data/answer_post_data.dart';
+import 'package:share_study_app/firestore_api/firestore_api.dart';
 
 class QuestionArguments {
   final String qId;
@@ -39,17 +35,33 @@ class AnswerArguments {
       required this.attFiles});
 }
 
+class PostAnswerPage extends StatefulWidget {
+  const PostAnswerPage({super.key, required this.questionId});
+
+  final String questionId;
+
+  @override
+  State<PostAnswerPage> createState() => _PostAnswerPage();
+}
+
 class _PostAnswerPage extends State<PostAnswerPage> {
+  FirestoreApi firestoreApi = FirestoreApi();
+  late String questionId = "";
+  late String answerText = "";
+  late String googleAccountId = "";
+  final _isPostedAnswerData = const AnswerPostData(
+    answerText: "",
+    googleAccountId: "",
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    questionId = widget.questionId;
+  }
+
   @override
   Widget build(BuildContext context) {
-    QuestionArguments q = const QuestionArguments(
-        qId: "0",
-        qUserId: "0",
-        qTitle: "title",
-        qSubject: "subject",
-        question: "sample",
-        attFiles: "sample");
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -62,27 +74,53 @@ class _PostAnswerPage extends State<PostAnswerPage> {
             const SizedBox(height: 20),
 
             //質問表示部分
-            SizedBox(
-              //カードの大きさを定義
-              height: 200,
-              width: double.infinity,
-
-              child: Card(
-                //投稿画面の中身
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //項目の中身
-                    Text("質問：${q.qTitle}"),
-                    const SizedBox(height: 10),
-                    Text("科目:${q.qSubject}"),
-                    const SizedBox(height: 10), //間隔を開ける
-                    /*科目選択ボタン*/
-                    Text("質問内容:${q.question}"),
-                    const SizedBox(height: 20), //間隔を開ける
-                  ],
-                ),
-              ),
+            FutureBuilder(
+              future: firestoreApi.getSelectedQuestion(questionId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Text("Error：${snapshot.error}");
+                  } else {
+                    final questionItems =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    return SizedBox(
+                      //カードの大きさを定義
+                      height: 200,
+                      width: double.infinity,
+                      child: Card(
+                        //投稿画面の中身
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            //項目の中身
+                            Text(
+                              "${questionItems["title"]}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              "${questionItems["subjectName"]}",
+                              style: const TextStyle(fontSize: 19.0),
+                            ),
+                            const SizedBox(height: 10), //間隔を開ける
+                            Text(
+                              "${questionItems["textContent"]}",
+                              style: const TextStyle(fontSize: 16.0),
+                            ),
+                            const SizedBox(height: 20), //間隔を開ける
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             ),
 
             const SizedBox(height: 20),
@@ -108,7 +146,6 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
                       minLines: 4,
-
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.grey[100],
