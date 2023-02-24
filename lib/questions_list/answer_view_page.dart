@@ -38,7 +38,9 @@ class _AnswerViewState extends State<AnswerView> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: ((context) => const PostAnswerPage()),
+                builder: ((context) => PostAnswerPage(
+                      questionId: questionId,
+                    )),
               ));
         },
       ),
@@ -95,17 +97,17 @@ class _AnswerViewState extends State<AnswerView> {
                     ),
                     FutureBuilder(
                       future: firestoreApi.getAnswers(questionId),
-                      builder: ((context, anserSnapshot) {
-                        if (anserSnapshot.connectionState ==
+                      builder: ((context, answerSnapshot) {
+                        if (answerSnapshot.connectionState ==
                             ConnectionState.done) {
-                          if (anserSnapshot.hasError) {
-                            return Text("Error：${anserSnapshot.error}");
+                          if (answerSnapshot.hasError) {
+                            return Text("Error：${answerSnapshot.error}");
                           } else {
                             return ListView.builder(
                                 shrinkWrap: true, //ListViewが必要なだけの高さを持つようにする
-                                itemCount: anserSnapshot.data!.length,
+                                itemCount: answerSnapshot.data!.length,
                                 itemBuilder: (context, index) {
-                                  final answerItems = anserSnapshot
+                                  final answerItems = answerSnapshot
                                       .data!.entries
                                       .elementAt(index);
                                   return SizedBox(
