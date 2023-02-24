@@ -187,16 +187,20 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                           GestureDetector(
                             child: const Text('はい'),
                             onTap: () {
-                              final _isPostedAnswerPageCopy =
-                                  _isPostedAnswerData.copyWith(
-                                      answerText: answerText);
+                              final isPostedAnswerPageCopy = _isPostedAnswerData
+                                  .copyWith(answerText: answerText);
                               firestoreApi.postAnswer(
-                                  _isPostedAnswerPageCopy, questionId);
+                                  isPostedAnswerPageCopy, questionId);
+                              // Navigator.popUntil(
+                              //   context,
+                              //   ((route) => route.settings.name == "/home"),
+                              // );
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const ThreadPage(),
-                                  ));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ThreadPage(),
+                                ),
+                              );
                             },
                           ),
                         ],

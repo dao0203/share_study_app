@@ -298,13 +298,16 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                               firestoreApi.postQuestion(questionDatacopy);
 
                               //質問閲覧ページに戻る
-                              setState(() {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: ((context) =>
-                                            const ThreadPage())));
-                              });
+                              // Navigator.popUntil(
+                              //   context,
+                              //   ((route) => route.settings.name == "/home"),
+                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ThreadPage(),
+                                ),
+                              );
                             },
                           ),
                         ],

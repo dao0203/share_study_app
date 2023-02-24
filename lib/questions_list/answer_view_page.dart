@@ -36,12 +36,13 @@ class _AnswerViewState extends State<AnswerView> {
         icon: const Icon(Icons.question_answer),
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: ((context) => PostAnswerPage(
-                      questionId: questionId,
-                    )),
-              ));
+            context,
+            MaterialPageRoute(
+              builder: ((context) => PostAnswerPage(
+                    questionId: questionId,
+                  )),
+            ),
+          );
         },
       ),
 

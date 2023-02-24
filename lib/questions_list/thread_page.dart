@@ -60,6 +60,7 @@ class _ThreadPageState extends State<ThreadPage> {
 
               //質問リストを表示
               return ListView.builder(
+                shrinkWrap: true,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final item = snapshot.data!.entries.elementAt(index);
