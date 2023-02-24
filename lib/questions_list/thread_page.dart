@@ -41,7 +41,7 @@ class _ThreadPageState extends State<ThreadPage> {
 
       //画面
       body: Center(
-        //Futurebuilderを用いる
+        //非同期処理を行いたいので、Futurebuilderを用いる
         child: FutureBuilder(
             future: firestoreApi.getQuestions(), //getQuestion()でデータをAPIから取得
 
@@ -57,20 +57,45 @@ class _ThreadPageState extends State<ThreadPage> {
                   child: CircularProgressIndicator(),
                 );
               }
+
+              //質問リストを表示
               return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final item = snapshot.data!.entries.elementAt(index);
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(2.0),
                     child: Card(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("${item.value["title"]}"),
-                          Text("${item.value["textContent"]}"),
+                          //質問タイトル
+                          Text(
+                            "${item.value["title"]}",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
+                          ),
+
+                          //科目名
+                          Text(
+                            "${item.value["subjectName"]}",
+                            style: const TextStyle(
+                              fontSize: 19.0,
+                            ),
+                          ),
+
+                          //質問内容
+                          Text(
+                            "${item.value["textContent"]}",
+                            style: const TextStyle(fontSize: 16.0),
+                          ),
+
                           Align(
+                            //位置を左に寄せたい
                             alignment: Alignment.centerRight,
+                            //回答表示ボタン
                             child: TextButton(
                               child: const Text("回答を表示"),
                               onPressed: () {
