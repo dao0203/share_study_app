@@ -70,9 +70,9 @@ class FirestoreApi {
   //回答GETメソッド
   Future<Map<String, Map<String, dynamic>>> getAnswers(
       String questionId) async {
-    QuerySnapshot querySnapshot =
-        await questions.doc(questionId).collection("answers").get();
     final result = <String, Map<String, dynamic>>{};
+    QuerySnapshot querySnapshot =
+        await answers.where("questionId", isEqualTo: questionId).get();
     for (final doc in querySnapshot.docs) {
       result[doc.id] = doc.data() as Map<String, dynamic>;
     }
