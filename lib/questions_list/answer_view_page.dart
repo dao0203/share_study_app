@@ -1,8 +1,6 @@
-// import 'dart:developer';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:share_study_app/add_answer/add_answer.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
 
 class AnswerView extends StatefulWidget {
@@ -31,31 +29,79 @@ class _AnswerViewState extends State<AnswerView> {
       appBar: AppBar(
         title: const Text("回答一覧"),
       ),
-      body: Center(
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("回答投稿"),
+        icon: const Icon(Icons.question_answer),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: ((context) => const PostAnswerPage()),
+              ));
+        },
+      ),
+      body: SingleChildScrollView(
         child: FutureBuilder(
           future: firestoreApi.getSelectedQuestion(questionId),
-          builder: ((context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Text("Error：${snapshot.error},$questionId");
+          builder:
+              ((context, AsyncSnapshot<DocumentSnapshot> questionSnapshot) {
+            if (questionSnapshot.connectionState == ConnectionState.done) {
+              if (questionSnapshot.hasError) {
+                return Text("Error：${questionSnapshot.error}");
               } else {
-                final data = snapshot.data!.data() as Map<String, dynamic>;
+                final questionItems =
+                    questionSnapshot.data!.data() as Map<String, dynamic>;
 
-                return ListView(
+                return Column(
                   children: [
                     Card(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(data["title"]),
-                              Text(data["textContent"]),
-                            ],
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(questionItems["title"]),
+                            Text(questionItems["textContent"]),
+                          ],
                         ),
                       ),
+                    ),
+                    FutureBuilder(
+                      future: firestoreApi.getAnswers(questionId),
+                      builder: ((context, anserSnapshot) {
+                        if (anserSnapshot.connectionState ==
+                            ConnectionState.done) {
+                          if (anserSnapshot.hasError) {
+                            return Text("Error：${anserSnapshot.error}");
+                          } else {
+                            return ListView.builder(
+                                shrinkWrap: true, //ListViewが必要なだけの高さを持つようにする
+                                itemCount: anserSnapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  final answerItems = anserSnapshot
+                                      .data!.entries
+                                      .elementAt(index);
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Card(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              "${answerItems.value["answerText"]}"),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
+                          }
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }),
                     ),
                   ],
                 );
