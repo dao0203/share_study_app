@@ -107,6 +107,7 @@ class _AnswerViewState extends State<AnswerView> {
                                 shrinkWrap: true, //ListViewが必要なだけの高さを持つようにする
                                 itemCount: answerSnapshot.data!.length,
                                 itemBuilder: (context, index) {
+                                  //回答のデータをindexごとに表示するための変数
                                   final answerItems = answerSnapshot
                                       .data!.entries
                                       .elementAt(index);
