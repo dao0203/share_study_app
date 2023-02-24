@@ -29,6 +29,8 @@ class _AnswerViewState extends State<AnswerView> {
       appBar: AppBar(
         title: const Text("回答一覧"),
       ),
+
+      //フローティングアクションボタン
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("回答投稿"),
         icon: const Icon(Icons.question_answer),
@@ -40,29 +42,54 @@ class _AnswerViewState extends State<AnswerView> {
               ));
         },
       ),
-      body: SingleChildScrollView(
+
+      //スクロール可能にする
+      body: Center(
         child: FutureBuilder(
+          //質問データを抽出
           future: firestoreApi.getSelectedQuestion(questionId),
+
           builder:
               ((context, AsyncSnapshot<DocumentSnapshot> questionSnapshot) {
             if (questionSnapshot.connectionState == ConnectionState.done) {
               if (questionSnapshot.hasError) {
                 return Text("Error：${questionSnapshot.error}");
               } else {
+                //質問データをMap型に格納
                 final questionItems =
                     questionSnapshot.data!.data() as Map<String, dynamic>;
 
+                //質問データをUIに表示
                 return Column(
                   children: [
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(questionItems["title"]),
-                            Text(questionItems["textContent"]),
-                          ],
+                    SizedBox(
+                      width: MediaQuery.of(context).size.height * 0.8,
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //質問タイトル
+                              Text(
+                                questionItems["title"],
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                ),
+                              ),
+                              //科目名
+                              Text(
+                                questionItems["subjectName"],
+                                style: const TextStyle(fontSize: 19.0),
+                              ),
+                              // 質問内容
+                              Text(
+                                questionItems["textContent"],
+                                style: const TextStyle(fontSize: 16.0),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -81,16 +108,21 @@ class _AnswerViewState extends State<AnswerView> {
                                   final answerItems = anserSnapshot
                                       .data!.entries
                                       .elementAt(index);
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Card(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                              "${answerItems.value["answerText"]}"),
-                                        ],
+                                  return SizedBox(
+                                    height: 100,
+                                    width: MediaQuery.of(context).size.height *
+                                        0.8,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Card(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                "${answerItems.value["answerText"]}"),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   );
