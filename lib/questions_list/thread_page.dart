@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
 import 'package:share_study_app/questions_list/answer_view_page.dart';
 import 'package:share_study_app/tweet_page/View/question_post_page.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class ThreadPage extends StatefulWidget {
   const ThreadPage({Key? key}) : super(key: key);
@@ -59,82 +60,94 @@ class _ThreadPageState extends State<ThreadPage> {
               }
 
               //質問リストを表示
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  final item = snapshot.data!.entries.elementAt(index);
-                  return Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Card(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //質問タイトル
-                          Text(
-                            "${item.value["title"]}",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                            ),
-                          ),
+              return AnimationLimiter(
+                //AnimationLimiterでラップ
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final item = snapshot.data!.entries.elementAt(index);
 
-                          //科目名
-                          Text(
-                            "${item.value["subjectName"]}",
-                            style: const TextStyle(
-                              fontSize: 19.0,
-                            ),
-                          ),
+                    // アニメーションを使用する為に生成
+                    return AnimationConfiguration.staggeredList(
+                      position: index,
 
-                          //質問内容
-                          Text(
-                            "${item.value["textContent"]}",
-                            style: const TextStyle(fontSize: 16.0),
-                          ),
-
-                          Align(
-                            //位置を左に寄せたい
-                            alignment: Alignment.centerRight,
-                            //回答表示ボタン
-                            child: TextButton(
-                              child: const Text("回答を表示"),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AnswerView(
-                                      questionId: item.key,
-                                    ),
+                      //上から下にカードをアニメーションで生成
+                      child: SlideAnimation(
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Card(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //質問タイトル
+                                Text(
+                                  "${item.value["title"]}",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
                                   ),
-                                );
-                              },
+                                ),
+
+                                //科目名
+                                Text(
+                                  "${item.value["subjectName"]}",
+                                  style: const TextStyle(
+                                    fontSize: 19.0,
+                                  ),
+                                ),
+
+                                //質問内容
+                                Text(
+                                  "${item.value["textContent"]}",
+                                  style: const TextStyle(fontSize: 16.0),
+                                ),
+
+                                Align(
+                                  //位置を左に寄せたい
+                                  alignment: Alignment.centerRight,
+                                  //回答表示ボタン
+                                  child: TextButton(
+                                    child: const Text("回答を表示"),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => AnswerView(
+                                            questionId: item.key,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-                // children: <Widget>[
-                //ダミーの質問
-                // ここは数十件(50とか？)まとめてロードしてページ分けで表示するようにしたい
-                //BAとNBAは本来分けずに一つのwidgetで表示する
-                // baQuestionItem(context),
-                // baQuestionItem(context),
-                // nbaQuestionItem(context),
-                // baQuestionItem(context),
-                // nbaQuestionItem(context),
-                // baQuestionItem(context),
-                // baQuestionItem(context),
-                // nbaQuestionItem(context),
-                // nbaQuestionItem(context),
-                // nbaQuestionItem(context),
-                // baQuestionItem(context),
-                // baQuestionItem(context),
-                // nbaQuestionItem(context),
-                // baQuestionItem(context),
-                // ],
+                    );
+                  },
+                  // children: <Widget>[
+                  //ダミーの質問
+                  // ここは数十件(50とか？)まとめてロードしてページ分けで表示するようにしたい
+                  //BAとNBAは本来分けずに一つのwidgetで表示する
+                  // baQuestionItem(context),
+                  // baQuestionItem(context),
+                  // nbaQuestionItem(context),
+                  // baQuestionItem(context),
+                  // nbaQuestionItem(context),
+                  // baQuestionItem(context),
+                  // baQuestionItem(context),
+                  // nbaQuestionItem(context),
+                  // nbaQuestionItem(context),
+                  // nbaQuestionItem(context),
+                  // baQuestionItem(context),
+                  // baQuestionItem(context),
+                  // nbaQuestionItem(context),
+                  // baQuestionItem(context),
+                  // ],
+                ),
               );
             }),
       ),
