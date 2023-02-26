@@ -49,120 +49,145 @@ class _AnswerViewState extends State<AnswerView> {
 
       //スクロール可能にする
       body: Center(
-        child: FutureBuilder(
-          //質問データを抽出
-          future: firestoreApi.getSelectedQuestion(questionId),
+        child: Column(
+          children: [
+            FutureBuilder(
+              //質問データを抽出
+              future: firestoreApi.getSelectedQuestion(questionId),
 
-          builder:
-              ((context, AsyncSnapshot<DocumentSnapshot> questionSnapshot) {
-            if (questionSnapshot.connectionState == ConnectionState.done) {
-              if (questionSnapshot.hasError) {
-                return Text("Error：${questionSnapshot.error}");
-              } else {
-                //質問データをMap型に格納
-                final questionItems =
-                    questionSnapshot.data!.data() as Map<String, dynamic>;
+              builder:
+                  ((context, AsyncSnapshot<DocumentSnapshot> questionSnapshot) {
+                if (questionSnapshot.connectionState == ConnectionState.done) {
+                  if (questionSnapshot.hasError) {
+                    return Text("Error：${questionSnapshot.error}");
+                  } else {
+                    //質問データをMap型に格納
+                    final questionItems =
+                        questionSnapshot.data!.data() as Map<String, dynamic>;
 
-                //質問データをUIに表示
-                return Column(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.height * 0.8,
-                      child: AnimationLimiter(
-                        child: AnimationConfiguration.staggeredList(
-                          position: 0,
-                          child: SlideAnimation(
-                            child: Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    //質問タイトル
-                                    Text(
-                                      questionItems["title"],
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.0,
-                                      ),
+                    //質問データをUIに表示
+                    return Column(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.height * 0.8,
+                          child: AnimationLimiter(
+                            child: AnimationConfiguration.staggeredList(
+                              position: 0,
+                              child: SlideAnimation(
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        //質問タイトル
+                                        Text(
+                                          questionItems["title"],
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20.0,
+                                          ),
+                                        ),
+                                        //科目名
+                                        Text(
+                                          questionItems["subjectName"],
+                                          style:
+                                              const TextStyle(fontSize: 19.0),
+                                        ),
+                                        // 質問内容
+                                        Text(
+                                          questionItems["textContent"],
+                                          style:
+                                              const TextStyle(fontSize: 16.0),
+                                        ),
+                                      ],
                                     ),
-                                    //科目名
-                                    Text(
-                                      questionItems["subjectName"],
-                                      style: const TextStyle(fontSize: 19.0),
-                                    ),
-                                    // 質問内容
-                                    Text(
-                                      questionItems["textContent"],
-                                      style: const TextStyle(fontSize: 16.0),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    FutureBuilder(
-                      future: firestoreApi.getAnswers(questionId),
-                      builder: ((context, answerSnapshot) {
-                        if (answerSnapshot.connectionState ==
-                            ConnectionState.done) {
-                          if (answerSnapshot.hasError) {
-                            return Text("Error：${answerSnapshot.error}");
-                          } else {
-                            return AnimationLimiter(
-                              child: ListView.builder(
-                                  shrinkWrap: true, //ListViewが必要なだけの高さを持つようにする
-                                  itemCount: answerSnapshot.data!.length,
-                                  itemBuilder: (context, index) {
-                                    //回答のデータをindexごとに表示するための変数
-                                    final answerItems = answerSnapshot
-                                        .data!.entries
-                                        .elementAt(index);
-                                    return AnimationConfiguration.staggeredList(
-                                      position: index,
-                                      child: SlideAnimation(
-                                        child: SizedBox(
-                                          height: 100,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.8,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Card(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                      "${answerItems.value["answerText"]}"),
-                                                ],
+                        const AnimationLimiter(
+                          child: AnimationConfiguration.staggeredList(
+                            position: 0,
+                            child: SlideAnimation(
+                              child: Text(
+                                "回答一覧",
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FutureBuilder(
+                          future: firestoreApi.getAnswers(questionId),
+                          builder: ((context, answerSnapshot) {
+                            if (answerSnapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (answerSnapshot.hasError) {
+                                return Text("Error：${answerSnapshot.error}");
+                              } else {
+                                return AnimationLimiter(
+                                  child: ListView.builder(
+                                      shrinkWrap:
+                                          true, //ListViewが必要なだけの高さを持つようにする
+                                      itemCount: answerSnapshot.data!.length,
+                                      itemBuilder: (context, index) {
+                                        //回答のデータをindexごとに表示するための変数
+                                        final answerItems = answerSnapshot
+                                            .data!.entries
+                                            .elementAt(index);
+                                        return AnimationConfiguration
+                                            .staggeredList(
+                                          position: index,
+                                          child: SlideAnimation(
+                                            child: SizedBox(
+                                              height: 100,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.8,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Card(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                          "${answerItems.value["answerText"]}"),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                            );
-                          }
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      }),
-                    ),
-                  ],
-                );
-              }
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          }),
+                                        );
+                                      }),
+                                );
+                              }
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          }),
+                        ),
+                      ],
+                    );
+                  }
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              }),
+            ),
+          ],
         ),
       ),
     );
