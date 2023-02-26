@@ -41,116 +41,113 @@ class _ThreadPageState extends State<ThreadPage> {
       ),
 
       //画面
-      body: Center(
-        //非同期処理を行いたいので、Futurebuilderを用いる
-        child: FutureBuilder(
-            future: firestoreApi.getQuestions(), //getQuestion()でデータをAPIから取得
+      body: FutureBuilder(
+          future: firestoreApi.getQuestions(), //getQuestion()でデータをAPIから取得
 
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                //エラーが発生した場合
-                return const Center(
-                  child: Text("errorが発生しました"),
-                );
-              } else if (!snapshot.hasData) {
-                //データの読み込み中
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              //エラーが発生した場合
+              return const Center(
+                child: Text("errorが発生しました"),
+              );
+            } else if (!snapshot.hasData) {
+              //データの読み込み中
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-              //質問リストを表示
-              return AnimationLimiter(
-                //AnimationLimiterでラップ
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final item = snapshot.data!.entries.elementAt(index);
+            //質問リストを表示
+            return AnimationLimiter(
+              //AnimationLimiterでラップ
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final item = snapshot.data!.entries.elementAt(index);
 
-                    // アニメーションを使用する為に生成
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
+                  // アニメーションを使用する為に生成
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
 
-                      //上から下にカードをアニメーションで生成
-                      child: SlideAnimation(
-                        child: Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Card(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                //質問タイトル
-                                Text(
-                                  "${item.value["title"]}",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.0,
-                                  ),
+                    //上から下にカードをアニメーションで生成
+                    child: SlideAnimation(
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Card(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //質問タイトル
+                              Text(
+                                "${item.value["title"]}",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
                                 ),
+                              ),
 
-                                //科目名
-                                Text(
-                                  "${item.value["subjectName"]}",
-                                  style: const TextStyle(
-                                    fontSize: 19.0,
-                                  ),
+                              //科目名
+                              Text(
+                                "${item.value["subjectName"]}",
+                                style: const TextStyle(
+                                  fontSize: 19.0,
                                 ),
+                              ),
 
-                                //質問内容
-                                Text(
-                                  "${item.value["textContent"]}",
-                                  style: const TextStyle(fontSize: 16.0),
-                                ),
+                              //質問内容
+                              Text(
+                                "${item.value["textContent"]}",
+                                style: const TextStyle(fontSize: 16.0),
+                              ),
 
-                                Align(
-                                  //位置を左に寄せたい
-                                  alignment: Alignment.centerRight,
-                                  //回答表示ボタン
-                                  child: TextButton(
-                                    child: const Text("回答を表示"),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => AnswerView(
-                                            questionId: item.key,
-                                          ),
+                              Align(
+                                //位置を左に寄せたい
+                                alignment: Alignment.centerRight,
+                                //回答表示ボタン
+                                child: TextButton(
+                                  child: const Text("回答を表示"),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AnswerView(
+                                          questionId: item.key,
                                         ),
-                                      );
-                                    },
-                                  ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    );
-                  },
-                  // children: <Widget>[
-                  //ダミーの質問
-                  // ここは数十件(50とか？)まとめてロードしてページ分けで表示するようにしたい
-                  //BAとNBAは本来分けずに一つのwidgetで表示する
-                  // baQuestionItem(context),
-                  // baQuestionItem(context),
-                  // nbaQuestionItem(context),
-                  // baQuestionItem(context),
-                  // nbaQuestionItem(context),
-                  // baQuestionItem(context),
-                  // baQuestionItem(context),
-                  // nbaQuestionItem(context),
-                  // nbaQuestionItem(context),
-                  // nbaQuestionItem(context),
-                  // baQuestionItem(context),
-                  // baQuestionItem(context),
-                  // nbaQuestionItem(context),
-                  // baQuestionItem(context),
-                  // ],
-                ),
-              );
-            }),
-      ),
+                    ),
+                  );
+                },
+                // children: <Widget>[
+                //ダミーの質問
+                // ここは数十件(50とか？)まとめてロードしてページ分けで表示するようにしたい
+                //BAとNBAは本来分けずに一つのwidgetで表示する
+                // baQuestionItem(context),
+                // baQuestionItem(context),
+                // nbaQuestionItem(context),
+                // baQuestionItem(context),
+                // nbaQuestionItem(context),
+                // baQuestionItem(context),
+                // baQuestionItem(context),
+                // nbaQuestionItem(context),
+                // nbaQuestionItem(context),
+                // nbaQuestionItem(context),
+                // baQuestionItem(context),
+                // baQuestionItem(context),
+                // nbaQuestionItem(context),
+                // baQuestionItem(context),
+                // ],
+              ),
+            );
+          }),
     );
   }
 }
