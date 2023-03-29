@@ -74,52 +74,57 @@ class _ThreadPageState extends State<ThreadPage> {
                     child: SlideAnimation(
                       child: Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: Card(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //質問タイトル
-                              Text(
-                                "${item.value["title"]}",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.0,
-                                ),
-                              ),
-
-                              //科目名
-                              Text(
-                                "${item.value["subjectName"]}",
-                                style: const TextStyle(
-                                  fontSize: 19.0,
-                                ),
-                              ),
-
-                              //質問内容
-                              Text(
-                                "${item.value["textContent"]}",
-                                style: const TextStyle(fontSize: 16.0),
-                              ),
-
-                              Align(
-                                //位置を左に寄せたい
-                                alignment: Alignment.centerRight,
-                                //回答表示ボタン
-                                child: TextButton(
-                                  child: const Text("回答を表示"),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => AnswerView(
-                                          questionId: item.key,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => AnswerView(
+                                            questionId: item.key,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
+                                      );
+                          },
+                          child: Card(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //質問タイトル
+                                Text(
+                                  "${item.value["title"]}",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                  ),
                                 ),
-                              ),
-                            ],
+                        
+                                //科目名
+                                Text(
+                                  "${item.value["subjectName"]}",
+                                  style: const TextStyle(
+                                    fontSize: 19.0,
+                                  ),
+                                ),
+                        
+                                //質問内容
+                                Text(
+                                  "${item.value["textContent"]}",
+                                  style: const TextStyle(fontSize: 16.0),
+                                ),
+                        
+                                Align(
+                                  //位置を左に寄せたい
+                                  alignment: Alignment.centerRight,
+                                  //回答表示ボタン
+                                  child: TextButton(
+                                    child: const Text("回答を表示"),
+                                    onPressed: () {
+                                      
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
