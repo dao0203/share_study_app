@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:share_study_app/google_sign_in_demo.dart';
 import 'package:share_study_app/questions_list/thread_page.dart';
 import 'firebase_options.dart';
 
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
         "/home": (context) => const ThreadPage(),
       },
       title: 'Share_study_app',
-      home: const ThreadPage(),
+      home: const SignInDemo(),
     );
   }
 }
