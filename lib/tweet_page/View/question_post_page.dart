@@ -30,7 +30,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
   late String titleContent = "";
   late String questionContent = "";
 
-  final _isPostedQuestionData = const QuestionPostData(
+  final postedQuestionData = const QuestionPostData(
     qSubName: "", //科目ID
     userId: "0", //ユーザーID
     titleContent: "", //タイトルID
@@ -266,7 +266,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(minimumSize: const Size(200, 50)),
               onPressed: () {
-                //投稿ボタンを押したときの動作
+                  //投稿ボタンを押したときの動作
                 showDialog(
                     context: context,
                     builder: (_) {
@@ -289,7 +289,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                             ),
                             onTap: () {
                               final questionDatacopy =
-                                  _isPostedQuestionData.copyWith(
+                                  postedQuestionData.copyWith(
                                 googleAccountId: "1",
                                 userId: "1",
                                 qSubName: qSubName,
