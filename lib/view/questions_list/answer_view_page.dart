@@ -51,8 +51,6 @@ class _AnswerViewState extends State<AnswerView> {
           );
         },
       ),
-
-      //TODO: 回答のリスト表示をウィジェット化する
       //スクロール可能にする
       body: Center(
         child: Column(
