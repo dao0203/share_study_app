@@ -137,26 +137,22 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      //項目の中身
-                      const Text("回答"),
-
                       //間隔を開ける
                       const SizedBox(height: 10),
 
-                      TextField(
+                      TextFormField(
                         // 回答入力
-                        keyboardType: TextInputType.multiline,
                         maxLines: 4,
-                        minLines: 4,
+                        maxLength: 400,
                         decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.grey[100],
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          helperMaxLines: 10,
-                        ),
+                            filled: true,
+                            fillColor: Colors.grey[100],
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(width: 1),
+                            ),
+                            helperMaxLines: 10,
+                            labelText: "回答"),
                         onChanged: (value) => answerText = value,
                       ),
 
