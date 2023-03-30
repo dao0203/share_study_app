@@ -4,6 +4,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:share_study_app/view/add_answer/add_answer.dart';
 import 'package:share_study_app/firestore_api.dart';
 import 'package:share_study_app/view/questions_list/item/answer_list_text.dart';
+import 'package:share_study_app/view/questions_list/list_item/answer_list_item.dart';
 
 import '../../constants.dart';
 import 'item/question_items.dart';
@@ -92,34 +93,10 @@ class _AnswerViewState extends State<AnswerView> {
                                         final answerItems = answerSnapshot
                                             .data!.entries
                                             .elementAt(index);
-                                        return AnimationConfiguration
-                                            .staggeredList(
-                                          position: index,
-                                          child: SlideAnimation(
-                                            child: SizedBox(
-                                              height: 100,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.8,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Card(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                          "${answerItems.value[ANSWERS_TEXT]}"),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
+
+                                        //回答リストを表示
+                                        return answerListItem(
+                                            context, index, answerItems);
                                       }),
                                 );
                               }
