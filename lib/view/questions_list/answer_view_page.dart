@@ -4,6 +4,8 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:share_study_app/view/add_answer/add_answer.dart';
 import 'package:share_study_app/firestore_api.dart';
 
+import '../../constants.dart';
+
 class AnswerView extends StatefulWidget {
   const AnswerView({super.key, required this.questionId});
 
@@ -54,7 +56,6 @@ class _AnswerViewState extends State<AnswerView> {
             FutureBuilder(
               //質問データを抽出
               future: firestoreApi.getSelectedQuestion(questionId),
-
               builder:
                   ((context, AsyncSnapshot<DocumentSnapshot> questionSnapshot) {
                 if (questionSnapshot.connectionState == ConnectionState.done) {
@@ -83,7 +84,7 @@ class _AnswerViewState extends State<AnswerView> {
                                       children: [
                                         //質問タイトル
                                         Text(
-                                          questionItems["title"],
+                                          questionItems[QUESTIONS_TITLE],
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20.0,
@@ -91,13 +92,14 @@ class _AnswerViewState extends State<AnswerView> {
                                         ),
                                         //科目名
                                         Text(
-                                          questionItems["subjectName"],
+                                          questionItems[QUESTIONS_SUBJECT_NAME],
                                           style:
                                               const TextStyle(fontSize: 19.0),
                                         ),
                                         // 質問内容
                                         Text(
-                                          questionItems["textContent"],
+                                          questionItems[
+                                              QUESTIONS_QUESTION_CONTENT],
                                           style:
                                               const TextStyle(fontSize: 16.0),
                                         ),
@@ -161,7 +163,7 @@ class _AnswerViewState extends State<AnswerView> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                          "${answerItems.value["answerText"]}"),
+                                                          "${answerItems.value[ANSWERS_TEXT]}"),
                                                     ],
                                                   ),
                                                 ),
