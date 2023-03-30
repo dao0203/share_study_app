@@ -35,7 +35,7 @@ class _ThreadPageState extends State<ThreadPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: ((context) => QuestionPostPage()),
+              builder: ((context) => const QuestionPostPage()),
             ),
           );
         },

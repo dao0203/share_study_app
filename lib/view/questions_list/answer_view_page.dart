@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:share_study_app/add_answer/add_answer.dart';
-import 'package:share_study_app/firestore_api/firestore_api.dart';
+import 'package:share_study_app/firestore_api.dart';
 
 class AnswerView extends StatefulWidget {
   const AnswerView({super.key, required this.questionId});
