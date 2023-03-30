@@ -72,7 +72,6 @@ class _QuestionPostPage extends State<QuestionPostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false, //戻るボタンを表示
         title: const Text(
           ("投稿"),
         ),
