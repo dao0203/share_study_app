@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import 'answer_view_page.dart';
+import '../answer_view_page.dart';
 
 Widget questionListItem(BuildContext context, int index,
     MapEntry<String, Map<String, dynamic>> questionItem) {
