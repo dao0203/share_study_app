@@ -38,6 +38,8 @@ class _QuestionPostPage extends State<QuestionPostPage> {
     googleAccountId: "0",
     // attFiles: "",//画像アップロードする際に使用する
   );
+
+  //フォーム識別のグローバルキーを宣言
   final _formKey = GlobalKey<FormState>();
 
 // ドロップダウンアイテムに使うデータを非同期処理で代入するメソッド
