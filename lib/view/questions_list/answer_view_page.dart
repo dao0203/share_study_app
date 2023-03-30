@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:share_study_app/view/add_answer/add_answer.dart';
 import 'package:share_study_app/firestore_api.dart';
+import 'package:share_study_app/view/questions_list/item/answer_list_text.dart';
 
 import '../../constants.dart';
+import 'item/question_items.dart';
 
 class AnswerView extends StatefulWidget {
   const AnswerView({super.key, required this.questionId});
@@ -64,68 +66,14 @@ class _AnswerViewState extends State<AnswerView> {
                     return Text("Error：${questionSnapshot.error}");
                   } else {
                     //質問データをMap型に格納
-                    final questionItems =
+                    final questionItemsFromDataStore =
                         questionSnapshot.data!.data() as Map<String, dynamic>;
 
                     //質問データをUIに表示
                     return Column(
                       children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.height * 0.8,
-                          child: AnimationLimiter(
-                            child: AnimationConfiguration.staggeredList(
-                              position: 0,
-                              child: SlideAnimation(
-                                child: Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        //質問タイトル
-                                        Text(
-                                          questionItems[QUESTIONS_TITLE],
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20.0,
-                                          ),
-                                        ),
-                                        //科目名
-                                        Text(
-                                          questionItems[QUESTIONS_SUBJECT_NAME],
-                                          style:
-                                              const TextStyle(fontSize: 19.0),
-                                        ),
-                                        // 質問内容
-                                        Text(
-                                          questionItems[
-                                              QUESTIONS_QUESTION_CONTENT],
-                                          style:
-                                              const TextStyle(fontSize: 16.0),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const AnimationLimiter(
-                          child: AnimationConfiguration.staggeredList(
-                            position: 0,
-                            child: SlideAnimation(
-                              child: Text(
-                                "回答一覧",
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        questionItems(context, questionItemsFromDataStore),
+                        answerListText(),
                         FutureBuilder(
                           future: firestoreApi.getAnswers(questionId),
                           builder: ((context, answerSnapshot) {
