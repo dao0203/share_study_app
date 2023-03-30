@@ -207,7 +207,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                         },
                       ),
                       /**写真アップロードボタン */
-                      const SizedBox(height: 20), //間隔を開ける
+                      // const SizedBox(height: 20), //間隔を開ける
                       // _isfiled
                       //     ? Column(
                       //         //写真あり
