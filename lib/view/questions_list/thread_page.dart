@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
-import 'package:share_study_app/questions_list/item/thread_list_item.dart';
-import 'package:share_study_app/tweet_page/View/question_post_page.dart';
+import 'package:share_study_app/view/questions_list/item/thread_list_item.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:share_study_app/view/tweet/question_post_page.dart';
 
 class ThreadPage extends StatefulWidget {
   const ThreadPage({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class _ThreadPageState extends State<ThreadPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: ((context) => const QuestionPostPage()),
+              builder: ((context) => QuestionPostPage()),
             ),
           );
         },

@@ -7,7 +7,8 @@
 import 'package:flutter/material.dart';
 import 'package:share_study_app/data/question_post_data.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
-import 'package:share_study_app/questions_list/thread_page.dart';
+
+import '../questions_list/thread_page.dart';
 // import 'package:image_picker_web/image_picker_web.dart';
 
 /*投稿画面の初期状態画面

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import '../../constants.dart';
+import '../../../constants.dart';
 import '../answer_view_page.dart';
 
 Widget questionListItem(BuildContext context, int index,
@@ -31,7 +31,7 @@ Widget questionListItem(BuildContext context, int index,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      //質問タイトル
+                      //質問タイトル＋＋
                       Text(
                         "${questionItem.value[QUESTIONS_TITLE]}",
                         style: const TextStyle(
