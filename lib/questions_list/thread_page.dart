@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
 import 'package:share_study_app/questions_list/answer_view_page.dart';
-import 'package:share_study_app/questions_list/thread_list_item.dart';
+import 'package:share_study_app/questions_list/item/thread_list_item.dart';
 import 'package:share_study_app/tweet_page/View/question_post_page.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 

@@ -149,7 +149,7 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                           }
                           return null;
                         },
-                        // 回答入力
+                        keyboardType: TextInputType.name,
                         maxLines: 4,
                         maxLength: 400,
                         decoration: InputDecoration(
