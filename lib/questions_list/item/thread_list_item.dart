@@ -24,7 +24,7 @@ Widget questionListItem(BuildContext context, int index,
                   ),
                 );
               },
-              child: Container(
+              child: SizedBox(
                 height: 200,
                 child: Card(
                   child: Column(
