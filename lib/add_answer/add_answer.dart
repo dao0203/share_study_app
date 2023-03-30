@@ -131,36 +131,38 @@ class _PostAnswerPage extends State<PostAnswerPage> {
               //カードの大きさを定義
               height: 300,
 
-              child: Card(
-                //投稿画面の中身
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //項目の中身
-                    const Text("回答"),
+              child: Form(
+                child: Card(
+                  //投稿画面の中身
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //項目の中身
+                      const Text("回答"),
 
-                    //間隔を開ける
-                    const SizedBox(height: 10),
+                      //間隔を開ける
+                      const SizedBox(height: 10),
 
-                    TextField(
-                      // 回答入力
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 4,
-                      minLines: 4,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey[100],
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
+                      TextField(
+                        // 回答入力
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 4,
+                        minLines: 4,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                          helperMaxLines: 10,
                         ),
-                        helperMaxLines: 10,
+                        onChanged: (value) => answerText = value,
                       ),
-                      onChanged: (value) => answerText = value,
-                    ),
 
-                    const SizedBox(height: 20), //間隔を開ける
-                  ],
+                      const SizedBox(height: 20), //間隔を開ける
+                    ],
+                  ),
                 ),
               ),
             ),
