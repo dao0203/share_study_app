@@ -300,7 +300,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                           actions: [
                             GestureDetector(
                               child: const Text(
-                                'いいえ',
+                                'キャンセル',
                                 style: TextStyle(color: Colors.blue),
                               ),
                               onTap: () {
@@ -309,7 +309,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                             ),
                             GestureDetector(
                               child: const Text(
-                                'はい',
+                                '投稿',
                                 style: TextStyle(color: Colors.blue),
                               ),
                               onTap: () {
