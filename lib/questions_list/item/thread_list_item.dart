@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import '../../constants.dart';
 import '../answer_view_page.dart';
 
 Widget questionListItem(BuildContext context, int index,
@@ -32,7 +33,7 @@ Widget questionListItem(BuildContext context, int index,
                     children: [
                       //質問タイトル
                       Text(
-                        "${questionItem.value["title"]}",
+                        "${questionItem.value[QUESTIONS_TITLE]}",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20.0,
@@ -41,7 +42,7 @@ Widget questionListItem(BuildContext context, int index,
 
                       //科目名
                       Text(
-                        "${questionItem.value["subjectName"]}",
+                        "${questionItem.value[QUESTIONS_SUBJECT_NAME]}",
                         style: const TextStyle(
                           fontSize: 19.0,
                         ),
@@ -49,7 +50,7 @@ Widget questionListItem(BuildContext context, int index,
 
                       //質問内容
                       Text(
-                        "${questionItem.value["textContent"]}",
+                        "${questionItem.value[QUESTIONS_QUESTION_CONTENT]}",
                         style: const TextStyle(fontSize: 16.0),
                       ),
                     ],

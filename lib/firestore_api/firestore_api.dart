@@ -2,6 +2,7 @@
  * @author 佐藤佑哉
  */
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:share_study_app/constants.dart';
 
 /* freezedファイル */
 import '../data/question_post_data.dart';
@@ -11,10 +12,10 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class FirestoreApi {
   /*コレクションリファーレンスを追加*/
-  CollectionReference questions = firestore.collection("questions");
-  CollectionReference subjects = firestore.collection("subjects");
-  CollectionReference answers = firestore.collection("answers");
-  CollectionReference googleAcountId = firestore.collection("user");
+  CollectionReference questions = firestore.collection(QUESTIONS);
+  CollectionReference subjects = firestore.collection(SUBJECTS);
+  CollectionReference answers = firestore.collection(ANSWERS);
+  CollectionReference googleAcountId = firestore.collection(USER);
   DateTime createdDate = DateTime.now(); //現在の時刻を指定
 
   //科目名取得メソッド
@@ -24,7 +25,7 @@ class FirestoreApi {
     QuerySnapshot querySnapshot = await subjects.get();
 
     for (var doc in querySnapshot.docs) {
-      result[doc.id] = doc.get("subjectName");
+      result[doc.id] = doc.get(SUBJECTS_NAME);
     }
     return result;
   }
@@ -32,7 +33,7 @@ class FirestoreApi {
   // 科目IDで検索して科目名を返すメソッド
   Future<String> getSubjectName(String documentId) async {
     DocumentSnapshot documentSnapshot = await subjects.doc(documentId).get();
-    final result = documentSnapshot.get("subjectName");
+    final result = documentSnapshot.get(SUBJECTS_NAME);
     return result;
   }
 
@@ -57,12 +58,13 @@ class FirestoreApi {
     final List<String> emptyList = [];
     await questions.add(
       {
-        "title": questionData.titleContent, //タイトル内容
-        "textContent": questionData.questionContent, //質問内容
-        "subjectName": questionData.qSubName, //科目ID
-        "googleAccountId": questionData.googleAccountId, //googleAccountId
-        "createdAt": createdDate, //現在の時刻
-        "answerIds": emptyList
+        QUESTIONS_TITLE: questionData.titleContent, //タイトル内容
+        QUESTIONS_QUESTION_CONTENT: questionData.questionContent, //質問内容
+        QUESTIONS_SUBJECT_NAME: questionData.qSubName, //科目名
+        QUESTIONS_GOOGLE_ACCOUNT_ID:
+            questionData.googleAccountId, //googleAccountId
+        QUESTIONS_CREATED_AT: createdDate, //現在の時刻
+        QUESTIONS_ANSWER_IDS: emptyList
       },
     );
   }
@@ -72,7 +74,7 @@ class FirestoreApi {
       String questionId) async {
     final result = <String, Map<String, dynamic>>{};
     QuerySnapshot querySnapshot =
-        await answers.where("questionId", isEqualTo: questionId).get();
+        await answers.where(ANSWERS_QUETSION_ID, isEqualTo: questionId).get();
     for (final doc in querySnapshot.docs) {
       result[doc.id] = doc.data() as Map<String, dynamic>;
     }
@@ -85,10 +87,10 @@ class FirestoreApi {
     // 回答をFirestoreに格納
     final answerDocRef = await answers.add(
       {
-        "answerText": answerPostData.answerText,
-        "googleAccountId": answerPostData.answerText,
-        "createdAt": createdDate,
-        "questionId": questionId
+        ANSWERS_TEXT: answerPostData.answerText,
+        ANSWERS_GOOGLE_ACCOUNT_ID: answerPostData.answerText,
+        ANSWERS_CREATED_AT: createdDate,
+        ANSWERS_QUETSION_ID: questionId
       },
     );
     //直後に生成された回答IDを格納
@@ -96,7 +98,7 @@ class FirestoreApi {
     //questionsの特定のフィールドに格納
     await questions.doc(questionId).update(
       {
-        "answerIds": FieldValue.arrayUnion([answerId]),
+        QUESTIONS_ANSWER_IDS: FieldValue.arrayUnion([answerId]),
       },
     );
   }

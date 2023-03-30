@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:share_study_app/data/answer_post_data.dart';
 import 'package:share_study_app/firestore_api/firestore_api.dart';
 import 'package:share_study_app/questions_list/thread_page.dart';
+import '../constants.dart';
 
 class QuestionArguments {
   final String qId;
@@ -96,7 +97,7 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                           children: [
                             //項目の中身
                             Text(
-                              "${questionItems["title"]}",
+                              "${questionItems[QUESTIONS_TITLE]}",
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0,
@@ -104,12 +105,12 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              "${questionItems["subjectName"]}",
+                              "${questionItems[QUESTIONS_SUBJECT_NAME]}",
                               style: const TextStyle(fontSize: 19.0),
                             ),
                             const SizedBox(height: 10), //間隔を開ける
                             Text(
-                              "${questionItems["textContent"]}",
+                              "${questionItems[QUESTIONS_QUESTION_CONTENT]}",
                               style: const TextStyle(fontSize: 16.0),
                             ),
                             const SizedBox(height: 20), //間隔を開ける
