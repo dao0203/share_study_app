@@ -90,33 +90,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "タイトルを入力してください";
-                          }
-                          return null;
-                        },
-                        maxLines: 1,
-                        minLines: 1,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.grey[100],
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                              width: 1,
-                            ),
-                          ),
-                          labelText: "タイトル",
-                          helperMaxLines: 10,
-                        ),
-                        onChanged: (value) {
-                          //タイトルを変更
-                          titleContent = value;
-                        },
-                      ),
-                      const SizedBox(height: 10), //間隔を開ける
+                      //間隔を開ける
                       /*科目選択ボタン*/
                       // DropdownButton(
                       //   value: classId,
@@ -163,7 +137,10 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                                 );
                               }).toList(),
                               decoration: const InputDecoration(
-                                labelText: "科目を選択してください",
+                                labelText: "科目",
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 1),
+                                ),
                               ),
                               //選択された科目名を追加
                               onChanged: (value) {
@@ -174,13 +151,38 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                         },
                       ),
                       const SizedBox(height: 10), //間隔を開ける
-
+                      TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "タイトルを入力してください";
+                          }
+                          return null;
+                        },
+                        maxLines: 1,
+                        minLines: 1,
+                        maxLength: 30,
+                        decoration: InputDecoration(
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                              width: 1,
+                            ),
+                          ),
+                          labelText: "タイトル",
+                          helperMaxLines: 10,
+                        ),
+                        onChanged: (value) {
+                          //タイトルを変更
+                          titleContent = value;
+                        },
+                      ),
+                      const SizedBox(height: 10),
                       TextFormField(
                         //質問内容入力
                         maxLength: 100,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 4,
-                        minLines: 4,
+                        maxLines: 1,
+                        minLines: 1,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "質問を入力してください";
@@ -189,7 +191,6 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                         },
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: Colors.grey[100],
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
@@ -291,8 +292,9 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                 style:
                     ElevatedButton.styleFrom(minimumSize: const Size(200, 50)),
                 onPressed: () {
-                  //投稿ボタンを押したときの動作
-                  showDialog(
+                  if (_formKey.currentState!.validate()) {
+                    //投稿ボタンを押したときの動作
+                    showDialog(
                       context: context,
                       builder: (_) {
                         return AlertDialog(
@@ -332,7 +334,9 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                             ),
                           ],
                         );
-                      });
+                      },
+                    );
+                  }
                 },
                 child: const Text("投稿"),
               ),
