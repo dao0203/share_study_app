@@ -55,6 +55,7 @@ class _PostAnswerPage extends State<PostAnswerPage> {
     googleAccountId: "",
   );
 
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -132,6 +133,7 @@ class _PostAnswerPage extends State<PostAnswerPage> {
               height: 300,
 
               child: Form(
+                key: _formKey,
                 child: Card(
                   //投稿画面の中身
                   child: Column(
@@ -141,6 +143,12 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                       const SizedBox(height: 10),
 
                       TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "回答を記入してください";
+                          }
+                          return null;
+                        },
                         // 回答入力
                         maxLines: 4,
                         maxLength: 400,
@@ -170,7 +178,8 @@ class _PostAnswerPage extends State<PostAnswerPage> {
               ),
               onPressed: () {
                 //投稿ボタンを押したときの動作
-                showDialog(
+                if (_formKey.currentState!.validate()) {
+                  showDialog(
                     context: context,
                     builder: (_) {
                       return AlertDialog(
@@ -189,10 +198,6 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                                   .copyWith(answerText: answerText);
                               firestoreApi.postAnswer(
                                   isPostedAnswerPageCopy, questionId);
-                              // Navigator.popUntil(
-                              //   context,
-                              //   ((route) => route.settings.name == "/home"),
-                              // );
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -203,7 +208,9 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                           ),
                         ],
                       );
-                    });
+                    },
+                  );
+                }
               },
               child: const Text("投稿"),
             ),
