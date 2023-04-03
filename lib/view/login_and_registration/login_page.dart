@@ -96,8 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: CircularProgressIndicator(),
                 );
               },
-              barrierDismissible: false
-              );
+              barrierDismissible: false);
           try {
             await firebaseAuth
                 .signInWithEmailAndPassword(
@@ -105,10 +104,10 @@ class _LoginPageState extends State<LoginPage> {
                     password: passwordController.text)
                 .then(
                     (value) => Navigator.of(context).pushNamed(ThreadPage.tag));
-          } on FirebaseAuthException catch (e) {
-            processError(e);
-            //ダイアログを閉じる
-            Navigator.of(context).pop();
+          } catch (e) {
+            if (e is PlatformException) {
+              processError(e);
+            }
           }
         }
       },
@@ -160,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
   //   return user.user!.uid;
   // }
 
-  void processError(final FirebaseAuthException error) {
+  void processError(final PlatformException error) {
     if (error.code == "user-not-found") {
       setState(() {
         _errorMessage = "ユーザを見つけることができませんでした";
