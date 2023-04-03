@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:share_study_app/view/login_and_registration/register.dart';
 import 'package:share_study_app/view/questions_list/thread_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,7 +18,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   //Formうぃじぇっとを一位に識別するためにグローバルキーを作成
   final _formKey = GlobalKey<FormState>();
-
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -33,7 +33,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final node = FocusScope.of(context);
-
     emailController.addListener(onChange);
     passwordController.addListener(onChange);
 
@@ -62,9 +61,8 @@ class _LoginPageState extends State<LoginPage> {
         contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
-      textInputAction: TextInputAction.next,//次のテキストフィールドにカーソルを移す
-      onEditingComplete: () => node.nextFocus(),//次のテキストフィールドにカーソルを移す
-
+      textInputAction: TextInputAction.next, //次のテキストフィールドにカーソルを移す
+      onEditingComplete: () => node.nextFocus(), //次のテキストフィールドにカーソルを移す
     );
 
     //パスワードを入力するテキストフィールドウィジェット
@@ -88,14 +86,38 @@ class _LoginPageState extends State<LoginPage> {
 
     //ログインボタン
     final loginButton = ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         if (_formKey.currentState!.validate()) {
-          signIn(emailController.text, passwordController.text)
-              .then((value) => Navigator.of(context).pushNamed(ThreadPage.tag))
-              .catchError((error) => {processError(error)});
+          //ボタンが押されたらローディング中を表すダイアログを表示
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              });
+          try {
+            await firebaseAuth
+                .signInWithEmailAndPassword(
+                    email: emailController.text,
+                    password: passwordController.text)
+                .then(
+                    (value) => Navigator.of(context).pushNamed(ThreadPage.tag));
+          } on FirebaseAuthException catch (e) {
+            processError(e);
+            //ダイアログを閉じる
+            Navigator.of(context).pop();
+          }
         }
       },
       child: const Text("ログイン"),
+    );
+
+    final registerButton = ElevatedButton(
+      onPressed: () {
+        Navigator.of(context).pushNamed(RegisterPage.tag);
+      },
+      child: const Text("新規登録"),
     );
 
     return Scaffold(
@@ -114,6 +136,8 @@ class _LoginPageState extends State<LoginPage> {
                 password,
                 const SizedBox(height: 24.0),
                 loginButton,
+                const SizedBox(height: 8.0),
+                registerButton,
               ]),
         ),
       ),
@@ -128,20 +152,24 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  Future<String> signIn(final String email, final String password) async {
-    final user = await firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
-    return user.user!.uid;
-  }
+  // Future<String> signIn(final String email, final String password) async {
+  //   final user = await firebaseAuth.signInWithEmailAndPassword(
+  //       email: email, password: password);
+  //   return user.user!.uid;
+  // }
 
-  void processError(final PlatformException error) {
-    if (error.code == "ERROR_USER_NOT_FOUND") {
+  void processError(final FirebaseAuthException error) {
+    if (error.code == "user-not-found") {
       setState(() {
         _errorMessage = "ユーザを見つけることができませんでした";
       });
-    } else if (error.code == "ERROR_WRONG_PASSWORD") {
+    } else if (error.code == "wrong-password") {
       setState(() {
         _errorMessage = "パスワードが正しくありません";
+      });
+    } else if (error.code == "invalid-email") {
+      setState(() {
+        _errorMessage = "メールアドレスが正しくありません";
       });
     } else {
       setState(() {

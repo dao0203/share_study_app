@@ -2,7 +2,9 @@
  * @author 佐藤佑哉
  */
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:share_study_app/constants.dart';
+import 'package:share_study_app/data/data_when_register.dart';
 
 /* freezedファイル */
 import 'data/question_post_data.dart';
@@ -15,8 +17,17 @@ class FirestoreApi {
   CollectionReference questions = firestore.collection(QUESTIONS);
   CollectionReference subjects = firestore.collection(SUBJECTS);
   CollectionReference answers = firestore.collection(ANSWERS);
-  CollectionReference googleAcountId = firestore.collection(USER);
+  CollectionReference users = firestore.collection(USERS);
   DateTime createdDate = DateTime.now(); //現在の時刻を指定
+
+  Future<void> addUser(DataWhenRegister dataWhenRegister) async {
+    await users.doc(dataWhenRegister.email).set({
+      USERS_EMAIL: dataWhenRegister.email,
+      USERS_NAME: dataWhenRegister.firstName + dataWhenRegister.lastName,
+      USERS_FIRST_NAME: dataWhenRegister.firstName,
+      USERS_LAST_NAME: dataWhenRegister.lastName,
+    });
+  }
 
   //科目名取得メソッド
   Future<Map<String, String>> getDocumentIdAndSubject() async {

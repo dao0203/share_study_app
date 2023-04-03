@@ -19,6 +19,9 @@ const SUBJECTS = "subhects";
 const SUBJECTS_NAME = "subejctName";
 
 //ユーザコレクションのパラメータ
-const USER = "users";
+const USERS = "users";
 const USERS_GOOGLE_ACCOUNT_ID = "googleAccountId";
 const USERS_NAME = "name";
+const USERS_EMAIL = "email";
+const USERS_FIRST_NAME = "firstName";
+const USERS_LAST_NAME = "lastName";

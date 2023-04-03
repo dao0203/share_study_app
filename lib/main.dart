@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:share_study_app/view/login_and_registration/login_page.dart';
+import 'package:share_study_app/view/login_and_registration/register.dart';
 import 'package:share_study_app/view/questions_list/thread_page.dart';
 import 'package:share_study_app/view/top_page/title_page.dart';
 import 'firebase_options.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
       routes: {
         ThreadPage.tag: (context) => const ThreadPage(),
         LoginPage.tag: (context) => const LoginPage(),
+        RegisterPage.tag: (context) => const RegisterPage(),
       },
       title: 'Share_study_app',
       theme: ThemeData.light(),
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
             if (snapshot.hasData) {
               return const ThreadPage();
             } else {
-              return const TitlePage();
+              return const LoginPage();
             }
           }
         },
