@@ -48,6 +48,14 @@ class FirestoreApi {
     return result;
   }
 
+  //FirebaseAuthのemailからfirestoreのusersコレクションのドキュメントを取得するメソッド
+  Future<DocumentSnapshot> getUser() async {
+    final auth = FirebaseAuth.instance.currentUser;
+    String? userEmail = auth?.email;
+    final docSnapShot = await users.doc(userEmail).get();
+    return docSnapShot;
+  }
+
   //質問取得メソッド
   Future<Map<String, Map<String, dynamic>>> getQuestions() async {
     QuerySnapshot querySnapshot = await questions.get();
