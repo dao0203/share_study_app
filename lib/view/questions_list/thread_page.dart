@@ -6,6 +6,7 @@ import 'package:share_study_app/view/tweet/question_post_page.dart';
 
 class ThreadPage extends StatefulWidget {
   const ThreadPage({Key? key}) : super(key: key);
+  static String tag = "thread_page";
   @override
   State<ThreadPage> createState() => _ThreadPageState();
 }
