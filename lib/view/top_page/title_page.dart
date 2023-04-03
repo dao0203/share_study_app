@@ -130,7 +130,7 @@ class _TitlePageState extends State<TitlePage> {
               padding: const EdgeInsets.all(20),
               child: Text(
                 'Welcome to Share Study!!',
-                style: Theme.of(context).textTheme.headline2,
+                style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
             Padding(
