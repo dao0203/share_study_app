@@ -80,7 +80,7 @@ class FirestoreApi {
         QUESTIONS_TITLE: questionData.titleContent, //タイトル内容
         QUESTIONS_QUESTION_CONTENT: questionData.questionContent, //質問内容
         QUESTIONS_SUBJECT_NAME: questionData.qSubName, //科目名
-        QUESTIONS_EMAIL: questionData.googleAccountId, //googleAccountId
+        QUESTIONS_EMAIL: questionData.email, //googleAccountId
         QUESTIONS_CREATED_AT: createdDate, //現在の時刻
         QUESTIONS_ANSWER_IDS: emptyList
       },

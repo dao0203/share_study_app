@@ -22,10 +22,10 @@ class _RegisterPageState extends State<RegisterPage> {
   final FirestoreApi _firestoreApi = FirestoreApi();
 
   final DataWhenRegister _dataWhenRegister = const DataWhenRegister(
-    googleAccountId: "",
+    email: "",
     firstName: "",
     lastName: "",
-    email: "",
+    password: "",
   );
   final emailTextEditController = TextEditingController();
   final firstNameTextEditController = TextEditingController();
@@ -214,10 +214,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
               //登録するユーザーの情報を作成
               final user = _dataWhenRegister.copyWith(
-                  googleAccountId: emailTextEditController.text,
                   email: emailTextEditController.text,
                   firstName: firstNameTextEditController.text,
-                  lastName: lastNameTextEditController.text);
+                  lastName: lastNameTextEditController.text,
+                  password: passwordTextEditController.text,
+                  );
 
               // メールアドレスとパスワードをFirebaseに登録
               await _firebaseAuth

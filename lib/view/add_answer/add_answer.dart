@@ -52,8 +52,11 @@ class _PostAnswerPage extends State<PostAnswerPage> {
   late String answerText = "";
   late String googleAccountId = "";
   final _isPostedAnswerData = const AnswerPostData(
+    email: "",
     answerText: "",
-    googleAccountId: "",
+    questionId: "",
+    lastName: "",
+    firstName: "",
   );
 
   final _formKey = GlobalKey<FormState>();
