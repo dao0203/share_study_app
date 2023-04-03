@@ -1,0 +1,152 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:share_study_app/view/questions_list/thread_page.dart';
+
+class LoginPage extends StatefulWidget {
+  static String tag = "login_page";
+
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  //Formうぃじぇっとを一位に識別するためにグローバルキーを作成
+  final _formKey = GlobalKey<FormState>();
+
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  String _errorMessage = "";
+
+  void onChange() {
+    setState(() {
+      _errorMessage = "";
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final node = FocusScope.of(context);
+
+    emailController.addListener(onChange);
+    passwordController.addListener(onChange);
+
+    //エラーメッセージテキスト
+    final errorMessage = Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        _errorMessage,
+        style: const TextStyle(fontSize: 14.0, color: Colors.red),
+        textAlign: TextAlign.center,
+      ),
+    );
+
+    //emailを入力する手テキストフィールドウィジェット
+    final email = TextFormField(
+      validator: (value) {
+        if (value!.isEmpty || !value.contains('@')) {
+          return '有効なメールアドレスを入力してください';
+        }
+        return null;
+      },
+      keyboardType: TextInputType.emailAddress, //キーボードタイプを選択
+      controller: emailController,
+      decoration: InputDecoration(
+        hintText: 'Email',
+        contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+      textInputAction: TextInputAction.next,//次のテキストフィールドにカーソルを移す
+      onEditingComplete: () => node.nextFocus(),//次のテキストフィールドにカーソルを移す
+
+    );
+
+    //パスワードを入力するテキストフィールドウィジェット
+    final password = TextFormField(
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "パスワードを入力してください";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: 'password',
+        contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+      textInputAction: TextInputAction.done,
+      onEditingComplete: () => node.unfocus(),
+      obscureText: true, //パスワードを隠す
+      controller: passwordController,
+    );
+
+    //ログインボタン
+    final loginButton = ElevatedButton(
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          signIn(emailController.text, passwordController.text)
+              .then((value) => Navigator.of(context).pushNamed(ThreadPage.tag))
+              .catchError((error) => {processError(error)});
+        }
+      },
+      child: const Text("ログイン"),
+    );
+
+    return Scaffold(
+      body: Center(
+        child: Form(
+          key: _formKey,
+          child: ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+              children: <Widget>[
+                const SizedBox(height: 24.0),
+                errorMessage,
+                const SizedBox(height: 12.0),
+                email,
+                const SizedBox(height: 8.0),
+                password,
+                const SizedBox(height: 24.0),
+                loginButton,
+              ]),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    //テキストエディティングコントローラを破棄
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<String> signIn(final String email, final String password) async {
+    final user = await firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
+    return user.user!.uid;
+  }
+
+  void processError(final PlatformException error) {
+    if (error.code == "ERROR_USER_NOT_FOUND") {
+      setState(() {
+        _errorMessage = "ユーザを見つけることができませんでした";
+      });
+    } else if (error.code == "ERROR_WRONG_PASSWORD") {
+      setState(() {
+        _errorMessage = "パスワードが正しくありません";
+      });
+    } else {
+      setState(() {
+        _errorMessage = "ログイン時にエラーが起きました。後ほどお試しください";
+      });
+    }
+  }
+}
