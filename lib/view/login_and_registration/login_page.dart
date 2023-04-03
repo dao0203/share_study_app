@@ -1,14 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:share_study_app/view/login_and_registration/register.dart';
 import 'package:share_study_app/view/questions_list/thread_page.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = "login_page";
-
   const LoginPage({super.key});
 
   @override
@@ -18,11 +14,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   //Formうぃじぇっとを一位に識別するためにグローバルキーを作成
   final _formKey = GlobalKey<FormState>();
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   String _errorMessage = "";
+
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   void onChange() {
     setState(() {
@@ -49,7 +46,9 @@ class _LoginPageState extends State<LoginPage> {
     //emailを入力する手テキストフィールドウィジェット
     final email = TextFormField(
       validator: (value) {
-        if (value!.isEmpty || !value.contains('@')) {
+        if (!RegExp(
+                r"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")
+            .hasMatch(value!)) {
           return '有効なメールアドレスを入力してください';
         }
         return null;
@@ -97,17 +96,14 @@ class _LoginPageState extends State<LoginPage> {
                 );
               },
               barrierDismissible: false);
+
           try {
-            await firebaseAuth
-                .signInWithEmailAndPassword(
-                    email: emailController.text,
-                    password: passwordController.text)
-                .then(
-                    (value) => Navigator.of(context).pushNamed(ThreadPage.tag));
+            //Firebaseに参照するかどうかを
+            await signIn(emailController.text, passwordController.text);
+            Navigator.of(context).pushNamed(ThreadPage.tag);
           } catch (e) {
-            if (e is PlatformException) {
-              processError(e);
-            }
+            processError(e);
+            Navigator.of(context).pop();
           }
         }
       },
@@ -153,13 +149,12 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  // Future<String> signIn(final String email, final String password) async {
-  //   final user = await firebaseAuth.signInWithEmailAndPassword(
-  //       email: email, password: password);
-  //   return user.user!.uid;
-  // }
+  Future<void> signIn(final String email, final String password) async {
+    final user = await firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
+  }
 
-  void processError(final PlatformException error) {
+  void processError(final error) {
     if (error.code == "user-not-found") {
       setState(() {
         _errorMessage = "ユーザを見つけることができませんでした";
