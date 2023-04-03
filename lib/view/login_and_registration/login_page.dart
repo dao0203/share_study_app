@@ -95,7 +95,9 @@ class _LoginPageState extends State<LoginPage> {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
-              });
+              },
+              barrierDismissible: false
+              );
           try {
             await firebaseAuth
                 .signInWithEmailAndPassword(
