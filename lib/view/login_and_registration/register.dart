@@ -218,7 +218,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   email: emailTextEditController.text,
                   firstName: firstNameTextEditController.text,
                   lastName: lastNameTextEditController.text);
-                  
+
               // メールアドレスとパスワードをFirebaseに登録
               await _firebaseAuth
                   .createUserWithEmailAndPassword(

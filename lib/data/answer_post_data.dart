@@ -20,7 +20,10 @@ part 'answer_post_data.freezed.dart';
 @freezed
 class AnswerPostData with _$AnswerPostData {
   const factory AnswerPostData({
+    required String email, //email
     required String answerText, //解答
-    required String googleAccountId, //グーグルアカウントID
+    required String questionId, //質問ID
+    required String lastName, //姓
+    required String firstName, //名
   }) = _AnswerPostData;
 }

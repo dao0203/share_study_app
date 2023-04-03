@@ -80,8 +80,7 @@ class FirestoreApi {
         QUESTIONS_TITLE: questionData.titleContent, //タイトル内容
         QUESTIONS_QUESTION_CONTENT: questionData.questionContent, //質問内容
         QUESTIONS_SUBJECT_NAME: questionData.qSubName, //科目名
-        QUESTIONS_GOOGLE_ACCOUNT_ID:
-            questionData.googleAccountId, //googleAccountId
+        QUESTIONS_EMAIL: questionData.googleAccountId, //googleAccountId
         QUESTIONS_CREATED_AT: createdDate, //現在の時刻
         QUESTIONS_ANSWER_IDS: emptyList
       },
@@ -107,7 +106,7 @@ class FirestoreApi {
     final answerDocRef = await answers.add(
       {
         ANSWERS_TEXT: answerPostData.answerText,
-        ANSWERS_GOOGLE_ACCOUNT_ID: answerPostData.answerText,
+        ANSWERS_EMAIL: answerPostData.answerText,
         ANSWERS_CREATED_AT: createdDate,
         ANSWERS_QUETSION_ID: questionId
       },

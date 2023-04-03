@@ -16,11 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DataWhenRegister {
-  String get googleAccountId =>
-      throw _privateConstructorUsedError; //グーグルアカウントID
+  String get email => throw _privateConstructorUsedError; //メールアドレス
   String get firstName => throw _privateConstructorUsedError; //名
   String get lastName => throw _privateConstructorUsedError; //姓
-  String get email => throw _privateConstructorUsedError;
+  String get password => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DataWhenRegisterCopyWith<DataWhenRegister> get copyWith =>
@@ -33,11 +32,7 @@ abstract class $DataWhenRegisterCopyWith<$Res> {
           DataWhenRegister value, $Res Function(DataWhenRegister) then) =
       _$DataWhenRegisterCopyWithImpl<$Res, DataWhenRegister>;
   @useResult
-  $Res call(
-      {String googleAccountId,
-      String firstName,
-      String lastName,
-      String email});
+  $Res call({String email, String firstName, String lastName, String password});
 }
 
 /// @nodoc
@@ -53,15 +48,15 @@ class _$DataWhenRegisterCopyWithImpl<$Res, $Val extends DataWhenRegister>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? googleAccountId = null,
+    Object? email = null,
     Object? firstName = null,
     Object? lastName = null,
-    Object? email = null,
+    Object? password = null,
   }) {
     return _then(_value.copyWith(
-      googleAccountId: null == googleAccountId
-          ? _value.googleAccountId
-          : googleAccountId // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       firstName: null == firstName
           ? _value.firstName
@@ -71,9 +66,9 @@ class _$DataWhenRegisterCopyWithImpl<$Res, $Val extends DataWhenRegister>
           ? _value.lastName
           : lastName // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      password: null == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -87,11 +82,7 @@ abstract class _$$_DataWhenRegisterCopyWith<$Res>
       __$$_DataWhenRegisterCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String googleAccountId,
-      String firstName,
-      String lastName,
-      String email});
+  $Res call({String email, String firstName, String lastName, String password});
 }
 
 /// @nodoc
@@ -105,15 +96,15 @@ class __$$_DataWhenRegisterCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? googleAccountId = null,
+    Object? email = null,
     Object? firstName = null,
     Object? lastName = null,
-    Object? email = null,
+    Object? password = null,
   }) {
     return _then(_$_DataWhenRegister(
-      googleAccountId: null == googleAccountId
-          ? _value.googleAccountId
-          : googleAccountId // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       firstName: null == firstName
           ? _value.firstName
@@ -123,9 +114,9 @@ class __$$_DataWhenRegisterCopyWithImpl<$Res>
           ? _value.lastName
           : lastName // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      password: null == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -135,14 +126,14 @@ class __$$_DataWhenRegisterCopyWithImpl<$Res>
 
 class _$_DataWhenRegister implements _DataWhenRegister {
   const _$_DataWhenRegister(
-      {required this.googleAccountId,
+      {required this.email,
       required this.firstName,
       required this.lastName,
-      required this.email});
+      required this.password});
 
   @override
-  final String googleAccountId;
-//グーグルアカウントID
+  final String email;
+//メールアドレス
   @override
   final String firstName;
 //名
@@ -150,11 +141,11 @@ class _$_DataWhenRegister implements _DataWhenRegister {
   final String lastName;
 //姓
   @override
-  final String email;
+  final String password;
 
   @override
   String toString() {
-    return 'DataWhenRegister(googleAccountId: $googleAccountId, firstName: $firstName, lastName: $lastName, email: $email)';
+    return 'DataWhenRegister(email: $email, firstName: $firstName, lastName: $lastName, password: $password)';
   }
 
   @override
@@ -162,18 +153,18 @@ class _$_DataWhenRegister implements _DataWhenRegister {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_DataWhenRegister &&
-            (identical(other.googleAccountId, googleAccountId) ||
-                other.googleAccountId == googleAccountId) &&
+            (identical(other.email, email) || other.email == email) &&
             (identical(other.firstName, firstName) ||
                 other.firstName == firstName) &&
             (identical(other.lastName, lastName) ||
                 other.lastName == lastName) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.password, password) ||
+                other.password == password));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, googleAccountId, firstName, lastName, email);
+      Object.hash(runtimeType, email, firstName, lastName, password);
 
   @JsonKey(ignore: true)
   @override
@@ -184,19 +175,19 @@ class _$_DataWhenRegister implements _DataWhenRegister {
 
 abstract class _DataWhenRegister implements DataWhenRegister {
   const factory _DataWhenRegister(
-      {required final String googleAccountId,
+      {required final String email,
       required final String firstName,
       required final String lastName,
-      required final String email}) = _$_DataWhenRegister;
+      required final String password}) = _$_DataWhenRegister;
 
   @override
-  String get googleAccountId;
-  @override //グーグルアカウントID
+  String get email;
+  @override //メールアドレス
   String get firstName;
   @override //名
   String get lastName;
   @override //姓
-  String get email;
+  String get password;
   @override
   @JsonKey(ignore: true)
   _$$_DataWhenRegisterCopyWith<_$_DataWhenRegister> get copyWith =>
