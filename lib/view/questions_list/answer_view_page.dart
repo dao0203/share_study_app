@@ -71,7 +71,8 @@ class _AnswerViewState extends State<AnswerView> {
                     //質問データをUIに表示
                     return Column(
                       children: [
-                        questionItems(context, questionItemsFromDataStore),
+                        questionItemsOfAnswerListPage(
+                            context, questionItemsFromDataStore),
                         answerListText(),
                         FutureBuilder(
                           future: firestoreApi.getAnswers(questionId),
