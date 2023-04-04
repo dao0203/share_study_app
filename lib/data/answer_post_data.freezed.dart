@@ -20,7 +20,8 @@ mixin _$AnswerPostData {
   String get answerText => throw _privateConstructorUsedError; //解答
   String get questionId => throw _privateConstructorUsedError; //質問ID
   String get lastName => throw _privateConstructorUsedError; //姓
-  String get firstName => throw _privateConstructorUsedError;
+  String get firstName => throw _privateConstructorUsedError; //名
+  String get grade => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AnswerPostDataCopyWith<AnswerPostData> get copyWith =>
@@ -38,7 +39,8 @@ abstract class $AnswerPostDataCopyWith<$Res> {
       String answerText,
       String questionId,
       String lastName,
-      String firstName});
+      String firstName,
+      String grade});
 }
 
 /// @nodoc
@@ -59,6 +61,7 @@ class _$AnswerPostDataCopyWithImpl<$Res, $Val extends AnswerPostData>
     Object? questionId = null,
     Object? lastName = null,
     Object? firstName = null,
+    Object? grade = null,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -81,6 +84,10 @@ class _$AnswerPostDataCopyWithImpl<$Res, $Val extends AnswerPostData>
           ? _value.firstName
           : firstName // ignore: cast_nullable_to_non_nullable
               as String,
+      grade: null == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -98,7 +105,8 @@ abstract class _$$_AnswerPostDataCopyWith<$Res>
       String answerText,
       String questionId,
       String lastName,
-      String firstName});
+      String firstName,
+      String grade});
 }
 
 /// @nodoc
@@ -117,6 +125,7 @@ class __$$_AnswerPostDataCopyWithImpl<$Res>
     Object? questionId = null,
     Object? lastName = null,
     Object? firstName = null,
+    Object? grade = null,
   }) {
     return _then(_$_AnswerPostData(
       email: null == email
@@ -139,6 +148,10 @@ class __$$_AnswerPostDataCopyWithImpl<$Res>
           ? _value.firstName
           : firstName // ignore: cast_nullable_to_non_nullable
               as String,
+      grade: null == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -151,7 +164,8 @@ class _$_AnswerPostData implements _AnswerPostData {
       required this.answerText,
       required this.questionId,
       required this.lastName,
-      required this.firstName});
+      required this.firstName,
+      required this.grade});
 
   @override
   final String email;
@@ -167,10 +181,13 @@ class _$_AnswerPostData implements _AnswerPostData {
 //姓
   @override
   final String firstName;
+//名
+  @override
+  final String grade;
 
   @override
   String toString() {
-    return 'AnswerPostData(email: $email, answerText: $answerText, questionId: $questionId, lastName: $lastName, firstName: $firstName)';
+    return 'AnswerPostData(email: $email, answerText: $answerText, questionId: $questionId, lastName: $lastName, firstName: $firstName, grade: $grade)';
   }
 
   @override
@@ -186,12 +203,13 @@ class _$_AnswerPostData implements _AnswerPostData {
             (identical(other.lastName, lastName) ||
                 other.lastName == lastName) &&
             (identical(other.firstName, firstName) ||
-                other.firstName == firstName));
+                other.firstName == firstName) &&
+            (identical(other.grade, grade) || other.grade == grade));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, email, answerText, questionId, lastName, firstName);
+      runtimeType, email, answerText, questionId, lastName, firstName, grade);
 
   @JsonKey(ignore: true)
   @override
@@ -206,7 +224,8 @@ abstract class _AnswerPostData implements AnswerPostData {
       required final String answerText,
       required final String questionId,
       required final String lastName,
-      required final String firstName}) = _$_AnswerPostData;
+      required final String firstName,
+      required final String grade}) = _$_AnswerPostData;
 
   @override
   String get email;
@@ -218,6 +237,8 @@ abstract class _AnswerPostData implements AnswerPostData {
   String get lastName;
   @override //姓
   String get firstName;
+  @override //名
+  String get grade;
   @override
   @JsonKey(ignore: true)
   _$$_AnswerPostDataCopyWith<_$_AnswerPostData> get copyWith =>

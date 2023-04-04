@@ -25,5 +25,6 @@ class AnswerPostData with _$AnswerPostData {
     required String questionId, //質問ID
     required String lastName, //姓
     required String firstName, //名
+    required String grade, //学年
   }) = _AnswerPostData;
 }

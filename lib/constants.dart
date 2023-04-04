@@ -7,6 +7,7 @@ const QUESTIONS_SUBJECT_NAME = "subjectName";
 const QUESTIONS_QUESTION_CONTENT = "textContent";
 const QUESTIONS_LAST_NAME = "lastName";
 const QUESTIONS_FIRST_NAME = "firstName";
+const QUESTIONS_GRADE = "grade";
 const QUESTIONS_CREATED_AT = "createdAt";
 
 //アンサーコレクションのパラメータ
@@ -17,6 +18,7 @@ const ANSWERS_EMAIL = "email";
 const ANSWERS_QUETSION_ID = "questionId";
 const ANSWERS_LAST_NAME = "lastName";
 const ANSWERS_FIRST_NAME = "firstName";
+const ANSWERS_GRADE = "grade";
 
 //サブジェクトコレクションのパラメータ
 const SUBJECTS = "subjects";
