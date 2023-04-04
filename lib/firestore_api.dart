@@ -23,7 +23,7 @@ class FirestoreApi {
   Future<void> addUser(DataWhenRegister dataWhenRegister) async {
     await users.doc(dataWhenRegister.email).set({
       USERS_EMAIL: dataWhenRegister.email,
-      USERS_NAME: dataWhenRegister.firstName + dataWhenRegister.lastName,
+      USERS_NAME: dataWhenRegister.lastName + dataWhenRegister.firstName,
       USERS_FIRST_NAME: dataWhenRegister.firstName,
       USERS_LAST_NAME: dataWhenRegister.lastName,
     });
@@ -82,7 +82,9 @@ class FirestoreApi {
         QUESTIONS_SUBJECT_NAME: questionData.qSubName, //科目名
         QUESTIONS_EMAIL: questionData.email, //googleAccountId
         QUESTIONS_CREATED_AT: createdDate, //現在の時刻
-        QUESTIONS_ANSWER_IDS: emptyList
+        QUESTIONS_ANSWER_IDS: emptyList, //回答ID
+        QUESTIONS_FIRST_NAME: questionData.firstName,
+        QUESTIONS_LAST_NAME: questionData.lastName,
       },
     );
   }
