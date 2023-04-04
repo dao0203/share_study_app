@@ -26,6 +26,7 @@ class FirestoreApi {
       USERS_NAME: dataWhenRegister.lastName + dataWhenRegister.firstName,
       USERS_FIRST_NAME: dataWhenRegister.firstName,
       USERS_LAST_NAME: dataWhenRegister.lastName,
+      USERS_GRADE: dataWhenRegister.grade,
     });
   }
 

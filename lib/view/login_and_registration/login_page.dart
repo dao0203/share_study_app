@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:share_study_app/view/login_and_registration/register.dart';
+import 'package:share_study_app/view/login_and_registration/register_page.dart';
 import 'package:share_study_app/view/questions_list/thread_page.dart';
 
 class LoginPage extends StatefulWidget {

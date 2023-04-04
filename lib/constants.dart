@@ -28,3 +28,4 @@ const USERS_NAME = "name";
 const USERS_EMAIL = "email";
 const USERS_LAST_NAME = "lastName";
 const USERS_FIRST_NAME = "firstName";
+const USERS_GRADE = "grade";

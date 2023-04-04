@@ -21,23 +21,38 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final FirestoreApi _firestoreApi = FirestoreApi();
 
+  Map<String, dynamic> yearList = {
+    "Freshman": "学士1年",
+    "Sophomore": "学士2年",
+    "Junior": "学士3年",
+    "Senior": "学士4年",
+    "Masters_1st_year": "修士1年",
+    "Masters_2nd_year": "修士2年",
+    "Ph.D._1st_year": "博士1年",
+    "Ph.D._2nd_year": "博士2年",
+    "Ph.D._3rd_year": "博士3年"
+  };
+
   final DataWhenRegister _dataWhenRegister = const DataWhenRegister(
     email: "",
     firstName: "",
     lastName: "",
     password: "",
+    grade: "",
   );
   final emailTextEditController = TextEditingController();
   final firstNameTextEditController = TextEditingController();
   final lastNameTextEditController = TextEditingController();
   final passwordTextEditController = TextEditingController();
   final confirmPasswordTextEditController = TextEditingController();
+  String? _grade;
 
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _firstNameFocus = FocusNode();
   final FocusNode _lastNameFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
+  final FocusNode _gradeFocus = FocusNode();
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -56,7 +71,9 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: EdgeInsets.all(8.0),
       child: Text(
         '新規登録',
-        style: TextStyle(fontSize: 36.0, color: Colors.black87),
+        style: TextStyle(
+          fontSize: 36.0,
+        ),
         textAlign: TextAlign.center,
       ),
     );
@@ -85,34 +102,10 @@ class _RegisterPageState extends State<RegisterPage> {
         textInputAction: TextInputAction.next,
         focusNode: _emailFocus,
         onFieldSubmitted: (term) {
-          FocusScope.of(context).requestFocus(_firstNameFocus);
-        },
-        decoration: InputDecoration(
-          hintText: 'Email',
-          contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-        ),
-      ),
-    );
-
-    final firstName = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        validator: (value) {
-          if (value!.isEmpty) {
-            return "名を入力してください";
-          }
-          return null;
-        },
-        controller: firstNameTextEditController,
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.next,
-        focusNode: _firstNameFocus,
-        onFieldSubmitted: (term) {
           FocusScope.of(context).requestFocus(_lastNameFocus);
         },
         decoration: InputDecoration(
-          hintText: '名前',
+          hintText: 'Email',
           contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
         ),
@@ -133,7 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
         textInputAction: TextInputAction.next,
         focusNode: _lastNameFocus,
         onFieldSubmitted: (term) {
-          FocusScope.of(context).requestFocus(_passwordFocus);
+          FocusScope.of(context).requestFocus(_firstNameFocus);
         },
         decoration: InputDecoration(
           hintText: '姓',
@@ -141,6 +134,60 @@ class _RegisterPageState extends State<RegisterPage> {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
         ),
       ),
+    );
+
+    final firstName = Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty) {
+            return "名を入力してください";
+          }
+          return null;
+        },
+        controller: firstNameTextEditController,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.next,
+        focusNode: _firstNameFocus,
+        onFieldSubmitted: (term) {
+          FocusScope.of(context).requestFocus(_gradeFocus);
+        },
+        decoration: InputDecoration(
+          hintText: '名',
+          contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+        ),
+      ),
+    );
+
+    final grade = Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: DropdownButtonFormField(
+          decoration: InputDecoration(
+            hintText: '学年',
+            contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+          ),
+          focusNode: _gradeFocus,
+          value: _grade,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "学年を選択してください";
+            }
+            return null;
+          },
+          items: yearList.entries.map((e) {
+            return DropdownMenuItem<String>(
+              value: e.value,
+              child: Text(e.value),
+            );
+          }).toList(),
+          onChanged: (String? newValue) {
+            setState(() {
+              _grade = newValue!;
+            });
+          }),
     );
 
     final password = Padding(
@@ -218,19 +265,17 @@ class _RegisterPageState extends State<RegisterPage> {
                 firstName: firstNameTextEditController.text,
                 lastName: lastNameTextEditController.text,
                 password: passwordTextEditController.text,
+                grade: _grade!,
               );
 
               // メールアドレスとパスワードをFirebaseに登録
-              await _firebaseAuth
-                  .createUserWithEmailAndPassword(
-                      email: emailTextEditController.text,
-                      password: passwordTextEditController.text)
-                  //終了したらFirestoreに登録
-                  .then((value) => _firestoreApi
-                      .addUser(user)
-                      //終了したらスレッドページに遷移
-                      .then((value) => Navigator.of(context)
-                          .pushReplacementNamed(ThreadPage.tag)));
+              _firebaseAuth.createUserWithEmailAndPassword(
+                  email: emailTextEditController.text,
+                  password: passwordTextEditController.text);
+              //終了したらFirestoreに登録
+              _firestoreApi.addUser(user);
+              //終了したらスレッドページに遷移
+              Navigator.of(context).pushReplacementNamed(ThreadPage.tag);
             } on FirebaseAuthException catch (e) {
               if (e.code == 'weak-password') {
                 setState(() {
@@ -273,8 +318,9 @@ class _RegisterPageState extends State<RegisterPage> {
             registerText,
             errorMessage,
             email,
-            firstName,
             lastName,
+            firstName,
+            grade,
             password,
             confirmPassword,
             registerButton,
