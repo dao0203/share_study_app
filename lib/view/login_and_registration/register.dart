@@ -100,7 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child: TextFormField(
         validator: (value) {
           if (value!.isEmpty) {
-            return "名前";
+            return "名を入力してください";
           }
           return null;
         },
@@ -214,11 +214,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
               //登録するユーザーの情報を作成
               final user = _dataWhenRegister.copyWith(
-                  email: emailTextEditController.text,
-                  firstName: firstNameTextEditController.text,
-                  lastName: lastNameTextEditController.text,
-                  password: passwordTextEditController.text,
-                  );
+                email: emailTextEditController.text,
+                firstName: firstNameTextEditController.text,
+                lastName: lastNameTextEditController.text,
+                password: passwordTextEditController.text,
+              );
 
               // メールアドレスとパスワードをFirebaseに登録
               await _firebaseAuth
