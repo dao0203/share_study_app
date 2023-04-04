@@ -19,7 +19,8 @@ mixin _$DataWhenRegister {
   String get email => throw _privateConstructorUsedError; //メールアドレス
   String get firstName => throw _privateConstructorUsedError; //名
   String get lastName => throw _privateConstructorUsedError; //姓
-  String get password => throw _privateConstructorUsedError;
+  String get password => throw _privateConstructorUsedError; //パスワード
+  String get grade => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DataWhenRegisterCopyWith<DataWhenRegister> get copyWith =>
@@ -32,7 +33,12 @@ abstract class $DataWhenRegisterCopyWith<$Res> {
           DataWhenRegister value, $Res Function(DataWhenRegister) then) =
       _$DataWhenRegisterCopyWithImpl<$Res, DataWhenRegister>;
   @useResult
-  $Res call({String email, String firstName, String lastName, String password});
+  $Res call(
+      {String email,
+      String firstName,
+      String lastName,
+      String password,
+      String grade});
 }
 
 /// @nodoc
@@ -52,6 +58,7 @@ class _$DataWhenRegisterCopyWithImpl<$Res, $Val extends DataWhenRegister>
     Object? firstName = null,
     Object? lastName = null,
     Object? password = null,
+    Object? grade = null,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -70,6 +77,10 @@ class _$DataWhenRegisterCopyWithImpl<$Res, $Val extends DataWhenRegister>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      grade: null == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -82,7 +93,12 @@ abstract class _$$_DataWhenRegisterCopyWith<$Res>
       __$$_DataWhenRegisterCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String firstName, String lastName, String password});
+  $Res call(
+      {String email,
+      String firstName,
+      String lastName,
+      String password,
+      String grade});
 }
 
 /// @nodoc
@@ -100,6 +116,7 @@ class __$$_DataWhenRegisterCopyWithImpl<$Res>
     Object? firstName = null,
     Object? lastName = null,
     Object? password = null,
+    Object? grade = null,
   }) {
     return _then(_$_DataWhenRegister(
       email: null == email
@@ -118,6 +135,10 @@ class __$$_DataWhenRegisterCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      grade: null == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -129,7 +150,8 @@ class _$_DataWhenRegister implements _DataWhenRegister {
       {required this.email,
       required this.firstName,
       required this.lastName,
-      required this.password});
+      required this.password,
+      required this.grade});
 
   @override
   final String email;
@@ -142,10 +164,13 @@ class _$_DataWhenRegister implements _DataWhenRegister {
 //姓
   @override
   final String password;
+//パスワード
+  @override
+  final String grade;
 
   @override
   String toString() {
-    return 'DataWhenRegister(email: $email, firstName: $firstName, lastName: $lastName, password: $password)';
+    return 'DataWhenRegister(email: $email, firstName: $firstName, lastName: $lastName, password: $password, grade: $grade)';
   }
 
   @override
@@ -159,12 +184,13 @@ class _$_DataWhenRegister implements _DataWhenRegister {
             (identical(other.lastName, lastName) ||
                 other.lastName == lastName) &&
             (identical(other.password, password) ||
-                other.password == password));
+                other.password == password) &&
+            (identical(other.grade, grade) || other.grade == grade));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, email, firstName, lastName, password);
+      Object.hash(runtimeType, email, firstName, lastName, password, grade);
 
   @JsonKey(ignore: true)
   @override
@@ -178,7 +204,8 @@ abstract class _DataWhenRegister implements DataWhenRegister {
       {required final String email,
       required final String firstName,
       required final String lastName,
-      required final String password}) = _$_DataWhenRegister;
+      required final String password,
+      required final String grade}) = _$_DataWhenRegister;
 
   @override
   String get email;
@@ -188,6 +215,8 @@ abstract class _DataWhenRegister implements DataWhenRegister {
   String get lastName;
   @override //姓
   String get password;
+  @override //パスワード
+  String get grade;
   @override
   @JsonKey(ignore: true)
   _$$_DataWhenRegisterCopyWith<_$_DataWhenRegister> get copyWith =>
