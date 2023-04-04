@@ -19,7 +19,7 @@ class FirestoreApi {
   CollectionReference answers = firestore.collection(ANSWERS);
   CollectionReference users = firestore.collection(USERS);
   DateTime createdDate = DateTime.now(); //現在の時刻を指定
-
+  User? auth = FirebaseAuth.instance.currentUser;
   Future<void> addUser(DataWhenRegister dataWhenRegister) async {
     await users.doc(dataWhenRegister.email).set({
       USERS_EMAIL: dataWhenRegister.email,
@@ -50,7 +50,6 @@ class FirestoreApi {
 
   //FirebaseAuthのemailからfirestoreのusersコレクションのドキュメントを取得するメソッド
   Future<DocumentSnapshot> getUser() async {
-    final auth = FirebaseAuth.instance.currentUser;
     String? userEmail = auth?.email;
     final docSnapShot = await users.doc(userEmail).get();
     return docSnapShot;
@@ -109,6 +108,8 @@ class FirestoreApi {
       {
         ANSWERS_TEXT: answerPostData.answerText,
         ANSWERS_EMAIL: answerPostData.answerText,
+        ANSWERS_FIRST_NAME: answerPostData.firstName,
+        ANSWERS_LAST_NAME: answerPostData.lastName,
         ANSWERS_CREATED_AT: createdDate,
         ANSWERS_QUETSION_ID: questionId
       },

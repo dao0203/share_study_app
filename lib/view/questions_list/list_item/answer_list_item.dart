@@ -8,17 +8,25 @@ Widget answerListItem(BuildContext context, int index,
   return AnimationConfiguration.staggeredList(
     position: index,
     child: SlideAnimation(
-      child: SizedBox(
-        height: 100,
-        width: MediaQuery.of(context).size.height * 0.8,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("${answerListItems.value[ANSWERS_TEXT]}"),
-              ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InputDecorator(
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            labelText: answerListItems.value[ANSWERS_LAST_NAME] +
+                answerListItems.value[ANSWERS_FIRST_NAME],
+            labelStyle: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+          child: SizedBox(
+            height: 100,
+            width: MediaQuery.of(context).size.height * 0.8,
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("${answerListItems.value[ANSWERS_TEXT]}"),
+              ),
             ),
           ),
         ),
