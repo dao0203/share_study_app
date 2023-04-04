@@ -124,45 +124,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                       //     });
                       //   },
                       // ),
-                      FutureBuilder<Map<String, String>>(
-                        future: firestoreApi.getDocumentIdAndSubject(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            // データをまだ取得できていない場合、ローディングスピンナーを表示する
-                            return const CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            // データ取得時にエラーが発生した場合、エラーメッセージを表示する
-                            return Text("Error: ${snapshot.error}");
-                          } else {
-                            // 取得したマップを使用して、DropdownButtonを構築
-                            return DropdownButtonFormField<String>(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "科目を選択してください";
-                                }
-                                return null;
-                              },
-                              items: snapshot.data?.entries.map((entry) {
-                                return DropdownMenuItem<String>(
-                                  value: entry.value,
-                                  child: Text(entry.value),
-                                );
-                              }).toList(),
-                              decoration: const InputDecoration(
-                                labelText: "科目",
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 1),
-                                ),
-                              ),
-                              //選択された科目名を追加
-                              onChanged: (value) {
-                                qSubName = value.toString();
-                              },
-                            );
-                          }
-                        },
-                      ),
+
                       const SizedBox(height: 10), //間隔を開ける
                       TextFormField(
                         validator: (value) {
@@ -193,8 +155,8 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                       const SizedBox(height: 10),
                       TextFormField(
                         //質問内容入力
-                        maxLength: 100,
-                        maxLines: 1,
+                        maxLength: 400,
+                        maxLines: 6,
                         minLines: 1,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -213,9 +175,50 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                           labelText: "質問内容",
                           helperMaxLines: 10,
                         ),
-
                         onChanged: (value) {
                           questionContent = value;
+                        },
+                      ),
+                      FutureBuilder<Map<String, String>>(
+                        future: firestoreApi.getDocumentIdAndSubject(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            // データをまだ取得できていない場合、ローディングスピンナーを表示する
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            // データ取得時にエラーが発生した場合、エラーメッセージを表示する
+                            return Text("Error: ${snapshot.error}");
+                          } else {
+                            // 取得したマップを使用して、DropdownButtonを構築
+                            return DropdownButtonFormField<String>(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "科目を選択してください";
+                                }
+                                return null;
+                              },
+                              items: snapshot.data?.entries.map((entry) {
+                                return DropdownMenuItem<String>(
+                                  value: entry.value,
+                                  child: Text(entry.value),
+                                );
+                              }).toList(),
+                              decoration: const InputDecoration(
+                                labelText: "科目",
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 1),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              //選択された科目名を追加
+                              onChanged: (value) {
+                                qSubName = value.toString();
+                              },
+                            );
+                          }
                         },
                       ),
                       /**写真アップロードボタン */
@@ -347,8 +350,8 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                                   questionContent: questionContent,
                                   lastName: (documentSnapshot.data()
                                       as Map<String, dynamic>)[USERS_LAST_NAME],
-                                  firstName: (documentSnapshot.data()
-                                      as Map<String, dynamic>)[USERS_FIRST_NAME],
+                                  firstName: (documentSnapshot.data() as Map<
+                                      String, dynamic>)[USERS_FIRST_NAME],
                                 );
                                 firestoreApi.postQuestion(questionDatacopy);
                                 Navigator.pushReplacementNamed(
