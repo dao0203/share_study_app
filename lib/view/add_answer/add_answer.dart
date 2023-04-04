@@ -73,6 +73,11 @@ class _PostAnswerPage extends State<PostAnswerPage> {
   void initState() {
     super.initState();
     questionId = widget.questionId;
+    Future<void>(
+      () async {
+        await getUser();
+      },
+    );
   }
 
   @override
@@ -196,100 +201,89 @@ class _PostAnswerPage extends State<PostAnswerPage> {
               },
             ),
 
-            const SizedBox(height: 20),
-
             //回答入力部分
-            SizedBox(
-              //カードの大きさを定義
-              height: 300,
+            Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //間隔を開ける
 
-              child: Form(
-                key: _formKey,
-                child: Card(
-                  //投稿画面の中身
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //間隔を開ける
-                      const SizedBox(height: 10),
-
-                      TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "回答を記入してください";
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.name,
-                        maxLines: 4,
-                        maxLength: 400,
-                        decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey[100],
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(width: 1),
-                            ),
-                            helperMaxLines: 10,
-                            labelText: "回答"),
-                        controller: _answerTextController,
-                      ),
-
-                      const SizedBox(height: 20), //間隔を開ける
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "回答を記入してください";
+                        }
+                        return null;
+                      },
+                      keyboardType: TextInputType.name,
+                      maxLines: 4,
+                      maxLength: 100,
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Theme.of(context).scaffoldBackgroundColor,
+                          helperMaxLines: 10,
+                          labelText: "回答"),
+                      controller: _answerTextController,
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
 
             /**投稿するボタン */
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(200, 50),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(200, 50),
+                ),
+                onPressed: () {
+                  //投稿ボタンを押したときの動作
+                  if (_formKey.currentState!.validate()) {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return AlertDialog(
+                          title: const Text('投稿しますか？'),
+                          actions: [
+                            GestureDetector(
+                              child: const Text('いいえ'),
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            GestureDetector(
+                              child: const Text('はい'),
+                              onTap: () {
+                                final isPostedAnswerData =
+                                    _isPostedAnswerData.copyWith(
+                                  answerText: _answerTextController.text,
+                                  lastName: (documentSnapshot.data()
+                                      as Map<String, dynamic>)[USERS_LAST_NAME],
+                                  firstName: (documentSnapshot.data() as Map<
+                                      String, dynamic>)[USERS_FIRST_NAME],
+                                );
+                                firestoreApi.postAnswer(
+                                    isPostedAnswerData, questionId);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const ThreadPage(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+                child: const Text("投稿"),
               ),
-              onPressed: () {
-                //投稿ボタンを押したときの動作
-                if (_formKey.currentState!.validate()) {
-                  showDialog(
-                    context: context,
-                    builder: (_) {
-                      return AlertDialog(
-                        title: const Text('投稿しますか？'),
-                        actions: [
-                          GestureDetector(
-                            child: const Text('いいえ'),
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          GestureDetector(
-                            child: const Text('はい'),
-                            onTap: () {
-                              final isPostedAnswerData =
-                                  _isPostedAnswerData.copyWith(
-                                answerText: _answerTextController.text,
-                                lastName: (documentSnapshot.data()
-                                    as Map<String, dynamic>)[USERS_LAST_NAME],
-                                firstName: (documentSnapshot.data()
-                                    as Map<String, dynamic>)[USERS_FIRST_NAME],
-                              );
-                              firestoreApi.postAnswer(
-                                  isPostedAnswerData, questionId);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ThreadPage(),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
-              },
-              child: const Text("投稿"),
             ),
           ],
         ),
