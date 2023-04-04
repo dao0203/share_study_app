@@ -19,8 +19,8 @@ const ANSWERS_LAST_NAME = "lastName";
 const ANSWERS_FIRST_NAME = "firstName";
 
 //サブジェクトコレクションのパラメータ
-const SUBJECTS = "subhects";
-const SUBJECTS_NAME = "subejctName";
+const SUBJECTS = "subjects";
+const SUBJECTS_NAME = "subjectName";
 
 //ユーザコレクションのパラメータ
 const USERS = "users";
@@ -28,4 +28,3 @@ const USERS_NAME = "name";
 const USERS_EMAIL = "email";
 const USERS_LAST_NAME = "lastName";
 const USERS_FIRST_NAME = "firstName";
-
