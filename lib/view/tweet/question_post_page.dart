@@ -156,7 +156,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                       TextFormField(
                         //質問内容入力
                         maxLength: 400,
-                        maxLines: 2,
+                        maxLines: 6,
                         minLines: 1,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -175,7 +175,6 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                           labelText: "質問内容",
                           helperMaxLines: 10,
                         ),
-
                         onChanged: (value) {
                           questionContent = value;
                         },
