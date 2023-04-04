@@ -4,9 +4,9 @@ part 'data_when_register.freezed.dart';
 @freezed
 class DataWhenRegister with _$DataWhenRegister {
   const factory DataWhenRegister({
-    required String googleAccountId, //グーグルアカウントID
+    required String email, //メールアドレス
     required String firstName, //名
     required String lastName, //姓
-    required String email, //メールアドレス
+    required String password, //パスワード
   }) = _DataWhenRegister;
 }

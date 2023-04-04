@@ -23,7 +23,7 @@ class FirestoreApi {
   Future<void> addUser(DataWhenRegister dataWhenRegister) async {
     await users.doc(dataWhenRegister.email).set({
       USERS_EMAIL: dataWhenRegister.email,
-      USERS_NAME: dataWhenRegister.firstName + dataWhenRegister.lastName,
+      USERS_NAME: dataWhenRegister.lastName + dataWhenRegister.firstName,
       USERS_FIRST_NAME: dataWhenRegister.firstName,
       USERS_LAST_NAME: dataWhenRegister.lastName,
     });
@@ -46,6 +46,14 @@ class FirestoreApi {
     DocumentSnapshot documentSnapshot = await subjects.doc(documentId).get();
     final result = documentSnapshot.get(SUBJECTS_NAME);
     return result;
+  }
+
+  //FirebaseAuthのemailからfirestoreのusersコレクションのドキュメントを取得するメソッド
+  Future<DocumentSnapshot> getUser() async {
+    final auth = FirebaseAuth.instance.currentUser;
+    String? userEmail = auth?.email;
+    final docSnapShot = await users.doc(userEmail).get();
+    return docSnapShot;
   }
 
   //質問取得メソッド
@@ -72,10 +80,11 @@ class FirestoreApi {
         QUESTIONS_TITLE: questionData.titleContent, //タイトル内容
         QUESTIONS_QUESTION_CONTENT: questionData.questionContent, //質問内容
         QUESTIONS_SUBJECT_NAME: questionData.qSubName, //科目名
-        QUESTIONS_GOOGLE_ACCOUNT_ID:
-            questionData.googleAccountId, //googleAccountId
+        QUESTIONS_EMAIL: questionData.email, //googleAccountId
         QUESTIONS_CREATED_AT: createdDate, //現在の時刻
-        QUESTIONS_ANSWER_IDS: emptyList
+        QUESTIONS_ANSWER_IDS: emptyList, //回答ID
+        QUESTIONS_FIRST_NAME: questionData.firstName,
+        QUESTIONS_LAST_NAME: questionData.lastName,
       },
     );
   }
@@ -99,7 +108,7 @@ class FirestoreApi {
     final answerDocRef = await answers.add(
       {
         ANSWERS_TEXT: answerPostData.answerText,
-        ANSWERS_GOOGLE_ACCOUNT_ID: answerPostData.answerText,
+        ANSWERS_EMAIL: answerPostData.answerText,
         ANSWERS_CREATED_AT: createdDate,
         ANSWERS_QUETSION_ID: questionId
       },

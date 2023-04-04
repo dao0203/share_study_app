@@ -4,7 +4,9 @@
 //   flutter pub add firebase_storage URL:https://pub.dev/packages/firebase_storage/install
 //
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:share_study_app/constants.dart';
 import 'package:share_study_app/data/question_post_data.dart';
 import 'package:share_study_app/firestore_api.dart';
 
@@ -25,7 +27,7 @@ class QuestionPostPage extends StatefulWidget {
 class _QuestionPostPage extends State<QuestionPostPage> {
   FirestoreApi firestoreApi = FirestoreApi();
   late Map<String, String> subjects = {};
-
+  late DocumentSnapshot<Object?> documentSnapshot;
   /* フィールド名 */
   late String qSubName = "";
   late String titleContent = "";
@@ -33,10 +35,11 @@ class _QuestionPostPage extends State<QuestionPostPage> {
 
   final postedQuestionData = const QuestionPostData(
     qSubName: "", //科目ID
-    userId: "0", //ユーザーID
+    email: "0", //ユーザーID
     titleContent: "", //タイトルID
     questionContent: "", //質問内容
-    googleAccountId: "0",
+    lastName: "",
+    firstName: "",
     // attFiles: "",//画像アップロードする際に使用する
   );
 
@@ -51,11 +54,19 @@ class _QuestionPostPage extends State<QuestionPostPage> {
     });
   }
 
+  Future<void> getUser() async {
+    final user = await firestoreApi.getUser();
+    setState(() {
+      documentSnapshot = user;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     Future<void>(() async {
       await loadDropDownItems();
+      await getUser();
     });
   }
 
@@ -317,21 +328,31 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                                 style: TextStyle(color: Colors.blue),
                               ),
                               onTap: () {
+                                //投稿ボタンを押した時にインディケータを表示
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
+                                  barrierDismissible: false,
+                                );
                                 final questionDatacopy =
                                     postedQuestionData.copyWith(
-                                  googleAccountId: "1",
-                                  userId: "1",
+                                  email: (documentSnapshot.data()
+                                      as Map<String, dynamic>)[USERS_EMAIL],
                                   qSubName: qSubName,
                                   titleContent: titleContent,
                                   questionContent: questionContent,
+                                  lastName: (documentSnapshot.data()
+                                      as Map<String, dynamic>)[USERS_LAST_NAME],
+                                  firstName: (documentSnapshot.data()
+                                      as Map<String, dynamic>)[USERS_FIRST_NAME],
                                 );
                                 firestoreApi.postQuestion(questionDatacopy);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const ThreadPage(),
-                                  ),
-                                );
+                                Navigator.pushReplacementNamed(
+                                    context, ThreadPage.tag);
                               },
                             ),
                           ],

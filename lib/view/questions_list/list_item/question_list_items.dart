@@ -31,9 +31,18 @@ Widget questionListItem(BuildContext context, int index,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      //質問タイトル＋＋
+                      //質問タイトル
                       Text(
                         "${questionItem.value[QUESTIONS_TITLE]}",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                        ),
+                      ),
+
+                      Text(
+                        questionItem.value[QUESTIONS_LAST_NAME] +
+                            questionItem.value[QUESTIONS_FIRST_NAME],
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20.0,

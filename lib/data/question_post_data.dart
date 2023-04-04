@@ -22,10 +22,11 @@ part 'question_post_data.freezed.dart';
 class QuestionPostData with _$QuestionPostData {
   const factory QuestionPostData({
     required String qSubName, //科目を格納
-    required String userId, //ユーザーID
+    required String email, //ユーザーID
+    required String lastName, //姓
+    required String firstName, //名
     required String titleContent, //タイトル名
     required String questionContent, //質問内容
-    required String googleAccountId, //グーグルアカウントID
     // required String attFiles,
   }) = _QuestionPostData;
 }
