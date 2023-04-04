@@ -27,6 +27,7 @@ class QuestionPostData with _$QuestionPostData {
     required String firstName, //名
     required String titleContent, //タイトル名
     required String questionContent, //質問内容
+    required String grade, //学年
     // required String attFiles,
   }) = _QuestionPostData;
 }

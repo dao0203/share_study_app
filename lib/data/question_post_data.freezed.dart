@@ -21,7 +21,8 @@ mixin _$QuestionPostData {
   String get lastName => throw _privateConstructorUsedError; //姓
   String get firstName => throw _privateConstructorUsedError; //名
   String get titleContent => throw _privateConstructorUsedError; //タイトル名
-  String get questionContent => throw _privateConstructorUsedError;
+  String get questionContent => throw _privateConstructorUsedError; //質問内容
+  String get grade => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $QuestionPostDataCopyWith<QuestionPostData> get copyWith =>
@@ -40,7 +41,8 @@ abstract class $QuestionPostDataCopyWith<$Res> {
       String lastName,
       String firstName,
       String titleContent,
-      String questionContent});
+      String questionContent,
+      String grade});
 }
 
 /// @nodoc
@@ -62,6 +64,7 @@ class _$QuestionPostDataCopyWithImpl<$Res, $Val extends QuestionPostData>
     Object? firstName = null,
     Object? titleContent = null,
     Object? questionContent = null,
+    Object? grade = null,
   }) {
     return _then(_value.copyWith(
       qSubName: null == qSubName
@@ -88,6 +91,10 @@ class _$QuestionPostDataCopyWithImpl<$Res, $Val extends QuestionPostData>
           ? _value.questionContent
           : questionContent // ignore: cast_nullable_to_non_nullable
               as String,
+      grade: null == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -106,7 +113,8 @@ abstract class _$$_QuestionPostDataCopyWith<$Res>
       String lastName,
       String firstName,
       String titleContent,
-      String questionContent});
+      String questionContent,
+      String grade});
 }
 
 /// @nodoc
@@ -126,6 +134,7 @@ class __$$_QuestionPostDataCopyWithImpl<$Res>
     Object? firstName = null,
     Object? titleContent = null,
     Object? questionContent = null,
+    Object? grade = null,
   }) {
     return _then(_$_QuestionPostData(
       qSubName: null == qSubName
@@ -152,6 +161,10 @@ class __$$_QuestionPostDataCopyWithImpl<$Res>
           ? _value.questionContent
           : questionContent // ignore: cast_nullable_to_non_nullable
               as String,
+      grade: null == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -167,7 +180,8 @@ class _$_QuestionPostData
       required this.lastName,
       required this.firstName,
       required this.titleContent,
-      required this.questionContent});
+      required this.questionContent,
+      required this.grade});
 
   @override
   final String qSubName;
@@ -186,10 +200,13 @@ class _$_QuestionPostData
 //タイトル名
   @override
   final String questionContent;
+//質問内容
+  @override
+  final String grade;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'QuestionPostData(qSubName: $qSubName, email: $email, lastName: $lastName, firstName: $firstName, titleContent: $titleContent, questionContent: $questionContent)';
+    return 'QuestionPostData(qSubName: $qSubName, email: $email, lastName: $lastName, firstName: $firstName, titleContent: $titleContent, questionContent: $questionContent, grade: $grade)';
   }
 
   @override
@@ -202,7 +219,8 @@ class _$_QuestionPostData
       ..add(DiagnosticsProperty('lastName', lastName))
       ..add(DiagnosticsProperty('firstName', firstName))
       ..add(DiagnosticsProperty('titleContent', titleContent))
-      ..add(DiagnosticsProperty('questionContent', questionContent));
+      ..add(DiagnosticsProperty('questionContent', questionContent))
+      ..add(DiagnosticsProperty('grade', grade));
   }
 
   @override
@@ -220,12 +238,13 @@ class _$_QuestionPostData
             (identical(other.titleContent, titleContent) ||
                 other.titleContent == titleContent) &&
             (identical(other.questionContent, questionContent) ||
-                other.questionContent == questionContent));
+                other.questionContent == questionContent) &&
+            (identical(other.grade, grade) || other.grade == grade));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, qSubName, email, lastName,
-      firstName, titleContent, questionContent);
+      firstName, titleContent, questionContent, grade);
 
   @JsonKey(ignore: true)
   @override
@@ -241,7 +260,8 @@ abstract class _QuestionPostData implements QuestionPostData {
       required final String lastName,
       required final String firstName,
       required final String titleContent,
-      required final String questionContent}) = _$_QuestionPostData;
+      required final String questionContent,
+      required final String grade}) = _$_QuestionPostData;
 
   @override
   String get qSubName;
@@ -255,6 +275,8 @@ abstract class _QuestionPostData implements QuestionPostData {
   String get titleContent;
   @override //タイトル名
   String get questionContent;
+  @override //質問内容
+  String get grade;
   @override
   @JsonKey(ignore: true)
   _$$_QuestionPostDataCopyWith<_$_QuestionPostData> get copyWith =>

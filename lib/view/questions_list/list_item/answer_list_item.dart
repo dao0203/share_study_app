@@ -14,7 +14,9 @@ Widget answerListItem(BuildContext context, int index,
           decoration: InputDecoration(
             border: InputBorder.none,
             labelText: answerListItems.value[ANSWERS_LAST_NAME] +
-                answerListItems.value[ANSWERS_FIRST_NAME],
+                answerListItems.value[ANSWERS_FIRST_NAME] +
+                "：" +
+                answerListItems.value[ANSWERS_GRADE],
             labelStyle: const TextStyle(
               fontSize: 16,
             ),

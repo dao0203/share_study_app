@@ -26,6 +26,7 @@ class FirestoreApi {
       USERS_NAME: dataWhenRegister.lastName + dataWhenRegister.firstName,
       USERS_FIRST_NAME: dataWhenRegister.firstName,
       USERS_LAST_NAME: dataWhenRegister.lastName,
+      USERS_GRADE: dataWhenRegister.grade,
     });
   }
 
@@ -84,6 +85,7 @@ class FirestoreApi {
         QUESTIONS_ANSWER_IDS: emptyList, //回答ID
         QUESTIONS_FIRST_NAME: questionData.firstName,
         QUESTIONS_LAST_NAME: questionData.lastName,
+        QUESTIONS_GRADE: questionData.grade,
       },
     );
   }
@@ -111,7 +113,8 @@ class FirestoreApi {
         ANSWERS_FIRST_NAME: answerPostData.firstName,
         ANSWERS_LAST_NAME: answerPostData.lastName,
         ANSWERS_CREATED_AT: createdDate,
-        ANSWERS_QUETSION_ID: questionId
+        ANSWERS_QUETSION_ID: questionId,
+        ANSWERS_GRADE: answerPostData.grade,
       },
     );
     //直後に生成された回答IDを格納

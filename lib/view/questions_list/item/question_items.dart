@@ -9,7 +9,9 @@ Widget questionItemsOfAnswerListPage(
     decoration: InputDecoration(
       border: InputBorder.none,
       labelText: questionItems[QUESTIONS_LAST_NAME] +
-          questionItems[QUESTIONS_FIRST_NAME],
+          questionItems[QUESTIONS_FIRST_NAME] +
+          "：" +
+          questionItems[QUESTIONS_GRADE],
       labelStyle: const TextStyle(
         fontSize: 25,
       ),

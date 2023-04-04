@@ -29,7 +29,9 @@ Widget questionListItem(BuildContext context, int index,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   labelText: questionItem.value[QUESTIONS_LAST_NAME] +
-                      questionItem.value[QUESTIONS_FIRST_NAME],
+                      questionItem.value[QUESTIONS_FIRST_NAME] +
+                      "：" +
+                      questionItem.value[QUESTIONS_GRADE],
                   labelStyle: const TextStyle(
                     fontSize: 25,
                   ),

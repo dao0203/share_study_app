@@ -58,6 +58,7 @@ class _PostAnswerPage extends State<PostAnswerPage> {
     questionId: "",
     lastName: "",
     firstName: "",
+    grade: "",
   );
 
   final _formKey = GlobalKey<FormState>();
@@ -175,6 +176,8 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                                       as Map<String, dynamic>)[USERS_LAST_NAME],
                                   firstName: (documentSnapshot.data() as Map<
                                       String, dynamic>)[USERS_FIRST_NAME],
+                                  grade: (documentSnapshot.data()
+                                      as Map<String, dynamic>)[USERS_GRADE],
                                 );
                                 firestoreApi.postAnswer(
                                     isPostedAnswerData, questionId);

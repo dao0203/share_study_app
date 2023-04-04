@@ -8,5 +8,6 @@ class DataWhenRegister with _$DataWhenRegister {
     required String firstName, //名
     required String lastName, //姓
     required String password, //パスワード
+    required String grade,
   }) = _DataWhenRegister;
 }
