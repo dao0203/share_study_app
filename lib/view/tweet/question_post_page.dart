@@ -138,6 +138,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                         maxLength: 30,
                         decoration: InputDecoration(
                           filled: true,
+                          fillColor: Theme.of(context).scaffoldBackgroundColor,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
@@ -166,6 +167,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                         },
                         decoration: InputDecoration(
                           filled: true,
+                          fillColor: Theme.of(context).scaffoldBackgroundColor,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
@@ -204,9 +206,12 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                                   child: Text(entry.value),
                                 );
                               }).toList(),
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 labelText: "科目",
-                                enabledBorder: OutlineInputBorder(
+                                enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(width: 1),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(10),
