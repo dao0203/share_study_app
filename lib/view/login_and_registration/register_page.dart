@@ -91,7 +91,9 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
         validator: (value) {
-          if (value!.isEmpty || !value.contains('@')) {
+          if (!RegExp(
+                  r"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")
+              .hasMatch(value!)) {
             return "有効なメールアドレスを入力してください";
           }
           return null;
