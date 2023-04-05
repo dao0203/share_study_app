@@ -52,70 +52,59 @@ class _AnswerViewState extends State<AnswerView> {
         },
       ),
       //スクロール可能にする
-      body: Center(
-        child: Column(
-          children: [
-            FutureBuilder(
-              //質問データを抽出
-              future: firestoreApi.getSelectedQuestion(questionId),
-              builder:
-                  ((context, AsyncSnapshot<DocumentSnapshot> questionSnapshot) {
-                if (questionSnapshot.connectionState == ConnectionState.done) {
-                  if (questionSnapshot.hasError) {
-                    return Text("Error：${questionSnapshot.error}");
-                  } else {
-                    //質問データをMap型に格納
-                    final questionItemsFromDataStore =
-                        questionSnapshot.data!.data() as Map<String, dynamic>;
 
-                    //質問データをUIに表示
-                    return Column(
-                      children: [
-                        questionItemsOfAnswerListPage(
-                            context, questionItemsFromDataStore),
-                        answerListText(),
-                        FutureBuilder(
-                          future: firestoreApi.getAnswers(questionId),
-                          builder: ((context, answerSnapshot) {
-                            if (answerSnapshot.connectionState ==
-                                ConnectionState.done) {
-                              if (answerSnapshot.hasError) {
-                                return Text("Error：${answerSnapshot.error}");
-                              } else {
-                                return AnimationLimiter(
-                                  child: ListView.builder(
-                                      shrinkWrap:
-                                          true, //ListViewが必要なだけの高さを持つようにする
-                                      itemCount: answerSnapshot.data!.length,
-                                      itemBuilder: (context, index) {
-                                        //回答のデータをindexごとに表示するための変数
-                                        final answerItems = answerSnapshot
-                                            .data!.entries
-                                            .elementAt(index);
-
-                                        //回答リストを表示
-                                        return answerListItem(
-                                            context, index, answerItems);
-                                      }),
-                                );
-                              }
-                            } else {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                          }),
-                        ),
-                      ],
-                    );
-                  }
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              }),
-            ),
-          ],
-        ),
+      body: FutureBuilder(
+        //質問データを抽出
+        future: Future.wait({
+          firestoreApi.getSelectedQuestion(questionId),
+          firestoreApi.getAnswers(questionId),
+        }),
+        // firestoreApi.getSelectedQuestion(questionId),
+        builder: ((context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text("Error:${snapshot.error}"),
+              );
+            } else {
+              //質問データをDocumentSnapshot型にキャスト
+              final _questionItemsFromDataStore =
+                  snapshot.data![0] as DocumentSnapshot;
+              //質問データをMap型にキャスト
+              final questionItemsFromDataStore =
+                  _questionItemsFromDataStore.data() as Map<String, dynamic>;
+              //回答データをMap型に格納
+              final answerItemsFromDataStore =
+                  snapshot.data![1] as Map<String, Map<String, dynamic>>;
+              //質問データをUIに表示
+              return SingleChildScrollView(
+                physics: const ScrollPhysics(),
+                child: Column(
+                  children: [
+                    questionItemsOfAnswerListPage(
+                        context, questionItemsFromDataStore),
+                    answerListText(),
+                    //回答データをUIに表示
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: answerItemsFromDataStore.length,
+                      itemBuilder: ((context, index) {
+                        final answerItems =
+                            answerItemsFromDataStore.entries.elementAt(index);
+                        return answerListItem(context, index, answerItems);
+                      }),
+                    ),
+                  ],
+                ),
+              );
+            }
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        }),
       ),
     );
   }

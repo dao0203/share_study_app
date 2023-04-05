@@ -22,7 +22,7 @@ Widget answerListItem(BuildContext context, int index,
             ),
           ),
           child: SizedBox(
-            height: 100,
+            height: 190,
             width: MediaQuery.of(context).size.height * 0.8,
             child: Card(
               child: Padding(

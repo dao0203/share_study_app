@@ -131,7 +131,7 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                       },
                       keyboardType: TextInputType.name,
                       maxLines: 4,
-                      maxLength: 100,
+                      maxLength: 200,
                       decoration: InputDecoration(
                           filled: true,
                           fillColor: Theme.of(context).scaffoldBackgroundColor,
@@ -169,6 +169,15 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                             GestureDetector(
                               child: const Text('はい'),
                               onTap: () {
+                                //ローディングインディケータを表示する
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
+                                );
                                 final isPostedAnswerData =
                                     _isPostedAnswerData.copyWith(
                                   answerText: _answerTextController.text,
@@ -179,8 +188,16 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                                   grade: (documentSnapshot.data()
                                       as Map<String, dynamic>)[USERS_GRADE],
                                 );
-                                firestoreApi.postAnswer(
-                                    isPostedAnswerData, questionId);
+                                firestoreApi
+                                    .postAnswer(isPostedAnswerData, questionId)
+                                    .then((value) =>
+                                        //スナックバー以外に表示する方法がわからない
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text("投稿しました"),
+                                          ),
+                                        ));
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
