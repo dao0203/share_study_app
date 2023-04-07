@@ -34,6 +34,15 @@ class _LoginPageState extends State<LoginPage> {
     emailController.addListener(onChange);
     passwordController.addListener(onChange);
 
+    final loginMessage = const Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Text(
+        'ログイン',
+        style: TextStyle(fontSize: 36.0),
+        textAlign: TextAlign.center,
+      ),
+    );
+
     //エラーメッセージテキスト
     final errorMessage = Padding(
       padding: const EdgeInsets.all(8.0),
@@ -133,6 +142,7 @@ class _LoginPageState extends State<LoginPage> {
               shrinkWrap: true,
               padding: const EdgeInsets.only(left: 24.0, right: 24.0),
               children: <Widget>[
+                loginMessage,
                 const SizedBox(height: 24.0),
                 errorMessage,
                 const SizedBox(height: 12.0),
