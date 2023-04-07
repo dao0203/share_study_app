@@ -64,8 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: prefer_const_declarations
-    final registerText = const Padding(
+    const registerText =  Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
         '新規登録',

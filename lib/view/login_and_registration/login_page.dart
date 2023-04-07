@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
     emailController.addListener(onChange);
     passwordController.addListener(onChange);
 
-    final loginMessage = const Padding(
+    const loginMessage = Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
         'ログイン',
