@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:share_study_app/view/login_and_registration/privacy_policy_web.dart';
 import 'package:share_study_app/view/login_and_registration/register_page.dart';
 import 'package:share_study_app/view/questions_list/thread_page.dart';
 
@@ -12,7 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  //Formうぃじぇっとを一位に識別するためにグローバルキーを作成
+  //Formウィジェットを一意に識別するためにグローバルキーを作成
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -32,6 +33,15 @@ class _LoginPageState extends State<LoginPage> {
     final node = FocusScope.of(context);
     emailController.addListener(onChange);
     passwordController.addListener(onChange);
+
+    const loginMessage = Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Text(
+        'ログイン',
+        style: TextStyle(fontSize: 36.0),
+        textAlign: TextAlign.center,
+      ),
+    );
 
     //エラーメッセージテキスト
     final errorMessage = Padding(
@@ -117,6 +127,13 @@ class _LoginPageState extends State<LoginPage> {
       child: const Text("新規登録"),
     );
 
+    final privacypolicyButton = ElevatedButton(
+      onPressed: () {
+        Navigator.of(context).pushNamed(PrivacyPolicyWebPage.tag);
+      },
+      child: const Text('プライバシーポリシー'),
+    );
+
     return Scaffold(
       body: Center(
         child: Form(
@@ -125,6 +142,7 @@ class _LoginPageState extends State<LoginPage> {
               shrinkWrap: true,
               padding: const EdgeInsets.only(left: 24.0, right: 24.0),
               children: <Widget>[
+                loginMessage,
                 const SizedBox(height: 24.0),
                 errorMessage,
                 const SizedBox(height: 12.0),
@@ -135,6 +153,8 @@ class _LoginPageState extends State<LoginPage> {
                 loginButton,
                 const SizedBox(height: 8.0),
                 registerButton,
+                const SizedBox(height: 8.0),
+                privacypolicyButton,
               ]),
         ),
       ),

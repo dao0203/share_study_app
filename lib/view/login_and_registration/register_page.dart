@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:share_study_app/data/data_when_register.dart';
 import 'package:share_study_app/firestore_api.dart';
 import 'package:share_study_app/view/login_and_registration/login_page.dart';
@@ -66,8 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: prefer_const_declarations
-    final registerText = const Padding(
+    const registerText =  Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
         '新規登録',

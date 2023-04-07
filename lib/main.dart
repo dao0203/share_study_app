@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:share_study_app/view/login_and_registration/login_page.dart';
+import 'package:share_study_app/view/login_and_registration/privacy_policy_web.dart';
 import 'package:share_study_app/view/login_and_registration/register_page.dart';
 import 'package:share_study_app/view/questions_list/thread_page.dart';
 import 'package:share_study_app/view/top_page/title_page.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         ThreadPage.tag: (context) => const ThreadPage(),
         LoginPage.tag: (context) => const LoginPage(),
         RegisterPage.tag: (context) => const RegisterPage(),
+        PrivacyPolicyWebPage.tag: (context) => const PrivacyPolicyWebPage(),
       },
       title: 'Share_study_app',
       theme: ThemeData.light(),
