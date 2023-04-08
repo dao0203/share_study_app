@@ -64,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    const registerText =  Padding(
+    const registerText = Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
         '新規登録',
@@ -250,48 +250,43 @@ class _RegisterPageState extends State<RegisterPage> {
               });
               return;
             }
-            try {
-              //registerButtonを押したら画面遷移するまでローディング画面を表示
-              await showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  });
-
-              //登録するユーザーの情報を作成
-              final user = _dataWhenRegister.copyWith(
-                email: emailTextEditController.text,
-                firstName: firstNameTextEditController.text,
-                lastName: lastNameTextEditController.text,
-                password: passwordTextEditController.text,
-                grade: _grade!,
-              );
-
-              // メールアドレスとパスワードをFirebaseに登録
-              _firebaseAuth.createUserWithEmailAndPassword(
-                  email: emailTextEditController.text,
-                  password: passwordTextEditController.text);
-              //終了したらFirestoreに登録
-              _firestoreApi.addUser(user);
-              //終了したらスレッドページに遷移
-              Navigator.of(context).pushReplacementNamed(ThreadPage.tag);
-            } on FirebaseAuthException catch (e) {
-              if (e.code == 'weak-password') {
-                setState(() {
-                  _errorMessage = "パスワードが弱すぎます";
-                });
-              } else if (e.code == 'email-already-in-use') {
-                setState(() {
-                  _errorMessage = "このメールアドレスは既に使用されています";
-                });
-              }
-            } catch (e) {
-              setState(() {
-                _errorMessage = e.toString();
-              });
-            }
+            //registerButtonを押したら画面遷移するまでローディング画面を表示
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+              barrierDismissible: false,
+            );
+            //登録するユーザーの情報を作成
+            final user = _dataWhenRegister.copyWith(
+              email: emailTextEditController.text,
+              firstName: firstNameTextEditController.text,
+              lastName: lastNameTextEditController.text,
+              password: passwordTextEditController.text,
+              grade: _grade!,
+            );
+            // メールアドレスとパスワードをFirebaseに登録
+            await _firebaseAuth
+                .createUserWithEmailAndPassword(
+                    email: emailTextEditController.text,
+                    password: passwordTextEditController.text)
+                .then(
+                  //登録したユーザの情報をFireStoreに登録
+                  (value) => _firestoreApi.addUser(user).then(
+                        //終了したらスレッドページに遷移
+                        (value) => {
+                          //認証メールを送信
+                          _firebaseAuth.currentUser!.sendEmailVerification(),
+                          //スレッドページに遷移
+                          Navigator.of(context)
+                              .pushReplacementNamed(ThreadPage.tag),
+                        },
+                      ),
+                )
+                .catchError((e) => {printErrorMessage(e)});
           }
         },
         child: const Text('登録'),
@@ -330,6 +325,20 @@ class _RegisterPageState extends State<RegisterPage> {
         )),
       ),
     );
+  }
+
+  void printErrorMessage(FirebaseAuthException e) {
+    if (e.code == 'weak-password') {
+      setState(() {
+        _errorMessage = "パスワードが弱すぎます";
+      });
+    } else if (e.code == 'email-already-in-use') {
+      setState(() {
+        _errorMessage = "このメールアドレスは既に使用されています";
+      });
+    }
+    //終了したらローディング画面を閉じる
+    Navigator.of(context).pop();
   }
 
   @override
