@@ -1,16 +1,19 @@
-# share_study_app
+# シェアスタ
 
-A new Flutter project.
+シェアスタは、学生がテキスト上で勉強用のメッセージを共有することができるアプリです。
+科目を選択し、メッセージを送信することで、全てのユーザーが閲覧することができます。
+さらに、学年も共有されるため、上級生や先輩との交流を通して知識や情報を共有することができます。
 
-## Getting Started
+## スクリーンショット
 
-This project is a starting point for a Flutter application.
+魅力
+勉強共有アプリの魅力は以下の通りです。
+全てのユーザーが共有できるため、多くの情報を得ることができます。
+学年も共有するため、上級生や先輩から多くの知識や情報を得ることができます。
+コミュニケーションが活発化し、知識交換を通して学習効果が高まります。
+科目ごとに分かれているため、必要な情報を探すのが簡単です。
+機能
+勉強共有アプリには以下のような機能があります。
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+科目別メッセージ機能：ユーザーは科目を選択してメッセージを送信することができます。
+学年別表示機能：ユーザーは学年ごとにメッセージを閲覧することができます。
