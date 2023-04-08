@@ -277,8 +277,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   //登録したユーザの情報をFireStoreに登録
                   (value) => _firestoreApi.addUser(user).then(
                         //終了したらスレッドページに遷移
-                        (value) => Navigator.of(context)
-                            .pushReplacementNamed(ThreadPage.tag),
+                        (value) => {
+                          //認証メールを送信
+                          _firebaseAuth.currentUser!.sendEmailVerification(),
+                          //スレッドページに遷移
+                          Navigator.of(context)
+                              .pushReplacementNamed(ThreadPage.tag),
+                        },
                       ),
                 )
                 .catchError((e) => {printErrorMessage(e)});
