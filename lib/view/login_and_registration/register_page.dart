@@ -64,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    const registerText =  Padding(
+    const registerText = Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
         '新規登録',
@@ -270,13 +270,13 @@ class _RegisterPageState extends State<RegisterPage> {
               );
 
               // メールアドレスとパスワードをFirebaseに登録
-              _firebaseAuth.createUserWithEmailAndPassword(
+              await _firebaseAuth.createUserWithEmailAndPassword(
                   email: emailTextEditController.text,
                   password: passwordTextEditController.text);
               //終了したらFirestoreに登録
-              _firestoreApi.addUser(user);
+              await _firestoreApi.addUser(user).then((value) =>
+                  Navigator.of(context).pushReplacementNamed(ThreadPage.tag));
               //終了したらスレッドページに遷移
-              Navigator.of(context).pushReplacementNamed(ThreadPage.tag);
             } on FirebaseAuthException catch (e) {
               if (e.code == 'weak-password') {
                 setState(() {
