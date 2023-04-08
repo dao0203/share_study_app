@@ -43,7 +43,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-lib/firebase_options.dart
+api_keys.dart
 
 
 .env
