@@ -1,8 +1,13 @@
 import 'dart:developer';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:share_study_app/questions_list/thread_page.dart';
+import 'package:share_study_app/view/login_and_registration/login_page.dart';
+import 'package:share_study_app/view/login_and_registration/privacy_policy_web.dart';
+import 'package:share_study_app/view/login_and_registration/register_page.dart';
+import 'package:share_study_app/view/questions_list/thread_page.dart';
+import 'package:share_study_app/view/top_page/title_page.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -13,20 +18,44 @@ Future<void> main() async {
     log("errorを検出：$error");
   });
 
-  await dotenv.load(fileName: '.env');
+  //エミュレータのアドレスとポートを指定
+  // await FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
+
+  // await dotenv.load(fileName: '.env');
 
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      routes: {
+        ThreadPage.tag: (context) => const ThreadPage(),
+        LoginPage.tag: (context) => const LoginPage(),
+        RegisterPage.tag: (context) => const RegisterPage(),
+        PrivacyPolicyWebPage.tag: (context) => const PrivacyPolicyWebPage(),
+      },
       title: 'Share_study_app',
-      home: ThreadPage(),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      home: StreamBuilder<User?>(
+        stream: _auth.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else {
+            if (snapshot.hasData) {
+              return const ThreadPage();
+            } else {
+              return const LoginPage();
+            }
+          }
+        },
+      ),
     );
   }
 }

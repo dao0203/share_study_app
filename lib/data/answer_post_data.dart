@@ -19,8 +19,12 @@ part 'answer_post_data.freezed.dart';
 
 @freezed
 class AnswerPostData with _$AnswerPostData {
-  const factory AnswerPostData(
-      {required String answerText, //解答
-      required String email, //email
-      required String questionId}) = _AnswerPostData;
+  const factory AnswerPostData({
+    required String email, //email
+    required String answerText, //解答
+    required String questionId, //質問ID
+    required String lastName, //姓
+    required String firstName, //名
+    required String grade, //学年
+  }) = _AnswerPostData;
 }

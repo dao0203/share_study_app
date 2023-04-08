@@ -1,6 +1,13 @@
-// import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:share_study_app/firestore_api/firestore_api.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:share_study_app/view/add_answer/add_answer.dart';
+import 'package:share_study_app/firestore_api.dart';
+import 'package:share_study_app/view/questions_list/item/answer_list_text.dart';
+import 'package:share_study_app/view/questions_list/list_item/answer_list_item.dart';
+
+import '../../constants.dart';
+import 'item/question_items.dart';
 
 class AnswerView extends StatefulWidget {
   const AnswerView({super.key, required this.questionId});
@@ -28,41 +35,76 @@ class _AnswerViewState extends State<AnswerView> {
       appBar: AppBar(
         title: const Text("回答一覧"),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            FutureBuilder(
-              future: firestoreApi.getSelectedQuestion(questionId),
-              builder:
-                  ((context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Text("Error：${snapshot.error},$questionId");
-                  } else {
-                    final data = snapshot.data!;
-                    final title = data["title"];
-                    final textContent = data["text_content"];
 
-                    return Column(
-                      children: [
-                        Card(
-                          child: Column(
-                            children: [
-                              Text(title),
-                              Text(textContent),
-                            ],
-                          ),
-                        )
-                      ],
-                    );
-                  }
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              }),
+      //フローティングアクションボタン
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("回答投稿"),
+        icon: const Icon(Icons.question_answer),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => PostAnswerPage(
+                    questionId: questionId,
+                  )),
             ),
-          ],
-        ),
+          );
+        },
+      ),
+      //スクロール可能にする
+
+      body: FutureBuilder(
+        //質問データを抽出
+        future: Future.wait({
+          firestoreApi.getSelectedQuestion(questionId),
+          firestoreApi.getAnswers(questionId),
+        }),
+        // firestoreApi.getSelectedQuestion(questionId),
+        builder: ((context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text("Error:${snapshot.error}"),
+              );
+            } else {
+              //質問データをDocumentSnapshot型にキャスト
+              final _questionItemsFromDataStore =
+                  snapshot.data![0] as DocumentSnapshot;
+              //質問データをMap型にキャスト
+              final questionItemsFromDataStore =
+                  _questionItemsFromDataStore.data() as Map<String, dynamic>;
+              //回答データをMap型に格納
+              final answerItemsFromDataStore =
+                  snapshot.data![1] as Map<String, Map<String, dynamic>>;
+              //質問データをUIに表示
+              return SingleChildScrollView(
+                physics: const ScrollPhysics(),
+                child: Column(
+                  children: [
+                    questionItemsOfAnswerListPage(
+                        context, questionItemsFromDataStore),
+                    answerListText(),
+                    //回答データをUIに表示
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: answerItemsFromDataStore.length,
+                      itemBuilder: ((context, index) {
+                        final answerItems =
+                            answerItemsFromDataStore.entries.elementAt(index);
+                        return answerListItem(context, index, answerItems);
+                      }),
+                    ),
+                  ],
+                ),
+              );
+            }
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        }),
       ),
     );
   }

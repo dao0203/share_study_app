@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:share_study_app/top_page/next_page.dart';
+import 'package:share_study_app/view/top_page/next_page.dart';
 
 // ページのWidget
 class TitlePage extends StatefulWidget {
@@ -130,7 +130,7 @@ class _TitlePageState extends State<TitlePage> {
               padding: const EdgeInsets.all(20),
               child: Text(
                 'Welcome to Share Study!!',
-                style: Theme.of(context).textTheme.headline2,
+                style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
             Padding(

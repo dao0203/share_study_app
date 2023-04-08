@@ -1,4 +1,4 @@
-package com.example.share_study_app
+package com.sharesta.share_study_app
 
 import io.flutter.embedding.android.FlutterActivity
 

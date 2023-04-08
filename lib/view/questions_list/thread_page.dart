@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:share_study_app/firestore_api/firestore_api.dart';
-import 'package:share_study_app/questions_list/answer_view_page.dart';
-import 'package:share_study_app/tweet_page/View/question_post_page.dart';
+import 'package:share_study_app/firestore_api.dart';
+import 'package:share_study_app/view/questions_list/list_item/question_list_items.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:share_study_app/view/tweet/question_post_page.dart';
 
 class ThreadPage extends StatefulWidget {
   const ThreadPage({Key? key}) : super(key: key);
+  static String tag = "thread_page";
   @override
   State<ThreadPage> createState() => _ThreadPageState();
 }
@@ -22,6 +24,7 @@ class _ThreadPageState extends State<ThreadPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, //戻るボタンを非表示
         title: const Text("質問閲覧画面"),
       ),
 
@@ -40,71 +43,34 @@ class _ThreadPageState extends State<ThreadPage> {
       ),
 
       //画面
-      body: Center(
-        //Futurebuilderを用いる
-        child: FutureBuilder(
-            future: firestoreApi.getQuestions(), //getQuestion()でデータをAPIから取得
+      body: FutureBuilder(
+          future: firestoreApi.getQuestions(), //getQuestion()でデータをAPIから取得
 
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                //エラーが発生した場合
-                return const Center(
-                  child: Text("errorが発生しました"),
-                );
-              } else if (!snapshot.hasData) {
-                //データの読み込み中
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return ListView.builder(
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              //エラーが発生した場合
+              return const Center(
+                child: Text("errorが発生しました"),
+              );
+            } else if (!snapshot.hasData) {
+              //データの読み込み中
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            //質問リストを表示
+            return AnimationLimiter(
+              //AnimationLimiterでラップ
+              child: ListView.builder(
+                shrinkWrap: true,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  final item = snapshot.data!.entries.elementAt(index);
-                  return Card(
-                    child: Column(
-                      children: [
-                        Text("${item.value["title"]}"),
-                        Text("${item.value["text_content"]}"),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AnswerView(
-                                  questionId: item.key,
-                                ),
-                              ),
-                            );
-                          },
-                          child: const Text("回答を表示"),
-                        ),
-                      ],
-                    ),
-                  );
+                  final questionItem = snapshot.data!.entries.elementAt(index);
+                  return questionListItem(context, index, questionItem);
                 },
-                // children: <Widget>[
-                //ダミーの質問
-                // ここは数十件(50とか？)まとめてロードしてページ分けで表示するようにしたい
-                //BAとNBAは本来分けずに一つのwidgetで表示する
-                // baQuestionItem(context),
-                // baQuestionItem(context),
-                // nbaQuestionItem(context),
-                // baQuestionItem(context),
-                // nbaQuestionItem(context),
-                // baQuestionItem(context),
-                // baQuestionItem(context),
-                // nbaQuestionItem(context),
-                // nbaQuestionItem(context),
-                // nbaQuestionItem(context),
-                // baQuestionItem(context),
-                // baQuestionItem(context),
-                // nbaQuestionItem(context),
-                // baQuestionItem(context),
-                // ],
-              );
-            }),
-      ),
+              ),
+            );
+          }),
     );
   }
 }
