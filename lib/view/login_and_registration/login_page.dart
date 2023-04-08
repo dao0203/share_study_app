@@ -107,14 +107,14 @@ class _LoginPageState extends State<LoginPage> {
               },
               barrierDismissible: false);
 
-          try {
-            //Firebaseに参照するかどうかを
-            await signIn(emailController.text, passwordController.text);
-            Navigator.of(context).pushNamed(ThreadPage.tag);
-          } catch (e) {
-            processError(e);
-            Navigator.of(context).pop();
-          }
+          await signIn(emailController.text, passwordController.text)
+              .then((value) => {
+                    Navigator.of(context).pushNamed(ThreadPage.tag),
+                  })
+              .catchError((e) => {
+                    processError(e),
+                    Navigator.of(context).pop(),
+                  });
         }
       },
       child: const Text("ログイン"),
