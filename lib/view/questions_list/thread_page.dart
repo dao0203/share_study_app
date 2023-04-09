@@ -25,7 +25,7 @@ class _ThreadPageState extends State<ThreadPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, //戻るボタンを非表示
-        title: const Text("質問閲覧画面"),
+        title: const Text("質問一覧"),
       ),
 
       //フローティングボタン
