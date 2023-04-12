@@ -88,9 +88,9 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
         validator: (value) {
-          if (!RegExp(r'^[a-zA-Z0-9._]+@s\.iwate-pu\.ac\.jp$')
+          if (!RegExp(r"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")
               .hasMatch(value!)) {
-            return "岩手県立大学のメールアドレスを入力してください";
+            return "対応しているメールアドレスを入力してください";
           } else if (value.isEmpty) {
             return "メールアドレスを入力してください";
           }
