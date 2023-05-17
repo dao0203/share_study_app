@@ -88,7 +88,8 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
         validator: (value) {
-          if (!RegExp(r"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")
+          if (!RegExp(
+                  r"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")
               .hasMatch(value!)) {
             return "対応しているメールアドレスを入力してください";
           } else if (value.isEmpty) {
@@ -281,8 +282,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           //認証メールを送信
                           _firebaseAuth.currentUser!.sendEmailVerification(),
                           //スレッドページに遷移
-                          Navigator.of(context)
-                              .pushReplacementNamed(ThreadPage.tag),
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            ThreadPage.tag,
+                            (_) => false,
+                          ),
                         },
                       ),
                 )

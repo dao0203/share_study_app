@@ -358,12 +358,15 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                                       as Map<String, dynamic>)[USERS_LAST_NAME],
                                   firstName: (documentSnapshot.data() as Map<
                                       String, dynamic>)[USERS_FIRST_NAME],
-                                      grade: (documentSnapshot.data() as Map<
-                                      String, dynamic>)[USERS_GRADE],
+                                  grade: (documentSnapshot.data()
+                                      as Map<String, dynamic>)[USERS_GRADE],
                                 );
                                 firestoreApi.postQuestion(questionDatacopy);
-                                Navigator.pushReplacementNamed(
-                                    context, ThreadPage.tag);
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  ThreadPage.tag,
+                                  (_) => false,
+                                );
                               },
                             ),
                           ],

@@ -198,11 +198,10 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                                             content: Text("投稿しました"),
                                           ),
                                         ));
-                                Navigator.push(
+                                Navigator.pushNamedAndRemoveUntil(
                                   context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const ThreadPage(),
-                                  ),
+                                  ThreadPage.tag,
+                                  (_) => false,
                                 );
                               },
                             ),

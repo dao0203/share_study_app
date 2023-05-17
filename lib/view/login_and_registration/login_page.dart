@@ -109,7 +109,10 @@ class _LoginPageState extends State<LoginPage> {
 
           await signIn(emailController.text, passwordController.text)
               .then((value) => {
-                    Navigator.of(context).pushNamed(ThreadPage.tag),
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      ThreadPage.tag,
+                      (_) => false,
+                      ),
                   })
               .catchError((e) => {
                     processError(e),
