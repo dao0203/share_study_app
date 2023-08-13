@@ -3,7 +3,6 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
-import "package:share_study_app/api_keys.dart";
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -45,7 +44,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: WEB_FIREBASE_OPTIONS_API_KEY,
+    apiKey: 'AIzaSyC-gtmp9ueWGS1d5NuT76VGEdZ0ARcnKVI',
     appId: '1:711995609799:web:40457ff2b33084e04764e2',
     messagingSenderId: '711995609799',
     projectId: 'sharestud',
@@ -54,7 +53,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: ANDROID_FIREBASE_OPTIONS_API_KEY,
+    apiKey: 'AIzaSyBTQN9mJ5A88yD5NWzwe_PnskLfdWPwkhs',
     appId: '1:711995609799:android:c1d044f3717f4de64764e2',
     messagingSenderId: '711995609799',
     projectId: 'sharestud',
@@ -62,22 +61,24 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: IOS_FIREBASE_OPTIONS_API_KEY,
+    apiKey: 'AIzaSyDkR52kw6jZmq3ryNLbak6uqvEAUC9IHfA',
     appId: '1:711995609799:ios:8a3208cdbbcfa1154764e2',
     messagingSenderId: '711995609799',
     projectId: 'sharestud',
     storageBucket: 'sharestud.appspot.com',
-    iosClientId: '711995609799-va4qprg98hbnahg6lsp8a0kb3m7cmaal.apps.googleusercontent.com',
+    iosClientId:
+        '711995609799-va4qprg98hbnahg6lsp8a0kb3m7cmaal.apps.googleusercontent.com',
     iosBundleId: 'com.example.shareStudyApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: MACOS_FIREBASE_OPTIONS_API_KEY,
+    apiKey: 'AIzaSyDkR52kw6jZmq3ryNLbak6uqvEAUC9IHfA',
     appId: '1:711995609799:ios:8a3208cdbbcfa1154764e2',
     messagingSenderId: '711995609799',
     projectId: 'sharestud',
     storageBucket: 'sharestud.appspot.com',
-    iosClientId: '711995609799-va4qprg98hbnahg6lsp8a0kb3m7cmaal.apps.googleusercontent.com',
+    iosClientId:
+        '711995609799-va4qprg98hbnahg6lsp8a0kb3m7cmaal.apps.googleusercontent.com',
     iosBundleId: 'com.example.shareStudyApp',
   );
 }

@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       ThreadPage.tag,
                       (_) => false,
-                      ),
+                    ),
                   })
               .catchError((e) => {
                     processError(e),
