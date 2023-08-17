@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:share_study_app/firestore_api.dart';
-import 'package:share_study_app/view/questions_list/list_item/question_list_items.dart';
+import 'package:share_study_app/ui/view/timeline/components/question_list_items.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:share_study_app/view/tweet/question_post_page.dart';
+import 'package:share_study_app/ui/view/postquestion/question_post_page.dart';
 
 class ThreadPage extends StatefulWidget {
   const ThreadPage({Key? key}) : super(key: key);
