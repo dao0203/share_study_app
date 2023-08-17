@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:share_study_app/view/login_and_registration/privacy_policy_web.dart';
-import 'package:share_study_app/view/login_and_registration/register_page.dart';
-import 'package:share_study_app/view/questions_list/thread_page.dart';
+import 'package:share_study_app/ui/view/common/privacy_policy_web.dart';
+import 'package:share_study_app/ui/view/onboarding/registration/register_page.dart';
+import 'package:share_study_app/ui/view/timeline/thread_page.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = "login_page";

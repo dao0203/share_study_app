@@ -10,7 +10,7 @@ import 'package:share_study_app/constants.dart';
 import 'package:share_study_app/data/question_post_data.dart';
 import 'package:share_study_app/firestore_api.dart';
 
-import '../questions_list/thread_page.dart';
+import '../timeline/thread_page.dart';
 // import 'package:image_picker_web/image_picker_web.dart';
 
 /*投稿画面の初期状態画面

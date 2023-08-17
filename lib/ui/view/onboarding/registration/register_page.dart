@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_study_app/data/data_when_register.dart';
 import 'package:share_study_app/firestore_api.dart';
-import 'package:share_study_app/view/login_and_registration/login_page.dart';
-import 'package:share_study_app/view/questions_list/thread_page.dart';
+import 'package:share_study_app/ui/view/onboarding/login/login_page.dart';
+import 'package:share_study_app/ui/view/timeline/thread_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

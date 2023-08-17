@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:share_study_app/data/answer_post_data.dart';
 import 'package:share_study_app/firestore_api.dart';
-import 'package:share_study_app/view/questions_list/item/question_items.dart';
-import 'package:share_study_app/view/questions_list/thread_page.dart';
-import '../../constants.dart';
+import 'package:share_study_app/ui/view/timeline/components/question_items.dart';
+import 'package:share_study_app/ui/view/timeline/thread_page.dart';
+import '../../../constants.dart';
 
 class QuestionArguments {
   final String qId;
