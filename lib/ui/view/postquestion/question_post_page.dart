@@ -340,7 +340,6 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                                 );
                                 final questionDatacopy =
                                     postedQuestionData.copyWith(
-                                  qSubName: qSubName,
                                   title: titleContent,
                                   content: questionContent,
                                 );
