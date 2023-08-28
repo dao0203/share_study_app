@@ -4,11 +4,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:share_study_app/constants.dart';
-import 'package:share_study_app/data/data_when_register.dart';
-
-/* freezedファイル */
-import 'data/question_post_data.dart';
-import 'data/answer_post_data.dart';
+import 'package:share_study_app/data/domain/answer.dart';
+import 'package:share_study_app/data/domain/registration.dart';
+import 'package:share_study_app/data/domain/question.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -20,7 +18,7 @@ class FirestoreApi {
   CollectionReference users = firestore.collection(USERS);
   DateTime createdDate = DateTime.now(); //現在の時刻を指定
   User? auth = FirebaseAuth.instance.currentUser;
-  Future<void> addUser(DataWhenRegister dataWhenRegister) async {
+  Future<void> addUser(Registration dataWhenRegister) async {
     await users.doc(dataWhenRegister.email).set({
       USERS_EMAIL: dataWhenRegister.email,
       USERS_NAME: dataWhenRegister.lastName + dataWhenRegister.firstName,
@@ -73,7 +71,7 @@ class FirestoreApi {
   }
 
   // 質問投稿メソッド
-  Future<void> postQuestion(QuestionPostData questionData) async {
+  Future<void> postQuestion(Question questionData) async {
     final List<String> emptyList = [];
     await questions.add(
       {
@@ -103,8 +101,7 @@ class FirestoreApi {
   }
 
   //回答投稿メソッド
-  Future<void> postAnswer(
-      AnswerPostData answerPostData, String questionId) async {
+  Future<void> postAnswer(Answer answerPostData, String questionId) async {
     // 回答をFirestoreに格納
     final answerDocRef = await answers.add(
       {

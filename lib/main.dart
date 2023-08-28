@@ -22,7 +22,9 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   static final FirebaseAuth _auth = FirebaseAuth.instance;
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
         useMaterial3: true,
         colorScheme: darkColorScheme,
-      ),  
+      ),
       home: StreamBuilder<User?>(
         stream: _auth.authStateChanges(),
         builder: (context, snapshot) {

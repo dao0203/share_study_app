@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:share_study_app/data/data_when_register.dart';
-import 'package:share_study_app/firestore_api.dart';
+import 'package:share_study_app/data/domain/registration.dart';
+import 'package:share_study_app/data/firebase/firestore_api.dart';
 import 'package:share_study_app/ui/view/onboarding/login/login_page.dart';
 import 'package:share_study_app/ui/view/timeline/thread_page.dart';
 
@@ -31,7 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
     "Ph.D._3rd_year": "博士3年"
   };
 
-  final DataWhenRegister _dataWhenRegister = const DataWhenRegister(
+  final Registration _dataWhenRegister = const Registration(
     email: "",
     firstName: "",
     lastName: "",

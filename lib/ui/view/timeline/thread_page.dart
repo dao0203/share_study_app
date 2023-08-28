@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:share_study_app/firestore_api.dart';
+import 'package:share_study_app/data/firebase/firestore_api.dart';
 import 'package:share_study_app/ui/view/timeline/components/question_list_items.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:share_study_app/ui/view/postquestion/question_post_page.dart';
@@ -113,7 +113,7 @@ Widget questionItem(BuildContext context, QuestionArguments question,
             qUserId: question.qUserId,
           ),
         ),
-        Question(qTitle: question.qTitle, question: question.question),
+        QuestionItem(qTitle: question.qTitle, question: question.question),
         FooterButton(buttonText: buttonText, routeName: routeName),
       ]),
     ),
@@ -152,10 +152,10 @@ class UserInfo extends StatelessWidget {
 }
 
 // QuestionItemの質問タイトルと内容を表示する部分
-class Question extends StatelessWidget {
+class QuestionItem extends StatelessWidget {
   final String qTitle;
   final String question;
-  const Question({Key? key, required this.qTitle, required this.question})
+  const QuestionItem({Key? key, required this.qTitle, required this.question})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
