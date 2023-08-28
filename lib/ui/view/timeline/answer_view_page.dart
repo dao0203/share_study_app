@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:share_study_app/ui/view/addanswer/add_answer.dart';
-import 'package:share_study_app/firestore_api.dart';
+import 'package:share_study_app/data/firebase/firestore_api.dart';
 import 'package:share_study_app/ui/view/timeline/components/answer_list_text.dart';
 import 'package:share_study_app/ui/view/timeline/components/answer_list_item.dart';
 

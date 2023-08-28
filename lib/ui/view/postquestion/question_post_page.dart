@@ -7,8 +7,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:share_study_app/constants.dart';
-import 'package:share_study_app/data/question_post_data.dart';
-import 'package:share_study_app/firestore_api.dart';
+import 'package:share_study_app/data/domain/question.dart';
+import 'package:share_study_app/data/firebase/firestore_api.dart';
 
 import '../timeline/thread_page.dart';
 // import 'package:image_picker_web/image_picker_web.dart';
@@ -33,7 +33,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
   late String titleContent = "";
   late String questionContent = "";
 
-  final postedQuestionData = const QuestionPostData(
+  final postedQuestionData = const Question(
     qSubName: "", //科目ID
     email: "0", //ユーザーID
     titleContent: "", //タイトルID

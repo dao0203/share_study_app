@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'data_when_register.dart';
+part of 'registration.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$DataWhenRegister {
+mixin _$Registration {
   String get email => throw _privateConstructorUsedError; //メールアドレス
   String get firstName => throw _privateConstructorUsedError; //名
   String get lastName => throw _privateConstructorUsedError; //姓
@@ -23,15 +23,15 @@ mixin _$DataWhenRegister {
   String get grade => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $DataWhenRegisterCopyWith<DataWhenRegister> get copyWith =>
+  $RegistrationCopyWith<Registration> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DataWhenRegisterCopyWith<$Res> {
-  factory $DataWhenRegisterCopyWith(
-          DataWhenRegister value, $Res Function(DataWhenRegister) then) =
-      _$DataWhenRegisterCopyWithImpl<$Res, DataWhenRegister>;
+abstract class $RegistrationCopyWith<$Res> {
+  factory $RegistrationCopyWith(
+          Registration value, $Res Function(Registration) then) =
+      _$RegistrationCopyWithImpl<$Res, Registration>;
   @useResult
   $Res call(
       {String email,
@@ -42,9 +42,9 @@ abstract class $DataWhenRegisterCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DataWhenRegisterCopyWithImpl<$Res, $Val extends DataWhenRegister>
-    implements $DataWhenRegisterCopyWith<$Res> {
-  _$DataWhenRegisterCopyWithImpl(this._value, this._then);
+class _$RegistrationCopyWithImpl<$Res, $Val extends Registration>
+    implements $RegistrationCopyWith<$Res> {
+  _$RegistrationCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -86,11 +86,11 @@ class _$DataWhenRegisterCopyWithImpl<$Res, $Val extends DataWhenRegister>
 }
 
 /// @nodoc
-abstract class _$$_DataWhenRegisterCopyWith<$Res>
-    implements $DataWhenRegisterCopyWith<$Res> {
-  factory _$$_DataWhenRegisterCopyWith(
-          _$_DataWhenRegister value, $Res Function(_$_DataWhenRegister) then) =
-      __$$_DataWhenRegisterCopyWithImpl<$Res>;
+abstract class _$$_RegistrationCopyWith<$Res>
+    implements $RegistrationCopyWith<$Res> {
+  factory _$$_RegistrationCopyWith(
+          _$_Registration value, $Res Function(_$_Registration) then) =
+      __$$_RegistrationCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,11 +102,11 @@ abstract class _$$_DataWhenRegisterCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DataWhenRegisterCopyWithImpl<$Res>
-    extends _$DataWhenRegisterCopyWithImpl<$Res, _$_DataWhenRegister>
-    implements _$$_DataWhenRegisterCopyWith<$Res> {
-  __$$_DataWhenRegisterCopyWithImpl(
-      _$_DataWhenRegister _value, $Res Function(_$_DataWhenRegister) _then)
+class __$$_RegistrationCopyWithImpl<$Res>
+    extends _$RegistrationCopyWithImpl<$Res, _$_Registration>
+    implements _$$_RegistrationCopyWith<$Res> {
+  __$$_RegistrationCopyWithImpl(
+      _$_Registration _value, $Res Function(_$_Registration) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_DataWhenRegisterCopyWithImpl<$Res>
     Object? password = null,
     Object? grade = null,
   }) {
-    return _then(_$_DataWhenRegister(
+    return _then(_$_Registration(
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -145,8 +145,8 @@ class __$$_DataWhenRegisterCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_DataWhenRegister implements _DataWhenRegister {
-  const _$_DataWhenRegister(
+class _$_Registration implements _Registration {
+  const _$_Registration(
       {required this.email,
       required this.firstName,
       required this.lastName,
@@ -170,14 +170,14 @@ class _$_DataWhenRegister implements _DataWhenRegister {
 
   @override
   String toString() {
-    return 'DataWhenRegister(email: $email, firstName: $firstName, lastName: $lastName, password: $password, grade: $grade)';
+    return 'Registration(email: $email, firstName: $firstName, lastName: $lastName, password: $password, grade: $grade)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DataWhenRegister &&
+            other is _$_Registration &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.firstName, firstName) ||
                 other.firstName == firstName) &&
@@ -195,17 +195,17 @@ class _$_DataWhenRegister implements _DataWhenRegister {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DataWhenRegisterCopyWith<_$_DataWhenRegister> get copyWith =>
-      __$$_DataWhenRegisterCopyWithImpl<_$_DataWhenRegister>(this, _$identity);
+  _$$_RegistrationCopyWith<_$_Registration> get copyWith =>
+      __$$_RegistrationCopyWithImpl<_$_Registration>(this, _$identity);
 }
 
-abstract class _DataWhenRegister implements DataWhenRegister {
-  const factory _DataWhenRegister(
+abstract class _Registration implements Registration {
+  const factory _Registration(
       {required final String email,
       required final String firstName,
       required final String lastName,
       required final String password,
-      required final String grade}) = _$_DataWhenRegister;
+      required final String grade}) = _$_Registration;
 
   @override
   String get email;
@@ -219,6 +219,6 @@ abstract class _DataWhenRegister implements DataWhenRegister {
   String get grade;
   @override
   @JsonKey(ignore: true)
-  _$$_DataWhenRegisterCopyWith<_$_DataWhenRegister> get copyWith =>
+  _$$_RegistrationCopyWith<_$_Registration> get copyWith =>
       throw _privateConstructorUsedError;
 }
