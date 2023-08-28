@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/domain/questioner.dart';
 import 'package:share_study_app/data/domain/subject.dart';
-import 'package:share_study_app/data/repository/question_repostiroy.dart';
+import 'package:share_study_app/data/repository/question_repository.dart';
 
 final class FirestoreQuestionRepository implements QuestionRepository {
   final CollectionReference _questionsCollection;
