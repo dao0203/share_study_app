@@ -9,7 +9,6 @@ abstract class Question with _$Question {
   const factory Question({
     @Default("") String id,
     @Default("") String title,
-    @Default("") String qSubName,
     @Default("") String content,
     @Default("") String imageUrl,
     @Default(false) bool isResolved,

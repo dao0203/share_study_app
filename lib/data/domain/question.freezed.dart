@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$Question {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String get qSubName => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   bool get isResolved => throw _privateConstructorUsedError;
@@ -40,7 +39,6 @@ abstract class $QuestionCopyWith<$Res> {
   $Res call(
       {String id,
       String title,
-      String qSubName,
       String content,
       String imageUrl,
       bool isResolved,
@@ -68,7 +66,6 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? qSubName = null,
     Object? content = null,
     Object? imageUrl = null,
     Object? isResolved = null,
@@ -85,10 +82,6 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      qSubName: null == qSubName
-          ? _value.qSubName
-          : qSubName // ignore: cast_nullable_to_non_nullable
               as String,
       content: null == content
           ? _value.content
@@ -148,7 +141,6 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
   $Res call(
       {String id,
       String title,
-      String qSubName,
       String content,
       String imageUrl,
       bool isResolved,
@@ -176,7 +168,6 @@ class __$$_QuestionCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? qSubName = null,
     Object? content = null,
     Object? imageUrl = null,
     Object? isResolved = null,
@@ -193,10 +184,6 @@ class __$$_QuestionCopyWithImpl<$Res>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      qSubName: null == qSubName
-          ? _value.qSubName
-          : qSubName // ignore: cast_nullable_to_non_nullable
               as String,
       content: null == content
           ? _value.content
@@ -236,7 +223,6 @@ class _$_Question implements _Question {
   const _$_Question(
       {this.id = "",
       this.title = "",
-      this.qSubName = "",
       this.content = "",
       this.imageUrl = "",
       this.isResolved = false,
@@ -251,9 +237,6 @@ class _$_Question implements _Question {
   @override
   @JsonKey()
   final String title;
-  @override
-  @JsonKey()
-  final String qSubName;
   @override
   @JsonKey()
   final String content;
@@ -276,7 +259,7 @@ class _$_Question implements _Question {
 
   @override
   String toString() {
-    return 'Question(id: $id, title: $title, qSubName: $qSubName, content: $content, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, subject: $subject, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Question(id: $id, title: $title, content: $content, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, subject: $subject, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -286,8 +269,6 @@ class _$_Question implements _Question {
             other is _$_Question &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.qSubName, qSubName) ||
-                other.qSubName == qSubName) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
@@ -303,8 +284,8 @@ class _$_Question implements _Question {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, qSubName, content,
-      imageUrl, isResolved, questioner, subject, createdAt, updatedAt);
+  int get hashCode => Object.hash(runtimeType, id, title, content, imageUrl,
+      isResolved, questioner, subject, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -317,7 +298,6 @@ abstract class _Question implements Question {
   const factory _Question(
       {final String id,
       final String title,
-      final String qSubName,
       final String content,
       final String imageUrl,
       final bool isResolved,
@@ -330,8 +310,6 @@ abstract class _Question implements Question {
   String get id;
   @override
   String get title;
-  @override
-  String get qSubName;
   @override
   String get content;
   @override
