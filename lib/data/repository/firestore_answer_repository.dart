@@ -8,7 +8,7 @@ final class FirestoreAnswerRepository implements AnswerRepository {
   FirestoreAnswerRepository(this._answersCollection);
 
   @override
-  Future<void> createAnswer(Answer answer) async {
+  Future<void> addAnswer(Answer answer) async {
     await _answersCollection.add({});
   }
 
