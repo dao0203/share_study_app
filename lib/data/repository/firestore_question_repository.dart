@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/domain/questioner.dart';
 import 'package:share_study_app/data/domain/subject.dart';
