@@ -1,10 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/firebase/firestore_providers.dart';
-import 'package:share_study_app/data/repository/answer_repositroy.dart';
+import 'package:share_study_app/data/repository/answer_repository.dart';
 import 'package:share_study_app/data/repository/firestore_answer_repository.dart';
-import 'package:share_study_app/data/repository/firestore_question_respotiroy.dart';
+import 'package:share_study_app/data/repository/firestore_question_repository.dart';
 import 'package:share_study_app/data/repository/firestore_subject_repository.dart';
-import 'package:share_study_app/data/repository/question_repostiroy.dart';
+import 'package:share_study_app/data/repository/question_repository.dart';
 import 'package:share_study_app/data/repository/subject_repository.dart';
 
 final answerRepositoryProvider = Provider<AnswerRepository>((ref) {

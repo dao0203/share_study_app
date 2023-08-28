@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/data/domain/answerer.dart';
 import 'package:share_study_app/data/domain/subject.dart';
-import 'package:share_study_app/data/repository/answer_repositroy.dart';
+import 'package:share_study_app/data/repository/answer_repository.dart';
 
 final class FirestoreAnswerRepository implements AnswerRepository {
   final CollectionReference _answersCollection;

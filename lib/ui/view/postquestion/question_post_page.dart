@@ -1,22 +1,10 @@
-//
-//   必要なパッケージのインストールとして下記を実行
-//   flutter pub add image_picker_for_web
-//   flutter pub add firebase_storage URL:https://pub.dev/packages/firebase_storage/install
-//
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:share_study_app/constants.dart';
 import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/firebase/firestore_api.dart';
 
 import '../timeline/thread_page.dart';
-// import 'package:image_picker_web/image_picker_web.dart';
 
-/*投稿画面の初期状態画面
-
-@author 佐藤佑哉
-*/
 class QuestionPostPage extends StatefulWidget {
   const QuestionPostPage({super.key});
 
@@ -62,18 +50,6 @@ class _QuestionPostPage extends State<QuestionPostPage> {
     });
   }
 
-  // 画像アップロードする際に使用する
-  // var _isfiled = false; //写真をアップしているかしていないか
-  // XFile? _pickedFile;
-  // void _setImageFileListFromFile(XFile? value) {
-  //   _pickedFile = value;
-  //   value == null ? _isfiled = false : _isfiled = true;
-  // }
-  // final storage = FirebaseStorage.instance;
-  // final storageRef = FirebaseStorage.instance.ref();
-  // late File _image;
-  // final ImagePicker _picker = ImagePicker();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,28 +71,6 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      //間隔を開ける
-                      /*科目選択ボタン*/
-                      // DropdownButton(
-                      //   value: classId,
-                      //   hint: const Text("科目を選択して下さい"),
-                      //   items: subjects.entries
-                      //       .map(
-                      //         (entry) => DropdownMenuItem(
-                      //           value: entry.key,
-                      //           child: Text(entry.value),
-                      //         ),
-                      //       )
-                      //       .toList(),
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       //List中にnullがある場合はエラーを返す
-                      //       classId = value ?? "エラー";
-                      //       questionData.copyWith(qSubId: classId);
-                      //     });
-                      //   },
-                      // ),
-
                       const SizedBox(height: 10), //間隔を開ける
                       TextFormField(
                         validator: (value) {
@@ -218,81 +172,6 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                           }
                         },
                       ),
-                      /**写真アップロードボタン */
-                      // const SizedBox(height: 20), //間隔を開ける
-                      // _isfiled
-                      //     ? Column(
-                      //         //写真あり
-                      //         children: [
-                      //           SizedBox(
-                      //             height: 90,
-                      //             child: Row(
-                      //               mainAxisAlignment:
-                      //                   MainAxisAlignment.center,
-                      //               children: [
-                      //                 ClipRRect(
-                      //                   borderRadius:
-                      //                       BorderRadius.circular(3.0),
-                      //                   child: kIsWeb //Webで実行されているかどうかを判断する
-
-                      //                       ? Image.network(
-                      //                           _pickedFile!.path)
-                      //                       : Image.file(
-                      //                           File(_pickedFile!.path),
-                      //                           errorBuilder: (c, o, s) {
-                      //                             return const Icon(
-                      //                               Icons.error,
-                      //                               color: Colors.red,
-                      //                             );
-                      //                           },
-                      //                           fit: BoxFit.cover,
-                      //                         ), //htmlとioのインポートの種類に注意
-                      //                 ),
-                      //                 SizedBox(width: 50),
-                      //                 ElevatedButton(
-                      //                   child: Text('写真を削除'),
-                      //                   onPressed: () {
-                      //                     _pickedFile = null;
-                      //                     setState(() {
-                      //                       _setImageFileListFromFile(
-                      //                           _pickedFile);
-                      //                     });
-                      //                   },
-                      //                 )
-                      //               ],
-                      //             ),
-                      //           )
-                      //         ],
-                      //       )
-                      //     : Column(
-                      //         //写真なし
-                      //         children: [
-                      //           Text("写真をアップロード"),
-                      //           SizedBox(height: 5),
-                      //           SizedBox(
-                      //             width: 180,
-                      //             height: 50,
-                      //             child: ElevatedButton(
-                      //               child: Text("＋写真をアップロード"),
-                      //               onPressed: () {
-                      //                 setState(() {
-                      //                   _onImageButtonPressed();
-                      //                   _setImageFileListFromFile(
-                      //                       _pickedFile);
-                      //                 });
-                      //               },
-
-                      //               // onPressed: () async {
-                      //               //   // var picture = await select_picture(
-                      //               //   //     context); //写真機能とギャラリー機能
-                      //               //   // setState(() {
-                      //               //   //   _setImageFileListFromFile(picture);
-                      //               //   // });
-                      //               // },
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
                     ],
                   ),
                 ),
@@ -365,13 +244,4 @@ class _QuestionPostPage extends State<QuestionPostPage> {
       ),
     );
   }
-/*画像をアップロードする際に使用する */
-  // Future<void> _onImageButtonPressed() async {
-  //   final XFile? pickedfile =
-  //       await _picker.pickImage(source: ImageSource.gallery);
-
-  //   setState(() {
-  //     _pickedFile = XFile(pickedfile!.path);
-  //   });
-  // }
 }

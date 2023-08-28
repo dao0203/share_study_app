@@ -4,40 +4,6 @@ import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/data/firebase/firestore_api.dart';
 import 'package:share_study_app/ui/view/timeline/components/question_items.dart';
 import 'package:share_study_app/ui/view/timeline/thread_page.dart';
-import '../../../constants.dart';
-
-class QuestionArguments {
-  final String qId;
-  final String qUserId;
-  final String qTitle;
-  final String qSubject;
-  final String question;
-  final String attFiles;
-  const QuestionArguments(
-      {required this.qId,
-      required this.qUserId,
-      required this.qTitle,
-      required this.qSubject,
-      required this.question,
-      required this.attFiles});
-}
-
-class AnswerArguments {
-  final String qId; //質問のID
-  final String aId; //回答のID
-  final String aUserId; //回答したユーザーのID
-  final String answer; //回答の内容
-  final String numAnswers; //回答の数
-  final String attFiles; //添付ファイル
-
-  const AnswerArguments(
-      {required this.qId,
-      required this.aId,
-      required this.aUserId,
-      required this.answer,
-      required this.numAnswers,
-      required this.attFiles});
-}
 
 class PostAnswerPage extends StatefulWidget {
   const PostAnswerPage({super.key, required this.questionId});
