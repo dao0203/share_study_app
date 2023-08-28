@@ -33,16 +33,7 @@ class _QuestionPostPage extends State<QuestionPostPage> {
   late String titleContent = "";
   late String questionContent = "";
 
-  final postedQuestionData = const Question(
-    qSubName: "", //科目ID
-    email: "0", //ユーザーID
-    titleContent: "", //タイトルID
-    questionContent: "", //質問内容
-    lastName: "",
-    firstName: "",
-    grade: "",
-    // attFiles: "",//画像アップロードする際に使用する
-  );
+  final postedQuestionData = const Question();
 
   //フォーム識別のグローバルキーを宣言
   final _formKey = GlobalKey<FormState>();
@@ -349,17 +340,9 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                                 );
                                 final questionDatacopy =
                                     postedQuestionData.copyWith(
-                                  email: (documentSnapshot.data()
-                                      as Map<String, dynamic>)[USERS_EMAIL],
                                   qSubName: qSubName,
-                                  titleContent: titleContent,
-                                  questionContent: questionContent,
-                                  lastName: (documentSnapshot.data()
-                                      as Map<String, dynamic>)[USERS_LAST_NAME],
-                                  firstName: (documentSnapshot.data() as Map<
-                                      String, dynamic>)[USERS_FIRST_NAME],
-                                  grade: (documentSnapshot.data()
-                                      as Map<String, dynamic>)[USERS_GRADE],
+                                  title: titleContent,
+                                  content: questionContent,
                                 );
                                 firestoreApi.postQuestion(questionDatacopy);
                                 Navigator.pushNamedAndRemoveUntil(

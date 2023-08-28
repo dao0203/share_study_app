@@ -52,14 +52,7 @@ class _PostAnswerPage extends State<PostAnswerPage> {
   FirestoreApi firestoreApi = FirestoreApi();
   late DocumentSnapshot<Object?> documentSnapshot;
   late String questionId = "";
-  final _isPostedAnswerData = Answer(
-    email: "",
-    answerText: "",
-    questionId: "",
-    lastName: "",
-    firstName: "",
-    grade: "",
-  );
+  final _isPostedAnswerData = Answer();
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _answerTextController = TextEditingController();
@@ -180,13 +173,7 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                                 );
                                 final isPostedAnswerData =
                                     _isPostedAnswerData.copyWith(
-                                  answerText: _answerTextController.text,
-                                  lastName: (documentSnapshot.data()
-                                      as Map<String, dynamic>)[USERS_LAST_NAME],
-                                  firstName: (documentSnapshot.data() as Map<
-                                      String, dynamic>)[USERS_FIRST_NAME],
-                                  grade: (documentSnapshot.data()
-                                      as Map<String, dynamic>)[USERS_GRADE],
+                                  content: _answerTextController.text,
                                 );
                                 firestoreApi
                                     .postAnswer(isPostedAnswerData, questionId)
