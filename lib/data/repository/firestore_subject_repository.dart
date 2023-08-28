@@ -16,15 +16,4 @@ final class FirestoreSubjectRepository implements SubjectRepository {
             ))
         .toList());
   }
-
-  @override
-  Stream<List<Subject>> getResearchSubjectsStream(String keyWord) {
-    return _subjectCollectionRef.snapshots().map((snapshot) => snapshot.docs
-        .map((e) => Subject(
-              id: e.id,
-              name: e["name"],
-              course: e["course"],
-            ))
-        .toList());
-  }
 }
