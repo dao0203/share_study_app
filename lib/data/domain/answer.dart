@@ -27,6 +27,7 @@ class Answer with _$Answer {
     @Default("") String questionId,
     @Default("") String content,
     @Default("") String imageUrl,
+    @Default(false) bool isBestAnswer,
     @Default(Subject()) Subject subject,
     @Default(Answerer()) Answerer answerer,
     DateTime? createdAt,

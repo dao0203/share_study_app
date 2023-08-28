@@ -20,6 +20,7 @@ mixin _$Answer {
   String get questionId => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
+  bool get isBestAnswer => throw _privateConstructorUsedError;
   Subject get subject => throw _privateConstructorUsedError;
   Answerer get answerer => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -39,6 +40,7 @@ abstract class $AnswerCopyWith<$Res> {
       String questionId,
       String content,
       String imageUrl,
+      bool isBestAnswer,
       Subject subject,
       Answerer answerer,
       DateTime? createdAt,
@@ -65,6 +67,7 @@ class _$AnswerCopyWithImpl<$Res, $Val extends Answer>
     Object? questionId = null,
     Object? content = null,
     Object? imageUrl = null,
+    Object? isBestAnswer = null,
     Object? subject = null,
     Object? answerer = null,
     Object? createdAt = freezed,
@@ -87,6 +90,10 @@ class _$AnswerCopyWithImpl<$Res, $Val extends Answer>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      isBestAnswer: null == isBestAnswer
+          ? _value.isBestAnswer
+          : isBestAnswer // ignore: cast_nullable_to_non_nullable
+              as bool,
       subject: null == subject
           ? _value.subject
           : subject // ignore: cast_nullable_to_non_nullable
@@ -134,6 +141,7 @@ abstract class _$$_AnswerCopyWith<$Res> implements $AnswerCopyWith<$Res> {
       String questionId,
       String content,
       String imageUrl,
+      bool isBestAnswer,
       Subject subject,
       Answerer answerer,
       DateTime? createdAt,
@@ -159,6 +167,7 @@ class __$$_AnswerCopyWithImpl<$Res>
     Object? questionId = null,
     Object? content = null,
     Object? imageUrl = null,
+    Object? isBestAnswer = null,
     Object? subject = null,
     Object? answerer = null,
     Object? createdAt = freezed,
@@ -181,6 +190,10 @@ class __$$_AnswerCopyWithImpl<$Res>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      isBestAnswer: null == isBestAnswer
+          ? _value.isBestAnswer
+          : isBestAnswer // ignore: cast_nullable_to_non_nullable
+              as bool,
       subject: null == subject
           ? _value.subject
           : subject // ignore: cast_nullable_to_non_nullable
@@ -209,6 +222,7 @@ class _$_Answer implements _Answer {
       this.questionId = "",
       this.content = "",
       this.imageUrl = "",
+      this.isBestAnswer = false,
       this.subject = const Subject(),
       this.answerer = const Answerer(),
       this.createdAt,
@@ -228,6 +242,9 @@ class _$_Answer implements _Answer {
   final String imageUrl;
   @override
   @JsonKey()
+  final bool isBestAnswer;
+  @override
+  @JsonKey()
   final Subject subject;
   @override
   @JsonKey()
@@ -239,7 +256,7 @@ class _$_Answer implements _Answer {
 
   @override
   String toString() {
-    return 'Answer(id: $id, questionId: $questionId, content: $content, imageUrl: $imageUrl, subject: $subject, answerer: $answerer, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Answer(id: $id, questionId: $questionId, content: $content, imageUrl: $imageUrl, isBestAnswer: $isBestAnswer, subject: $subject, answerer: $answerer, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -253,6 +270,8 @@ class _$_Answer implements _Answer {
             (identical(other.content, content) || other.content == content) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
+            (identical(other.isBestAnswer, isBestAnswer) ||
+                other.isBestAnswer == isBestAnswer) &&
             (identical(other.subject, subject) || other.subject == subject) &&
             (identical(other.answerer, answerer) ||
                 other.answerer == answerer) &&
@@ -264,7 +283,7 @@ class _$_Answer implements _Answer {
 
   @override
   int get hashCode => Object.hash(runtimeType, id, questionId, content,
-      imageUrl, subject, answerer, createdAt, updatedAt);
+      imageUrl, isBestAnswer, subject, answerer, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -279,6 +298,7 @@ abstract class _Answer implements Answer {
       final String questionId,
       final String content,
       final String imageUrl,
+      final bool isBestAnswer,
       final Subject subject,
       final Answerer answerer,
       final DateTime? createdAt,
@@ -292,6 +312,8 @@ abstract class _Answer implements Answer {
   String get content;
   @override
   String get imageUrl;
+  @override
+  bool get isBestAnswer;
   @override
   Subject get subject;
   @override
