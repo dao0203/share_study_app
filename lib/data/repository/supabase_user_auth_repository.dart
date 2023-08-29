@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final class SupabaseUserAuthRepository implements UserAuthRepository {
   @override
-  bool isUserLoggedIn() {
+  bool isUserSignedIn() {
     return Supabase.instance.client.auth.currentSession != null;
   }
 
