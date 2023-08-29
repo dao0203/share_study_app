@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -39,20 +39,26 @@ dependencies:
   flutter_signin_button: ^2.0.0
   http: ^0.13.5
   flutter_dotenv: ^5.0.2
-  hooks_riverpod: ^2.0.1
   image_picker: ^0.8.6
   freezed_annotation: ^2.2.0
   json_annotation: ^4.7.0
-  firebase_core: ^2.2.0
-  firebase_auth: ^4.1.2
-  firebase_storage: ^11.0.5
+
   path_provider: ^2.0.11
-  image_picker_web: ^2.1.1
-  image_picker_for_web: ^2.1.10
-  cloud_firestore: ^4.1.0
   flutter_staggered_animations: ^1.1.1
   webview_flutter: ^4.0.7
   flutter_launcher_icons: ^0.13.1
+
+  ## riverpod
+  flutter_hooks: ^0.20.0
+  hooks_riverpod: ^2.0.1
+  riverpod_generator: ^2.3.1
+  riverpod_annotation: ^2.1.4
+
+  ## firebase
+  firebase_core: ^2.2.0
+  firebase_auth: ^4.1.2
+  firebase_storage: ^11.0.5
+  cloud_firestore: ^4.1.0
 
 dev_dependencies:
   flutter_test:
@@ -72,15 +78,11 @@ flutter_icons:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
 
-
-
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

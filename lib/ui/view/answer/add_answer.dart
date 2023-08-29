@@ -1,89 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:share_study_app/data/domain/answer.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/firebase/firestore_api.dart';
+import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/view/timeline/components/question_items.dart';
 import 'package:share_study_app/ui/view/timeline/thread_page.dart';
-import '../../../constants.dart';
 
-class QuestionArguments {
-  final String qId;
-  final String qUserId;
-  final String qTitle;
-  final String qSubject;
-  final String question;
-  final String attFiles;
-  const QuestionArguments(
-      {required this.qId,
-      required this.qUserId,
-      required this.qTitle,
-      required this.qSubject,
-      required this.question,
-      required this.attFiles});
-}
-
-class AnswerArguments {
-  final String qId; //質問のID
-  final String aId; //回答のID
-  final String aUserId; //回答したユーザーのID
-  final String answer; //回答の内容
-  final String numAnswers; //回答の数
-  final String attFiles; //添付ファイル
-
-  const AnswerArguments(
-      {required this.qId,
-      required this.aId,
-      required this.aUserId,
-      required this.answer,
-      required this.numAnswers,
-      required this.attFiles});
-}
-
-class PostAnswerPage extends StatefulWidget {
-  const PostAnswerPage({super.key, required this.questionId});
-
-  final String questionId;
-
-  @override
-  State<PostAnswerPage> createState() => _PostAnswerPage();
-}
-
-class _PostAnswerPage extends State<PostAnswerPage> {
+class PostAnswerScreen extends HookConsumerWidget {
+  PostAnswerScreen({required this.questionId, Key? key}) : super(key: key);
   FirestoreApi firestoreApi = FirestoreApi();
-  late DocumentSnapshot<Object?> documentSnapshot;
-  late String questionId = "";
-  final _isPostedAnswerData = Answer(
-    email: "",
-    answerText: "",
-    questionId: "",
-    lastName: "",
-    firstName: "",
-    grade: "",
-  );
+  final String questionId;
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _answerTextController = TextEditingController();
 
-  Future<void> getUser() async {
-    final user = await firestoreApi.getUser();
-    setState(() {
-      documentSnapshot = user;
-    });
-  }
-
   @override
-  void initState() {
-    super.initState();
-    questionId = widget.questionId;
-    Future<void>(
-      () async {
-        await getUser();
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final questionRepository = ref.watch(questionRepositoryProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -178,29 +110,27 @@ class _PostAnswerPage extends State<PostAnswerPage> {
                                     );
                                   },
                                 );
-                                final isPostedAnswerData =
-                                    _isPostedAnswerData.copyWith(
-                                  answerText: _answerTextController.text,
-                                  lastName: (documentSnapshot.data()
-                                      as Map<String, dynamic>)[USERS_LAST_NAME],
-                                  firstName: (documentSnapshot.data() as Map<
-                                      String, dynamic>)[USERS_FIRST_NAME],
-                                  grade: (documentSnapshot.data()
-                                      as Map<String, dynamic>)[USERS_GRADE],
-                                );
-                                firestoreApi
-                                    .postAnswer(isPostedAnswerData, questionId)
-                                    .then((value) =>
-                                        //スナックバー以外に表示する方法がわからない
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text("投稿しました"),
-                                          ),
-                                        ));
-                                Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  ThreadPage.tag,
+                                // final isPostedAnswerData =
+                                //     _isPostedAnswerData.copyWith(
+                                //   content: _answerTextController.text,
+                                // );
+                                // firestoreApi
+                                //     .postAnswer(isPostedAnswerData, questionId)
+                                //     .then((value) =>
+                                //         //スナックバー以外に表示する方法がわからない
+                                //         ScaffoldMessenger.of(context)
+                                //             .showSnackBar(
+                                //           const SnackBar(
+                                //             content: Text("投稿しました"),
+                                //           ),
+                                //         ));
+                                //QuestionsScreenに画面遷移
+                                Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const QuestionsScreen(),
+                                    maintainState: false,
+                                  ),
                                   (_) => false,
                                 );
                               },

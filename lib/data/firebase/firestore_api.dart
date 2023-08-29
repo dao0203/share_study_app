@@ -71,19 +71,17 @@ class FirestoreApi {
   }
 
   // 質問投稿メソッド
-  Future<void> postQuestion(Question questionData) async {
+  Future<void> postQuestion(Question question) async {
     final List<String> emptyList = [];
     await questions.add(
       {
-        QUESTIONS_TITLE: questionData.titleContent, //タイトル内容
-        QUESTIONS_QUESTION_CONTENT: questionData.questionContent, //質問内容
-        QUESTIONS_SUBJECT_NAME: questionData.qSubName, //科目名
-        QUESTIONS_EMAIL: questionData.email, //googleAccountId
+        QUESTIONS_TITLE: question.title, //タイトル内容
+        QUESTIONS_QUESTION_CONTENT: question.content, //質問内容
         QUESTIONS_CREATED_AT: createdDate, //現在の時刻
         QUESTIONS_ANSWER_IDS: emptyList, //回答ID
-        QUESTIONS_FIRST_NAME: questionData.firstName,
-        QUESTIONS_LAST_NAME: questionData.lastName,
-        QUESTIONS_GRADE: questionData.grade,
+        QUESTIONS_FIRST_NAME: question.questioner.firstName,
+        QUESTIONS_LAST_NAME: question.questioner.lastName,
+        QUESTIONS_GRADE: question.questioner.grade,
       },
     );
   }
@@ -105,13 +103,13 @@ class FirestoreApi {
     // 回答をFirestoreに格納
     final answerDocRef = await answers.add(
       {
-        ANSWERS_TEXT: answerPostData.answerText,
-        ANSWERS_EMAIL: answerPostData.answerText,
-        ANSWERS_FIRST_NAME: answerPostData.firstName,
-        ANSWERS_LAST_NAME: answerPostData.lastName,
+        ANSWERS_TEXT: answerPostData.content,
+        ANSWERS_EMAIL: answerPostData.content,
+        ANSWERS_FIRST_NAME: answerPostData.answerer.firstName,
+        ANSWERS_LAST_NAME: answerPostData.answerer.lastName,
         ANSWERS_CREATED_AT: createdDate,
         ANSWERS_QUETSION_ID: questionId,
-        ANSWERS_GRADE: answerPostData.grade,
+        ANSWERS_GRADE: answerPostData.answerer.grade,
       },
     );
     //直後に生成された回答IDを格納

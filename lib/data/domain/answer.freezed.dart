@@ -16,12 +16,15 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Answer {
-  String get email => throw _privateConstructorUsedError; //email
-  String get answerText => throw _privateConstructorUsedError; //解答
-  String get questionId => throw _privateConstructorUsedError; //質問ID
-  String get lastName => throw _privateConstructorUsedError; //姓
-  String get firstName => throw _privateConstructorUsedError; //名
-  String get grade => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String get questionId => throw _privateConstructorUsedError;
+  String get content => throw _privateConstructorUsedError;
+  String get imageUrl => throw _privateConstructorUsedError;
+  bool get isBestAnswer => throw _privateConstructorUsedError;
+  Subject get subject => throw _privateConstructorUsedError;
+  Answerer get answerer => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AnswerCopyWith<Answer> get copyWith => throw _privateConstructorUsedError;
@@ -33,12 +36,18 @@ abstract class $AnswerCopyWith<$Res> {
       _$AnswerCopyWithImpl<$Res, Answer>;
   @useResult
   $Res call(
-      {String email,
-      String answerText,
+      {String id,
       String questionId,
-      String lastName,
-      String firstName,
-      String grade});
+      String content,
+      String imageUrl,
+      bool isBestAnswer,
+      Subject subject,
+      Answerer answerer,
+      DateTime? createdAt,
+      DateTime? updatedAt});
+
+  $SubjectCopyWith<$Res> get subject;
+  $AnswererCopyWith<$Res> get answerer;
 }
 
 /// @nodoc
@@ -54,39 +63,70 @@ class _$AnswerCopyWithImpl<$Res, $Val extends Answer>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? email = null,
-    Object? answerText = null,
+    Object? id = null,
     Object? questionId = null,
-    Object? lastName = null,
-    Object? firstName = null,
-    Object? grade = null,
+    Object? content = null,
+    Object? imageUrl = null,
+    Object? isBestAnswer = null,
+    Object? subject = null,
+    Object? answerer = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      answerText: null == answerText
-          ? _value.answerText
-          : answerText // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
       questionId: null == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
               as String,
-      lastName: null == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
-      firstName: null == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      grade: null == grade
-          ? _value.grade
-          : grade // ignore: cast_nullable_to_non_nullable
-              as String,
+      isBestAnswer: null == isBestAnswer
+          ? _value.isBestAnswer
+          : isBestAnswer // ignore: cast_nullable_to_non_nullable
+              as bool,
+      subject: null == subject
+          ? _value.subject
+          : subject // ignore: cast_nullable_to_non_nullable
+              as Subject,
+      answerer: null == answerer
+          ? _value.answerer
+          : answerer // ignore: cast_nullable_to_non_nullable
+              as Answerer,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SubjectCopyWith<$Res> get subject {
+    return $SubjectCopyWith<$Res>(_value.subject, (value) {
+      return _then(_value.copyWith(subject: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AnswererCopyWith<$Res> get answerer {
+    return $AnswererCopyWith<$Res>(_value.answerer, (value) {
+      return _then(_value.copyWith(answerer: value) as $Val);
+    });
   }
 }
 
@@ -97,12 +137,20 @@ abstract class _$$_AnswerCopyWith<$Res> implements $AnswerCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String email,
-      String answerText,
+      {String id,
       String questionId,
-      String lastName,
-      String firstName,
-      String grade});
+      String content,
+      String imageUrl,
+      bool isBestAnswer,
+      Subject subject,
+      Answerer answerer,
+      DateTime? createdAt,
+      DateTime? updatedAt});
+
+  @override
+  $SubjectCopyWith<$Res> get subject;
+  @override
+  $AnswererCopyWith<$Res> get answerer;
 }
 
 /// @nodoc
@@ -115,38 +163,53 @@ class __$$_AnswerCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? email = null,
-    Object? answerText = null,
+    Object? id = null,
     Object? questionId = null,
-    Object? lastName = null,
-    Object? firstName = null,
-    Object? grade = null,
+    Object? content = null,
+    Object? imageUrl = null,
+    Object? isBestAnswer = null,
+    Object? subject = null,
+    Object? answerer = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_$_Answer(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      answerText: null == answerText
-          ? _value.answerText
-          : answerText // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
       questionId: null == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
               as String,
-      lastName: null == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
-      firstName: null == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      grade: null == grade
-          ? _value.grade
-          : grade // ignore: cast_nullable_to_non_nullable
-              as String,
+      isBestAnswer: null == isBestAnswer
+          ? _value.isBestAnswer
+          : isBestAnswer // ignore: cast_nullable_to_non_nullable
+              as bool,
+      subject: null == subject
+          ? _value.subject
+          : subject // ignore: cast_nullable_to_non_nullable
+              as Subject,
+      answerer: null == answerer
+          ? _value.answerer
+          : answerer // ignore: cast_nullable_to_non_nullable
+              as Answerer,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -155,34 +218,45 @@ class __$$_AnswerCopyWithImpl<$Res>
 
 class _$_Answer implements _Answer {
   const _$_Answer(
-      {required this.email,
-      required this.answerText,
-      required this.questionId,
-      required this.lastName,
-      required this.firstName,
-      required this.grade});
+      {this.id = "",
+      this.questionId = "",
+      this.content = "",
+      this.imageUrl = "",
+      this.isBestAnswer = false,
+      this.subject = const Subject(),
+      this.answerer = const Answerer(),
+      this.createdAt,
+      this.updatedAt});
 
   @override
-  final String email;
-//email
+  @JsonKey()
+  final String id;
   @override
-  final String answerText;
-//解答
-  @override
+  @JsonKey()
   final String questionId;
-//質問ID
   @override
-  final String lastName;
-//姓
+  @JsonKey()
+  final String content;
   @override
-  final String firstName;
-//名
+  @JsonKey()
+  final String imageUrl;
   @override
-  final String grade;
+  @JsonKey()
+  final bool isBestAnswer;
+  @override
+  @JsonKey()
+  final Subject subject;
+  @override
+  @JsonKey()
+  final Answerer answerer;
+  @override
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'Answer(email: $email, answerText: $answerText, questionId: $questionId, lastName: $lastName, firstName: $firstName, grade: $grade)';
+    return 'Answer(id: $id, questionId: $questionId, content: $content, imageUrl: $imageUrl, isBestAnswer: $isBestAnswer, subject: $subject, answerer: $answerer, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -190,21 +264,26 @@ class _$_Answer implements _Answer {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Answer &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.answerText, answerText) ||
-                other.answerText == answerText) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.questionId, questionId) ||
                 other.questionId == questionId) &&
-            (identical(other.lastName, lastName) ||
-                other.lastName == lastName) &&
-            (identical(other.firstName, firstName) ||
-                other.firstName == firstName) &&
-            (identical(other.grade, grade) || other.grade == grade));
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.isBestAnswer, isBestAnswer) ||
+                other.isBestAnswer == isBestAnswer) &&
+            (identical(other.subject, subject) || other.subject == subject) &&
+            (identical(other.answerer, answerer) ||
+                other.answerer == answerer) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, email, answerText, questionId, lastName, firstName, grade);
+  int get hashCode => Object.hash(runtimeType, id, questionId, content,
+      imageUrl, isBestAnswer, subject, answerer, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -215,25 +294,34 @@ class _$_Answer implements _Answer {
 
 abstract class _Answer implements Answer {
   const factory _Answer(
-      {required final String email,
-      required final String answerText,
-      required final String questionId,
-      required final String lastName,
-      required final String firstName,
-      required final String grade}) = _$_Answer;
+      {final String id,
+      final String questionId,
+      final String content,
+      final String imageUrl,
+      final bool isBestAnswer,
+      final Subject subject,
+      final Answerer answerer,
+      final DateTime? createdAt,
+      final DateTime? updatedAt}) = _$_Answer;
 
   @override
-  String get email;
-  @override //email
-  String get answerText;
-  @override //解答
+  String get id;
+  @override
   String get questionId;
-  @override //質問ID
-  String get lastName;
-  @override //姓
-  String get firstName;
-  @override //名
-  String get grade;
+  @override
+  String get content;
+  @override
+  String get imageUrl;
+  @override
+  bool get isBestAnswer;
+  @override
+  Subject get subject;
+  @override
+  Answerer get answerer;
+  @override
+  DateTime? get createdAt;
+  @override
+  DateTime? get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_AnswerCopyWith<_$_Answer> get copyWith =>

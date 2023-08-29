@@ -282,8 +282,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           //認証メールを送信
                           _firebaseAuth.currentUser!.sendEmailVerification(),
                           //スレッドページに遷移
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                            ThreadPage.tag,
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => const QuestionsScreen(),
+                                maintainState: false),
                             (_) => false,
                           ),
                         },

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:share_study_app/ui/view/common/privacy_policy_web.dart';
+import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_web.dart';
 import 'package:share_study_app/ui/view/onboarding/registration/register_page.dart';
 import 'package:share_study_app/ui/view/timeline/thread_page.dart';
 
@@ -109,8 +109,10 @@ class _LoginPageState extends State<LoginPage> {
 
           await signIn(emailController.text, passwordController.text)
               .then((value) => {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      ThreadPage.tag,
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (context) => const QuestionsScreen(),
+                          maintainState: false),
                       (_) => false,
                     ),
                   })

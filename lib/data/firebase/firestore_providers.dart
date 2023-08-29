@@ -1,17 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final firestoreVersionsProvider = Provider<DocumentReference>(
+final versionsCollectionRefProvider = Provider<DocumentReference>(
     (ref) => FirebaseFirestore.instance.collection("versions").doc("1"));
 
-final firestoreYearsProvider = Provider<DocumentReference>((ref) =>
-    ref.watch(firestoreVersionsProvider).collection("years").doc("2023"));
+final answersCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(versionsCollectionRefProvider).collection("answers"));
 
-final firestoreAnswerssProvider = Provider<CollectionReference>(
-    (ref) => ref.watch(firestoreVersionsProvider).collection("answers"));
+final questionsCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(versionsCollectionRefProvider).collection("questions"));
 
-final firestoreQuestionsProvider = Provider<CollectionReference>(
-    (ref) => ref.watch(firestoreVersionsProvider).collection("questions"));
-
-final firestoreSubjectsProvider = Provider<CollectionReference>(
-    (ref) => ref.watch(firestoreYearsProvider).collection("subjects"));
+final subjectsCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(versionsCollectionRefProvider).collection("subjects"));
