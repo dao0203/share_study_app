@@ -6,6 +6,7 @@ import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/domain/subject.dart';
 import 'package:share_study_app/data/firebase/firestore_api.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/state/subject_state.dart';
 
 import '../timeline/thread_page.dart';
 
@@ -18,6 +19,7 @@ class QuestionPostScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final questionRepository = ref.watch(questionRepositoryProvider);
+    final subjectState = ref.watch(subjectStateProvider);
     final questionState = useState(Question());
     return Scaffold(
       appBar: AppBar(
@@ -99,55 +101,55 @@ class QuestionPostScreen extends HookConsumerWidget {
                           );
                         },
                       ),
-                      FutureBuilder<Map<String, String>>(
-                        future: firestoreApi.getDocumentIdAndSubject(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            // データをまだ取得できていない場合、ローディングスピンナーを表示する
-                            return const CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            // データ取得時にエラーが発生した場合、エラーメッセージを表示する
-                            return Text("Error: ${snapshot.error}");
-                          } else {
-                            // 取得したマップを使用して、DropdownButtonを構築
-                            return DropdownButtonFormField<String>(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "科目を選択してください";
-                                }
-                                return null;
-                              },
-                              items: snapshot.data?.entries.map((entry) {
-                                return DropdownMenuItem<String>(
-                                  value: entry.value,
-                                  child: Text(entry.value),
-                                );
-                              }).toList(),
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                labelText: "科目",
-                                enabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(width: 1),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                ),
-                              ),
-                              //選択された科目名を追加
-                              onChanged: (value) {
-                                questionState.value =
-                                    questionState.value.copyWith(
-                                        subject: Subject(
-                                  name: value!,
-                                ));
-                              },
-                            );
-                          }
-                        },
-                      ),
+                      // FutureBuilder<Map<String, String>>(
+                      //   future: firestoreApi.getDocumentIdAndSubject(),
+                      //   builder: (context, snapshot) {
+                      //     if (snapshot.connectionState ==
+                      //         ConnectionState.waiting) {
+                      //       // データをまだ取得できていない場合、ローディングスピンナーを表示する
+                      //       return const CircularProgressIndicator();
+                      //     } else if (snapshot.hasError) {
+                      //       // データ取得時にエラーが発生した場合、エラーメッセージを表示する
+                      //       return Text("Error: ${snapshot.error}");
+                      //     } else {
+                      //       // 取得したマップを使用して、DropdownButtonを構築
+                      //       return DropdownButtonFormField<String>(
+                      //         validator: (value) {
+                      //           if (value == null || value.isEmpty) {
+                      //             return "科目を選択してください";
+                      //           }
+                      //           return null;
+                      //         },
+                      //         items: snapshot.data?.entries.map((entry) {
+                      //           return DropdownMenuItem<String>(
+                      //             value: entry.value,
+                      //             child: Text(entry.value),
+                      //           );
+                      //         }).toList(),
+                      //         decoration: InputDecoration(
+                      //           filled: true,
+                      //           fillColor:
+                      //               Theme.of(context).scaffoldBackgroundColor,
+                      //           labelText: "科目",
+                      //           enabledBorder: const OutlineInputBorder(
+                      //             borderSide: BorderSide(width: 1),
+                      //             borderRadius: BorderRadius.all(
+                      //               Radius.circular(10),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         //選択された科目名を追加
+                      //         onChanged: (value) {
+                      //           questionState.value =
+                      //               questionState.value.copyWith(
+                      //                   subject: Subject(
+                      //             name: value!,
+                      //           ));
+                      //         },
+                      //       );
+                      //     }
+                      //   },
+                      // ),
                     ],
                   ),
                 ),
