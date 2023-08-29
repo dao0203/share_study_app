@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:share_study_app/ui/view/addanswer/add_answer.dart';
+import 'package:share_study_app/ui/view/answer/add_answer.dart';
 import 'package:share_study_app/data/firebase/firestore_api.dart';
 import 'package:share_study_app/ui/view/timeline/components/answer_list_text.dart';
 import 'package:share_study_app/ui/view/timeline/components/answer_list_item.dart';
@@ -42,7 +42,7 @@ class _AnswerViewState extends State<AnswerView> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: ((context) => PostAnswerPage(
+              builder: ((context) => PostAnswerScreen(
                     questionId: questionId,
                   )),
             ),

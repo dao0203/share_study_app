@@ -1,57 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/question.dart';
+import 'package:share_study_app/data/domain/subject.dart';
 import 'package:share_study_app/data/firebase/firestore_api.dart';
+import 'package:share_study_app/data/repository/di/repository_providers.dart';
 
 import '../timeline/thread_page.dart';
 
-class QuestionPostPage extends StatefulWidget {
-  const QuestionPostPage({super.key});
-
-  @override
-  State<QuestionPostPage> createState() => _QuestionPostPage();
-}
-
-class _QuestionPostPage extends State<QuestionPostPage> {
+class QuestionPostScreen extends HookConsumerWidget {
   FirestoreApi firestoreApi = FirestoreApi();
-  late Map<String, String> subjects = {};
-  late DocumentSnapshot<Object?> documentSnapshot;
-  /* フィールド名 */
-  late String qSubName = "";
-  late String titleContent = "";
-  late String questionContent = "";
-
-  final postedQuestionData = const Question();
 
   //フォーム識別のグローバルキーを宣言
   final _formKey = GlobalKey<FormState>();
 
-// ドロップダウンアイテムに使うデータを非同期処理で代入するメソッド
-  Future<void> loadDropDownItems() async {
-    final items = await firestoreApi.getDocumentIdAndSubject();
-    setState(() {
-      subjects = items;
-    });
-  }
-
-  Future<void> getUser() async {
-    final user = await firestoreApi.getUser();
-    setState(() {
-      documentSnapshot = user;
-    });
-  }
-
   @override
-  void initState() {
-    super.initState();
-    Future<void>(() async {
-      await loadDropDownItems();
-      await getUser();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final questionRepository = ref.watch(questionRepositoryProvider);
+    final questionState = useState(Question());
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -96,7 +63,9 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                         ),
                         onChanged: (value) {
                           //タイトルを変更
-                          titleContent = value;
+                          questionState.value = questionState.value.copyWith(
+                            title: value,
+                          );
                         },
                       ),
                       const SizedBox(height: 10),
@@ -124,7 +93,10 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                           helperMaxLines: 10,
                         ),
                         onChanged: (value) {
-                          questionContent = value;
+                          //質問内容を変更
+                          questionState.value = questionState.value.copyWith(
+                            content: value,
+                          );
                         },
                       ),
                       FutureBuilder<Map<String, String>>(
@@ -166,7 +138,11 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                               ),
                               //選択された科目名を追加
                               onChanged: (value) {
-                                qSubName = value.toString();
+                                questionState.value =
+                                    questionState.value.copyWith(
+                                        subject: Subject(
+                                  name: value!,
+                                ));
                               },
                             );
                           }
@@ -184,57 +160,58 @@ class _QuestionPostPage extends State<QuestionPostPage> {
                 style:
                     ElevatedButton.styleFrom(minimumSize: const Size(200, 50)),
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    //投稿ボタンを押したときの動作
-                    showDialog(
-                      context: context,
-                      builder: (_) {
-                        return AlertDialog(
-                          title: const Text('投稿しますか？'),
-                          actions: [
-                            GestureDetector(
-                              child: const Text(
-                                'キャンセル',
-                                style: TextStyle(color: Colors.blue),
-                              ),
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
+                  // if (_formKey.currentState!.validate()) {
+                  //投稿ボタンを押したときの動作
+                  showDialog(
+                    context: context,
+                    builder: (_) {
+                      return AlertDialog(
+                        title: const Text('投稿しますか？'),
+                        actions: [
+                          GestureDetector(
+                            child: const Text(
+                              'キャンセル',
+                              style: TextStyle(color: Colors.blue),
                             ),
-                            GestureDetector(
-                              child: const Text(
-                                '投稿',
-                                style: TextStyle(color: Colors.blue),
-                              ),
-                              onTap: () {
-                                //投稿ボタンを押した時にインディケータを表示
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  },
-                                  barrierDismissible: false,
-                                );
-                                final questionDatacopy =
-                                    postedQuestionData.copyWith(
-                                  title: titleContent,
-                                  content: questionContent,
-                                );
-                                firestoreApi.postQuestion(questionDatacopy);
-                                Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  ThreadPage.tag,
-                                  (_) => false,
-                                );
-                              },
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          GestureDetector(
+                            child: const Text(
+                              '投稿',
+                              style: TextStyle(color: Colors.blue),
                             ),
-                          ],
-                        );
-                      },
-                    );
-                  }
+                            onTap: () async {
+                              //投稿ボタンを押した時にインディケータを表示
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                                barrierDismissible: false,
+                              );
+                              await questionRepository
+                                  .addQuestion(
+                                    questionState.value,
+                                  )
+                                  .then((value) => print("投稿完了"));
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                  builder: (context) => const QuestionsScreen(),
+                                  maintainState: false,
+                                ),
+                                (_) => false,
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  // }
                 },
                 child: const Text("投稿"),
               ),

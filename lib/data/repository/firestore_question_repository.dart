@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/domain/questioner.dart';
 import 'package:share_study_app/data/domain/subject.dart';
@@ -15,6 +16,13 @@ final class FirestoreQuestionRepository implements QuestionRepository {
       'content': question.content,
       'imageUrl': question.imageUrl,
       'isResolved': false,
+      'questioner': {
+        'id': FirebaseAuth.instance.currentUser!.uid,
+        'lastName': "山田",
+        'firstName': "太郎",
+        'grade': "学士3年",
+        'imageUrl': "",
+      },
       'subject': {
         'id': question.subject.id,
         'name': question.subject.name,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:share_study_app/data/domain/question.dart';
 
 import '../../../../constants.dart';
 import '../answer_view_page.dart';
 
-Widget questionListItem(BuildContext context, int index,
-    MapEntry<String, Map<String, dynamic>> questionItem) {
+Widget QuestionItem(BuildContext context, int index, Question questionItem) {
   return AnimationConfiguration.staggeredList(
     position: index,
     child: SlideAnimation(
@@ -20,7 +20,7 @@ Widget questionListItem(BuildContext context, int index,
                   context,
                   MaterialPageRoute(
                     builder: (context) => AnswerView(
-                      questionId: questionItem.key,
+                      questionId: questionItem.id,
                     ),
                   ),
                 );
@@ -28,10 +28,8 @@ Widget questionListItem(BuildContext context, int index,
               child: InputDecorator(
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  labelText: questionItem.value[QUESTIONS_LAST_NAME] +
-                      questionItem.value[QUESTIONS_FIRST_NAME] +
-                      "：" +
-                      questionItem.value[QUESTIONS_GRADE],
+                  labelText:
+                      "${questionItem.questioner.lastName}${questionItem.questioner.firstName}：${questionItem.questioner.grade}",
                   labelStyle: const TextStyle(
                     fontSize: 25,
                   ),
@@ -47,7 +45,7 @@ Widget questionListItem(BuildContext context, int index,
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
                             child: Text(
-                              questionItem.value[QUESTIONS_SUBJECT_NAME],
+                              questionItem.subject.name,
                               style: const TextStyle(
                                 fontSize: 20.0,
                               ),
@@ -74,7 +72,7 @@ Widget questionListItem(BuildContext context, int index,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "${questionItem.value[QUESTIONS_TITLE]}",
+                                  questionItem.title,
                                   style: const TextStyle(
                                     fontSize: 16.0,
                                   ),
@@ -105,7 +103,7 @@ Widget questionListItem(BuildContext context, int index,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "${questionItem.value[QUESTIONS_QUESTION_CONTENT]}",
+                                    questionItem.content,
                                     style: const TextStyle(fontSize: 16.0),
                                   ),
                                 ),

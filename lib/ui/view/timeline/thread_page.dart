@@ -1,27 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/firebase/firestore_api.dart';
+import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/view/timeline/components/question_list_items.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:share_study_app/ui/view/postquestion/question_post_page.dart';
 
-class ThreadPage extends StatefulWidget {
-  const ThreadPage({Key? key}) : super(key: key);
-  static String tag = "thread_page";
-  @override
-  State<ThreadPage> createState() => _ThreadPageState();
-}
-
-class _ThreadPageState extends State<ThreadPage> {
-  //FirestoreApiを使用
-  FirestoreApi firestoreApi = FirestoreApi();
+class QuestionsScreen extends HookConsumerWidget {
+  const QuestionsScreen({super.key});
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final questionRepository = ref.watch(questionRepositoryProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, //戻るボタンを非表示
@@ -36,16 +26,13 @@ class _ThreadPageState extends State<ThreadPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: ((context) => const QuestionPostPage()),
+              builder: ((context) => QuestionPostScreen()),
             ),
           );
         },
       ),
-
-      //画面
       body: FutureBuilder(
-          future: firestoreApi.getQuestions(), //getQuestion()でデータをAPIから取得
-
+          future: questionRepository.getQuestions(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               //エラーが発生した場合
@@ -65,8 +52,7 @@ class _ThreadPageState extends State<ThreadPage> {
                 shrinkWrap: true,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  final questionItem = snapshot.data!.entries.elementAt(index);
-                  return questionListItem(context, index, questionItem);
+                  return QuestionItem(context, index, snapshot.data![index]);
                 },
               ),
             );
