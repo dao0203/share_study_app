@@ -24,6 +24,6 @@ final subjectRepositoryProvider = Provider<SubjectRepository>((ref) {
   return FirestoreSubjectRepository(subjectCollectoinRef);
 });
 
-final userAuthRepositoryProvider = Provider<UserAuthRepository>((ref) {
-  return SupabaseUserAuthRepository();
+final userRepositoryProvider = Provider<UserRepository>((ref) {
+  return SupabaseUserRepository();
 });
