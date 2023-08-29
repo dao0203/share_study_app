@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:share_study_app/data/domain/answer.dart';
-import 'package:share_study_app/data/domain/answerer.dart';
 import 'package:share_study_app/data/domain/subject.dart';
 import 'package:share_study_app/data/repository/answer_repository.dart';
 
@@ -37,12 +36,6 @@ final class FirestoreAnswerRepository implements AnswerRepository {
                   content: e['content'],
                   imageUrl: e['imageUrl'],
                   isBestAnswer: e['isBestAnswer'],
-                  answerer: Answerer(
-                    id: e['answerer']['id'],
-                    lastName: e['answerer']['lastName'],
-                    firstName: e['answerer']['firstName'],
-                    imageUrl: e['answerer']['imageUrl'],
-                  ),
                   subject: Subject(
                     id: e['subject']['id'],
                     name: e['subject']['name'],
