@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -99,6 +98,51 @@ class QuestionPostScreen extends HookConsumerWidget {
                           questionState.value = questionState.value.copyWith(
                             content: value,
                           );
+                        },
+                      ),
+                      subjectState.when(
+                        data: (data) {
+                          return DropdownButtonFormField<String>(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "科目を選択してください";
+                              }
+                              return null;
+                            },
+                            items: data.map((subject) {
+                              return DropdownMenuItem<String>(
+                                value: subject.name,
+                                child: Text(subject.name),
+                              );
+                            }).toList(),
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
+                              labelText: "科目",
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(width: 1),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                            ),
+                            //選択された科目名を追加
+                            onChanged: (value) {
+                              questionState.value =
+                                  questionState.value.copyWith(
+                                subject: Subject(
+                                  name: value!,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        error: (error, stackTrace) {
+                          return Text("Error: $error");
+                        },
+                        loading: () {
+                          return const CircularProgressIndicator();
                         },
                       ),
                       // FutureBuilder<Map<String, String>>(

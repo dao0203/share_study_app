@@ -4,7 +4,7 @@ import 'package:share_study_app/data/firebase/firestore_api.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/view/timeline/components/question_list_items.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:share_study_app/ui/view/postquestion/question_post_page.dart';
+import 'package:share_study_app/ui/view/postquestion/question_post_screen.dart';
 
 class QuestionsScreen extends HookConsumerWidget {
   const QuestionsScreen({super.key});
