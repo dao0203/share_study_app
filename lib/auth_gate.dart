@@ -8,7 +8,7 @@ class AuthGate extends HookConsumerWidget {
   const AuthGate({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userAuthRepository = ref.watch(userAuthRepositoryProvider);
+    final userAuthRepository = ref.watch(userRepositoryProvider);
     return userAuthRepository.isUserSignedIn() == true
         ? const QuestionsScreen()
         : const LoginPage();
