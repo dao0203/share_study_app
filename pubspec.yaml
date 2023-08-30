@@ -63,6 +63,9 @@ dependencies:
   ## supabase
   supabase_flutter: ^1.10.14
 
+  ##logger
+  logger: ^2.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
