@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_study_app/ui/view/onboarding/registration/sign_up_screen.dart';
 
 class SignInScreen extends HookConsumerWidget {
   const SignInScreen({super.key});
@@ -10,8 +11,10 @@ class SignInScreen extends HookConsumerWidget {
     final _formKey = GlobalKey<FormState>();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
+    final passwordVisible = useState(false);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Center(
@@ -23,7 +26,7 @@ class SignInScreen extends HookConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text(
-                    "ログイン",
+                    "サインイン",
                     style: TextStyle(fontSize: 30),
                   ),
                   const SizedBox(height: 20),
@@ -36,17 +39,11 @@ class SignInScreen extends HookConsumerWidget {
                   TextFormField(
                     controller: emailController,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.mail),
+                      prefixIcon: const Icon(Icons.mail),
                       labelText: 'メールアドレス',
                       //テキストのラベルの色を変更
                       labelStyle: TextStyle(
                           color: Theme.of(context).colorScheme.onBackground),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(),
-                      ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -58,15 +55,22 @@ class SignInScreen extends HookConsumerWidget {
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: passwordController,
-                    decoration: const InputDecoration(
+                    obscureText: !passwordVisible.value,
+                    decoration: InputDecoration(
                       prefixIcon: Icon(Icons.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          passwordVisible.value
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          passwordVisible.value = !passwordVisible.value;
+                        },
+                      ),
+                      labelStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground),
                       labelText: 'パスワード',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(),
-                      ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -77,15 +81,20 @@ class SignInScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 30),
                   ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {}
+                    },
                     icon: const Icon(Icons.login),
                     label: const Text('サインイン'),
                   ),
                   const SizedBox(height: 20),
-                  //サインアップ画面へ遷移
                   TextButton.icon(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/sign_up');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const SignUpScreen(),
+                        ),
+                      );
                     },
                     icon: const Icon(Icons.person_add),
                     label: const Text('アカウントをお持ちでない方はこちら'),
