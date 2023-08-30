@@ -44,7 +44,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
 
                 children: [
                   const SizedBox(height: 20),
-                  Text("プロフィール画像を設定してください"),
+                  Text("プロフィール画像を設定してください(任意)"),
                   Center(
                     child: Stack(
                       alignment: Alignment.bottomRight,
