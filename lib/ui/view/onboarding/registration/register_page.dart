@@ -305,7 +305,7 @@ class _RegisterPageState extends State<RegisterPage> {
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const LoginPage()));
         },
-        child: const Text('ログイン'),
+        child: const Text('サインイン'),
       ),
     );
     return Scaffold(
