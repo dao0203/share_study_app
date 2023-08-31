@@ -54,6 +54,8 @@ class SignUpScreen extends HookConsumerWidget {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'メールアドレスを入力してください';
+                          } else if (!value.contains('@')) {
+                            return 'メールアドレスの形式が正しくありません';
                           }
                           return null;
                         },
@@ -80,9 +82,14 @@ class SignUpScreen extends HookConsumerWidget {
                               color:
                                   Theme.of(context).colorScheme.onBackground),
                         ),
+                        maxLength: 20,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'パスワードを入力してください';
+                          } else if (value.length < 6) {
+                            return 'パスワードは6文字以上で入力してください';
+                          } else if (value.length > 20) {
+                            return 'パスワードは20文字以下で入力してください';
                           }
                           return null;
                         },
@@ -109,6 +116,7 @@ class SignUpScreen extends HookConsumerWidget {
                                 color:
                                     Theme.of(context).colorScheme.onBackground),
                           ),
+                          maxLength: 20,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'パスワードを入力してください';
