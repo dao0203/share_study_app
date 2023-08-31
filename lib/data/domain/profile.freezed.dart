@@ -22,6 +22,7 @@ mixin _$Profile {
   String? get universityName => throw _privateConstructorUsedError;
   String? get facultyName => throw _privateConstructorUsedError;
   String? get departmentName => throw _privateConstructorUsedError;
+  String? get grade => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -40,6 +41,7 @@ abstract class $ProfileCopyWith<$Res> {
       String? universityName,
       String? facultyName,
       String? departmentName,
+      String? grade,
       String? bio});
 }
 
@@ -62,6 +64,7 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
     Object? universityName = freezed,
     Object? facultyName = freezed,
     Object? departmentName = freezed,
+    Object? grade = freezed,
     Object? bio = freezed,
   }) {
     return _then(_value.copyWith(
@@ -89,6 +92,10 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
           ? _value.departmentName
           : departmentName // ignore: cast_nullable_to_non_nullable
               as String?,
+      grade: freezed == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as String?,
       bio: freezed == bio
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
@@ -111,6 +118,7 @@ abstract class _$$_ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
       String? universityName,
       String? facultyName,
       String? departmentName,
+      String? grade,
       String? bio});
 }
 
@@ -130,6 +138,7 @@ class __$$_ProfileCopyWithImpl<$Res>
     Object? universityName = freezed,
     Object? facultyName = freezed,
     Object? departmentName = freezed,
+    Object? grade = freezed,
     Object? bio = freezed,
   }) {
     return _then(_$_Profile(
@@ -157,6 +166,10 @@ class __$$_ProfileCopyWithImpl<$Res>
           ? _value.departmentName
           : departmentName // ignore: cast_nullable_to_non_nullable
               as String?,
+      grade: freezed == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as String?,
       bio: freezed == bio
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
@@ -175,6 +188,7 @@ class _$_Profile implements _Profile {
       this.universityName,
       this.facultyName,
       this.departmentName,
+      this.grade,
       this.bio});
 
   @override
@@ -192,11 +206,13 @@ class _$_Profile implements _Profile {
   @override
   final String? departmentName;
   @override
+  final String? grade;
+  @override
   final String? bio;
 
   @override
   String toString() {
-    return 'Profile(id: $id, nickname: $nickname, imageUrl: $imageUrl, universityName: $universityName, facultyName: $facultyName, departmentName: $departmentName, bio: $bio)';
+    return 'Profile(id: $id, nickname: $nickname, imageUrl: $imageUrl, universityName: $universityName, facultyName: $facultyName, departmentName: $departmentName, grade: $grade, bio: $bio)';
   }
 
   @override
@@ -215,12 +231,13 @@ class _$_Profile implements _Profile {
                 other.facultyName == facultyName) &&
             (identical(other.departmentName, departmentName) ||
                 other.departmentName == departmentName) &&
+            (identical(other.grade, grade) || other.grade == grade) &&
             (identical(other.bio, bio) || other.bio == bio));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, id, nickname, imageUrl,
-      universityName, facultyName, departmentName, bio);
+      universityName, facultyName, departmentName, grade, bio);
 
   @JsonKey(ignore: true)
   @override
@@ -237,6 +254,7 @@ abstract class _Profile implements Profile {
       final String? universityName,
       final String? facultyName,
       final String? departmentName,
+      final String? grade,
       final String? bio}) = _$_Profile;
 
   @override
@@ -251,6 +269,8 @@ abstract class _Profile implements Profile {
   String? get facultyName;
   @override
   String? get departmentName;
+  @override
+  String? get grade;
   @override
   String? get bio;
   @override

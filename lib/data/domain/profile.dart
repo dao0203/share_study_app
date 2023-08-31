@@ -11,6 +11,7 @@ abstract class Profile with _$Profile {
     String? universityName,
     String? facultyName,
     String? departmentName,
+    String? grade,
     String? bio,
   }) = _Profile;
 }
