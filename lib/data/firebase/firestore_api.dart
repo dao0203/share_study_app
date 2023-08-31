@@ -105,11 +105,8 @@ class FirestoreApi {
       {
         ANSWERS_TEXT: answerPostData.content,
         ANSWERS_EMAIL: answerPostData.content,
-        ANSWERS_FIRST_NAME: answerPostData.answerer.firstName,
-        ANSWERS_LAST_NAME: answerPostData.answerer.lastName,
         ANSWERS_CREATED_AT: createdDate,
         ANSWERS_QUETSION_ID: questionId,
-        ANSWERS_GRADE: answerPostData.answerer.grade,
       },
     );
     //直後に生成された回答IDを格納

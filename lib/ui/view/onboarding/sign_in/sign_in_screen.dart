@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/view/onboarding/sign_up/sign_up_screen.dart';
+import 'package:share_study_app/ui/view/timeline/thread_page.dart';
 
 class SignInScreen extends HookConsumerWidget {
   const SignInScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userAuthRepository = ref.watch(userRepositoryProvider);
     final _formKey = GlobalKey<FormState>();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
@@ -81,8 +84,29 @@ class SignInScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 30),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            });
+                        await userAuthRepository
+                            .signIn(
+                          emailController.text,
+                          passwordController.text,
+                        )
+                            .then((value) {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (context) => const QuestionsScreen(),
+                                maintainState: false),
+                          );
+                        });
+                      }
                     },
                     icon: const Icon(Icons.login),
                     label: const Text('サインイン'),
