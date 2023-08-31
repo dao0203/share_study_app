@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_sign_in: ^5.4.2
   flutter_signin_button: ^2.0.0
-  http: ^0.13.5
+  http: ^1.0.0
   flutter_dotenv: ^5.0.2
   image_picker: ^0.8.6
   freezed_annotation: ^2.2.0
@@ -59,6 +59,12 @@ dependencies:
   firebase_auth: ^4.1.2
   firebase_storage: ^11.0.5
   cloud_firestore: ^4.1.0
+
+  ## supabase
+  supabase_flutter: ^1.10.14
+
+  ##logger
+  logger: ^2.0.1
 
 dev_dependencies:
   flutter_test:

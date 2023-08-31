@@ -6,6 +6,8 @@ import 'package:share_study_app/data/repository/firestore_question_repository.da
 import 'package:share_study_app/data/repository/firestore_subject_repository.dart';
 import 'package:share_study_app/data/repository/question_repository.dart';
 import 'package:share_study_app/data/repository/subject_repository.dart';
+import 'package:share_study_app/data/repository/supabase_user_auth_repository.dart';
+import 'package:share_study_app/data/repository/user_auth_repository.dart';
 
 final answerRepositoryProvider = Provider<AnswerRepository>((ref) {
   final answerCollectoinRef = ref.watch(answersCollectionRefProvider);
@@ -20,4 +22,8 @@ final questionRepositoryProvider = Provider<QuestionRepository>((ref) {
 final subjectRepositoryProvider = Provider<SubjectRepository>((ref) {
   final subjectCollectoinRef = ref.watch(subjectsCollectionRefProvider);
   return FirestoreSubjectRepository(subjectCollectoinRef);
+});
+
+final userRepositoryProvider = Provider<UserRepository>((ref) {
+  return SupabaseUserRepository();
 });
