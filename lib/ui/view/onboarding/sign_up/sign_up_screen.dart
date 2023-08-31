@@ -143,7 +143,7 @@ class SignUpScreen extends HookConsumerWidget {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const RegistrationProfileScreen(),
+                                      RegistrationProfileScreen(),
                                 ),
                               );
                             }).catchError((e) {
