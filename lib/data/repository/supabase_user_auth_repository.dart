@@ -2,11 +2,16 @@ import 'package:logger/logger.dart';
 import 'package:share_study_app/data/repository/user_auth_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-final class SupabaseUserRepository implements UserRepository {
+final class SupabaseUserAuthRepository implements UserAuthRepository {
   final GoTrueClient _client = Supabase.instance.client.auth;
   @override
   bool isUserSignedIn() {
     return _client.currentSession != null;
+  }
+
+  @override
+  User? getCurrentUser() {
+    return _client.currentUser;
   }
 
   @override

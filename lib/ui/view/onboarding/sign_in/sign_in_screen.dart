@@ -10,7 +10,7 @@ class SignInScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userAuthRepository = ref.watch(userRepositoryProvider);
+    final userAuthRepository = ref.watch(userAuthRepositoryProvider);
     final _formKey = GlobalKey<FormState>();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();

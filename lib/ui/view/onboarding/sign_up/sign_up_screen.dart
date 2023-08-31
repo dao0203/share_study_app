@@ -9,7 +9,7 @@ class SignUpScreen extends HookConsumerWidget {
   const SignUpScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userRepository = ref.watch(userRepositoryProvider);
+    final userRepository = ref.watch(userAuthRepositoryProvider);
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
