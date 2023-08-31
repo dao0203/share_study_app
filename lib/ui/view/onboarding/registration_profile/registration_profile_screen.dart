@@ -32,109 +32,113 @@ class RegistrationProfileScreen extends HookConsumerWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                //要素を中央に配置
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  //要素を中央に配置
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
 
-                children: [
-                  const SizedBox(height: 20),
-                  Text("プロフィール画像を設定してください(任意)"),
-                  Center(
-                    child: Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        Icon(
-                          Icons.account_circle_outlined,
-                          size: 100,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                        CircleAvatar(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.inverseSurface,
-                          child: Icon(
-                            Icons.camera_alt,
-                            size: 30,
+                  children: [
+                    const SizedBox(height: 20),
+                    Text("プロフィール画像を設定してください(任意)"),
+                    Center(
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          Icon(
+                            Icons.account_circle_outlined,
+                            size: 100,
                             color:
-                                Theme.of(context).colorScheme.onInverseSurface,
+                                Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
-                        ),
-                      ],
+                          CircleAvatar(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inverseSurface,
+                            child: Icon(
+                              Icons.camera_alt,
+                              size: 30,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onInverseSurface,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'ニックネーム(必須)',
-                      prefixIcon: Icon(Icons.person),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'ニックネーム(必須)',
+                        prefixIcon: Icon(Icons.person),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'ニックネームを入力してください';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'ニックネームを入力してください';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: '学校名(必須)',
-                      prefixIcon: Icon(Icons.school),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: '学校名(必須)',
+                        prefixIcon: Icon(Icons.school),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return '学校名を入力してください';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return '学校名を入力してください';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: '学部名(必須)',
-                      prefixIcon: Icon(Icons.school_outlined),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: '学部名(必須)',
+                        prefixIcon: Icon(Icons.school_outlined),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return '学部名を入力してください';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return '学部名を入力してください';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: '学科名(必須)',
-                      prefixIcon: Icon(Icons.school_outlined),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: '学科名(必須)',
+                        prefixIcon: Icon(Icons.school_outlined),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return '学科名を入力してください';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return '学科名を入力してください';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: '学年(必須)',
-                      prefixIcon: Icon(Icons.school_outlined),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: '学年(必須)',
+                        prefixIcon: Icon(Icons.school_outlined),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return '学年を入力してください';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return '学年を入力してください';
-                      }
-                      return null;
-                    },
-                  ),
-                ],
-              ),
-            )),
+                  ],
+                ),
+              )),
+        ),
       ),
     );
   }
