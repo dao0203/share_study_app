@@ -1,3 +1,4 @@
+import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/profile_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,13 +15,13 @@ final class SupabaseProfileRepository implements ProfileRepository {
         .single()
         .then((value) {
       return Profile(
-        id: value.data['id'] as String,
-        nickname: value.data['nickname'] as String,
-        imageUrl: value.data['image_url'] as String?,
-        universityName: value.data['university_name'] as String?,
-        facultyName: value.data['faculty_name'] as String?,
-        departmentName: value.data['department_name'] as String?,
-        bio: value.data['bio'] as String?,
+        id: value['id'],
+        nickname: value['nickname'] as String,
+        imageUrl: value['image_url'] as String?,
+        universityName: value['university_name'] as String?,
+        facultyName: value['faculty_name'] as String?,
+        departmentName: value['department_name'] as String?,
+        bio: value['bio'] as String?,
       );
     });
   }
