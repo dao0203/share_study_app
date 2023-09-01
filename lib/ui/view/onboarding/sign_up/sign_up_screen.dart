@@ -140,11 +140,12 @@ class SignUpScreen extends HookConsumerWidget {
                                     passwordConfirmController.text)
                                 .then((value) {
                               Logger().d("signup success");
-                              Navigator.of(context).push(
+                              Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       RegistrationProfileScreen(),
                                 ),
+                                (_) => false,
                               );
                             }).catchError((e) {
                               Logger().e(e);

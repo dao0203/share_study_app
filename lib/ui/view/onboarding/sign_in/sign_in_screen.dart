@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_study_app/auth_gate.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/view/onboarding/sign_up/sign_up_screen.dart';
-import 'package:share_study_app/ui/view/timeline/thread_page.dart';
 
 class SignInScreen extends HookConsumerWidget {
   const SignInScreen({super.key});
@@ -108,10 +108,11 @@ class SignInScreen extends HookConsumerWidget {
                             passwordController.text,
                           )
                               .then((value) {
-                            Navigator.of(context).pushReplacement(
+                            Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => const TimelineScreen(),
-                                  maintainState: false),
+                                builder: (context) => const AuthGate(),
+                              ),
+                              (_) => false,
                             );
                           });
                         }
