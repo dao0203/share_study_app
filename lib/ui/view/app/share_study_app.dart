@@ -48,7 +48,7 @@ class ShareStudyApp extends HookConsumerWidget {
         ),
       ),
       drawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.7,
+        width: MediaQuery.of(context).size.width * 0.8,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -155,12 +155,41 @@ class ShareStudyApp extends HookConsumerWidget {
               ),
             ),
             ListTile(
+              leading: const Icon(Icons.person_outline_outlined),
+              title: const Text('プロフィール'),
+              onTap: () {},
+            ),
+            ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('ログアウト'),
               onTap: () async {
                 Navigator.pop(context);
                 await ref.read(userAuthRepositoryProvider).signOut();
               },
+            ),
+            //シェアスタについて
+            ListTile(
+              leading: const Icon(Icons.info_outline),
+              title: const Text('シェアスタについて'),
+              onTap: () {},
+            ),
+            //利用規約
+            ListTile(
+              leading: const Icon(Icons.description_outlined),
+              title: const Text('利用規約'),
+              onTap: () {},
+            ),
+            //プライバシーポリシー
+            ListTile(
+              leading: const Icon(Icons.privacy_tip_outlined),
+              title: const Text('プライバシーポリシー'),
+              onTap: () {},
+            ),
+            //お問い合わせ
+            ListTile(
+              leading: const Icon(Icons.contact_support_outlined),
+              title: const Text('お問い合わせ'),
+              onTap: () {},
             ),
           ],
         ),
