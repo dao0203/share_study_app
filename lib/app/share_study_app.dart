@@ -44,8 +44,6 @@ class ShareStudyApp extends HookConsumerWidget {
         label: const Text("質問投稿"),
         icon: const Icon(Icons.add),
         onPressed: () {
-          //TODO: 質問投稿ダイアログを表示して、投稿処理を実装
-          //下から上にスライドするアニメーションで画面遷移
           Navigator.push(
             context,
             PageRouteBuilder(

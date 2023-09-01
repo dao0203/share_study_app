@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
-import 'package:share_study_app/ui/view/app/share_study_app.dart';
+import 'package:share_study_app/app/share_study_app.dart';
 
 class RegistrationProfileScreen extends HookConsumerWidget {
   RegistrationProfileScreen({super.key});
