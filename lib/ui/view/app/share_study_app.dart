@@ -160,36 +160,37 @@ class ShareStudyApp extends HookConsumerWidget {
               onTap: () {},
             ),
             ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('ログアウト'),
-              onTap: () async {
-                Navigator.pop(context);
-                await ref.read(userAuthRepositoryProvider).signOut();
-              },
-            ),
-            //シェアスタについて
-            ListTile(
               leading: const Icon(Icons.info_outline),
               title: const Text('シェアスタについて'),
               onTap: () {},
             ),
-            //利用規約
             ListTile(
               leading: const Icon(Icons.description_outlined),
               title: const Text('利用規約'),
               onTap: () {},
             ),
-            //プライバシーポリシー
             ListTile(
               leading: const Icon(Icons.privacy_tip_outlined),
               title: const Text('プライバシーポリシー'),
               onTap: () {},
             ),
-            //お問い合わせ
             ListTile(
               leading: const Icon(Icons.contact_support_outlined),
               title: const Text('お問い合わせ'),
               onTap: () {},
+            ),
+            ListTile(
+              textColor: Theme.of(context).colorScheme.error,
+              leading: Icon(
+                Icons.logout,
+                color: Theme.of(context).colorScheme.error,
+              ),
+              title: const Text('ログアウト'),
+              onTap: () async {
+                //TODO: ログアウト処理
+                Navigator.pop(context);
+                await ref.read(userAuthRepositoryProvider).signOut();
+              },
             ),
           ],
         ),
