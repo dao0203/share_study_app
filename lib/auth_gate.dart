@@ -5,7 +5,6 @@ import 'package:share_study_app/ui/state/splash_state.dart';
 import 'package:share_study_app/ui/view/app/share_study_app.dart';
 import 'package:share_study_app/ui/view/onboarding/registration_profile/registration_profile_screen.dart';
 import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
-import 'package:share_study_app/ui/view/timeline/thread_page.dart';
 import 'package:share_study_app/util/splash.dart';
 
 class AuthGate extends HookConsumerWidget {

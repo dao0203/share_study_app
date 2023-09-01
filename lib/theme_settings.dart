@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/auth_gate.dart';
 import 'package:share_study_app/ui/theme/colors.dart';
-import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_web.dart';
-import 'package:share_study_app/ui/view/timeline/thread_page.dart';
 
 class ThemeSettings extends HookConsumerWidget {
   const ThemeSettings({super.key});

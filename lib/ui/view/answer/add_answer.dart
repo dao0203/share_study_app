@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/firebase/firestore_api.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/view/timeline/components/question_items.dart';
-import 'package:share_study_app/ui/view/timeline/thread_page.dart';
+import 'package:share_study_app/ui/view/timeline/timeline_screen.dart';
 
 class PostAnswerScreen extends HookConsumerWidget {
   PostAnswerScreen({required this.questionId, Key? key}) : super(key: key);
