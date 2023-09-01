@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_study_app/ui/view/norification/notification_screen.dart';
 import 'package:share_study_app/ui/view/search/search_screen.dart';
-import 'package:share_study_app/ui/view/timeline/timeline_screen.dart';
+import 'package:share_study_app/ui/view/timeline/timeline_screen2.dart';
 
 enum TopLevelDestination {
   timeline(

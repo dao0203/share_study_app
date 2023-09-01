@@ -7,7 +7,7 @@ import 'package:share_study_app/data/firebase/firestore_api.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/subject_state.dart';
 
-import '../timeline/timeline_screen.dart';
+import '../timeline/timeline_screen2.dart';
 
 class QuestionPostScreen extends HookConsumerWidget {
   FirestoreApi firestoreApi = FirestoreApi();
