@@ -4,8 +4,10 @@ import 'package:share_study_app/data/repository/answer_repository.dart';
 import 'package:share_study_app/data/repository/firestore_answer_repository.dart';
 import 'package:share_study_app/data/repository/firestore_question_repository.dart';
 import 'package:share_study_app/data/repository/firestore_subject_repository.dart';
+import 'package:share_study_app/data/repository/profile_repository.dart';
 import 'package:share_study_app/data/repository/question_repository.dart';
 import 'package:share_study_app/data/repository/subject_repository.dart';
+import 'package:share_study_app/data/repository/supabase_profile_repository.dart';
 import 'package:share_study_app/data/repository/supabase_user_auth_repository.dart';
 import 'package:share_study_app/data/repository/user_auth_repository.dart';
 
@@ -24,6 +26,10 @@ final subjectRepositoryProvider = Provider<SubjectRepository>((ref) {
   return FirestoreSubjectRepository(subjectCollectoinRef);
 });
 
-final userRepositoryProvider = Provider<UserRepository>((ref) {
-  return SupabaseUserRepository();
+final userAuthRepositoryProvider = Provider<UserAuthRepository>((ref) {
+  return SupabaseUserAuthRepository();
+});
+
+final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
+  return SupabaseProfileRepository();
 });

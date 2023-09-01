@@ -10,7 +10,7 @@ class SignInScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userAuthRepository = ref.watch(userRepositoryProvider);
+    final userAuthRepository = ref.watch(userAuthRepositoryProvider);
     final _formKey = GlobalKey<FormState>();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
@@ -52,6 +52,8 @@ class SignInScreen extends HookConsumerWidget {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'メールアドレスを入力してください';
+                        } else if (!value.contains('@')) {
+                          return 'メールアドレスの形式が正しくありません';
                         }
                         return null;
                       },
@@ -76,9 +78,14 @@ class SignInScreen extends HookConsumerWidget {
                             color: Theme.of(context).colorScheme.onBackground),
                         labelText: 'パスワード',
                       ),
+                      maxLength: 20,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'パスワードを入力してください';
+                        } else if (value.length < 6) {
+                          return 'パスワードは6文字以上で入力してください';
+                        } else if (value.length > 20) {
+                          return 'パスワードは20文字以下で入力してください';
                         }
                         return null;
                       },

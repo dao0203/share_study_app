@@ -9,7 +9,7 @@ class SignUpScreen extends HookConsumerWidget {
   const SignUpScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userRepository = ref.watch(userRepositoryProvider);
+    final userRepository = ref.watch(userAuthRepositoryProvider);
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
@@ -54,6 +54,8 @@ class SignUpScreen extends HookConsumerWidget {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'メールアドレスを入力してください';
+                          } else if (!value.contains('@')) {
+                            return 'メールアドレスの形式が正しくありません';
                           }
                           return null;
                         },
@@ -80,9 +82,14 @@ class SignUpScreen extends HookConsumerWidget {
                               color:
                                   Theme.of(context).colorScheme.onBackground),
                         ),
+                        maxLength: 20,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'パスワードを入力してください';
+                          } else if (value.length < 6) {
+                            return 'パスワードは6文字以上で入力してください';
+                          } else if (value.length > 20) {
+                            return 'パスワードは20文字以下で入力してください';
                           }
                           return null;
                         },
@@ -109,6 +116,7 @@ class SignUpScreen extends HookConsumerWidget {
                                 color:
                                     Theme.of(context).colorScheme.onBackground),
                           ),
+                          maxLength: 20,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'パスワードを入力してください';
@@ -135,7 +143,7 @@ class SignUpScreen extends HookConsumerWidget {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const RegistrationProfileScreen(),
+                                      RegistrationProfileScreen(),
                                 ),
                               );
                             }).catchError((e) {
