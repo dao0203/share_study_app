@@ -8,6 +8,7 @@ enum TopLevelDestination{
     required this.icon,
     required this.page,
   });
+
   final String title;
   final IconData icon;
   final Widget page;
@@ -15,7 +16,7 @@ enum TopLevelDestination{
   timeline(
     title: 'タイムライン',
     icon: Icons.home,
-    page: const QuestionsScreen(),
+    page: const (),
   ),
 
 }
