@@ -19,10 +19,10 @@ mixin _$Question {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  String get subjectName => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   bool get isResolved => throw _privateConstructorUsedError;
   Questioner get questioner => throw _privateConstructorUsedError;
-  Subject get subject => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -40,15 +40,14 @@ abstract class $QuestionCopyWith<$Res> {
       {String id,
       String title,
       String content,
+      String subjectName,
       String imageUrl,
       bool isResolved,
       Questioner questioner,
-      Subject subject,
       DateTime? createdAt,
       DateTime? updatedAt});
 
   $QuestionerCopyWith<$Res> get questioner;
-  $SubjectCopyWith<$Res> get subject;
 }
 
 /// @nodoc
@@ -67,10 +66,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? id = null,
     Object? title = null,
     Object? content = null,
+    Object? subjectName = null,
     Object? imageUrl = null,
     Object? isResolved = null,
     Object? questioner = null,
-    Object? subject = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -87,6 +86,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      subjectName: null == subjectName
+          ? _value.subjectName
+          : subjectName // ignore: cast_nullable_to_non_nullable
+              as String,
       imageUrl: null == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -99,10 +102,6 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.questioner
           : questioner // ignore: cast_nullable_to_non_nullable
               as Questioner,
-      subject: null == subject
-          ? _value.subject
-          : subject // ignore: cast_nullable_to_non_nullable
-              as Subject,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -121,14 +120,6 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
       return _then(_value.copyWith(questioner: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $SubjectCopyWith<$Res> get subject {
-    return $SubjectCopyWith<$Res>(_value.subject, (value) {
-      return _then(_value.copyWith(subject: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -142,17 +133,15 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
       {String id,
       String title,
       String content,
+      String subjectName,
       String imageUrl,
       bool isResolved,
       Questioner questioner,
-      Subject subject,
       DateTime? createdAt,
       DateTime? updatedAt});
 
   @override
   $QuestionerCopyWith<$Res> get questioner;
-  @override
-  $SubjectCopyWith<$Res> get subject;
 }
 
 /// @nodoc
@@ -169,10 +158,10 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? content = null,
+    Object? subjectName = null,
     Object? imageUrl = null,
     Object? isResolved = null,
     Object? questioner = null,
-    Object? subject = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -189,6 +178,10 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      subjectName: null == subjectName
+          ? _value.subjectName
+          : subjectName // ignore: cast_nullable_to_non_nullable
+              as String,
       imageUrl: null == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -201,10 +194,6 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.questioner
           : questioner // ignore: cast_nullable_to_non_nullable
               as Questioner,
-      subject: null == subject
-          ? _value.subject
-          : subject // ignore: cast_nullable_to_non_nullable
-              as Subject,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -224,10 +213,10 @@ class _$_Question implements _Question {
       {this.id = "",
       this.title = "",
       this.content = "",
+      this.subjectName = '',
       this.imageUrl = "",
       this.isResolved = false,
       this.questioner = const Questioner(),
-      this.subject = const Subject(),
       this.createdAt,
       this.updatedAt});
 
@@ -242,6 +231,9 @@ class _$_Question implements _Question {
   final String content;
   @override
   @JsonKey()
+  final String subjectName;
+  @override
+  @JsonKey()
   final String imageUrl;
   @override
   @JsonKey()
@@ -250,16 +242,13 @@ class _$_Question implements _Question {
   @JsonKey()
   final Questioner questioner;
   @override
-  @JsonKey()
-  final Subject subject;
-  @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'Question(id: $id, title: $title, content: $content, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, subject: $subject, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Question(id: $id, title: $title, content: $content, subjectName: $subjectName, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -270,13 +259,14 @@ class _$_Question implements _Question {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.subjectName, subjectName) ||
+                other.subjectName == subjectName) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.isResolved, isResolved) ||
                 other.isResolved == isResolved) &&
             (identical(other.questioner, questioner) ||
                 other.questioner == questioner) &&
-            (identical(other.subject, subject) || other.subject == subject) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -284,8 +274,8 @@ class _$_Question implements _Question {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, content, imageUrl,
-      isResolved, questioner, subject, createdAt, updatedAt);
+  int get hashCode => Object.hash(runtimeType, id, title, content, subjectName,
+      imageUrl, isResolved, questioner, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -299,10 +289,10 @@ abstract class _Question implements Question {
       {final String id,
       final String title,
       final String content,
+      final String subjectName,
       final String imageUrl,
       final bool isResolved,
       final Questioner questioner,
-      final Subject subject,
       final DateTime? createdAt,
       final DateTime? updatedAt}) = _$_Question;
 
@@ -313,13 +303,13 @@ abstract class _Question implements Question {
   @override
   String get content;
   @override
+  String get subjectName;
+  @override
   String get imageUrl;
   @override
   bool get isResolved;
   @override
   Questioner get questioner;
-  @override
-  Subject get subject;
   @override
   DateTime? get createdAt;
   @override

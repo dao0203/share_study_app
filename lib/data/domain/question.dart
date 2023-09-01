@@ -10,10 +10,10 @@ abstract class Question with _$Question {
     @Default("") String id,
     @Default("") String title,
     @Default("") String content,
+    @Default('') String subjectName,
     @Default("") String imageUrl,
     @Default(false) bool isResolved,
     @Default(Questioner()) Questioner questioner,
-    @Default(Subject()) Subject subject,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _Question;
