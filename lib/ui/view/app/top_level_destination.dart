@@ -19,7 +19,7 @@ enum TopLevelDestination {
   notification(
     tag: 'notification',
     label: '通知',
-    icon: Icons.person,
+    icon: Icons.notifications,
     page: NotificationScreen(),
   );
 
