@@ -4,7 +4,7 @@ import 'package:share_study_app/use_case/di/use_case_providers.dart';
 
 part 'my_profile_state.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class MyProfileState extends _$MyProfileState {
   @override
   Future<Profile> build() async {
