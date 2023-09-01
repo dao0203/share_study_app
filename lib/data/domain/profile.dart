@@ -8,7 +8,7 @@ abstract class Profile with _$Profile {
     @Default("") String id,
     @Default("") String nickname,
     String? imageUrl,
-    String? universityName,
+    @Default("") String universityName,
     String? facultyName,
     String? departmentName,
     String? grade,
