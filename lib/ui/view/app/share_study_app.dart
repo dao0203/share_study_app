@@ -39,6 +39,13 @@ class ShareStudyApp extends HookConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 1,
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("質問投稿"),
+        icon: const Icon(Icons.add),
+        onPressed: () {
+          //TODO: 質問投稿ダイアログを表示して、投稿処理を実装
+        },
+      ),
       body: SafeArea(
         child: Stack(
           children: TopLevelDestination.values
