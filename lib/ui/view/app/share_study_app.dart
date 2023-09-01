@@ -22,6 +22,7 @@ class ShareStudyApp extends HookConsumerWidget {
     var _scaffoldKey = useState(GlobalKey<ScaffoldState>());
     return Scaffold(
       key: _scaffoldKey.value,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.account_circle_outlined),
@@ -167,17 +168,23 @@ class ShareStudyApp extends HookConsumerWidget {
             ListTile(
               leading: const Icon(Icons.description_outlined),
               title: const Text('利用規約'),
-              onTap: () {},
+              onTap: () {
+                //TODO: 利用規約の画面に遷移
+              },
             ),
             ListTile(
               leading: const Icon(Icons.privacy_tip_outlined),
               title: const Text('プライバシーポリシー'),
-              onTap: () {},
+              onTap: () {
+                //TODO: プライバシーポリシーの画面に遷移
+              },
             ),
             ListTile(
               leading: const Icon(Icons.contact_support_outlined),
               title: const Text('お問い合わせ'),
-              onTap: () {},
+              onTap: () {
+                //TODO: お問い合わせの画面に遷移
+              },
             ),
             ListTile(
               textColor: Theme.of(context).colorScheme.error,
@@ -196,12 +203,17 @@ class ShareStudyApp extends HookConsumerWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         type: BottomNavigationBarType.fixed,
         currentIndex: TopLevelDestination.values.indexOf(currentTab.value),
         items: TopLevelDestination.values
             .map(
               (item) => BottomNavigationBarItem(
                 icon: Icon(item.icon),
+                activeIcon: Icon(
+                  item.icon,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 label: item.label,
               ),
             )
