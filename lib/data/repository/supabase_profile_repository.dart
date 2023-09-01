@@ -27,15 +27,23 @@ final class SupabaseProfileRepository implements ProfileRepository {
   }
 
   @override
-  Future<void> updateProfile(Profile profile) {
-    final userId = supabaseClient.auth.currentUser!.id;
-    return supabaseClient.from('profiles').update({
-      'nickname': profile.nickname,
-      'image_url': profile.imageUrl,
-      'university_name': profile.universityName,
-      'faculty_name': profile.facultyName,
-      'department_name': profile.departmentName,
-      'bio': profile.bio,
-    }).eq("id", userId);
+  Future<void> updateProfile(Profile profile) async {
+    Logger().d("updateProfile.profile: $profile");
+    return await supabaseClient
+        .from("profiles")
+        .update({
+          "nickname": profile.nickname,
+          "university_name": profile.universityName,
+          "faculty_name": profile.facultyName,
+          "department_name": profile.departmentName,
+          "bio": profile.bio,
+        })
+        .eq("id", profile.id)
+        .whenComplete(() {
+          Logger().d("updateProfile.profile: success update profile");
+        })
+        .catchError((error) {
+          Logger().e("updateProfile.error: $error");
+        });
   }
 }
