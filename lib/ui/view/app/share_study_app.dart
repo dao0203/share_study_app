@@ -25,11 +25,16 @@ class ShareStudyApp extends HookConsumerWidget {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.account_circle_outlined),
+            icon: const Icon(
+              Icons.account_circle_outlined,
+              size: 40,
+            ),
             onPressed: () {
               _scaffoldKey.value.currentState!.openDrawer();
             },
           ),
+          //タイトルを中央に配置
+          centerTitle: true,
           title: const Text('Share Study'),
           backgroundColor: Theme.of(context).colorScheme.surface),
       body: SafeArea(
