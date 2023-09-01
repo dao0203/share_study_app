@@ -128,7 +128,7 @@ class PostAnswerScreen extends HookConsumerWidget {
                                 Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const QuestionsScreen(),
+                                        const TimelineScreen(),
                                     maintainState: false,
                                   ),
                                   (_) => false,

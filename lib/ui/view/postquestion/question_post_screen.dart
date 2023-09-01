@@ -246,7 +246,7 @@ class QuestionPostScreen extends HookConsumerWidget {
                                   .then((value) => print("投稿完了"));
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                  builder: (context) => const QuestionsScreen(),
+                                  builder: (context) => const TimelineScreen(),
                                   maintainState: false,
                                 ),
                                 (_) => false,

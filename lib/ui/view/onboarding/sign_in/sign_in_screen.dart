@@ -110,7 +110,7 @@ class SignInScreen extends HookConsumerWidget {
                               .then((value) {
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => const QuestionsScreen(),
+                                  builder: (context) => const TimelineScreen(),
                                   maintainState: false),
                             );
                           });

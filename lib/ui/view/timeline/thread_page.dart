@@ -6,8 +6,8 @@ import 'package:share_study_app/ui/view/timeline/components/question_list_items.
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:share_study_app/ui/view/postquestion/question_post_screen.dart';
 
-class QuestionsScreen extends HookConsumerWidget {
-  const QuestionsScreen({super.key});
+class TimelineScreen extends HookConsumerWidget {
+  const TimelineScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
