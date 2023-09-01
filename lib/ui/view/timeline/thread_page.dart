@@ -13,11 +13,6 @@ class TimelineScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final questionRepository = ref.watch(questionRepositoryProvider);
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false, //戻るボタンを非表示
-        title: const Text("質問一覧"),
-      ),
-
       //フローティングボタン
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("質問投稿"),
