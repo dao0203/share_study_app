@@ -19,7 +19,7 @@ mixin _$Profile {
   String get id => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
-  String? get universityName => throw _privateConstructorUsedError;
+  String get universityName => throw _privateConstructorUsedError;
   String? get facultyName => throw _privateConstructorUsedError;
   String? get departmentName => throw _privateConstructorUsedError;
   String? get grade => throw _privateConstructorUsedError;
@@ -38,7 +38,7 @@ abstract class $ProfileCopyWith<$Res> {
       {String id,
       String nickname,
       String? imageUrl,
-      String? universityName,
+      String universityName,
       String? facultyName,
       String? departmentName,
       String? grade,
@@ -61,7 +61,7 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
     Object? id = null,
     Object? nickname = null,
     Object? imageUrl = freezed,
-    Object? universityName = freezed,
+    Object? universityName = null,
     Object? facultyName = freezed,
     Object? departmentName = freezed,
     Object? grade = freezed,
@@ -80,10 +80,10 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      universityName: freezed == universityName
+      universityName: null == universityName
           ? _value.universityName
           : universityName // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       facultyName: freezed == facultyName
           ? _value.facultyName
           : facultyName // ignore: cast_nullable_to_non_nullable
@@ -115,7 +115,7 @@ abstract class _$$_ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
       {String id,
       String nickname,
       String? imageUrl,
-      String? universityName,
+      String universityName,
       String? facultyName,
       String? departmentName,
       String? grade,
@@ -135,7 +135,7 @@ class __$$_ProfileCopyWithImpl<$Res>
     Object? id = null,
     Object? nickname = null,
     Object? imageUrl = freezed,
-    Object? universityName = freezed,
+    Object? universityName = null,
     Object? facultyName = freezed,
     Object? departmentName = freezed,
     Object? grade = freezed,
@@ -154,10 +154,10 @@ class __$$_ProfileCopyWithImpl<$Res>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      universityName: freezed == universityName
+      universityName: null == universityName
           ? _value.universityName
           : universityName // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       facultyName: freezed == facultyName
           ? _value.facultyName
           : facultyName // ignore: cast_nullable_to_non_nullable
@@ -185,7 +185,7 @@ class _$_Profile implements _Profile {
       {this.id = "",
       this.nickname = "",
       this.imageUrl,
-      this.universityName,
+      this.universityName = "",
       this.facultyName,
       this.departmentName,
       this.grade,
@@ -200,7 +200,8 @@ class _$_Profile implements _Profile {
   @override
   final String? imageUrl;
   @override
-  final String? universityName;
+  @JsonKey()
+  final String universityName;
   @override
   final String? facultyName;
   @override
@@ -251,7 +252,7 @@ abstract class _Profile implements Profile {
       {final String id,
       final String nickname,
       final String? imageUrl,
-      final String? universityName,
+      final String universityName,
       final String? facultyName,
       final String? departmentName,
       final String? grade,
@@ -264,7 +265,7 @@ abstract class _Profile implements Profile {
   @override
   String? get imageUrl;
   @override
-  String? get universityName;
+  String get universityName;
   @override
   String? get facultyName;
   @override
