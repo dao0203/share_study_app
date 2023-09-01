@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_study_app/share_study_app.dart';
+import 'package:share_study_app/theme_settings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
 
@@ -19,5 +19,5 @@ Future<void> main() async {
     anonKey: dotenv.env["SUPABASE_ANON_KEY"]!,
   );
 
-  runApp(const ProviderScope(child: ShareStudyApp()));
+  runApp(const ProviderScope(child: ThemeSettings()));
 }
