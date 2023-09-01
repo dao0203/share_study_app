@@ -11,10 +11,6 @@ class ThemeSettings extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: {
-        "questions_screen": (context) => const QuestionsScreen(),
-        PrivacyPolicyWebPage.tag: (context) => const PrivacyPolicyWebPage(),
-      },
       title: 'Share_study_app',
       theme: ThemeData(
         useMaterial3: true,
