@@ -78,6 +78,7 @@ class ShareStudyApp extends HookConsumerWidget {
                       fontSize: 20,
                     ),
                   ),
+                  const SizedBox(height: 4),
                   myActivityState.when(
                     data: (myActivity) {
                       return Row(
@@ -86,23 +87,55 @@ class ShareStudyApp extends HookConsumerWidget {
                           Text.rich(
                             TextSpan(
                               children: [
-                                TextSpan(
-                                  text: myActivity.followCount.toString(),
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer,
-                                    fontSize: 20,
+                                WidgetSpan(
+                                  child: Text(
+                                    myActivity.followCount.toString(),
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                      fontSize: 18,
+                                    ),
                                   ),
+                                  alignment: PlaceholderAlignment.middle,
                                 ),
-                                TextSpan(
-                                  text: '時間',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer,
-                                    fontSize: 20,
+                                WidgetSpan(
+                                  child: Text(
+                                    ' フォロー',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                      fontSize: 12,
+                                    ),
                                   ),
+                                  alignment: PlaceholderAlignment.middle,
+                                ),
+                                const WidgetSpan(child: SizedBox(width: 4)),
+                                WidgetSpan(
+                                  child: Text(
+                                    myActivity.followerCount.toString(),
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  alignment: PlaceholderAlignment.middle,
+                                ),
+                                const WidgetSpan(child: SizedBox(width: 4)),
+                                WidgetSpan(
+                                  child: Text(
+                                    'フォロワー',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  alignment: PlaceholderAlignment.middle,
                                 ),
                               ],
                             ),
