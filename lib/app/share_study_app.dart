@@ -5,7 +5,8 @@ import 'package:logger/logger.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/my_activity_state.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
-import 'package:share_study_app/ui/view/app/top_level_destination.dart';
+import 'package:share_study_app/app/top_level_destination.dart';
+import 'package:share_study_app/ui/view/question_post/question_post_screen.dart';
 
 final _navigatorKey = <TopLevelDestination, GlobalKey<NavigatorState>>{
   for (final item in TopLevelDestination.values)
@@ -44,6 +45,26 @@ class ShareStudyApp extends HookConsumerWidget {
         icon: const Icon(Icons.add),
         onPressed: () {
           //TODO: 質問投稿ダイアログを表示して、投稿処理を実装
+          //下から上にスライドするアニメーションで画面遷移
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const QuestionPostScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                final begin = const Offset(0, 1);
+                final end = Offset.zero;
+                final tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: Curves.easeInOut));
+                final offsetAnimation = animation.drive(tween);
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              },
+            ),
+          );
         },
       ),
       body: SafeArea(
