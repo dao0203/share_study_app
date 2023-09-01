@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/ui/state/splash_state.dart';
+import 'package:share_study_app/ui/view/app/share_study_app.dart';
 import 'package:share_study_app/ui/view/onboarding/registration_profile/registration_profile_screen.dart';
 import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
 import 'package:share_study_app/ui/view/timeline/thread_page.dart';
@@ -14,13 +15,14 @@ class AuthGate extends HookConsumerWidget {
     final splashState = ref.watch(splashStateProvider);
     return splashState.when(
         data: (splashTo) {
+          Logger().i(splashTo);
           switch (splashTo) {
             case SplashTo.signInScreen:
               return const SignInScreen();
             case SplashTo.profileScreen:
               return RegistrationProfileScreen();
             case SplashTo.homeScreen:
-              return const QuestionsScreen();
+              return const ShareStudyApp();
           }
         },
         loading: () => const Scaffold(
