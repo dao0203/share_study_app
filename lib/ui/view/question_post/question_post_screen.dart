@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:share_study_app/data/domain/question.dart';
+import 'package:share_study_app/data/repository/di/repository_providers.dart';
 
 class QuestionPostScreen extends HookConsumerWidget {
   const QuestionPostScreen({super.key});
@@ -9,6 +11,7 @@ class QuestionPostScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Logger().d('QuestionPostScreen build');
+    final questionRepository = ref.watch(questionRepositoryProvider);
     final titleController = useTextEditingController(text: '');
     final subjectController = useTextEditingController(text: '');
     final contentController = useTextEditingController(text: '');
@@ -38,7 +41,42 @@ class QuestionPostScreen extends HookConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.background,
         actions: [
           ElevatedButton.icon(
-            onPressed: areFieldEmpty.value ? null : () {},
+            onPressed: areFieldEmpty.value
+                ? null
+                : () async {
+                    //キーボードを閉じる
+                    FocusScope.of(context).unfocus();
+                    //最初にスナックバーを表示
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('質問を投稿しています...'),
+                      ),
+                    );
+                    Navigator.pop(context);
+                    await questionRepository
+                        .add(
+                      Question(
+                        title: titleController.text,
+                        subjectName: subjectController.text,
+                        content: contentController.text,
+                      ),
+                    )
+                        .then(
+                      (value) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('質問を投稿しました'),
+                          ),
+                        );
+                      },
+                    ).catchError((error) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('質問の投稿に失敗しました: $error'),
+                        ),
+                      );
+                    });
+                  },
             icon: Icon(
               Icons.send,
               color: Theme.of(context).colorScheme.onBackground,

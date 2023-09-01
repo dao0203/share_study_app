@@ -13,7 +13,7 @@ class TimelineScreen extends HookConsumerWidget {
     final questionRepository = ref.watch(questionRepositoryProvider);
     return Scaffold(
       body: FutureBuilder(
-          future: questionRepository.getQuestions(),
+          future: questionRepository.getAll(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               //エラーが発生した場合

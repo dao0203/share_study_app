@@ -45,7 +45,7 @@ Widget QuestionItem(BuildContext context, int index, Question questionItem) {
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
                             child: Text(
-                              questionItem.subject.name,
+                              questionItem.subjectName,
                               style: const TextStyle(
                                 fontSize: 20.0,
                               ),
