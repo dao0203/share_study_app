@@ -24,19 +24,21 @@ class ShareStudyApp extends HookConsumerWidget {
       key: _scaffoldKey.value,
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(
-              Icons.account_circle_outlined,
-              size: 40,
-            ),
-            onPressed: () {
-              _scaffoldKey.value.currentState!.openDrawer();
-            },
+        leading: IconButton(
+          icon: const Icon(
+            Icons.account_circle_outlined,
+            size: 40,
           ),
-          //タイトルを中央に配置
-          centerTitle: true,
-          title: const Text('Share Study'),
-          backgroundColor: Theme.of(context).colorScheme.surface),
+          onPressed: () {
+            _scaffoldKey.value.currentState!.openDrawer();
+          },
+        ),
+        //タイトルを中央に配置
+        centerTitle: true,
+        title: const Text('Share Study'),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        elevation: 1,
+      ),
       body: SafeArea(
         child: Stack(
           children: TopLevelDestination.values
@@ -209,6 +211,7 @@ class ShareStudyApp extends HookConsumerWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
+        elevation: 1,
         type: BottomNavigationBarType.fixed,
         currentIndex: TopLevelDestination.values.indexOf(currentTab.value),
         items: TopLevelDestination.values
