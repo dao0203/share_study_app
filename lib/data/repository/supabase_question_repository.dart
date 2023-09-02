@@ -35,10 +35,10 @@ final class SupabaseQuestionRepository implements QuestionRepository {
   Future<List<Question>> getWithPagination(int limit, int offset) async {
     return await _client
         .from('questions')
-        .select(
+        .select<List<Map<String, dynamic>>>(
             //question Tableのidを外部キーにしているquestion_metrics tableのいいね数と回答数も取得する
             //また、questions中にあるuser_idを外部キーにしているprofiles tableのnicknameも取得する
-            ''' id,user_id, image_url, title,subject, content, is_resolved, created_at, updated_at,
+            ''' id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
                 profiles (
                   nickname, 
                   image_url
@@ -51,7 +51,8 @@ final class SupabaseQuestionRepository implements QuestionRepository {
                 ''')
         .range(offset, offset + limit - 1)
         .then((value) {
-          Logger().d('getWithPagination.then: $value');
+          Logger().i('getWithPagination.then: $value');
+          //valueをリスト型に変換
           return value.map((e) {
             return Question(
               //questions
@@ -60,14 +61,14 @@ final class SupabaseQuestionRepository implements QuestionRepository {
               subjectName: e['subject_name'] as String,
               content: e['content'] as String,
               isResolved: e['is_resolved'] as bool,
-              createdAt: e['created_at'] as DateTime,
-              updatedAt: e['updated_at'] as DateTime,
-              imageUrl: e['image_url'] as String,
+              createdAt: DateTime.parse(e['created_at']),
+              updatedAt: DateTime.parse(e['updated_at']),
+              imageUrl: e['image_url'] as String?,
               //profiles
               questioner: Questioner(
                 id: e['user_id'] as String,
                 nickname: e['profiles']['nickname'] as String,
-                imageUrl: e['profiles']['image_url'] as String,
+                imageUrl: e['profiles']['image_url'] as String?,
               ),
               //question_metrics
               likeCount: e['question_metrics']['like_count'] as int,
@@ -76,8 +77,8 @@ final class SupabaseQuestionRepository implements QuestionRepository {
             );
           }).toList();
         })
-        .catchError((error) {
-          Logger().e('getWithPagination.error: $error');
+        .catchError((error, stacktrace) {
+          Logger().e('getWithPagination.error: $error, $stacktrace');
         });
   }
 }
