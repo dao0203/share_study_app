@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:share_study_app/data/domain/questioner.dart';
-import 'package:share_study_app/data/domain/subject.dart';
 
 part 'question.freezed.dart';
 
@@ -11,9 +10,12 @@ abstract class Question with _$Question {
     @Default("") String title,
     @Default("") String content,
     @Default('') String subjectName,
-    @Default("") String imageUrl,
+    String? imageUrl,
     @Default(false) bool isResolved,
     @Default(Questioner()) Questioner questioner,
+    @Default(-1) int likeCount,
+    @Default(-1) int repostCount,
+    @Default(-1) int answerCount,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _Question;
