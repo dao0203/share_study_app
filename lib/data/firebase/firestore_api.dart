@@ -79,9 +79,6 @@ class FirestoreApi {
         QUESTIONS_QUESTION_CONTENT: question.content, //質問内容
         QUESTIONS_CREATED_AT: createdDate, //現在の時刻
         QUESTIONS_ANSWER_IDS: emptyList, //回答ID
-        QUESTIONS_FIRST_NAME: question.questioner.firstName,
-        QUESTIONS_LAST_NAME: question.questioner.lastName,
-        QUESTIONS_GRADE: question.questioner.grade,
       },
     );
   }
