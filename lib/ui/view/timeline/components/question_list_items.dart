@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:share_study_app/data/domain/question.dart';
 
-import '../../../../constants.dart';
 import '../answer_view_page.dart';
 
 Widget QuestionItem(BuildContext context, int index, Question questionItem) {
@@ -28,8 +27,7 @@ Widget QuestionItem(BuildContext context, int index, Question questionItem) {
               child: InputDecorator(
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  labelText:
-                      "${questionItem.questioner.lastName}${questionItem.questioner.firstName}：${questionItem.questioner.grade}",
+                  labelText: "質問",
                   labelStyle: const TextStyle(
                     fontSize: 25,
                   ),
