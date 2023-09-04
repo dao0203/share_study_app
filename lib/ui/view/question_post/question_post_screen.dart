@@ -52,7 +52,7 @@ class QuestionPostScreen extends HookConsumerWidget {
                         content: Text('質問を投稿しています...'),
                       ),
                     );
-                    Navigator.pop(context);
+                    Logger().d('QuestionPostScreen onPressed');
                     await questionRepository
                         .add(
                       Question(
@@ -63,6 +63,7 @@ class QuestionPostScreen extends HookConsumerWidget {
                     )
                         .then(
                       (value) {
+                        Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('質問を投稿しました'),

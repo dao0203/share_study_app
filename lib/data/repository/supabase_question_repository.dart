@@ -8,14 +8,15 @@ final class SupabaseQuestionRepository implements QuestionRepository {
   final _client = Supabase.instance.client;
   @override
   Future<void> add(Question question) async {
+    Logger().d('supabaseQuestionRepository.add pressed');
     await _client.from('questions').insert({
       'title': question.title,
       'subject_name': question.subjectName,
       'content': question.content,
     }).then((value) {
       Logger().d('addQuestion.then: $value');
-    }).catchError((error) {
-      Logger().e('addQuestion.error: $error');
+    }).catchError((error, stacktrace) {
+      Logger().e('addQuestion.error: $error $stacktrace');
     });
   }
 
@@ -32,7 +33,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<List<Question>> getWithPagination(int limit, int offset) async {
+  Future<List<Question>> getWithPagination(int start, int end) async {
     return await _client
         .from('questions')
         .select<List<Map<String, dynamic>>>(
@@ -49,7 +50,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
                   answer_count
                   )
                 ''')
-        .range(offset, offset + limit - 1)
+        .range(start, end)
         .then((value) {
           Logger().i('getWithPagination.then: $value');
           //valueをリスト型に変換
