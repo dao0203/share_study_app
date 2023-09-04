@@ -6,5 +6,5 @@ abstract interface class QuestionRepository {
   Future<void> add(Question question);
   //limit: 取得する件数
   //offset: 取得する開始位置
-  Future<List<Question>> getWithPagination(int limit, int offset);
+  Future<List<Question>> getWithPagination(int start, int end);
 }

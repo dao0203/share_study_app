@@ -53,7 +53,8 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
     final _scrollController = useScrollController();
 
     return Scaffold(
-      body: RefreshIndicator(
+      body: //上にスクロール
+          RefreshIndicator(
         onRefresh: () => Future.sync(
           () => _pagingController.refresh(),
         ),
@@ -64,7 +65,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
             itemBuilder: (context, item, index) =>
                 AnimationConfiguration.staggeredList(
               position: index,
-              duration: const Duration(milliseconds: 375),
+              // duration: const Duration(milliseconds: 375),
               child: SlideAnimation(
                 verticalOffset: 50.0,
                 child: FadeInAnimation(
@@ -79,6 +80,33 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
           ),
         ),
       ),
+
+      // RefreshIndicator(
+      //   onRefresh: () => Future.sync(
+      //     () => _pagingController.refresh(),
+      //   ),
+      //   child: PagedListView<int, Question>(
+      //     pagingController: _pagingController,
+      //     scrollController: _scrollController,
+      //     builderDelegate: PagedChildBuilderDelegate<Question>(
+      //       itemBuilder: (context, item, index) =>
+      //           AnimationConfiguration.staggeredList(
+      //         position: index,
+      //         // duration: const Duration(milliseconds: 375),
+      //         child: SlideAnimation(
+      //           verticalOffset: 50.0,
+      //           child: FadeInAnimation(
+      //             child: QuestionItem(
+      //               context,
+      //               index,
+      //               item,
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
