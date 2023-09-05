@@ -68,7 +68,6 @@ class QuestionItem extends HookConsumerWidget {
                 ],
               ),
             ),
-            //解決したかどうかを判定するアイコン
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Column(
@@ -78,7 +77,7 @@ class QuestionItem extends HookConsumerWidget {
                     question.isResolved
                         ? Icons.check_box
                         : Icons.check_circle_outline,
-                    color: !question.isResolved ? Colors.green : Colors.grey,
+                    color: question.isResolved ? Colors.green : Colors.grey,
                   ),
                 ],
               ),
