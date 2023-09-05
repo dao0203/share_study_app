@@ -20,9 +20,10 @@ mixin _$Question {
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   String get subjectName => throw _privateConstructorUsedError;
-  String get imageUrl => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   bool get isResolved => throw _privateConstructorUsedError;
   Questioner get questioner => throw _privateConstructorUsedError;
+  bool get isBookmarked => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -41,9 +42,10 @@ abstract class $QuestionCopyWith<$Res> {
       String title,
       String content,
       String subjectName,
-      String imageUrl,
+      String? imageUrl,
       bool isResolved,
       Questioner questioner,
+      bool isBookmarked,
       DateTime? createdAt,
       DateTime? updatedAt});
 
@@ -67,9 +69,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? title = null,
     Object? content = null,
     Object? subjectName = null,
-    Object? imageUrl = null,
+    Object? imageUrl = freezed,
     Object? isResolved = null,
     Object? questioner = null,
+    Object? isBookmarked = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -90,10 +93,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.subjectName
           : subjectName // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
+      imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isResolved: null == isResolved
           ? _value.isResolved
           : isResolved // ignore: cast_nullable_to_non_nullable
@@ -102,6 +105,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.questioner
           : questioner // ignore: cast_nullable_to_non_nullable
               as Questioner,
+      isBookmarked: null == isBookmarked
+          ? _value.isBookmarked
+          : isBookmarked // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -134,9 +141,10 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
       String title,
       String content,
       String subjectName,
-      String imageUrl,
+      String? imageUrl,
       bool isResolved,
       Questioner questioner,
+      bool isBookmarked,
       DateTime? createdAt,
       DateTime? updatedAt});
 
@@ -159,9 +167,10 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? title = null,
     Object? content = null,
     Object? subjectName = null,
-    Object? imageUrl = null,
+    Object? imageUrl = freezed,
     Object? isResolved = null,
     Object? questioner = null,
+    Object? isBookmarked = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -182,10 +191,10 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.subjectName
           : subjectName // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
+      imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isResolved: null == isResolved
           ? _value.isResolved
           : isResolved // ignore: cast_nullable_to_non_nullable
@@ -194,6 +203,10 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.questioner
           : questioner // ignore: cast_nullable_to_non_nullable
               as Questioner,
+      isBookmarked: null == isBookmarked
+          ? _value.isBookmarked
+          : isBookmarked // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -214,9 +227,10 @@ class _$_Question implements _Question {
       this.title = "",
       this.content = "",
       this.subjectName = '',
-      this.imageUrl = "",
+      this.imageUrl,
       this.isResolved = false,
       this.questioner = const Questioner(),
+      this.isBookmarked = false,
       this.createdAt,
       this.updatedAt});
 
@@ -233,8 +247,7 @@ class _$_Question implements _Question {
   @JsonKey()
   final String subjectName;
   @override
-  @JsonKey()
-  final String imageUrl;
+  final String? imageUrl;
   @override
   @JsonKey()
   final bool isResolved;
@@ -242,13 +255,16 @@ class _$_Question implements _Question {
   @JsonKey()
   final Questioner questioner;
   @override
+  @JsonKey()
+  final bool isBookmarked;
+  @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'Question(id: $id, title: $title, content: $content, subjectName: $subjectName, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Question(id: $id, title: $title, content: $content, subjectName: $subjectName, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, isBookmarked: $isBookmarked, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -267,6 +283,8 @@ class _$_Question implements _Question {
                 other.isResolved == isResolved) &&
             (identical(other.questioner, questioner) ||
                 other.questioner == questioner) &&
+            (identical(other.isBookmarked, isBookmarked) ||
+                other.isBookmarked == isBookmarked) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -275,7 +293,7 @@ class _$_Question implements _Question {
 
   @override
   int get hashCode => Object.hash(runtimeType, id, title, content, subjectName,
-      imageUrl, isResolved, questioner, createdAt, updatedAt);
+      imageUrl, isResolved, questioner, isBookmarked, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -290,9 +308,10 @@ abstract class _Question implements Question {
       final String title,
       final String content,
       final String subjectName,
-      final String imageUrl,
+      final String? imageUrl,
       final bool isResolved,
       final Questioner questioner,
+      final bool isBookmarked,
       final DateTime? createdAt,
       final DateTime? updatedAt}) = _$_Question;
 
@@ -305,11 +324,13 @@ abstract class _Question implements Question {
   @override
   String get subjectName;
   @override
-  String get imageUrl;
+  String? get imageUrl;
   @override
   bool get isResolved;
   @override
   Questioner get questioner;
+  @override
+  bool get isBookmarked;
   @override
   DateTime? get createdAt;
   @override

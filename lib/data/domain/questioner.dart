@@ -6,9 +6,7 @@ part 'questioner.freezed.dart';
 abstract class Questioner with _$Questioner {
   const factory Questioner({
     @Default("") String id,
-    @Default("") String lastName, //姓
-    @Default("") String firstName, //名
-    @Default("") String grade, //学年
-    @Default("") String imageUrl,
+    @Default("") String nickname,
+    String? imageUrl,
   }) = _Questioner;
 }

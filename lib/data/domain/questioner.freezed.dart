@@ -17,10 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Questioner {
   String get id => throw _privateConstructorUsedError;
-  String get lastName => throw _privateConstructorUsedError; //姓
-  String get firstName => throw _privateConstructorUsedError; //名
-  String get grade => throw _privateConstructorUsedError; //学年
-  String get imageUrl => throw _privateConstructorUsedError;
+  String get nickname => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $QuestionerCopyWith<Questioner> get copyWith =>
@@ -33,12 +31,7 @@ abstract class $QuestionerCopyWith<$Res> {
           Questioner value, $Res Function(Questioner) then) =
       _$QuestionerCopyWithImpl<$Res, Questioner>;
   @useResult
-  $Res call(
-      {String id,
-      String lastName,
-      String firstName,
-      String grade,
-      String imageUrl});
+  $Res call({String id, String nickname, String? imageUrl});
 }
 
 /// @nodoc
@@ -55,32 +48,22 @@ class _$QuestionerCopyWithImpl<$Res, $Val extends Questioner>
   @override
   $Res call({
     Object? id = null,
-    Object? lastName = null,
-    Object? firstName = null,
-    Object? grade = null,
-    Object? imageUrl = null,
+    Object? nickname = null,
+    Object? imageUrl = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      lastName: null == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
               as String,
-      firstName: null == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
-              as String,
-      grade: null == grade
-          ? _value.grade
-          : grade // ignore: cast_nullable_to_non_nullable
-              as String,
-      imageUrl: null == imageUrl
+      imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -93,12 +76,7 @@ abstract class _$$_QuestionerCopyWith<$Res>
       __$$_QuestionerCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String lastName,
-      String firstName,
-      String grade,
-      String imageUrl});
+  $Res call({String id, String nickname, String? imageUrl});
 }
 
 /// @nodoc
@@ -113,32 +91,22 @@ class __$$_QuestionerCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? lastName = null,
-    Object? firstName = null,
-    Object? grade = null,
-    Object? imageUrl = null,
+    Object? nickname = null,
+    Object? imageUrl = freezed,
   }) {
     return _then(_$_Questioner(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      lastName: null == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
               as String,
-      firstName: null == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
-              as String,
-      grade: null == grade
-          ? _value.grade
-          : grade // ignore: cast_nullable_to_non_nullable
-              as String,
-      imageUrl: null == imageUrl
+      imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -146,35 +114,20 @@ class __$$_QuestionerCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Questioner implements _Questioner {
-  const _$_Questioner(
-      {this.id = "",
-      this.lastName = "",
-      this.firstName = "",
-      this.grade = "",
-      this.imageUrl = ""});
+  const _$_Questioner({this.id = "", this.nickname = "", this.imageUrl});
 
   @override
   @JsonKey()
   final String id;
   @override
   @JsonKey()
-  final String lastName;
-//姓
+  final String nickname;
   @override
-  @JsonKey()
-  final String firstName;
-//名
-  @override
-  @JsonKey()
-  final String grade;
-//学年
-  @override
-  @JsonKey()
-  final String imageUrl;
+  final String? imageUrl;
 
   @override
   String toString() {
-    return 'Questioner(id: $id, lastName: $lastName, firstName: $firstName, grade: $grade, imageUrl: $imageUrl)';
+    return 'Questioner(id: $id, nickname: $nickname, imageUrl: $imageUrl)';
   }
 
   @override
@@ -183,18 +136,14 @@ class _$_Questioner implements _Questioner {
         (other.runtimeType == runtimeType &&
             other is _$_Questioner &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.lastName, lastName) ||
-                other.lastName == lastName) &&
-            (identical(other.firstName, firstName) ||
-                other.firstName == firstName) &&
-            (identical(other.grade, grade) || other.grade == grade) &&
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, lastName, firstName, grade, imageUrl);
+  int get hashCode => Object.hash(runtimeType, id, nickname, imageUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -206,21 +155,15 @@ class _$_Questioner implements _Questioner {
 abstract class _Questioner implements Questioner {
   const factory _Questioner(
       {final String id,
-      final String lastName,
-      final String firstName,
-      final String grade,
-      final String imageUrl}) = _$_Questioner;
+      final String nickname,
+      final String? imageUrl}) = _$_Questioner;
 
   @override
   String get id;
   @override
-  String get lastName;
-  @override //姓
-  String get firstName;
-  @override //名
-  String get grade;
-  @override //学年
-  String get imageUrl;
+  String get nickname;
+  @override
+  String? get imageUrl;
   @override
   @JsonKey(ignore: true)
   _$$_QuestionerCopyWith<_$_Questioner> get copyWith =>
