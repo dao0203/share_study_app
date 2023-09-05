@@ -50,8 +50,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: //上にスクロール
-          RefreshIndicator(
+      body: RefreshIndicator(
         onRefresh: () {
           return Future.sync(
             () => _pagingController.refresh(),
@@ -80,20 +79,20 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
             itemBuilder: (context, item, index) =>
                 AnimationConfiguration.staggeredList(
               position: index,
-
               duration: const Duration(milliseconds: 375),
-              //ディバイダを入れる
               child: SlideAnimation(
                 verticalOffset: 50.0,
                 child: FadeInAnimation(
                   child: QuestionItem(
-                      question: item,
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => AnswerViewPage()),
-                        );
-                      }),
+                    question: item,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => AnswerView(questionId: item.id),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
