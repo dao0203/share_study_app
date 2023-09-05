@@ -4,6 +4,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/view/timeline/answer_view_page.dart';
 import 'package:share_study_app/ui/view/timeline/components/question_item.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
@@ -86,20 +87,13 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                 verticalOffset: 50.0,
                 child: FadeInAnimation(
                   child: QuestionItem(
-                    question: item,
-                    onBookmarkPressed: (bookmarked) async {
-                      Logger().d('onHeartPressed: $bookmarked');
-                      if (bookmarked) {
-                        await ref
-                            .read(questionRepositoryProvider)
-                            .bookmark(item.id);
-                      } else {
-                        await ref
-                            .read(questionRepositoryProvider)
-                            .unbookmark(item.id);
-                      }
-                    },
-                  ),
+                      question: item,
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => AnswerViewPage()),
+                        );
+                      }),
                 ),
               ),
             ),
