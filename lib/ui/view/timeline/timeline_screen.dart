@@ -4,7 +4,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
-import 'package:share_study_app/ui/view/timeline/answer_view_page.dart';
+import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
 import 'package:share_study_app/ui/view/timeline/components/question_item.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
@@ -87,8 +87,13 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                     question: item,
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => AnswerView(questionId: item.id),
+                        //横にスライドしながら画面遷移
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              DiscussionScreen(questionId: item.id),
+                          transitionsBuilder: (context, animation1, animation2,
+                                  child) =>
+                              ScaleTransition(scale: animation1, child: child),
                         ),
                       );
                     },
