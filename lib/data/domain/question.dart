@@ -13,7 +13,7 @@ abstract class Question with _$Question {
     String? imageUrl,
     @Default(false) bool isResolved,
     @Default(Questioner()) Questioner questioner,
-    @Default(false) bool bookmarked,
+    @Default(false) bool isBookmarked,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _Question;

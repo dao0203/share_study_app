@@ -65,7 +65,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
                 imageUrl: e['profiles']['imageR_url'] as String?,
               ),
               //question_likes
-              bookmarked: e['bookmarks'][0]['count'] as int == 1,
+              isBookmarked: e['bookmarks'][0]['count'] as int == 1,
             );
           }).toList();
         })

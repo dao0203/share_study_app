@@ -23,7 +23,7 @@ mixin _$Question {
   String? get imageUrl => throw _privateConstructorUsedError;
   bool get isResolved => throw _privateConstructorUsedError;
   Questioner get questioner => throw _privateConstructorUsedError;
-  bool get bookmarked => throw _privateConstructorUsedError;
+  bool get isBookmarked => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -45,7 +45,7 @@ abstract class $QuestionCopyWith<$Res> {
       String? imageUrl,
       bool isResolved,
       Questioner questioner,
-      bool bookmarked,
+      bool isBookmarked,
       DateTime? createdAt,
       DateTime? updatedAt});
 
@@ -72,7 +72,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? imageUrl = freezed,
     Object? isResolved = null,
     Object? questioner = null,
-    Object? bookmarked = null,
+    Object? isBookmarked = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -105,9 +105,9 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.questioner
           : questioner // ignore: cast_nullable_to_non_nullable
               as Questioner,
-      bookmarked: null == bookmarked
-          ? _value.bookmarked
-          : bookmarked // ignore: cast_nullable_to_non_nullable
+      isBookmarked: null == isBookmarked
+          ? _value.isBookmarked
+          : isBookmarked // ignore: cast_nullable_to_non_nullable
               as bool,
       createdAt: freezed == createdAt
           ? _value.createdAt
@@ -144,7 +144,7 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
       String? imageUrl,
       bool isResolved,
       Questioner questioner,
-      bool bookmarked,
+      bool isBookmarked,
       DateTime? createdAt,
       DateTime? updatedAt});
 
@@ -170,7 +170,7 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? imageUrl = freezed,
     Object? isResolved = null,
     Object? questioner = null,
-    Object? bookmarked = null,
+    Object? isBookmarked = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -203,9 +203,9 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.questioner
           : questioner // ignore: cast_nullable_to_non_nullable
               as Questioner,
-      bookmarked: null == bookmarked
-          ? _value.bookmarked
-          : bookmarked // ignore: cast_nullable_to_non_nullable
+      isBookmarked: null == isBookmarked
+          ? _value.isBookmarked
+          : isBookmarked // ignore: cast_nullable_to_non_nullable
               as bool,
       createdAt: freezed == createdAt
           ? _value.createdAt
@@ -230,7 +230,7 @@ class _$_Question implements _Question {
       this.imageUrl,
       this.isResolved = false,
       this.questioner = const Questioner(),
-      this.bookmarked = false,
+      this.isBookmarked = false,
       this.createdAt,
       this.updatedAt});
 
@@ -256,7 +256,7 @@ class _$_Question implements _Question {
   final Questioner questioner;
   @override
   @JsonKey()
-  final bool bookmarked;
+  final bool isBookmarked;
   @override
   final DateTime? createdAt;
   @override
@@ -264,7 +264,7 @@ class _$_Question implements _Question {
 
   @override
   String toString() {
-    return 'Question(id: $id, title: $title, content: $content, subjectName: $subjectName, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, bookmarked: $bookmarked, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Question(id: $id, title: $title, content: $content, subjectName: $subjectName, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, isBookmarked: $isBookmarked, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -283,8 +283,8 @@ class _$_Question implements _Question {
                 other.isResolved == isResolved) &&
             (identical(other.questioner, questioner) ||
                 other.questioner == questioner) &&
-            (identical(other.bookmarked, bookmarked) ||
-                other.bookmarked == bookmarked) &&
+            (identical(other.isBookmarked, isBookmarked) ||
+                other.isBookmarked == isBookmarked) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -293,7 +293,7 @@ class _$_Question implements _Question {
 
   @override
   int get hashCode => Object.hash(runtimeType, id, title, content, subjectName,
-      imageUrl, isResolved, questioner, bookmarked, createdAt, updatedAt);
+      imageUrl, isResolved, questioner, isBookmarked, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -311,7 +311,7 @@ abstract class _Question implements Question {
       final String? imageUrl,
       final bool isResolved,
       final Questioner questioner,
-      final bool bookmarked,
+      final bool isBookmarked,
       final DateTime? createdAt,
       final DateTime? updatedAt}) = _$_Question;
 
@@ -330,7 +330,7 @@ abstract class _Question implements Question {
   @override
   Questioner get questioner;
   @override
-  bool get bookmarked;
+  bool get isBookmarked;
   @override
   DateTime? get createdAt;
   @override

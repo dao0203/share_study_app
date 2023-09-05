@@ -15,7 +15,6 @@ class QuestionItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLiked = useState(question.isResolved);
     return Card(
       color: Theme.of(context).colorScheme.surface,
       elevation: 3,
@@ -41,13 +40,23 @@ class QuestionItem extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //ユーザの名前
-                Text(
-                  question.questioner.nickname,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      question.questioner.nickname,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${question.createdAt!.month}月${question.createdAt!.day}日',
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
                 ),
                 Text(
                   question.title,
@@ -55,32 +64,22 @@ class QuestionItem extends HookConsumerWidget {
                     fontSize: 18,
                   ),
                 ),
-                Row(
-                  children: [],
-                ),
               ],
             ),
           ),
           //解決したかどうかを判定するアイコン
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.check_circle_outline,
-              color: question.isResolved ? Colors.green : Colors.grey,
-            ),
-          ),
-          //ブックマークしたかどうかを判定するアイコン
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              icon: Icon(
-                isLiked.value ? Icons.bookmark : Icons.bookmark_outline,
-                color: isLiked.value ? Colors.red : Colors.grey,
-              ),
-              onPressed: () {
-                isLiked.value = !isLiked.value;
-                onBookmarkPressed(isLiked.value);
-              },
+            padding: const EdgeInsets.all(4.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Icon(
+                  question.isResolved
+                      ? Icons.check_box
+                      : Icons.check_circle_outline,
+                  color: !question.isResolved ? Colors.green : Colors.grey,
+                ),
+              ],
             ),
           ),
         ],
