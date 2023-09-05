@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
-import 'package:share_study_app/ui/view/timeline/components/question_list_items.dart';
+import 'package:share_study_app/ui/view/timeline/components/question_item.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:share_study_app/util/pagination.dart';
 
 class TimelineScreen extends StatefulHookConsumerWidget {
   const TimelineScreen({super.key});
