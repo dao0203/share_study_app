@@ -15,7 +15,7 @@ class TimelineScreen extends StatefulHookConsumerWidget {
 }
 
 class _TimelineScreenState extends ConsumerState<TimelineScreen> {
-  static const _pageSize = 1;
+  static const _pageSize = 5;
   final PagingController<int, Question> _pagingController =
       PagingController(firstPageKey: 0);
 
@@ -59,6 +59,23 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
         child: PagedListView<int, Question>(
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<Question>(
+            firstPageErrorIndicatorBuilder: (context) {
+              return const Center(
+                child: Text('エラーが発生しました'),
+              );
+            },
+            firstPageProgressIndicatorBuilder: (context) {
+              return const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 16),
+                    Text('質問を取得中...'),
+                  ],
+                ),
+              );
+            },
             itemBuilder: (context, item, index) =>
                 AnimationConfiguration.staggeredList(
               position: index,
@@ -86,6 +103,11 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                 ),
               ),
             ),
+            newPageErrorIndicatorBuilder: (context) {
+              return const Center(
+                child: Text('エラーが発生しました'),
+              );
+            },
           ),
         ),
       ),
