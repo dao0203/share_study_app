@@ -50,29 +50,40 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _scrollController = useScrollController();
-
     return Scaffold(
       body: //上にスクロール
           RefreshIndicator(
-        onRefresh: () => Future.sync(
-          () => _pagingController.refresh(),
-        ),
+        onRefresh: () {
+          return Future.sync(
+            () => _pagingController.refresh(),
+          );
+        },
         child: PagedListView<int, Question>(
           pagingController: _pagingController,
-          scrollController: _scrollController,
           builderDelegate: PagedChildBuilderDelegate<Question>(
             itemBuilder: (context, item, index) =>
                 AnimationConfiguration.staggeredList(
               position: index,
-              // duration: const Duration(milliseconds: 375),
+
+              duration: const Duration(milliseconds: 375),
+              //ディバイダを入れる
               child: SlideAnimation(
                 verticalOffset: 50.0,
                 child: FadeInAnimation(
                   child: QuestionItem(
-                    context,
-                    index,
-                    item,
+                    question: item,
+                    onBookmarkPressed: (bookmarked) async {
+                      Logger().d('onHeartPressed: $bookmarked');
+                      if (bookmarked) {
+                        await ref
+                            .read(questionRepositoryProvider)
+                            .bookmark(item.id);
+                      } else {
+                        await ref
+                            .read(questionRepositoryProvider)
+                            .unbookmark(item.id);
+                      }
+                    },
                   ),
                 ),
               ),
@@ -80,33 +91,6 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
           ),
         ),
       ),
-
-      // RefreshIndicator(
-      //   onRefresh: () => Future.sync(
-      //     () => _pagingController.refresh(),
-      //   ),
-      //   child: PagedListView<int, Question>(
-      //     pagingController: _pagingController,
-      //     scrollController: _scrollController,
-      //     builderDelegate: PagedChildBuilderDelegate<Question>(
-      //       itemBuilder: (context, item, index) =>
-      //           AnimationConfiguration.staggeredList(
-      //         position: index,
-      //         // duration: const Duration(milliseconds: 375),
-      //         child: SlideAnimation(
-      //           verticalOffset: 50.0,
-      //           child: FadeInAnimation(
-      //             child: QuestionItem(
-      //               context,
-      //               index,
-      //               item,
-      //             ),
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

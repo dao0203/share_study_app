@@ -36,20 +36,13 @@ final class SupabaseQuestionRepository implements QuestionRepository {
   Future<List<Question>> getWithPagination(int start, int end) async {
     return await _client
         .from('questions')
-        .select<List<Map<String, dynamic>>>(
-            //question Tableのidを外部キーにしているquestion_metrics tableのいいね数と回答数も取得する
-            //また、questions中にあるuser_idを外部キーにしているprofiles tableのnicknameも取得する
-            ''' id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
-                profiles (
-                  nickname, 
-                  image_url
-                  ),
-                question_metrics (
-                  like_count,
-                  repost_count,
-                  answer_count
-                  )
-                ''')
+        .select<PostgrestList>(
+          ''' 
+          id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
+          profiles (nickname,image_url),
+          bookmarks (count) where user_id = auth.uid,
+          ''',
+        )
         .range(start, end)
         .then((value) {
           Logger().i('getWithPagination.then: $value');
@@ -69,17 +62,39 @@ final class SupabaseQuestionRepository implements QuestionRepository {
               questioner: Questioner(
                 id: e['user_id'] as String,
                 nickname: e['profiles']['nickname'] as String,
-                imageUrl: e['profiles']['image_url'] as String?,
+                imageUrl: e['profiles']['imageR_url'] as String?,
               ),
-              //question_metrics
-              likeCount: e['question_metrics']['like_count'] as int,
-              repostCount: e['question_metrics']['repost_count'] as int,
-              answerCount: e['question_metrics']['answer_count'] as int,
+              //question_likes
+              bookmarked: e['bookmarks'][0]['count'] as int == 1,
             );
           }).toList();
         })
         .catchError((error, stacktrace) {
           Logger().e('getWithPagination.error: $error, $stacktrace');
         });
+  }
+
+  @override
+  Future<void> bookmark(String id) async {
+    await _client.from('bookmarks').insert({
+      'question_id': id,
+    }).then((value) {
+      Logger().d('bookmarkQuestion.then: $value');
+    }).catchError((error, stacktrace) {
+      Logger().e('bookmarkQuestion.error: $error $stacktrace');
+    });
+  }
+
+  @override
+  Future<void> unbookmark(String id) async {
+    await _client
+        .from('bookmarks')
+        .delete()
+        .eq('question_id', id)
+        .then((value) {
+      Logger().d('unbookmarkQuestion.then: $value');
+    }).catchError((error, stacktrace) {
+      Logger().e('unbookmarkQuestion.error: $error $stacktrace');
+    });
   }
 }

@@ -1,123 +1,90 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/question.dart';
 
-import '../answer_view_page.dart';
+class QuestionItem extends HookConsumerWidget {
+  final Question question;
+  final Function(bool bookmarked) onBookmarkPressed;
 
-Widget QuestionItem(BuildContext context, int index, Question questionItem) {
-  return AnimationConfiguration.staggeredList(
-    position: index,
-    child: SlideAnimation(
-      child: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: SlideAnimation(
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AnswerView(
-                      questionId: questionItem.id,
-                    ),
-                  ),
-                );
-              },
-              child: InputDecorator(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: "質問",
-                  labelStyle: const TextStyle(
-                    fontSize: 25,
-                  ),
-                ),
-                child: SizedBox(
-                  height: 400,
-                  child: Card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //科目名
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text(
-                              questionItem.subjectName,
-                              style: const TextStyle(
-                                fontSize: 20.0,
-                              ),
-                            ),
-                          ),
-                        ),
+  const QuestionItem({
+    super.key,
+    required this.question,
+    required this.onBookmarkPressed,
+  });
 
-                        //タイトル
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InputDecorator(
-                            decoration: const InputDecoration(
-                              labelText: "タイトル",
-                              border: InputBorder.none,
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                              ),
-                              width: double.infinity,
-                              height: 32.0 * 2,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  questionItem.title,
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                  ),
-                                  maxLines: 2,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        //質問内容
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: InputDecorator(
-                              decoration: const InputDecoration(
-                                labelText: "質問内容",
-                                border: InputBorder.none,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                ),
-                                width: double.infinity,
-                                height: double.infinity,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    questionItem.content,
-                                    style: const TextStyle(fontSize: 16.0),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLiked = useState(question.isResolved);
+    return Card(
+      color: Theme.of(context).colorScheme.surface,
+      elevation: 3,
+      margin: const EdgeInsets.all(8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: question.questioner.imageUrl != null
+                  ? CircleAvatar(
+                      backgroundImage:
+                          NetworkImage(question.questioner.imageUrl!),
+                      //サイズ
+                      radius: 40,
+                    )
+                  : const Icon(Icons.person_outline_outlined, size: 40),
             ),
           ),
-        ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //ユーザの名前
+                Text(
+                  question.questioner.nickname,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  question.title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                Row(
+                  children: [],
+                ),
+              ],
+            ),
+          ),
+          //解決したかどうかを判定するアイコン
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.check_circle_outline,
+              color: question.isResolved ? Colors.green : Colors.grey,
+            ),
+          ),
+          //ブックマークしたかどうかを判定するアイコン
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: Icon(
+                isLiked.value ? Icons.bookmark : Icons.bookmark_outline,
+                color: isLiked.value ? Colors.red : Colors.grey,
+              ),
+              onPressed: () {
+                isLiked.value = !isLiked.value;
+                onBookmarkPressed(isLiked.value);
+              },
+            ),
+          ),
+        ],
       ),
-    ),
-  );
+    );
+  }
 }

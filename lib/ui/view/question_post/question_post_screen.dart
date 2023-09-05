@@ -100,7 +100,7 @@ class QuestionPostScreen extends HookConsumerWidget {
             children: [
               TextField(
                 controller: titleController,
-                maxLength: 30,
+                maxLength: 50,
                 decoration: const InputDecoration(
                   labelText: 'タイトル',
                   prefixIcon: Icon(Icons.title),
