@@ -13,9 +13,7 @@ abstract class Question with _$Question {
     String? imageUrl,
     @Default(false) bool isResolved,
     @Default(Questioner()) Questioner questioner,
-    @Default(-1) int likeCount,
-    @Default(-1) int repostCount,
-    @Default(-1) int answerCount,
+    @Default(false) bool bookmarked,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _Question;

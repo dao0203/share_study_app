@@ -23,9 +23,7 @@ mixin _$Question {
   String? get imageUrl => throw _privateConstructorUsedError;
   bool get isResolved => throw _privateConstructorUsedError;
   Questioner get questioner => throw _privateConstructorUsedError;
-  int get likeCount => throw _privateConstructorUsedError;
-  int get repostCount => throw _privateConstructorUsedError;
-  int get answerCount => throw _privateConstructorUsedError;
+  bool get bookmarked => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -47,9 +45,7 @@ abstract class $QuestionCopyWith<$Res> {
       String? imageUrl,
       bool isResolved,
       Questioner questioner,
-      int likeCount,
-      int repostCount,
-      int answerCount,
+      bool bookmarked,
       DateTime? createdAt,
       DateTime? updatedAt});
 
@@ -76,9 +72,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? imageUrl = freezed,
     Object? isResolved = null,
     Object? questioner = null,
-    Object? likeCount = null,
-    Object? repostCount = null,
-    Object? answerCount = null,
+    Object? bookmarked = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -111,18 +105,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.questioner
           : questioner // ignore: cast_nullable_to_non_nullable
               as Questioner,
-      likeCount: null == likeCount
-          ? _value.likeCount
-          : likeCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      repostCount: null == repostCount
-          ? _value.repostCount
-          : repostCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      answerCount: null == answerCount
-          ? _value.answerCount
-          : answerCount // ignore: cast_nullable_to_non_nullable
-              as int,
+      bookmarked: null == bookmarked
+          ? _value.bookmarked
+          : bookmarked // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -158,9 +144,7 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
       String? imageUrl,
       bool isResolved,
       Questioner questioner,
-      int likeCount,
-      int repostCount,
-      int answerCount,
+      bool bookmarked,
       DateTime? createdAt,
       DateTime? updatedAt});
 
@@ -186,9 +170,7 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? imageUrl = freezed,
     Object? isResolved = null,
     Object? questioner = null,
-    Object? likeCount = null,
-    Object? repostCount = null,
-    Object? answerCount = null,
+    Object? bookmarked = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -221,18 +203,10 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.questioner
           : questioner // ignore: cast_nullable_to_non_nullable
               as Questioner,
-      likeCount: null == likeCount
-          ? _value.likeCount
-          : likeCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      repostCount: null == repostCount
-          ? _value.repostCount
-          : repostCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      answerCount: null == answerCount
-          ? _value.answerCount
-          : answerCount // ignore: cast_nullable_to_non_nullable
-              as int,
+      bookmarked: null == bookmarked
+          ? _value.bookmarked
+          : bookmarked // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -256,9 +230,7 @@ class _$_Question implements _Question {
       this.imageUrl,
       this.isResolved = false,
       this.questioner = const Questioner(),
-      this.likeCount = -1,
-      this.repostCount = -1,
-      this.answerCount = -1,
+      this.bookmarked = false,
       this.createdAt,
       this.updatedAt});
 
@@ -284,13 +256,7 @@ class _$_Question implements _Question {
   final Questioner questioner;
   @override
   @JsonKey()
-  final int likeCount;
-  @override
-  @JsonKey()
-  final int repostCount;
-  @override
-  @JsonKey()
-  final int answerCount;
+  final bool bookmarked;
   @override
   final DateTime? createdAt;
   @override
@@ -298,7 +264,7 @@ class _$_Question implements _Question {
 
   @override
   String toString() {
-    return 'Question(id: $id, title: $title, content: $content, subjectName: $subjectName, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, likeCount: $likeCount, repostCount: $repostCount, answerCount: $answerCount, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Question(id: $id, title: $title, content: $content, subjectName: $subjectName, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, bookmarked: $bookmarked, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -317,12 +283,8 @@ class _$_Question implements _Question {
                 other.isResolved == isResolved) &&
             (identical(other.questioner, questioner) ||
                 other.questioner == questioner) &&
-            (identical(other.likeCount, likeCount) ||
-                other.likeCount == likeCount) &&
-            (identical(other.repostCount, repostCount) ||
-                other.repostCount == repostCount) &&
-            (identical(other.answerCount, answerCount) ||
-                other.answerCount == answerCount) &&
+            (identical(other.bookmarked, bookmarked) ||
+                other.bookmarked == bookmarked) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -330,20 +292,8 @@ class _$_Question implements _Question {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      title,
-      content,
-      subjectName,
-      imageUrl,
-      isResolved,
-      questioner,
-      likeCount,
-      repostCount,
-      answerCount,
-      createdAt,
-      updatedAt);
+  int get hashCode => Object.hash(runtimeType, id, title, content, subjectName,
+      imageUrl, isResolved, questioner, bookmarked, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -361,9 +311,7 @@ abstract class _Question implements Question {
       final String? imageUrl,
       final bool isResolved,
       final Questioner questioner,
-      final int likeCount,
-      final int repostCount,
-      final int answerCount,
+      final bool bookmarked,
       final DateTime? createdAt,
       final DateTime? updatedAt}) = _$_Question;
 
@@ -382,11 +330,7 @@ abstract class _Question implements Question {
   @override
   Questioner get questioner;
   @override
-  int get likeCount;
-  @override
-  int get repostCount;
-  @override
-  int get answerCount;
+  bool get bookmarked;
   @override
   DateTime? get createdAt;
   @override
