@@ -16,7 +16,12 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Text(widget.question.title),
+      body: Column(
+        children: [
+          Text(widget.question.title),
+          Text(widget.question.content),
+        ],
+      ),
     );
   }
 }
