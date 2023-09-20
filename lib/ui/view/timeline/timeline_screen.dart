@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
+import 'package:share_study_app/app/share_study_drawer.dart';
 import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
@@ -49,7 +51,20 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = useState(GlobalKey<ScaffoldState>());
     return Scaffold(
+      key: scaffoldKey.value,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        leading: IconButton(
+          icon: const Icon(Icons.account_circle_outlined),
+          onPressed: () {
+            scaffoldKey.value.currentState?.openDrawer();
+          },
+        ),
+        title: const Text('Share Study'),
+      ),
+      drawer: const ShareStudyDrawer(),
       body: RefreshIndicator(
         onRefresh: () {
           return Future.sync(
