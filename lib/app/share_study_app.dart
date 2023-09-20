@@ -14,9 +14,7 @@ class ShareStudyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTab = useState(TopLevelDestination.timeline);
-    var scaffoldKey = useState(GlobalKey<ScaffoldState>());
     return Scaffold(
-      key: scaffoldKey.value,
       backgroundColor: Theme.of(context).colorScheme.background,
       floatingActionButton: FloatingActionButton.extended(
         label: const Text('質問投稿'),
