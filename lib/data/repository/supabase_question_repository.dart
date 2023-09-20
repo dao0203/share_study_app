@@ -39,7 +39,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
         .select<PostgrestList>(
           ''' 
           id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
-          profiles (nickname,image_url),
+          profiles (nickname,university_name,image_url),
           bookmarks (count) where user_id = auth.uid,
           ''',
         )
@@ -63,7 +63,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
                 id: e['user_id'] as String,
                 nickname: e['profiles']['nickname'] as String,
                 universityName: e['profiles']['university_name'] as String,
-                imageUrl: e['profiles']['imageR_url'] as String?,
+                imageUrl: e['profiles']['image_url'] as String?,
               ),
             );
           }).toList();

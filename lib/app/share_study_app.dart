@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/app/top_level_destination.dart';
 import 'package:share_study_app/ui/view/question_post/question_post_screen.dart';
@@ -15,31 +14,11 @@ class ShareStudyApp extends HookConsumerWidget {
   const ShareStudyApp({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final myProfileState = ref.watch(myProfileStateProvider).asData?.value;
     final currentTab = useState(TopLevelDestination.timeline);
     var scaffoldKey = useState(GlobalKey<ScaffoldState>());
     return Scaffold(
       key: scaffoldKey.value,
       backgroundColor: Theme.of(context).colorScheme.background,
-      //TopLevelDestinationのすべてのページだけAppBarを表示する
-      appBar: TopLevelDestination.values.contains(currentTab.value)
-          ? AppBar(
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.account_circle_outlined,
-                  size: 40,
-                ),
-                onPressed: () {
-                  scaffoldKey.value.currentState!.openDrawer();
-                },
-              ),
-              //タイトルを中央に配置
-              centerTitle: true,
-              title: const Text('Share Study'),
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              elevation: 1,
-            )
-          : null,
       floatingActionButton: FloatingActionButton.extended(
         label: const Text('質問投稿'),
         icon: const Icon(Icons.add),
@@ -79,88 +58,6 @@ class ShareStudyApp extends HookConsumerWidget {
                     ),
                   ))
               .toList(),
-        ),
-      ),
-      drawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  myProfileState?.imageUrl != null
-                      ? CircleAvatar(
-                          radius: 60,
-                          backgroundImage:
-                              NetworkImage(myProfileState!.imageUrl!),
-                        )
-                      : Icon(
-                          Icons.account_circle_outlined,
-                          size: 60,
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
-                        ),
-                  Text(
-                    myProfileState?.nickname ?? '',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      fontSize: 20,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.person_outline_outlined),
-              title: const Text('プロフィール'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: const Text('シェアスタについて'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.description_outlined),
-              title: const Text('利用規約'),
-              onTap: () {
-                //TODO: 利用規約の画面に遷移
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.privacy_tip_outlined),
-              title: const Text('プライバシーポリシー'),
-              onTap: () {
-                //TODO: プライバシーポリシーの画面に遷移
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.contact_support_outlined),
-              title: const Text('お問い合わせ'),
-              onTap: () {
-                //TODO: お問い合わせの画面に遷移
-              },
-            ),
-            ListTile(
-              textColor: Theme.of(context).colorScheme.error,
-              leading: Icon(
-                Icons.logout,
-                color: Theme.of(context).colorScheme.error,
-              ),
-              title: const Text('ログアウト'),
-              onTap: () async {
-                //TODO: ログアウト処理
-                Navigator.pop(context);
-                await ref.read(userAuthRepositoryProvider).signOut();
-              },
-            ),
-          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
