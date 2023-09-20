@@ -52,7 +52,7 @@ class QuestionItem extends HookConsumerWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '${question.createdAt!.month}月${question.createdAt!.day}日',
+                        '${question.createdAt.month}月${question.createdAt.day}日',
                         style: const TextStyle(
                           fontSize: 12,
                         ),
