@@ -63,7 +63,7 @@ class SignInScreen extends HookConsumerWidget {
                       controller: passwordController,
                       obscureText: !passwordVisible.value,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
+                        prefixIcon: const Icon(Icons.lock),
                         suffixIcon: IconButton(
                           icon: Icon(
                             passwordVisible.value
