@@ -20,7 +20,15 @@ class RegistrationProfileScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final myProfile = ref.watch(myProfileStateProvider);
-    final myProfileState = useState(const Profile());
+    final myProfileState = useState(const Profile(
+      id: '',
+      nickname: '',
+      universityName: '',
+      facultyName: '',
+      departmentName: '',
+      grade: '',
+      bio: '',
+    ));
     final formKey = GlobalKey<FormState>();
     final nicknameController = useTextEditingController();
     final universityNameController = useTextEditingController();

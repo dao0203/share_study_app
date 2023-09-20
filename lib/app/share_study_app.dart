@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:logger/logger.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
-import 'package:share_study_app/ui/state/my_activity_state.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/app/top_level_destination.dart';
 import 'package:share_study_app/ui/view/question_post/question_post_screen.dart';
@@ -18,7 +16,6 @@ class ShareStudyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final myProfileState = ref.watch(myProfileStateProvider).asData?.value;
-    final myActivityState = ref.watch(myActivityStateProvider);
     final currentTab = useState(TopLevelDestination.timeline);
     var scaffoldKey = useState(GlobalKey<ScaffoldState>());
     return Scaffold(
@@ -116,78 +113,6 @@ class ShareStudyApp extends HookConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  myActivityState.when(
-                    data: (myActivity) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Text(
-                                    myActivity.followCount.toString(),
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimaryContainer,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                  alignment: PlaceholderAlignment.middle,
-                                ),
-                                WidgetSpan(
-                                  child: Text(
-                                    ' フォロー',
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimaryContainer,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  alignment: PlaceholderAlignment.middle,
-                                ),
-                                const WidgetSpan(child: SizedBox(width: 4)),
-                                WidgetSpan(
-                                  child: Text(
-                                    myActivity.followerCount.toString(),
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimaryContainer,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                  alignment: PlaceholderAlignment.middle,
-                                ),
-                                const WidgetSpan(child: SizedBox(width: 4)),
-                                WidgetSpan(
-                                  child: Text(
-                                    'フォロワー',
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimaryContainer,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  alignment: PlaceholderAlignment.middle,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    error: (error, stackTrace) {
-                      Logger().e({error, stackTrace});
-                      return const Text('エラーが発生しました');
-                    },
-                    loading: () {
-                      return const Text('読み込み中');
-                    },
-                  ),
                 ],
               ),
             ),

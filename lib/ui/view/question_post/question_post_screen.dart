@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 
 class QuestionPostScreen extends HookConsumerWidget {
@@ -55,11 +54,9 @@ class QuestionPostScreen extends HookConsumerWidget {
                     Logger().d('QuestionPostScreen onPressed');
                     await questionRepository
                         .add(
-                      Question(
-                        title: titleController.text,
-                        subjectName: subjectController.text,
-                        content: contentController.text,
-                      ),
+                      titleController.text,
+                      contentController.text,
+                      subjectController.text,
                     )
                         .then(
                       (value) {

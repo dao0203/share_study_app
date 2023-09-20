@@ -5,10 +5,10 @@ part 'profile.freezed.dart';
 @freezed
 abstract class Profile with _$Profile {
   const factory Profile({
-    @Default('') String id,
-    @Default('') String nickname,
+    required String id,
+    required String nickname,
     String? imageUrl,
-    @Default('') String universityName,
+    required String universityName,
     String? facultyName,
     String? departmentName,
     String? grade,

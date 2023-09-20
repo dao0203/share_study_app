@@ -19,12 +19,11 @@ mixin _$Answer {
   String get id => throw _privateConstructorUsedError;
   String get questionId => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  String get imageUrl => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   bool get isBestAnswer => throw _privateConstructorUsedError;
-  Subject get subject => throw _privateConstructorUsedError;
-  Answerer get answerer => throw _privateConstructorUsedError;
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
+  Profile get answerer => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AnswerCopyWith<Answer> get copyWith => throw _privateConstructorUsedError;
@@ -39,15 +38,13 @@ abstract class $AnswerCopyWith<$Res> {
       {String id,
       String questionId,
       String content,
-      String imageUrl,
+      String? imageUrl,
       bool isBestAnswer,
-      Subject subject,
-      Answerer answerer,
-      DateTime? createdAt,
-      DateTime? updatedAt});
+      Profile answerer,
+      DateTime createdAt,
+      DateTime updatedAt});
 
-  $SubjectCopyWith<$Res> get subject;
-  $AnswererCopyWith<$Res> get answerer;
+  $ProfileCopyWith<$Res> get answerer;
 }
 
 /// @nodoc
@@ -66,12 +63,11 @@ class _$AnswerCopyWithImpl<$Res, $Val extends Answer>
     Object? id = null,
     Object? questionId = null,
     Object? content = null,
-    Object? imageUrl = null,
+    Object? imageUrl = freezed,
     Object? isBestAnswer = null,
-    Object? subject = null,
     Object? answerer = null,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -86,45 +82,33 @@ class _$AnswerCopyWithImpl<$Res, $Val extends Answer>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
+      imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isBestAnswer: null == isBestAnswer
           ? _value.isBestAnswer
           : isBestAnswer // ignore: cast_nullable_to_non_nullable
               as bool,
-      subject: null == subject
-          ? _value.subject
-          : subject // ignore: cast_nullable_to_non_nullable
-              as Subject,
       answerer: null == answerer
           ? _value.answerer
           : answerer // ignore: cast_nullable_to_non_nullable
-              as Answerer,
-      createdAt: freezed == createdAt
+              as Profile,
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
+              as DateTime,
+      updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $SubjectCopyWith<$Res> get subject {
-    return $SubjectCopyWith<$Res>(_value.subject, (value) {
-      return _then(_value.copyWith(subject: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AnswererCopyWith<$Res> get answerer {
-    return $AnswererCopyWith<$Res>(_value.answerer, (value) {
+  $ProfileCopyWith<$Res> get answerer {
+    return $ProfileCopyWith<$Res>(_value.answerer, (value) {
       return _then(_value.copyWith(answerer: value) as $Val);
     });
   }
@@ -140,17 +124,14 @@ abstract class _$$_AnswerCopyWith<$Res> implements $AnswerCopyWith<$Res> {
       {String id,
       String questionId,
       String content,
-      String imageUrl,
+      String? imageUrl,
       bool isBestAnswer,
-      Subject subject,
-      Answerer answerer,
-      DateTime? createdAt,
-      DateTime? updatedAt});
+      Profile answerer,
+      DateTime createdAt,
+      DateTime updatedAt});
 
   @override
-  $SubjectCopyWith<$Res> get subject;
-  @override
-  $AnswererCopyWith<$Res> get answerer;
+  $ProfileCopyWith<$Res> get answerer;
 }
 
 /// @nodoc
@@ -166,12 +147,11 @@ class __$$_AnswerCopyWithImpl<$Res>
     Object? id = null,
     Object? questionId = null,
     Object? content = null,
-    Object? imageUrl = null,
+    Object? imageUrl = freezed,
     Object? isBestAnswer = null,
-    Object? subject = null,
     Object? answerer = null,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_$_Answer(
       id: null == id
@@ -186,30 +166,26 @@ class __$$_AnswerCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
+      imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isBestAnswer: null == isBestAnswer
           ? _value.isBestAnswer
           : isBestAnswer // ignore: cast_nullable_to_non_nullable
               as bool,
-      subject: null == subject
-          ? _value.subject
-          : subject // ignore: cast_nullable_to_non_nullable
-              as Subject,
       answerer: null == answerer
           ? _value.answerer
           : answerer // ignore: cast_nullable_to_non_nullable
-              as Answerer,
-      createdAt: freezed == createdAt
+              as Profile,
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
+              as DateTime,
+      updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
     ));
   }
 }
@@ -218,45 +194,35 @@ class __$$_AnswerCopyWithImpl<$Res>
 
 class _$_Answer implements _Answer {
   const _$_Answer(
-      {this.id = "",
-      this.questionId = "",
-      this.content = "",
-      this.imageUrl = "",
-      this.isBestAnswer = false,
-      this.subject = const Subject(),
-      this.answerer = const Answerer(),
-      this.createdAt,
-      this.updatedAt});
+      {required this.id,
+      required this.questionId,
+      required this.content,
+      this.imageUrl,
+      required this.isBestAnswer,
+      required this.answerer,
+      required this.createdAt,
+      required this.updatedAt});
 
   @override
-  @JsonKey()
   final String id;
   @override
-  @JsonKey()
   final String questionId;
   @override
-  @JsonKey()
   final String content;
   @override
-  @JsonKey()
-  final String imageUrl;
+  final String? imageUrl;
   @override
-  @JsonKey()
   final bool isBestAnswer;
   @override
-  @JsonKey()
-  final Subject subject;
+  final Profile answerer;
   @override
-  @JsonKey()
-  final Answerer answerer;
+  final DateTime createdAt;
   @override
-  final DateTime? createdAt;
-  @override
-  final DateTime? updatedAt;
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'Answer(id: $id, questionId: $questionId, content: $content, imageUrl: $imageUrl, isBestAnswer: $isBestAnswer, subject: $subject, answerer: $answerer, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Answer(id: $id, questionId: $questionId, content: $content, imageUrl: $imageUrl, isBestAnswer: $isBestAnswer, answerer: $answerer, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -272,7 +238,6 @@ class _$_Answer implements _Answer {
                 other.imageUrl == imageUrl) &&
             (identical(other.isBestAnswer, isBestAnswer) ||
                 other.isBestAnswer == isBestAnswer) &&
-            (identical(other.subject, subject) || other.subject == subject) &&
             (identical(other.answerer, answerer) ||
                 other.answerer == answerer) &&
             (identical(other.createdAt, createdAt) ||
@@ -283,7 +248,7 @@ class _$_Answer implements _Answer {
 
   @override
   int get hashCode => Object.hash(runtimeType, id, questionId, content,
-      imageUrl, isBestAnswer, subject, answerer, createdAt, updatedAt);
+      imageUrl, isBestAnswer, answerer, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -294,15 +259,14 @@ class _$_Answer implements _Answer {
 
 abstract class _Answer implements Answer {
   const factory _Answer(
-      {final String id,
-      final String questionId,
-      final String content,
-      final String imageUrl,
-      final bool isBestAnswer,
-      final Subject subject,
-      final Answerer answerer,
-      final DateTime? createdAt,
-      final DateTime? updatedAt}) = _$_Answer;
+      {required final String id,
+      required final String questionId,
+      required final String content,
+      final String? imageUrl,
+      required final bool isBestAnswer,
+      required final Profile answerer,
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$_Answer;
 
   @override
   String get id;
@@ -311,17 +275,15 @@ abstract class _Answer implements Answer {
   @override
   String get content;
   @override
-  String get imageUrl;
+  String? get imageUrl;
   @override
   bool get isBestAnswer;
   @override
-  Subject get subject;
+  Profile get answerer;
   @override
-  Answerer get answerer;
+  DateTime get createdAt;
   @override
-  DateTime? get createdAt;
-  @override
-  DateTime? get updatedAt;
+  DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_AnswerCopyWith<_$_Answer> get copyWith =>

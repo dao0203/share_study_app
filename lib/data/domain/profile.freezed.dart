@@ -182,25 +182,22 @@ class __$$_ProfileCopyWithImpl<$Res>
 
 class _$_Profile implements _Profile {
   const _$_Profile(
-      {this.id = "",
-      this.nickname = "",
+      {required this.id,
+      required this.nickname,
       this.imageUrl,
-      this.universityName = "",
+      required this.universityName,
       this.facultyName,
       this.departmentName,
       this.grade,
       this.bio});
 
   @override
-  @JsonKey()
   final String id;
   @override
-  @JsonKey()
   final String nickname;
   @override
   final String? imageUrl;
   @override
-  @JsonKey()
   final String universityName;
   @override
   final String? facultyName;
@@ -249,10 +246,10 @@ class _$_Profile implements _Profile {
 
 abstract class _Profile implements Profile {
   const factory _Profile(
-      {final String id,
-      final String nickname,
+      {required final String id,
+      required final String nickname,
       final String? imageUrl,
-      final String universityName,
+      required final String universityName,
       final String? facultyName,
       final String? departmentName,
       final String? grade,
