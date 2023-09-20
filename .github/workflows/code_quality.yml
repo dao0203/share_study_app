@@ -12,6 +12,8 @@ jobs:
       - uses: subosito/flutter-action@v2.1.0
         with:
           flutter-version: "3.13.4"
+      - name: Create dot env file
+        run: touch .env
       - name: Install packages
         run: flutter pub get
       - name: Linter
