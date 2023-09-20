@@ -15,9 +15,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.question.title),
-      ),
+      appBar: AppBar(),
       body: Text(widget.question.title),
     );
   }
