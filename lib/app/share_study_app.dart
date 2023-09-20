@@ -24,22 +24,25 @@ class ShareStudyApp extends HookConsumerWidget {
     return Scaffold(
       key: _scaffoldKey.value,
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.account_circle_outlined,
-            size: 40,
-          ),
-          onPressed: () {
-            _scaffoldKey.value.currentState!.openDrawer();
-          },
-        ),
-        //タイトルを中央に配置
-        centerTitle: true,
-        title: const Text('Share Study'),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        elevation: 1,
-      ),
+      //TopLevelDestinationのすべてのページだけAppBarを表示する
+      appBar: TopLevelDestination.values.contains(currentTab.value)
+          ? AppBar(
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.account_circle_outlined,
+                  size: 40,
+                ),
+                onPressed: () {
+                  _scaffoldKey.value.currentState!.openDrawer();
+                },
+              ),
+              //タイトルを中央に配置
+              centerTitle: true,
+              title: const Text('Share Study'),
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              elevation: 1,
+            )
+          : null,
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("質問投稿"),
         icon: const Icon(Icons.add),

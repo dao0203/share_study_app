@@ -90,7 +90,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                         //横にスライドしながら画面遷移
                         PageRouteBuilder(
                           pageBuilder: (context, animation1, animation2) =>
-                              DiscussionScreen(questionId: item.id),
+                              DiscussionScreen(question: item),
                           transitionsBuilder: (context, animation1, animation2,
                                   child) =>
                               ScaleTransition(scale: animation1, child: child),
