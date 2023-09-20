@@ -20,9 +20,9 @@ class ShareStudyApp extends HookConsumerWidget {
     final myProfileState = ref.watch(myProfileStateProvider).asData?.value;
     final myActivityState = ref.watch(myActivityStateProvider);
     final currentTab = useState(TopLevelDestination.timeline);
-    var _scaffoldKey = useState(GlobalKey<ScaffoldState>());
+    var scaffoldKey = useState(GlobalKey<ScaffoldState>());
     return Scaffold(
-      key: _scaffoldKey.value,
+      key: scaffoldKey.value,
       backgroundColor: Theme.of(context).colorScheme.background,
       //TopLevelDestinationのすべてのページだけAppBarを表示する
       appBar: TopLevelDestination.values.contains(currentTab.value)
@@ -33,7 +33,7 @@ class ShareStudyApp extends HookConsumerWidget {
                   size: 40,
                 ),
                 onPressed: () {
-                  _scaffoldKey.value.currentState!.openDrawer();
+                  scaffoldKey.value.currentState!.openDrawer();
                 },
               ),
               //タイトルを中央に配置
@@ -54,8 +54,8 @@ class ShareStudyApp extends HookConsumerWidget {
                   const QuestionPostScreen(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
-                final begin = const Offset(0, 1);
-                final end = Offset.zero;
+                const begin = Offset(0, 1);
+                const end = Offset.zero;
                 final tween = Tween(begin: begin, end: end)
                     .chain(CurveTween(curve: Curves.easeInOut));
                 final offsetAnimation = animation.drive(tween);

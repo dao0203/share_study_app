@@ -71,6 +71,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
         })
         .catchError((error, stacktrace) {
           Logger().e('getWithPagination.error: $error, $stacktrace');
+          throw error;
         });
   }
 

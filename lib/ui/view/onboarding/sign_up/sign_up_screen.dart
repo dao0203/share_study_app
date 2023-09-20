@@ -14,7 +14,7 @@ class SignUpScreen extends HookConsumerWidget {
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
     final passwordVisible = useState(false);
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         resizeToAvoidBottomInset: false,
@@ -25,7 +25,7 @@ class SignUpScreen extends HookConsumerWidget {
             ),
             child: Center(
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +129,7 @@ class SignUpScreen extends HookConsumerWidget {
                       const SizedBox(height: 30),
                       ElevatedButton.icon(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             showDialog(
                                 context: context,
                                 barrierDismissible: false,

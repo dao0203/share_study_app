@@ -11,7 +11,7 @@ class SignInScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userAuthRepository = ref.watch(userAuthRepositoryProvider);
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordVisible = useState(false);
@@ -23,7 +23,7 @@ class SignInScreen extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Center(
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -93,7 +93,7 @@ class SignInScreen extends HookConsumerWidget {
                     const SizedBox(height: 30),
                     ElevatedButton.icon(
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
+                        if (formKey.currentState!.validate()) {
                           showDialog(
                               context: context,
                               barrierDismissible: false,

@@ -19,9 +19,9 @@ class RegistrationProfileScreen extends HookConsumerWidget {
   ];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _myProfile = ref.watch(myProfileStateProvider);
-    final myProfileState = useState(Profile());
-    final _formKey = GlobalKey<FormState>();
+    final myProfile = ref.watch(myProfileStateProvider);
+    final myProfileState = useState(const Profile());
+    final formKey = GlobalKey<FormState>();
     final nicknameController = useTextEditingController();
     final universityNameController = useTextEditingController();
     final facultyNameController = useTextEditingController();
@@ -42,7 +42,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
         actions: [
           TextButton.icon(
             onPressed: () async {
-              if (_formKey.currentState!.validate()) {
+              if (formKey.currentState!.validate()) {
                 myProfileState.value = myProfileState.value.copyWith(
                   nickname: nicknameController.text,
                   universityName: universityNameController.text,
@@ -92,8 +92,8 @@ class RegistrationProfileScreen extends HookConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Form(
-            key: _formKey,
-            child: _myProfile.when(
+            key: formKey,
+            child: myProfile.when(
               data: (myProfile) {
                 Logger().i(myProfile);
                 myProfileState.value = myProfile;
