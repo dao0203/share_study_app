@@ -40,7 +40,7 @@ class AuthGate extends HookConsumerWidget {
                   const Text('エラーが発生しました'),
                   TextButton(
                     onPressed: () {
-                      ref.refresh(splashStateProvider);
+                      return ref.refresh(splashStateProvider);
                     },
                     child: const Text('再試行'),
                   ),

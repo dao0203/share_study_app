@@ -274,7 +274,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                       TextButton(
                         onPressed: () {
                           //画面を再取得
-                          ref.refresh(myProfileStateProvider);
+                          return ref.refresh(myProfileStateProvider);
                         },
                         child: Text(
                           '再取得',
