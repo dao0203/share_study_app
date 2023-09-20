@@ -18,8 +18,10 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$Profile {
   String get id => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
-  String? get imageUrl => throw _privateConstructorUsedError;
   String get universityName => throw _privateConstructorUsedError;
+  int get followCount => throw _privateConstructorUsedError;
+  int get followerCount => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   String? get facultyName => throw _privateConstructorUsedError;
   String? get departmentName => throw _privateConstructorUsedError;
   String? get grade => throw _privateConstructorUsedError;
@@ -37,8 +39,10 @@ abstract class $ProfileCopyWith<$Res> {
   $Res call(
       {String id,
       String nickname,
-      String? imageUrl,
       String universityName,
+      int followCount,
+      int followerCount,
+      String? imageUrl,
       String? facultyName,
       String? departmentName,
       String? grade,
@@ -60,8 +64,10 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
   $Res call({
     Object? id = null,
     Object? nickname = null,
-    Object? imageUrl = freezed,
     Object? universityName = null,
+    Object? followCount = null,
+    Object? followerCount = null,
+    Object? imageUrl = freezed,
     Object? facultyName = freezed,
     Object? departmentName = freezed,
     Object? grade = freezed,
@@ -76,14 +82,22 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: freezed == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
       universityName: null == universityName
           ? _value.universityName
           : universityName // ignore: cast_nullable_to_non_nullable
               as String,
+      followCount: null == followCount
+          ? _value.followCount
+          : followCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      followerCount: null == followerCount
+          ? _value.followerCount
+          : followerCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       facultyName: freezed == facultyName
           ? _value.facultyName
           : facultyName // ignore: cast_nullable_to_non_nullable
@@ -114,8 +128,10 @@ abstract class _$$_ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
   $Res call(
       {String id,
       String nickname,
-      String? imageUrl,
       String universityName,
+      int followCount,
+      int followerCount,
+      String? imageUrl,
       String? facultyName,
       String? departmentName,
       String? grade,
@@ -134,8 +150,10 @@ class __$$_ProfileCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? nickname = null,
-    Object? imageUrl = freezed,
     Object? universityName = null,
+    Object? followCount = null,
+    Object? followerCount = null,
+    Object? imageUrl = freezed,
     Object? facultyName = freezed,
     Object? departmentName = freezed,
     Object? grade = freezed,
@@ -150,14 +168,22 @@ class __$$_ProfileCopyWithImpl<$Res>
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: freezed == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
       universityName: null == universityName
           ? _value.universityName
           : universityName // ignore: cast_nullable_to_non_nullable
               as String,
+      followCount: null == followCount
+          ? _value.followCount
+          : followCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      followerCount: null == followerCount
+          ? _value.followerCount
+          : followerCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       facultyName: freezed == facultyName
           ? _value.facultyName
           : facultyName // ignore: cast_nullable_to_non_nullable
@@ -184,8 +210,10 @@ class _$_Profile implements _Profile {
   const _$_Profile(
       {required this.id,
       required this.nickname,
-      this.imageUrl,
       required this.universityName,
+      this.followCount = -1,
+      this.followerCount = -1,
+      this.imageUrl,
       this.facultyName,
       this.departmentName,
       this.grade,
@@ -196,9 +224,15 @@ class _$_Profile implements _Profile {
   @override
   final String nickname;
   @override
-  final String? imageUrl;
-  @override
   final String universityName;
+  @override
+  @JsonKey()
+  final int followCount;
+  @override
+  @JsonKey()
+  final int followerCount;
+  @override
+  final String? imageUrl;
   @override
   final String? facultyName;
   @override
@@ -210,7 +244,7 @@ class _$_Profile implements _Profile {
 
   @override
   String toString() {
-    return 'Profile(id: $id, nickname: $nickname, imageUrl: $imageUrl, universityName: $universityName, facultyName: $facultyName, departmentName: $departmentName, grade: $grade, bio: $bio)';
+    return 'Profile(id: $id, nickname: $nickname, universityName: $universityName, followCount: $followCount, followerCount: $followerCount, imageUrl: $imageUrl, facultyName: $facultyName, departmentName: $departmentName, grade: $grade, bio: $bio)';
   }
 
   @override
@@ -221,10 +255,14 @@ class _$_Profile implements _Profile {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
             (identical(other.universityName, universityName) ||
                 other.universityName == universityName) &&
+            (identical(other.followCount, followCount) ||
+                other.followCount == followCount) &&
+            (identical(other.followerCount, followerCount) ||
+                other.followerCount == followerCount) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.facultyName, facultyName) ||
                 other.facultyName == facultyName) &&
             (identical(other.departmentName, departmentName) ||
@@ -234,8 +272,18 @@ class _$_Profile implements _Profile {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, nickname, imageUrl,
-      universityName, facultyName, departmentName, grade, bio);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      nickname,
+      universityName,
+      followCount,
+      followerCount,
+      imageUrl,
+      facultyName,
+      departmentName,
+      grade,
+      bio);
 
   @JsonKey(ignore: true)
   @override
@@ -248,8 +296,10 @@ abstract class _Profile implements Profile {
   const factory _Profile(
       {required final String id,
       required final String nickname,
-      final String? imageUrl,
       required final String universityName,
+      final int followCount,
+      final int followerCount,
+      final String? imageUrl,
       final String? facultyName,
       final String? departmentName,
       final String? grade,
@@ -260,9 +310,13 @@ abstract class _Profile implements Profile {
   @override
   String get nickname;
   @override
-  String? get imageUrl;
-  @override
   String get universityName;
+  @override
+  int get followCount;
+  @override
+  int get followerCount;
+  @override
+  String? get imageUrl;
   @override
   String? get facultyName;
   @override

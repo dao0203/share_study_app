@@ -7,8 +7,10 @@ abstract class Profile with _$Profile {
   const factory Profile({
     required String id,
     required String nickname,
-    String? imageUrl,
     required String universityName,
+    @Default(-1) int followCount,
+    @Default(-1) int followerCount,
+    String? imageUrl,
     String? facultyName,
     String? departmentName,
     String? grade,
