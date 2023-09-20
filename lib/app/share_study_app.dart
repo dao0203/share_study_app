@@ -44,7 +44,7 @@ class ShareStudyApp extends HookConsumerWidget {
             )
           : null,
       floatingActionButton: FloatingActionButton.extended(
-        label: const Text("質問投稿"),
+        label: const Text('質問投稿'),
         icon: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(
@@ -182,10 +182,10 @@ class ShareStudyApp extends HookConsumerWidget {
                     },
                     error: (error, stackTrace) {
                       Logger().e({error, stackTrace});
-                      return const Text("エラーが発生しました");
+                      return const Text('エラーが発生しました');
                     },
                     loading: () {
-                      return const Text("読み込み中");
+                      return const Text('読み込み中');
                     },
                   ),
                 ],

@@ -5,8 +5,8 @@ part 'subject.freezed.dart';
 @freezed
 abstract class Subject with _$Subject {
   const factory Subject({
-    @Default("") String id,
-    @Default("") String name,
-    @Default("") String course,
+    @Default('') String id,
+    @Default('') String name,
+    @Default('') String course,
   }) = _Subject;
 }

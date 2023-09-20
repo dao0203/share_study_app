@@ -23,10 +23,10 @@ part 'answer.freezed.dart';
 @freezed
 class Answer with _$Answer {
   const factory Answer({
-    @Default("") String id,
-    @Default("") String questionId,
-    @Default("") String content,
-    @Default("") String imageUrl,
+    @Default('') String id,
+    @Default('') String questionId,
+    @Default('') String content,
+    @Default('') String imageUrl,
     @Default(false) bool isBestAnswer,
     @Default(Subject()) Subject subject,
     @Default(Answerer()) Answerer answerer,
