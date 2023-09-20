@@ -19,6 +19,8 @@ final class SupabaseProfileRepository implements ProfileRepository {
         nickname: value['nickname'] as String,
         imageUrl: value['image_url'] as String?,
         universityName: value['university_name'] as String,
+        followCount: value['follow_count'] as int,
+        followerCount: value['follower_count'] as int,
         facultyName: value['faculty_name'] as String?,
         departmentName: value['department_name'] as String?,
         bio: value['bio'] as String?,
