@@ -4,7 +4,7 @@ linter:
   rules:
     avoid_print: true
     always_use_package_imports: true
-    prefer_signle_quotes: true
+    prefer_single_quotes: true
 
 analyzer:
   plugins:
