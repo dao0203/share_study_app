@@ -6,9 +6,9 @@ part 'question.freezed.dart';
 @freezed
 abstract class Question with _$Question {
   const factory Question({
-    @Default("") String id,
-    @Default("") String title,
-    @Default("") String content,
+    @Default('') String id,
+    @Default('') String title,
+    @Default('') String content,
     @Default('') String subjectName,
     String? imageUrl,
     @Default(false) bool isResolved,

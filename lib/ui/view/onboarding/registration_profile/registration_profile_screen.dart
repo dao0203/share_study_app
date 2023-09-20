@@ -10,12 +10,12 @@ import 'package:share_study_app/app/share_study_app.dart';
 class RegistrationProfileScreen extends HookConsumerWidget {
   RegistrationProfileScreen({super.key});
   final gradeList = [
-    "学士1年",
-    "学士2年",
-    "学士3年",
-    "学士4年",
-    "修士1年",
-    "修士2年",
+    '学士1年',
+    '学士2年',
+    '学士3年',
+    '学士4年',
+    '修士1年',
+    '修士2年',
   ];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +28,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
     final departmentNameController = useTextEditingController();
     final gradeControler = useTextEditingController();
     final bioController = useTextEditingController();
-    Logger().d("RegistrationProfileScreen");
+    Logger().d('RegistrationProfileScreen');
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -98,11 +98,11 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                 Logger().i(myProfile);
                 myProfileState.value = myProfile;
                 nicknameController.text = myProfile.nickname;
-                universityNameController.text = myProfile.universityName ?? "";
-                facultyNameController.text = myProfile.facultyName ?? "";
-                departmentNameController.text = myProfile.departmentName ?? "";
-                gradeControler.text = myProfile.grade ?? "";
-                bioController.text = myProfile.bio ?? "";
+                universityNameController.text = myProfile.universityName;
+                facultyNameController.text = myProfile.facultyName ?? '';
+                departmentNameController.text = myProfile.departmentName ?? '';
+                gradeControler.text = myProfile.grade ?? '';
+                bioController.text = myProfile.bio ?? '';
 
                 return SingleChildScrollView(
                   child: Column(
@@ -112,7 +112,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
 
                     children: [
                       const SizedBox(height: 20),
-                      const Text("プロフィール画像を設定してください(任意)"),
+                      const Text('プロフィール画像を設定してください(任意)'),
                       Center(
                         child: Stack(
                           alignment: Alignment.bottomRight,
@@ -218,7 +218,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                                       MediaQuery.of(context).size.height * 0.4,
                                   child: Column(
                                     children: [
-                                      const Text("学年を選択してください"),
+                                      const Text('学年を選択してください'),
                                       Expanded(
                                         child: ListView.builder(
                                           itemCount: gradeList.length,
@@ -288,7 +288,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                 );
               },
               loading: () {
-                Logger().i("loading");
+                Logger().i('loading');
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

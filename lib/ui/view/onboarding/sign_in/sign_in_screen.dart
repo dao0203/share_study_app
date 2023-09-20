@@ -30,7 +30,7 @@ class SignInScreen extends HookConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text(
-                      "サインイン",
+                      'サインイン',
                       style: TextStyle(fontSize: 30),
                     ),
                     const SizedBox(height: 20),
@@ -136,11 +136,11 @@ class SignInScreen extends HookConsumerWidget {
                       TextSpan(
                         style: TextStyle(height: 1.8, letterSpacing: 2),
                         children: [
-                          TextSpan(text: "このサービスのご利用を開始することで、"),
-                          TextSpan(text: "プライバシーポリシー"),
-                          TextSpan(text: "および"),
-                          TextSpan(text: "利用規約"),
-                          TextSpan(text: "に同意するものとします。"),
+                          TextSpan(text: 'このサービスのご利用を開始することで、'),
+                          TextSpan(text: 'プライバシーポリシー'),
+                          TextSpan(text: 'および'),
+                          TextSpan(text: '利用規約'),
+                          TextSpan(text: 'に同意するものとします。'),
                         ],
                       ),
                     ),

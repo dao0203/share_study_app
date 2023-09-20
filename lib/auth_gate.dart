@@ -37,7 +37,7 @@ class AuthGate extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("エラーが発生しました"),
+                  const Text('エラーが発生しました'),
                   TextButton(
                     onPressed: () {
                       ref.refresh(splashStateProvider);

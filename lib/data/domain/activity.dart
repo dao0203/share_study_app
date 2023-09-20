@@ -5,7 +5,7 @@ part 'activity.freezed.dart';
 @freezed
 class Activity with _$Activity {
   factory Activity({
-    @Default("") String id,
+    @Default('') String id,
     @Default(-1) int followCount,
     @Default(-1) int followerCount,
     @Default(-1) int questionCount,

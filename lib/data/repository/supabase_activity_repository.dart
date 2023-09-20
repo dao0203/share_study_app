@@ -10,11 +10,11 @@ final class SupabaseActivityRepository implements ActivityRepository {
     return await _client
         .from('activities')
         .select()
-        .eq("id", id)
+        .eq('id', id)
         .limit(1)
         .single()
         .then((value) {
-      Logger().i("activity: $value");
+      Logger().i('activity: $value');
       return Activity(
         id: value['id'] as String,
         followCount: value['follow_count'] as int,
