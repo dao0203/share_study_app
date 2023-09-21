@@ -14,7 +14,7 @@ class DiscussionScreen extends StatefulHookConsumerWidget {
 class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
   @override
   Widget build(BuildContext context) {
-    final quesiton = widget.question;
+    final question = widget.question;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -27,7 +27,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
               child: Column(
                 children: [
                   Text(
-                    quesiton.title,
+                    question.title,
                     style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -44,10 +44,10 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: quesiton.questioner.imageUrl != null
+                          child: question.questioner.imageUrl != null
                               ? CircleAvatar(
                                   backgroundImage: NetworkImage(
-                                      quesiton.questioner.imageUrl!),
+                                      question.questioner.imageUrl!),
                                   radius: 40,
                                 )
                               : Icon(
@@ -64,20 +64,40 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  quesiton.questioner.nickname,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground,
-                                    letterSpacing: 2,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      question.questioner.nickname,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                        letterSpacing: 1.5,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: Text(
+                                          '${question.createdAt.month}月${question.createdAt.day}日',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                            letterSpacing: 1.5,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  quesiton.content,
+                                  question.content,
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Theme.of(context)
