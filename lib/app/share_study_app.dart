@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/app/top_level_destination.dart';
+import 'package:share_study_app/ui/components/question_post_fab.dart';
 import 'package:share_study_app/ui/view/question_post/question_post_screen.dart';
 
 final _navigatorKey = <TopLevelDestination, GlobalKey<NavigatorState>>{
@@ -16,31 +17,6 @@ class ShareStudyApp extends HookConsumerWidget {
     final currentTab = useState(TopLevelDestination.timeline);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      floatingActionButton: FloatingActionButton.extended(
-        label: const Text('質問投稿'),
-        icon: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  const QuestionPostScreen(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                const begin = Offset(0, 1);
-                const end = Offset.zero;
-                final tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: Curves.easeInOut));
-                final offsetAnimation = animation.drive(tween);
-                return SlideTransition(
-                  position: offsetAnimation,
-                  child: child,
-                );
-              },
-            ),
-          );
-        },
-      ),
       body: SafeArea(
         child: Stack(
           children: TopLevelDestination.values
