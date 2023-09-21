@@ -34,7 +34,11 @@ class QuestionItem extends HookConsumerWidget {
                         //サイズ
                         radius: 40,
                       )
-                    : const Icon(Icons.person_outline_outlined, size: 40),
+                    : Icon(
+                        Icons.person_outline_outlined,
+                        size: 40,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
               ),
             ),
             Expanded(

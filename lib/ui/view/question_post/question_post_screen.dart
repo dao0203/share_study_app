@@ -51,6 +51,7 @@ class QuestionPostScreen extends HookConsumerWidget {
                         content: Text('質問を投稿しています...'),
                       ),
                     );
+                    Navigator.pop(context);
                     Logger().d('QuestionPostScreen onPressed');
                     await questionRepository
                         .add(
@@ -60,7 +61,6 @@ class QuestionPostScreen extends HookConsumerWidget {
                     )
                         .then(
                       (value) {
-                        Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('質問を投稿しました'),
@@ -75,14 +75,23 @@ class QuestionPostScreen extends HookConsumerWidget {
                       );
                     });
                   },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: areFieldEmpty.value
+                  ? null
+                  : Theme.of(context).colorScheme.background,
+            ),
             icon: Icon(
               Icons.send,
-              color: Theme.of(context).colorScheme.onBackground,
+              color: areFieldEmpty.value
+                  ? null
+                  : Theme.of(context).colorScheme.onBackground,
             ),
             label: Text(
               '投稿',
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: areFieldEmpty.value
+                    ? null
+                    : Theme.of(context).colorScheme.onBackground,
               ),
             ),
           ),
