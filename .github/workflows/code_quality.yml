@@ -8,7 +8,7 @@ jobs:
     name: Check the source code with flutter lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2.10.0
         with:
           flutter-version: "3.13.4"
