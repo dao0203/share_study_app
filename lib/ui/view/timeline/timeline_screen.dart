@@ -6,7 +6,9 @@ import 'package:logger/logger.dart';
 import 'package:share_study_app/app/share_study_drawer.dart';
 import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/question_post_fab.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
+import 'package:share_study_app/ui/view/question_post/question_post_screen.dart';
 import 'package:share_study_app/ui/view/timeline/components/question_item.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
@@ -63,6 +65,30 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
           },
         ),
         title: const Text('Share Study'),
+      ),
+      floatingActionButton: QuestionPostFAB(
+        label: '質問する',
+        onPressed: () {
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const QuestionPostScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                const begin = Offset(0, 1);
+                const end = Offset.zero;
+                final tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: Curves.easeInOut));
+                final offsetAnimation = animation.drive(tween);
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              },
+            ),
+          );
+        },
       ),
       drawer: const ShareStudyDrawer(),
       body: RefreshIndicator(
