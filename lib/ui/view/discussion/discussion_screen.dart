@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/question.dart';
 
@@ -14,13 +15,74 @@ class DiscussionScreen extends StatefulHookConsumerWidget {
 class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
   @override
   Widget build(BuildContext context) {
+    final quesiton = widget.question;
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Text(widget.question.title),
-          Text(widget.question.content),
-        ],
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            Text(
+              quesiton.title,
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 16),
+            Card(
+              color: Theme.of(context).colorScheme.secondaryContainer,
+              elevation: 3,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: quesiton.questioner.imageUrl != null
+                        ? CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(quesiton.questioner.imageUrl!),
+                            radius: 40,
+                          )
+                        : Icon(
+                            Icons.person_outline_outlined,
+                            color: Theme.of(context).colorScheme.onBackground,
+                            size: 40,
+                          ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8, right: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            quesiton.questioner.nickname,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            quesiton.content,
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
