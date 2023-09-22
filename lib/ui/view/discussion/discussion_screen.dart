@@ -51,6 +51,12 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
   }
 
   @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final question = widget.question;
     final commentController = useTextEditingController();
@@ -158,26 +164,59 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: PagedListView(
-                pagingController: _pagingController,
-                builderDelegate: PagedChildBuilderDelegate<Answer>(
-                  itemBuilder: (context, answer, index) {
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      duration: const Duration(milliseconds: 300),
-                      child: SlideAnimation(
-                        child: FadeInAnimation(
-                          child: AnswerItem(
-                            answer: answer,
+              child: RefreshIndicator(
+                onRefresh: () => Future.sync(
+                  () => _pagingController.refresh(),
+                ),
+                child: PagedListView(
+                  pagingController: _pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<Answer>(
+                    itemBuilder: (context, answer, index) {
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 300),
+                        child: SlideAnimation(
+                          child: FadeInAnimation(
+                            child: AnswerItem(
+                              answer: answer,
+                            ),
                           ),
                         ),
+                      );
+                    },
+                    firstPageErrorIndicatorBuilder: (context) {
+                      return Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              'エラーが発生しました',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                                letterSpacing: 2,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            ElevatedButton(
+                              onPressed: () => _pagingController.refresh(),
+                              child: const Text('リトライ'),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    newPageErrorIndicatorBuilder: (context) => Center(
+                      child: ElevatedButton(
+                        onPressed: () => _pagingController.refresh(),
+                        child: const Text('リトライ'),
                       ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 70),
           ],
         ),
       ),
