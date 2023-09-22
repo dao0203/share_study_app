@@ -181,61 +181,69 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
           ],
         ),
       ),
-      bottomSheet: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: commentController,
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.all(16),
-                hintText: 'コメントを入力',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.background,
+      bottomSheet: Container(
+        decoration: BoxDecoration(
+          border: Border(top: BorderSide(color: Colors.grey.withOpacity(0.5))),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: commentController,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(12),
+                    hintText: 'コメントを入力',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.background,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.background,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey.withOpacity(0.2),
+                  ),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onBackground,
+                    letterSpacing: 1.5,
                   ),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.background,
-                  ),
-                ),
-                filled: true,
-                fillColor: Colors.grey.withOpacity(0.2),
-              ),
-              style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.onBackground,
-                letterSpacing: 1.5,
               ),
             ),
-          ),
-          IconButton(
-            onPressed: areFieldEmpty.value
-                ? null
-                : () async {
-                    FocusScope.of(context).unfocus();
-                    await ref
-                        .read(answerRepositoryProvider)
-                        .addAnswer(
-                          question.id,
-                          commentController.text,
-                        )
-                        .then((value) {
-                      _pagingController.refresh();
-                    }).catchError((error) {
-                      SnackBar(content: Text(error.toString()));
-                    });
-                    commentController.clear();
-                  },
-            icon: const Icon(Icons.send),
-            color: areFieldEmpty.value
-                ? null
-                : Theme.of(context).colorScheme.surfaceTint,
-          ),
-        ],
+            IconButton(
+              onPressed: areFieldEmpty.value
+                  ? null
+                  : () async {
+                      FocusScope.of(context).unfocus();
+                      await ref
+                          .read(answerRepositoryProvider)
+                          .addAnswer(
+                            question.id,
+                            commentController.text,
+                          )
+                          .then((value) {
+                        _pagingController.refresh();
+                      }).catchError((error) {
+                        SnackBar(content: Text(error.toString()));
+                      });
+                      commentController.clear();
+                    },
+              icon: const Icon(Icons.send),
+              color: areFieldEmpty.value
+                  ? null
+                  : Theme.of(context).colorScheme.surfaceTint,
+            ),
+          ],
+        ),
       ),
     );
   }
