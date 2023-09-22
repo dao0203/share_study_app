@@ -219,10 +219,18 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
             onPressed: areFieldEmpty.value
                 ? null
                 : () async {
-                    await ref.read(answerRepositoryProvider).addAnswer(
+                    FocusScope.of(context).unfocus();
+                    await ref
+                        .read(answerRepositoryProvider)
+                        .addAnswer(
                           question.id,
                           commentController.text,
-                        );
+                        )
+                        .then((value) {
+                      _pagingController.refresh();
+                    }).catchError((error) {
+                      SnackBar(content: Text(error.toString()));
+                    });
                     commentController.clear();
                   },
             icon: const Icon(Icons.send),
