@@ -19,7 +19,6 @@ class QuestionItem extends HookConsumerWidget {
       child: Card(
         color: Theme.of(context).colorScheme.surface,
         elevation: 3,
-        margin: const EdgeInsets.all(8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -46,6 +45,7 @@ class QuestionItem extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         question.questioner.nickname,
@@ -61,6 +61,19 @@ class QuestionItem extends HookConsumerWidget {
                           fontSize: 12,
                         ),
                       ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Text(
+                            question.subjectName,
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
                     ],
                   ),
                   Text(
