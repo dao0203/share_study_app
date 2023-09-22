@@ -32,7 +32,7 @@ class QuestionItem extends HookConsumerWidget {
                         backgroundImage:
                             NetworkImage(question.questioner.imageUrl!),
                         //サイズ
-                        radius: 40,
+                        radius: 20,
                       )
                     : Icon(
                         Icons.person_outline_outlined,
