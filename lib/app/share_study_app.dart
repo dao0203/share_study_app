@@ -14,6 +14,7 @@ class ShareStudyApp extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTab = useState(TopLevelDestination.timeline);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: Stack(
