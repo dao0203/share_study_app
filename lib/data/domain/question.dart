@@ -1,20 +1,19 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:share_study_app/data/domain/questioner.dart';
+import 'package:share_study_app/data/domain/profile.dart';
 
 part 'question.freezed.dart';
 
 @freezed
 abstract class Question with _$Question {
   const factory Question({
-    @Default("") String id,
-    @Default("") String title,
-    @Default("") String content,
-    @Default('') String subjectName,
+    required String id,
+    required String title,
+    required String content,
+    required String subjectName,
     String? imageUrl,
-    @Default(false) bool isResolved,
-    @Default(Questioner()) Questioner questioner,
-    @Default(false) bool isBookmarked,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    required bool isResolved,
+    required Profile questioner,
+    required DateTime createdAt,
+    required DateTime? updatedAt,
   }) = _Question;
 }

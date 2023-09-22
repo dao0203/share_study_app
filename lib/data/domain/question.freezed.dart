@@ -22,9 +22,8 @@ mixin _$Question {
   String get subjectName => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
   bool get isResolved => throw _privateConstructorUsedError;
-  Questioner get questioner => throw _privateConstructorUsedError;
-  bool get isBookmarked => throw _privateConstructorUsedError;
-  DateTime? get createdAt => throw _privateConstructorUsedError;
+  Profile get questioner => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -44,12 +43,11 @@ abstract class $QuestionCopyWith<$Res> {
       String subjectName,
       String? imageUrl,
       bool isResolved,
-      Questioner questioner,
-      bool isBookmarked,
-      DateTime? createdAt,
+      Profile questioner,
+      DateTime createdAt,
       DateTime? updatedAt});
 
-  $QuestionerCopyWith<$Res> get questioner;
+  $ProfileCopyWith<$Res> get questioner;
 }
 
 /// @nodoc
@@ -72,8 +70,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? imageUrl = freezed,
     Object? isResolved = null,
     Object? questioner = null,
-    Object? isBookmarked = null,
-    Object? createdAt = freezed,
+    Object? createdAt = null,
     Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -104,15 +101,11 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
       questioner: null == questioner
           ? _value.questioner
           : questioner // ignore: cast_nullable_to_non_nullable
-              as Questioner,
-      isBookmarked: null == isBookmarked
-          ? _value.isBookmarked
-          : isBookmarked // ignore: cast_nullable_to_non_nullable
-              as bool,
-      createdAt: freezed == createdAt
+              as Profile,
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -122,8 +115,8 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
 
   @override
   @pragma('vm:prefer-inline')
-  $QuestionerCopyWith<$Res> get questioner {
-    return $QuestionerCopyWith<$Res>(_value.questioner, (value) {
+  $ProfileCopyWith<$Res> get questioner {
+    return $ProfileCopyWith<$Res>(_value.questioner, (value) {
       return _then(_value.copyWith(questioner: value) as $Val);
     });
   }
@@ -143,13 +136,12 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
       String subjectName,
       String? imageUrl,
       bool isResolved,
-      Questioner questioner,
-      bool isBookmarked,
-      DateTime? createdAt,
+      Profile questioner,
+      DateTime createdAt,
       DateTime? updatedAt});
 
   @override
-  $QuestionerCopyWith<$Res> get questioner;
+  $ProfileCopyWith<$Res> get questioner;
 }
 
 /// @nodoc
@@ -170,8 +162,7 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? imageUrl = freezed,
     Object? isResolved = null,
     Object? questioner = null,
-    Object? isBookmarked = null,
-    Object? createdAt = freezed,
+    Object? createdAt = null,
     Object? updatedAt = freezed,
   }) {
     return _then(_$_Question(
@@ -202,15 +193,11 @@ class __$$_QuestionCopyWithImpl<$Res>
       questioner: null == questioner
           ? _value.questioner
           : questioner // ignore: cast_nullable_to_non_nullable
-              as Questioner,
-      isBookmarked: null == isBookmarked
-          ? _value.isBookmarked
-          : isBookmarked // ignore: cast_nullable_to_non_nullable
-              as bool,
-      createdAt: freezed == createdAt
+              as Profile,
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -223,48 +210,38 @@ class __$$_QuestionCopyWithImpl<$Res>
 
 class _$_Question implements _Question {
   const _$_Question(
-      {this.id = "",
-      this.title = "",
-      this.content = "",
-      this.subjectName = '',
+      {required this.id,
+      required this.title,
+      required this.content,
+      required this.subjectName,
       this.imageUrl,
-      this.isResolved = false,
-      this.questioner = const Questioner(),
-      this.isBookmarked = false,
-      this.createdAt,
-      this.updatedAt});
+      required this.isResolved,
+      required this.questioner,
+      required this.createdAt,
+      required this.updatedAt});
 
   @override
-  @JsonKey()
   final String id;
   @override
-  @JsonKey()
   final String title;
   @override
-  @JsonKey()
   final String content;
   @override
-  @JsonKey()
   final String subjectName;
   @override
   final String? imageUrl;
   @override
-  @JsonKey()
   final bool isResolved;
   @override
-  @JsonKey()
-  final Questioner questioner;
+  final Profile questioner;
   @override
-  @JsonKey()
-  final bool isBookmarked;
-  @override
-  final DateTime? createdAt;
+  final DateTime createdAt;
   @override
   final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'Question(id: $id, title: $title, content: $content, subjectName: $subjectName, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, isBookmarked: $isBookmarked, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Question(id: $id, title: $title, content: $content, subjectName: $subjectName, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -283,8 +260,6 @@ class _$_Question implements _Question {
                 other.isResolved == isResolved) &&
             (identical(other.questioner, questioner) ||
                 other.questioner == questioner) &&
-            (identical(other.isBookmarked, isBookmarked) ||
-                other.isBookmarked == isBookmarked) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -293,7 +268,7 @@ class _$_Question implements _Question {
 
   @override
   int get hashCode => Object.hash(runtimeType, id, title, content, subjectName,
-      imageUrl, isResolved, questioner, isBookmarked, createdAt, updatedAt);
+      imageUrl, isResolved, questioner, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -304,16 +279,15 @@ class _$_Question implements _Question {
 
 abstract class _Question implements Question {
   const factory _Question(
-      {final String id,
-      final String title,
-      final String content,
-      final String subjectName,
+      {required final String id,
+      required final String title,
+      required final String content,
+      required final String subjectName,
       final String? imageUrl,
-      final bool isResolved,
-      final Questioner questioner,
-      final bool isBookmarked,
-      final DateTime? createdAt,
-      final DateTime? updatedAt}) = _$_Question;
+      required final bool isResolved,
+      required final Profile questioner,
+      required final DateTime createdAt,
+      required final DateTime? updatedAt}) = _$_Question;
 
   @override
   String get id;
@@ -328,11 +302,9 @@ abstract class _Question implements Question {
   @override
   bool get isResolved;
   @override
-  Questioner get questioner;
+  Profile get questioner;
   @override
-  bool get isBookmarked;
-  @override
-  DateTime? get createdAt;
+  DateTime get createdAt;
   @override
   DateTime? get updatedAt;
   @override

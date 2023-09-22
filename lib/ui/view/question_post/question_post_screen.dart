@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 
 class QuestionPostScreen extends HookConsumerWidget {
@@ -52,18 +51,16 @@ class QuestionPostScreen extends HookConsumerWidget {
                         content: Text('質問を投稿しています...'),
                       ),
                     );
+                    Navigator.pop(context);
                     Logger().d('QuestionPostScreen onPressed');
                     await questionRepository
                         .add(
-                      Question(
-                        title: titleController.text,
-                        subjectName: subjectController.text,
-                        content: contentController.text,
-                      ),
+                      titleController.text,
+                      contentController.text,
+                      subjectController.text,
                     )
                         .then(
                       (value) {
-                        Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('質問を投稿しました'),
@@ -78,14 +75,23 @@ class QuestionPostScreen extends HookConsumerWidget {
                       );
                     });
                   },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: areFieldEmpty.value
+                  ? null
+                  : Theme.of(context).colorScheme.background,
+            ),
             icon: Icon(
               Icons.send,
-              color: Theme.of(context).colorScheme.onBackground,
+              color: areFieldEmpty.value
+                  ? null
+                  : Theme.of(context).colorScheme.onBackground,
             ),
             label: Text(
               '投稿',
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: areFieldEmpty.value
+                    ? null
+                    : Theme.of(context).colorScheme.onBackground,
               ),
             ),
           ),

@@ -19,6 +19,8 @@ final class SupabaseProfileRepository implements ProfileRepository {
         nickname: value['nickname'] as String,
         imageUrl: value['image_url'] as String?,
         universityName: value['university_name'] as String,
+        followCount: value['follow_count'] as int,
+        followerCount: value['follower_count'] as int,
         facultyName: value['faculty_name'] as String?,
         departmentName: value['department_name'] as String?,
         bio: value['bio'] as String?,
@@ -28,22 +30,22 @@ final class SupabaseProfileRepository implements ProfileRepository {
 
   @override
   Future<void> updateProfile(Profile profile) async {
-    Logger().d("updateProfile.profile: $profile");
+    Logger().d('updateProfile.profile: $profile');
     return await supabaseClient
-        .from("profiles")
+        .from('profiles')
         .update({
-          "nickname": profile.nickname,
-          "university_name": profile.universityName,
-          "faculty_name": profile.facultyName,
-          "department_name": profile.departmentName,
-          "bio": profile.bio,
+          'nickname': profile.nickname,
+          'university_name': profile.universityName,
+          'faculty_name': profile.facultyName,
+          'department_name': profile.departmentName,
+          'bio': profile.bio,
         })
-        .eq("id", profile.id)
+        .eq('id', profile.id)
         .whenComplete(() {
-          Logger().d("updateProfile.profile: success update profile");
+          Logger().d('updateProfile.profile: success update profile');
         })
         .catchError((error) {
-          Logger().e("updateProfile.error: $error");
+          Logger().e('updateProfile.error: $error');
         });
   }
 }

@@ -13,7 +13,7 @@ class GetMyProfileUseCase extends UseCase<void, Future<Profile>> {
   );
 
   @override
-  Future<Profile> call(_) async {
+  Future<Profile> call(param) async {
     final user = _userRepository.getCurrentUser();
     return await _profileRepository.getProfile(user!.id);
   }

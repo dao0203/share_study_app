@@ -17,13 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Activity {
   String get id => throw _privateConstructorUsedError;
-  int get followCount => throw _privateConstructorUsedError;
-  int get followerCount => throw _privateConstructorUsedError;
   int get questionCount => throw _privateConstructorUsedError;
   int get answerCount => throw _privateConstructorUsedError;
   int get bestAnswerCount => throw _privateConstructorUsedError;
-  int get repostCount => throw _privateConstructorUsedError;
-  int get likeCount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ActivityCopyWith<Activity> get copyWith =>
@@ -36,14 +32,7 @@ abstract class $ActivityCopyWith<$Res> {
       _$ActivityCopyWithImpl<$Res, Activity>;
   @useResult
   $Res call(
-      {String id,
-      int followCount,
-      int followerCount,
-      int questionCount,
-      int answerCount,
-      int bestAnswerCount,
-      int repostCount,
-      int likeCount});
+      {String id, int questionCount, int answerCount, int bestAnswerCount});
 }
 
 /// @nodoc
@@ -60,27 +49,15 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
   @override
   $Res call({
     Object? id = null,
-    Object? followCount = null,
-    Object? followerCount = null,
     Object? questionCount = null,
     Object? answerCount = null,
     Object? bestAnswerCount = null,
-    Object? repostCount = null,
-    Object? likeCount = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      followCount: null == followCount
-          ? _value.followCount
-          : followCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      followerCount: null == followerCount
-          ? _value.followerCount
-          : followerCount // ignore: cast_nullable_to_non_nullable
-              as int,
       questionCount: null == questionCount
           ? _value.questionCount
           : questionCount // ignore: cast_nullable_to_non_nullable
@@ -92,14 +69,6 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
       bestAnswerCount: null == bestAnswerCount
           ? _value.bestAnswerCount
           : bestAnswerCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      repostCount: null == repostCount
-          ? _value.repostCount
-          : repostCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      likeCount: null == likeCount
-          ? _value.likeCount
-          : likeCount // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -113,14 +82,7 @@ abstract class _$$_ActivityCopyWith<$Res> implements $ActivityCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
-      int followCount,
-      int followerCount,
-      int questionCount,
-      int answerCount,
-      int bestAnswerCount,
-      int repostCount,
-      int likeCount});
+      {String id, int questionCount, int answerCount, int bestAnswerCount});
 }
 
 /// @nodoc
@@ -135,27 +97,15 @@ class __$$_ActivityCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? followCount = null,
-    Object? followerCount = null,
     Object? questionCount = null,
     Object? answerCount = null,
     Object? bestAnswerCount = null,
-    Object? repostCount = null,
-    Object? likeCount = null,
   }) {
     return _then(_$_Activity(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      followCount: null == followCount
-          ? _value.followCount
-          : followCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      followerCount: null == followerCount
-          ? _value.followerCount
-          : followerCount // ignore: cast_nullable_to_non_nullable
-              as int,
       questionCount: null == questionCount
           ? _value.questionCount
           : questionCount // ignore: cast_nullable_to_non_nullable
@@ -168,14 +118,6 @@ class __$$_ActivityCopyWithImpl<$Res>
           ? _value.bestAnswerCount
           : bestAnswerCount // ignore: cast_nullable_to_non_nullable
               as int,
-      repostCount: null == repostCount
-          ? _value.repostCount
-          : repostCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      likeCount: null == likeCount
-          ? _value.likeCount
-          : likeCount // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
@@ -184,43 +126,23 @@ class __$$_ActivityCopyWithImpl<$Res>
 
 class _$_Activity implements _Activity {
   _$_Activity(
-      {this.id = "",
-      this.followCount = -1,
-      this.followerCount = -1,
-      this.questionCount = -1,
-      this.answerCount = -1,
-      this.bestAnswerCount = -1,
-      this.repostCount = -1,
-      this.likeCount = -1});
+      {required this.id,
+      required this.questionCount,
+      required this.answerCount,
+      required this.bestAnswerCount});
 
   @override
-  @JsonKey()
   final String id;
   @override
-  @JsonKey()
-  final int followCount;
-  @override
-  @JsonKey()
-  final int followerCount;
-  @override
-  @JsonKey()
   final int questionCount;
   @override
-  @JsonKey()
   final int answerCount;
   @override
-  @JsonKey()
   final int bestAnswerCount;
-  @override
-  @JsonKey()
-  final int repostCount;
-  @override
-  @JsonKey()
-  final int likeCount;
 
   @override
   String toString() {
-    return 'Activity(id: $id, followCount: $followCount, followerCount: $followerCount, questionCount: $questionCount, answerCount: $answerCount, bestAnswerCount: $bestAnswerCount, repostCount: $repostCount, likeCount: $likeCount)';
+    return 'Activity(id: $id, questionCount: $questionCount, answerCount: $answerCount, bestAnswerCount: $bestAnswerCount)';
   }
 
   @override
@@ -229,25 +151,17 @@ class _$_Activity implements _Activity {
         (other.runtimeType == runtimeType &&
             other is _$_Activity &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.followCount, followCount) ||
-                other.followCount == followCount) &&
-            (identical(other.followerCount, followerCount) ||
-                other.followerCount == followerCount) &&
             (identical(other.questionCount, questionCount) ||
                 other.questionCount == questionCount) &&
             (identical(other.answerCount, answerCount) ||
                 other.answerCount == answerCount) &&
             (identical(other.bestAnswerCount, bestAnswerCount) ||
-                other.bestAnswerCount == bestAnswerCount) &&
-            (identical(other.repostCount, repostCount) ||
-                other.repostCount == repostCount) &&
-            (identical(other.likeCount, likeCount) ||
-                other.likeCount == likeCount));
+                other.bestAnswerCount == bestAnswerCount));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, followCount, followerCount,
-      questionCount, answerCount, bestAnswerCount, repostCount, likeCount);
+  int get hashCode =>
+      Object.hash(runtimeType, id, questionCount, answerCount, bestAnswerCount);
 
   @JsonKey(ignore: true)
   @override
@@ -258,31 +172,19 @@ class _$_Activity implements _Activity {
 
 abstract class _Activity implements Activity {
   factory _Activity(
-      {final String id,
-      final int followCount,
-      final int followerCount,
-      final int questionCount,
-      final int answerCount,
-      final int bestAnswerCount,
-      final int repostCount,
-      final int likeCount}) = _$_Activity;
+      {required final String id,
+      required final int questionCount,
+      required final int answerCount,
+      required final int bestAnswerCount}) = _$_Activity;
 
   @override
   String get id;
-  @override
-  int get followCount;
-  @override
-  int get followerCount;
   @override
   int get questionCount;
   @override
   int get answerCount;
   @override
   int get bestAnswerCount;
-  @override
-  int get repostCount;
-  @override
-  int get likeCount;
   @override
   @JsonKey(ignore: true)
   _$$_ActivityCopyWith<_$_Activity> get copyWith =>

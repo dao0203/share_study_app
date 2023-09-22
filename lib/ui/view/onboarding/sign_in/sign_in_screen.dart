@@ -11,7 +11,7 @@ class SignInScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userAuthRepository = ref.watch(userAuthRepositoryProvider);
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordVisible = useState(false);
@@ -23,14 +23,14 @@ class SignInScreen extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Center(
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text(
-                      "サインイン",
+                      'サインイン',
                       style: TextStyle(fontSize: 30),
                     ),
                     const SizedBox(height: 20),
@@ -63,7 +63,7 @@ class SignInScreen extends HookConsumerWidget {
                       controller: passwordController,
                       obscureText: !passwordVisible.value,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
+                        prefixIcon: const Icon(Icons.lock),
                         suffixIcon: IconButton(
                           icon: Icon(
                             passwordVisible.value
@@ -93,7 +93,7 @@ class SignInScreen extends HookConsumerWidget {
                     const SizedBox(height: 30),
                     ElevatedButton.icon(
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
+                        if (formKey.currentState!.validate()) {
                           showDialog(
                               context: context,
                               barrierDismissible: false,
@@ -136,11 +136,11 @@ class SignInScreen extends HookConsumerWidget {
                       TextSpan(
                         style: TextStyle(height: 1.8, letterSpacing: 2),
                         children: [
-                          TextSpan(text: "このサービスのご利用を開始することで、"),
-                          TextSpan(text: "プライバシーポリシー"),
-                          TextSpan(text: "および"),
-                          TextSpan(text: "利用規約"),
-                          TextSpan(text: "に同意するものとします。"),
+                          TextSpan(text: 'このサービスのご利用を開始することで、'),
+                          TextSpan(text: 'プライバシーポリシー'),
+                          TextSpan(text: 'および'),
+                          TextSpan(text: '利用規約'),
+                          TextSpan(text: 'に同意するものとします。'),
                         ],
                       ),
                     ),

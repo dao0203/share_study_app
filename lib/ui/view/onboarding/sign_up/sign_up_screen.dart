@@ -14,7 +14,7 @@ class SignUpScreen extends HookConsumerWidget {
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
     final passwordVisible = useState(false);
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         resizeToAvoidBottomInset: false,
@@ -25,13 +25,13 @@ class SignUpScreen extends HookConsumerWidget {
             ),
             child: Center(
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        "サインアップ",
+                        'サsインアップ',
                         style: TextStyle(fontSize: 30),
                       ),
                       const SizedBox(height: 20),
@@ -129,7 +129,7 @@ class SignUpScreen extends HookConsumerWidget {
                       const SizedBox(height: 30),
                       ElevatedButton.icon(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             showDialog(
                                 context: context,
                                 barrierDismissible: false,
@@ -139,7 +139,7 @@ class SignUpScreen extends HookConsumerWidget {
                                 .signUp(emailController.text,
                                     passwordConfirmController.text)
                                 .then((value) {
-                              Logger().d("signup success");
+                              Logger().d('signup success');
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                   builder: (context) =>
@@ -158,7 +158,7 @@ class SignUpScreen extends HookConsumerWidget {
                           }
                         },
                         icon: const Icon(Icons.person_add),
-                        label: const Text("サインアップ"),
+                        label: const Text('サインアップ'),
                       ),
                       const SizedBox(height: 20),
                       TextButton.icon(
@@ -173,11 +173,11 @@ class SignUpScreen extends HookConsumerWidget {
                         TextSpan(
                           style: TextStyle(height: 1.8),
                           children: [
-                            TextSpan(text: "このサービスのご利用を開始することで、"),
-                            TextSpan(text: "プライバシーポリシー"),
-                            TextSpan(text: "および"),
-                            TextSpan(text: "利用規約"),
-                            TextSpan(text: "に同意するものとします。"),
+                            TextSpan(text: 'このサービスのご利用を開始することで、'),
+                            TextSpan(text: 'プライバシーポリシー'),
+                            TextSpan(text: 'および'),
+                            TextSpan(text: '利用規約'),
+                            TextSpan(text: 'に同意するものとします。'),
                           ],
                         ),
                       ),

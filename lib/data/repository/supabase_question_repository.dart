@@ -1,18 +1,18 @@
 import 'package:logger/logger.dart';
+import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/domain/question.dart';
-import 'package:share_study_app/data/domain/questioner.dart';
 import 'package:share_study_app/data/repository/question_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final class SupabaseQuestionRepository implements QuestionRepository {
   final _client = Supabase.instance.client;
   @override
-  Future<void> add(Question question) async {
+  Future<void> add(String title, String content, String subjectName) async {
     Logger().d('supabaseQuestionRepository.add pressed');
     await _client.from('questions').insert({
-      'title': question.title,
-      'subject_name': question.subjectName,
-      'content': question.content,
+      'title': title,
+      'subject_name': subjectName,
+      'content': content,
     }).then((value) {
       Logger().d('addQuestion.then: $value');
     }).catchError((error, stacktrace) {
@@ -39,7 +39,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
         .select<PostgrestList>(
           ''' 
           id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
-          profiles (nickname,image_url),
+          profiles (nickname,university_name,image_url),
           bookmarks (count) where user_id = auth.uid,
           ''',
         )
@@ -59,18 +59,18 @@ final class SupabaseQuestionRepository implements QuestionRepository {
               updatedAt: DateTime.parse(e['updated_at']),
               imageUrl: e['image_url'] as String?,
               //profiles
-              questioner: Questioner(
+              questioner: Profile(
                 id: e['user_id'] as String,
                 nickname: e['profiles']['nickname'] as String,
-                imageUrl: e['profiles']['imageR_url'] as String?,
+                universityName: e['profiles']['university_name'] as String,
+                imageUrl: e['profiles']['image_url'] as String?,
               ),
-              //question_likes
-              isBookmarked: e['bookmarks'][0]['count'] as int == 1,
             );
           }).toList();
         })
         .catchError((error, stacktrace) {
           Logger().e('getWithPagination.error: $error, $stacktrace');
+          throw error;
         });
   }
 

@@ -8,14 +8,14 @@ class SetUpSplashUseCase extends UseCase<void, Future<SplashTo>> {
   final GetMyProfileUseCase _getMyProfileUseCase;
   SetUpSplashUseCase(this._userAuthRepository, this._getMyProfileUseCase);
   @override
-  call(_) async {
+  call(param) async {
     final isUserSignedIn = _userAuthRepository.isUserSignedIn();
 
     if (!isUserSignedIn) {
       return SplashTo.signInScreen;
     }
 
-    final myProfile = await _getMyProfileUseCase.call(_);
+    final myProfile = await _getMyProfileUseCase.call(param);
 
     if (myProfile.nickname.isEmpty || myProfile.universityName.isEmpty) {
       return SplashTo.profileScreen;

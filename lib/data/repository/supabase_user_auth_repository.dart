@@ -27,7 +27,7 @@ final class SupabaseUserAuthRepository implements UserAuthRepository {
   @override
   Future<void> signUp(String email, String password) async {
     try {
-      Logger().d("email: $email, password: $password");
+      Logger().d('email: $email, password: $password');
       await _client.signUp(email: email, password: password);
     } on AuthException catch (e) {
       Logger().e(e.message);

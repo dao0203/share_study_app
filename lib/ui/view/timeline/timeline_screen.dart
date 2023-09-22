@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
+import 'package:share_study_app/app/share_study_drawer.dart';
 import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
-import 'package:share_study_app/ui/view/timeline/answer_view_page.dart';
+import 'package:share_study_app/ui/components/question_post_fab.dart';
+import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
+import 'package:share_study_app/ui/view/question_post/question_post_screen.dart';
 import 'package:share_study_app/ui/view/timeline/components/question_item.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
@@ -49,7 +53,44 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = useState(GlobalKey<ScaffoldState>());
     return Scaffold(
+      key: scaffoldKey.value,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        leading: IconButton(
+          icon: const Icon(Icons.account_circle_outlined),
+          onPressed: () {
+            scaffoldKey.value.currentState?.openDrawer();
+          },
+        ),
+        title: const Text('Share Study'),
+      ),
+      floatingActionButton: QuestionPostFAB(
+        label: '質問する',
+        onPressed: () {
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const QuestionPostScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                const begin = Offset(0, 1);
+                const end = Offset.zero;
+                final tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: Curves.easeInOut));
+                final offsetAnimation = animation.drive(tween);
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              },
+            ),
+          );
+        },
+      ),
+      drawer: const ShareStudyDrawer(),
       body: RefreshIndicator(
         onRefresh: () {
           return Future.sync(
@@ -79,7 +120,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
             itemBuilder: (context, item, index) =>
                 AnimationConfiguration.staggeredList(
               position: index,
-              duration: const Duration(milliseconds: 375),
+              duration: const Duration(milliseconds: 300),
               child: SlideAnimation(
                 verticalOffset: 50.0,
                 child: FadeInAnimation(
@@ -87,8 +128,21 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                     question: item,
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => AnswerView(questionId: item.id),
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              DiscussionScreen(
+                            question: item,
+                          ),
+                          transitionsBuilder:
+                              (context, animation1, animation2, child) =>
+                                  SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: Offset.zero,
+                            ).animate(animation1),
+                            child: child,
+                          ),
+                          transitionDuration: const Duration(milliseconds: 300),
                         ),
                       );
                     },

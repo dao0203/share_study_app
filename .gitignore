@@ -46,7 +46,7 @@ app.*.map.json
 api_keys.dart
 
 
-.env
+*.env
 
 # 開発用で編集中
 lib/main.dart

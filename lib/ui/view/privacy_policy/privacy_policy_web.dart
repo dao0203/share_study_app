@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyPolicyWebPage extends StatefulWidget {
   const PrivacyPolicyWebPage({super.key});
-  static String tag = "privacy_policy_web";
+  static String tag = 'privacy_policy_web';
   @override
   State<PrivacyPolicyWebPage> createState() => _PrivacyPolicyWebPageState();
 }

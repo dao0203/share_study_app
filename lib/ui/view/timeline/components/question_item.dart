@@ -32,9 +32,13 @@ class QuestionItem extends HookConsumerWidget {
                         backgroundImage:
                             NetworkImage(question.questioner.imageUrl!),
                         //サイズ
-                        radius: 40,
+                        radius: 20,
                       )
-                    : const Icon(Icons.person_outline_outlined, size: 40),
+                    : Icon(
+                        Icons.person_outline_outlined,
+                        size: 40,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
               ),
             ),
             Expanded(
@@ -52,7 +56,7 @@ class QuestionItem extends HookConsumerWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '${question.createdAt!.month}月${question.createdAt!.day}日',
+                        '${question.createdAt.month}月${question.createdAt.day}日',
                         style: const TextStyle(
                           fontSize: 12,
                         ),
