@@ -183,7 +183,12 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
       ),
       bottomSheet: Container(
         decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: Colors.grey.withOpacity(0.5))),
+          color: Theme.of(context).colorScheme.surface,
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey.withOpacity(0.5),
+            ),
+          ),
         ),
         child: Row(
           children: [
