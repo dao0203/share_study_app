@@ -127,17 +127,14 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                               ),
                               const SizedBox(width: 8),
                               Expanded(
-                                child: Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Text(
-                                    '${question.createdAt.month}月${question.createdAt.day}日',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
-                                      letterSpacing: 1.5,
-                                    ),
+                                child: Text(
+                                  '${question.createdAt.month}月${question.createdAt.day}日',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                    letterSpacing: 1.5,
                                   ),
                                 ),
                               ),
