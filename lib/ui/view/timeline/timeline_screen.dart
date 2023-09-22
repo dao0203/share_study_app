@@ -9,7 +9,7 @@ import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/question_post_fab.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
 import 'package:share_study_app/ui/view/question_post/question_post_screen.dart';
-import 'package:share_study_app/ui/view/timeline/components/question_item.dart';
+import 'package:share_study_app/ui/components/question_item.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class TimelineScreen extends StatefulHookConsumerWidget {
@@ -31,6 +31,12 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
       Logger().d('pageKey: $pageKey');
       _fetchPage(pageKey);
     });
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchPage(int pageKey) async {
@@ -98,7 +104,8 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
             () => _pagingController.refresh(),
           );
         },
-        child: PagedListView<int, Question>(
+        child: PagedListView.separated(
+          separatorBuilder: (context, index) => const SizedBox(height: 8),
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<Question>(
             firstPageErrorIndicatorBuilder: (context) {
