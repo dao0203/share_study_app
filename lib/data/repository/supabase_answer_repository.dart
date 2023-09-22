@@ -34,10 +34,12 @@ final class SupabaseAnswerRepository implements AnswerRepository {
   ) async {
     return await _client
         .from('answers')
-        .select<PostgrestList>('''
+        .select<PostgrestList>(
+          '''
           id, user_id, question_id, content, is_best_answer, created_at, updated_at,
-          profiles (nickname,university_name,image_url),
-          ''')
+          profiles (nickname,university_name,image_url)
+          ''',
+        )
         .eq('question_id', questionId)
         .order('created_at', ascending: false)
         .range(start, end)
