@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/question.dart';
 
@@ -15,6 +16,19 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
   @override
   Widget build(BuildContext context) {
     final question = widget.question;
+    final commentController = useTextEditingController();
+    final areFieldEmpty = useState(true);
+
+    bool checkIfFieldsAreEmpty() {
+      return commentController.text.isEmpty;
+    }
+
+    useEffect(() {
+      commentController.addListener(() {
+        areFieldEmpty.value = checkIfFieldsAreEmpty();
+      });
+      return null;
+    }, [commentController]);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -117,24 +131,48 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                 ],
               ),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'コメントを入力',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(100),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: commentController,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(16),
+                        hintText: 'コメントを入力',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.background,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.background,
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.withOpacity(0.2),
+                      ),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.onBackground,
+                        letterSpacing: 1.5,
                       ),
                     ),
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.onBackground,
-                      letterSpacing: 1.5,
-                    ),
                   ),
-                ),
-              ],
+                  IconButton(
+                    onPressed: areFieldEmpty.value ? null : () {},
+                    icon: const Icon(Icons.send),
+                    color: areFieldEmpty.value
+                        ? null
+                        : Theme.of(context).colorScheme.surfaceTint,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
