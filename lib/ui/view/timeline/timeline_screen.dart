@@ -64,6 +64,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
             scaffoldKey.value.currentState?.openDrawer();
           },
         ),
+        centerTitle: true,
         title: const Text('Share Study'),
       ),
       floatingActionButton: QuestionPostFAB(
