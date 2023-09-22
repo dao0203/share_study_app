@@ -16,6 +16,7 @@ final class SupabaseAnswerRepository implements AnswerRepository {
       Logger().d('addAnswer.then: $value');
     }).catchError((error, stacktrace) {
       Logger().e('addAnswer.error: $error $stacktrace');
+      throw error;
     });
   }
 
