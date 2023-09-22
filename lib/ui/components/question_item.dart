@@ -19,7 +19,6 @@ class QuestionItem extends HookConsumerWidget {
       child: Card(
         color: Theme.of(context).colorScheme.surface,
         elevation: 3,
-        margin: const EdgeInsets.all(8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
