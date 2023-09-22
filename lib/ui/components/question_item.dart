@@ -45,6 +45,7 @@ class QuestionItem extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         question.questioner.nickname,
@@ -60,6 +61,19 @@ class QuestionItem extends HookConsumerWidget {
                           fontSize: 12,
                         ),
                       ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Text(
+                            question.subjectName,
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
                     ],
                   ),
                   Text(
