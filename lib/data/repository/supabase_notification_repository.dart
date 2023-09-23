@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final class SupabaseNotificationRepository implements NotificationRepository {
   final _client = Supabase.instance.client;
+
   Future<List<Notification>> getNotifications(String userId) async {
     return await _client
         .from('notifications')
