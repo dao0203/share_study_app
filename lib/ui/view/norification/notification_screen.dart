@@ -52,7 +52,8 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
         onRefresh: () => Future.sync(
           () => _pagingController.refresh(),
         ),
-        child: PagedListView<int, notification.Notification>(
+        child: PagedListView.separated(
+          separatorBuilder: (context, index) => const Divider(),
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<notification.Notification>(
             itemBuilder: (context, notification, index) => Column(
