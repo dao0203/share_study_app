@@ -18,6 +18,7 @@ final class SupabaseNotificationRepository implements NotificationRepository {
     sender_id (id, nickname,university_name,image_url)
   ''')
         .eq('receiver_id', _client.auth.currentUser!.id)
+        .order('created_at', ascending: false)
         .then((value) {
           Logger().i('getWithPagination.then: $value');
           return value.map((e) {
