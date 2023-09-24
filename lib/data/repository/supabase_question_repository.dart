@@ -21,9 +21,42 @@ final class SupabaseQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<Question> get(String id) {
-    // TODO: implement getQuestion
-    throw UnimplementedError();
+  Future<Question> get(String id) async {
+    return await _client
+        .from('questions')
+        .select<PostgrestMap>(
+          '''
+          id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
+          profiles (nickname,university_name,image_url)
+          ''',
+        )
+        .eq('id', id)
+        .single()
+        .then((value) {
+          Logger().i('getQuestion.then: $value');
+          return Question(
+            //questions
+            id: value['id'] as String,
+            title: value['title'] as String,
+            subjectName: value['subject_name'] as String,
+            content: value['content'] as String,
+            isResolved: value['is_resolved'] as bool,
+            createdAt: DateTime.parse(value['created_at']),
+            updatedAt: DateTime.parse(value['updated_at']),
+            imageUrl: value['image_url'] as String?,
+            //profiles
+            questioner: Profile(
+              id: value['user_id'] as String,
+              nickname: value['profiles']['nickname'] as String,
+              universityName: value['profiles']['university_name'] as String,
+              imageUrl: value['profiles']['image_url'] as String?,
+            ),
+          );
+        })
+        .catchError((error, stacktrace) {
+          Logger().e('getQuestion.error: $error, $stacktrace');
+          throw error;
+        });
   }
 
   @override
