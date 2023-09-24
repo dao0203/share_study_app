@@ -28,12 +28,12 @@ class ShareStudyDrawer extends HookConsumerWidget {
                     : Icon(
                         Icons.account_circle_outlined,
                         size: 60,
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                 Text(
                   myProfileState?.nickname ?? '',
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 20,
                   ),
                 ),
@@ -48,9 +48,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                             child: Text(
                               myProfileState?.followCount.toString() ?? '',
                               style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 fontSize: 18,
                               ),
                             ),
@@ -60,9 +58,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                             child: Text(
                               ' フォロー',
                               style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 fontSize: 12,
                               ),
                             ),
@@ -73,9 +69,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                             child: Text(
                               myProfileState?.followerCount.toString() ?? '',
                               style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 fontSize: 18,
                               ),
                             ),
@@ -86,9 +80,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                             child: Text(
                               'フォロワー',
                               style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 fontSize: 12,
                               ),
                             ),
