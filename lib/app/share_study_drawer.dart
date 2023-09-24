@@ -10,6 +10,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final myProfileState = ref.watch(myProfileStateProvider).asData?.value;
     return Drawer(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       width: MediaQuery.of(context).size.width * 0.8,
       child: ListView(
         padding: EdgeInsets.zero,
