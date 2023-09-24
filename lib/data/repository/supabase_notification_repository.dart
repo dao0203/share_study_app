@@ -13,8 +13,8 @@ final class SupabaseNotificationRepository implements NotificationRepository {
     return await _client
         .from('notifications')
         .select<PostgrestList>('''
-    id, created_at, type,
-    question_id (id, title, content, created_at, updated_at),
+    id, question_id, created_at, type,
+    answer_id (content),
     sender_id (id, nickname,university_name,image_url)
   ''')
         .eq('receiver_id', _client.auth.currentUser!.id)
@@ -35,12 +35,10 @@ final class SupabaseNotificationRepository implements NotificationRepository {
               type: NotificationType.values.firstWhere(
                 (element) => element.value == e['type'] as String,
               ),
-              questionId: e['question_id'] == null
+              questionId: e['question_id'] as String?,
+              answerContent: e['answer_id'] == null
                   ? null
-                  : e['question_id']['id'] as String?,
-              questionContent: e['question_id'] == null
-                  ? null
-                  : e['question_id']['content'] as String?,
+                  : e['answer_id']['content'] as String?,
               createdAt: DateTime.parse(e['created_at']),
             );
           }).toList();

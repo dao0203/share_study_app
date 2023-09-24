@@ -10,7 +10,7 @@ class Notification with _$Notification {
     required String id,
     required Profile? sender,
     String? questionId,
-    String? questionContent,
+    String? answerContent,
     required NotificationType type,
     required DateTime createdAt,
   }) = _Notification;

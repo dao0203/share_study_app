@@ -19,7 +19,7 @@ mixin _$Notification {
   String get id => throw _privateConstructorUsedError;
   Profile? get sender => throw _privateConstructorUsedError;
   String? get questionId => throw _privateConstructorUsedError;
-  String? get questionContent => throw _privateConstructorUsedError;
+  String? get answerContent => throw _privateConstructorUsedError;
   NotificationType get type => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
@@ -38,7 +38,7 @@ abstract class $NotificationCopyWith<$Res> {
       {String id,
       Profile? sender,
       String? questionId,
-      String? questionContent,
+      String? answerContent,
       NotificationType type,
       DateTime createdAt});
 
@@ -61,7 +61,7 @@ class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
     Object? id = null,
     Object? sender = freezed,
     Object? questionId = freezed,
-    Object? questionContent = freezed,
+    Object? answerContent = freezed,
     Object? type = null,
     Object? createdAt = null,
   }) {
@@ -78,9 +78,9 @@ class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
               as String?,
-      questionContent: freezed == questionContent
-          ? _value.questionContent
-          : questionContent // ignore: cast_nullable_to_non_nullable
+      answerContent: freezed == answerContent
+          ? _value.answerContent
+          : answerContent // ignore: cast_nullable_to_non_nullable
               as String?,
       type: null == type
           ? _value.type
@@ -118,7 +118,7 @@ abstract class _$$_NotificationCopyWith<$Res>
       {String id,
       Profile? sender,
       String? questionId,
-      String? questionContent,
+      String? answerContent,
       NotificationType type,
       DateTime createdAt});
 
@@ -140,7 +140,7 @@ class __$$_NotificationCopyWithImpl<$Res>
     Object? id = null,
     Object? sender = freezed,
     Object? questionId = freezed,
-    Object? questionContent = freezed,
+    Object? answerContent = freezed,
     Object? type = null,
     Object? createdAt = null,
   }) {
@@ -157,9 +157,9 @@ class __$$_NotificationCopyWithImpl<$Res>
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
               as String?,
-      questionContent: freezed == questionContent
-          ? _value.questionContent
-          : questionContent // ignore: cast_nullable_to_non_nullable
+      answerContent: freezed == answerContent
+          ? _value.answerContent
+          : answerContent // ignore: cast_nullable_to_non_nullable
               as String?,
       type: null == type
           ? _value.type
@@ -180,7 +180,7 @@ class _$_Notification implements _Notification {
       {required this.id,
       required this.sender,
       this.questionId,
-      this.questionContent,
+      this.answerContent,
       required this.type,
       required this.createdAt});
 
@@ -191,7 +191,7 @@ class _$_Notification implements _Notification {
   @override
   final String? questionId;
   @override
-  final String? questionContent;
+  final String? answerContent;
   @override
   final NotificationType type;
   @override
@@ -199,7 +199,7 @@ class _$_Notification implements _Notification {
 
   @override
   String toString() {
-    return 'Notification(id: $id, sender: $sender, questionId: $questionId, questionContent: $questionContent, type: $type, createdAt: $createdAt)';
+    return 'Notification(id: $id, sender: $sender, questionId: $questionId, answerContent: $answerContent, type: $type, createdAt: $createdAt)';
   }
 
   @override
@@ -211,8 +211,8 @@ class _$_Notification implements _Notification {
             (identical(other.sender, sender) || other.sender == sender) &&
             (identical(other.questionId, questionId) ||
                 other.questionId == questionId) &&
-            (identical(other.questionContent, questionContent) ||
-                other.questionContent == questionContent) &&
+            (identical(other.answerContent, answerContent) ||
+                other.answerContent == answerContent) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
@@ -220,7 +220,7 @@ class _$_Notification implements _Notification {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, sender, questionId, questionContent, type, createdAt);
+      runtimeType, id, sender, questionId, answerContent, type, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -234,7 +234,7 @@ abstract class _Notification implements Notification {
       {required final String id,
       required final Profile? sender,
       final String? questionId,
-      final String? questionContent,
+      final String? answerContent,
       required final NotificationType type,
       required final DateTime createdAt}) = _$_Notification;
 
@@ -245,7 +245,7 @@ abstract class _Notification implements Notification {
   @override
   String? get questionId;
   @override
-  String? get questionContent;
+  String? get answerContent;
   @override
   NotificationType get type;
   @override
