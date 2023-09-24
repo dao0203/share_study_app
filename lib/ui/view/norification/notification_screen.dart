@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/my_notification.dart';
+import 'package:share_study_app/ui/view/norification/components/my_notification_item.dart';
 import 'package:share_study_app/use_case/di/use_case_providers.dart';
 import 'package:share_study_app/util/page_args.dart';
 
@@ -60,11 +61,8 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
           separatorBuilder: (context, index) => const Divider(),
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<MyNotification>(
-            itemBuilder: (context, myNotification, index) => Column(
-              children: [
-                Text(myNotification.message),
-              ],
-            ),
+            itemBuilder: (context, myNotification, index) =>
+                MyNotificationItem(myNotification: myNotification),
           ),
         ),
       ),
