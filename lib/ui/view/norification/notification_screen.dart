@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
-import 'package:share_study_app/data/domain/notification.dart' as notification;
-import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/data/domain/my_notification.dart';
+import 'package:share_study_app/use_case/di/use_case_providers.dart';
+import 'package:share_study_app/util/page_args.dart';
 
 class NotificationScreen extends StatefulHookConsumerWidget {
   const NotificationScreen({super.key});
@@ -13,7 +14,7 @@ class NotificationScreen extends StatefulHookConsumerWidget {
 
 class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   static const int _pageSize = 10;
-  final PagingController<int, notification.Notification> _pagingController =
+  final PagingController<int, MyNotification> _pagingController =
       PagingController(firstPageKey: 0);
 
   @override
@@ -27,8 +28,11 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final newItems = await ref
-          .watch(notificationRepositoryProvider)
-          .getWithPagination(pageKey, _pageSize);
+          .watch(getMyNotificationsWithPaginationUseCaseProvider)
+          .call(PageArgs(
+            start: pageKey,
+            end: pageKey + _pageSize,
+          ));
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -55,10 +59,10 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
         child: PagedListView.separated(
           separatorBuilder: (context, index) => const Divider(),
           pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<notification.Notification>(
-            itemBuilder: (context, notification, index) => Column(
+          builderDelegate: PagedChildBuilderDelegate<MyNotification>(
+            itemBuilder: (context, myNotification, index) => Column(
               children: [
-                Text(notification.message),
+                Text(myNotification.message),
               ],
             ),
           ),
