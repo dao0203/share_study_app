@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
+import 'package:share_study_app/app/share_study_drawer.dart';
 import 'package:share_study_app/data/domain/my_notification.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
 import 'package:share_study_app/ui/view/norification/components/my_notification_item.dart';
@@ -50,9 +52,19 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = useState(GlobalKey<ScaffoldState>());
     return Scaffold(
+      key: scaffoldKey.value,
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.account_circle_outlined),
+          onPressed: () {
+            scaffoldKey.value.currentState?.openDrawer();
+          },
+        ),
         title: const Text('通知'),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.background,
       ),
       body: RefreshIndicator(
         onRefresh: () => Future.sync(
@@ -79,6 +91,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
           ),
         ),
       ),
+      drawer: const ShareStudyDrawer(),
     );
   }
 }
