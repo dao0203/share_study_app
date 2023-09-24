@@ -29,8 +29,9 @@ final class SupabaseUserAuthRepository implements UserAuthRepository {
     try {
       Logger().d('email: $email, password: $password');
       await _client.signUp(email: email, password: password);
-    } on AuthException catch (e) {
-      Logger().e(e.message);
+    } on AuthException catch (e, stacktrace) {
+      Logger().e(e.message + stacktrace.toString());
+      rethrow;
     }
   }
 }
