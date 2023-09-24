@@ -30,13 +30,13 @@ class GetMyNotificationsWithPaginationUseCase
   String createMessage(Notification notification) {
     switch (notification.type) {
       case NotificationType.answer:
-        return '${notification.sender.nickname}さんがあなたの質問に回答しました';
+        return '${notification.sender!.nickname}さんがあなたの質問に回答しました';
       case NotificationType.bestAnswer:
         return 'あなたの質問にベストアンサーがつきました';
       case NotificationType.newRegistration:
         return 'シェアスタに登録しました';
       case NotificationType.follow:
-        return '${notification.sender.nickname}さんがフォローしました';
+        return '${notification.sender!.nickname}さんがフォローしました';
     }
   }
 }
