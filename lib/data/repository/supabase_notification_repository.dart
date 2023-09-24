@@ -1,7 +1,6 @@
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/notification.dart';
 import 'package:share_study_app/data/domain/profile.dart';
-import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/repository/notification_respository.dart';
 import 'package:share_study_app/util/notification_type.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
