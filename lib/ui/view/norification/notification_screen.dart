@@ -79,10 +79,29 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
               onTap: () {
                 if (myNotification.hasQuestion) {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => DiscussionScreen(
-                        questionId: myNotification.notification.questionId!,
+                    PageRouteBuilder(
+                      pageBuilder: (
+                        context,
+                        animation1,
+                        animation2,
+                      ) =>
+                          DiscussionScreen(
+                              questionId:
+                                  myNotification.notification.questionId!),
+                      transitionsBuilder: (
+                        context,
+                        animation1,
+                        animation2,
+                        child,
+                      ) =>
+                          SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(1, 0),
+                          end: Offset.zero,
+                        ).animate(animation1),
+                        child: child,
                       ),
+                      transitionDuration: const Duration(milliseconds: 300),
                     ),
                   );
                 }
