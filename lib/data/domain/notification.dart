@@ -8,7 +8,7 @@ part 'notification.freezed.dart';
 class Notification with _$Notification {
   const factory Notification({
     required String id,
-    required Profile sender,
+    required Profile? sender,
     String? questionId,
     String? questionContent,
     required NotificationType type,

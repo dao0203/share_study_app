@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Notification {
   String get id => throw _privateConstructorUsedError;
-  Profile get sender => throw _privateConstructorUsedError;
+  Profile? get sender => throw _privateConstructorUsedError;
   String? get questionId => throw _privateConstructorUsedError;
   String? get questionContent => throw _privateConstructorUsedError;
   NotificationType get type => throw _privateConstructorUsedError;
@@ -36,13 +36,13 @@ abstract class $NotificationCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      Profile sender,
+      Profile? sender,
       String? questionId,
       String? questionContent,
       NotificationType type,
       DateTime createdAt});
 
-  $ProfileCopyWith<$Res> get sender;
+  $ProfileCopyWith<$Res>? get sender;
 }
 
 /// @nodoc
@@ -59,7 +59,7 @@ class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
   @override
   $Res call({
     Object? id = null,
-    Object? sender = null,
+    Object? sender = freezed,
     Object? questionId = freezed,
     Object? questionContent = freezed,
     Object? type = null,
@@ -70,10 +70,10 @@ class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      sender: null == sender
+      sender: freezed == sender
           ? _value.sender
           : sender // ignore: cast_nullable_to_non_nullable
-              as Profile,
+              as Profile?,
       questionId: freezed == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
@@ -95,8 +95,12 @@ class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
 
   @override
   @pragma('vm:prefer-inline')
-  $ProfileCopyWith<$Res> get sender {
-    return $ProfileCopyWith<$Res>(_value.sender, (value) {
+  $ProfileCopyWith<$Res>? get sender {
+    if (_value.sender == null) {
+      return null;
+    }
+
+    return $ProfileCopyWith<$Res>(_value.sender!, (value) {
       return _then(_value.copyWith(sender: value) as $Val);
     });
   }
@@ -112,14 +116,14 @@ abstract class _$$_NotificationCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      Profile sender,
+      Profile? sender,
       String? questionId,
       String? questionContent,
       NotificationType type,
       DateTime createdAt});
 
   @override
-  $ProfileCopyWith<$Res> get sender;
+  $ProfileCopyWith<$Res>? get sender;
 }
 
 /// @nodoc
@@ -134,7 +138,7 @@ class __$$_NotificationCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? sender = null,
+    Object? sender = freezed,
     Object? questionId = freezed,
     Object? questionContent = freezed,
     Object? type = null,
@@ -145,10 +149,10 @@ class __$$_NotificationCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      sender: null == sender
+      sender: freezed == sender
           ? _value.sender
           : sender // ignore: cast_nullable_to_non_nullable
-              as Profile,
+              as Profile?,
       questionId: freezed == questionId
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
@@ -183,7 +187,7 @@ class _$_Notification implements _Notification {
   @override
   final String id;
   @override
-  final Profile sender;
+  final Profile? sender;
   @override
   final String? questionId;
   @override
@@ -228,7 +232,7 @@ class _$_Notification implements _Notification {
 abstract class _Notification implements Notification {
   const factory _Notification(
       {required final String id,
-      required final Profile sender,
+      required final Profile? sender,
       final String? questionId,
       final String? questionContent,
       required final NotificationType type,
@@ -237,7 +241,7 @@ abstract class _Notification implements Notification {
   @override
   String get id;
   @override
-  Profile get sender;
+  Profile? get sender;
   @override
   String? get questionId;
   @override
