@@ -5,13 +5,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/answer.dart';
-import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/state/question_state.dart';
 import 'package:share_study_app/ui/view/discussion/components/answer_item.dart';
 
 class DiscussionScreen extends StatefulHookConsumerWidget {
-  const DiscussionScreen({super.key, required this.question});
-  final Question question;
+  const DiscussionScreen({super.key, required this.questionId});
+  final String questionId;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -37,7 +37,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
       final newItems = await ref
           .watch(answerRepositoryProvider)
           .getAnswersByQuestionIdWithPagination(
-              widget.question.id, pageKey, _pageSize + pageKey);
+              widget.questionId, pageKey, _pageSize + pageKey);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -58,7 +58,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final question = widget.question;
+    final question = ref.watch(QuestionStateProvider(widget.questionId));
     final commentController = useTextEditingController();
     final areFieldEmpty = useState(true);
 
@@ -80,86 +80,122 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            Text(
-              question.title,
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 16),
-            Card(
-              color: Theme.of(context).colorScheme.secondaryContainer,
-              elevation: 3,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: question.questioner.imageUrl != null
-                        ? CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(question.questioner.imageUrl!),
-                            radius: 40,
-                          )
-                        : Icon(
-                            Icons.person_outline_outlined,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSecondaryContainer,
-                            size: 40,
-                          ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8, right: 8),
-                      child: Column(
+            question.when(
+              data: (question) {
+                return Column(
+                  children: [
+                    Text(
+                      question.title,
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 16),
+                    Card(
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                      elevation: 3,
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                question.questioner.nickname,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground,
-                                  letterSpacing: 1.5,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  '${question.createdAt.month}月${question.createdAt.day}日',
-                                  style: TextStyle(
-                                    fontSize: 12,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: question.questioner.imageUrl != null
+                                ? CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        question.questioner.imageUrl!),
+                                    radius: 40,
+                                  )
+                                : Icon(
+                                    Icons.person_outline_outlined,
                                     color: Theme.of(context)
                                         .colorScheme
-                                        .onBackground,
-                                    letterSpacing: 1.5,
+                                        .onSecondaryContainer,
+                                    size: 40,
                                   ),
-                                ),
-                              ),
-                            ],
                           ),
-                          const SizedBox(width: 8),
-                          Text(
-                            question.content,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Theme.of(context).colorScheme.onBackground,
-                              letterSpacing: 2,
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 8, right: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        question.questioner.nickname,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          letterSpacing: 1.5,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          '${question.createdAt.month}月${question.createdAt.day}日',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                            letterSpacing: 1.5,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    question.content,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                      letterSpacing: 2,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
+                  ],
+                );
+              },
+              error: (error, stackTrace) {
+                Logger().e('error: $error $stackTrace');
+                return Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        'エラーが発生しました',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.onBackground,
+                          letterSpacing: 2,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () => _pagingController.refresh(),
+                        child: const Text('リトライ'),
+                      ),
+                    ],
                   ),
-                ],
+                );
+              },
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
               ),
             ),
             const SizedBox(height: 16),
@@ -271,7 +307,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                       await ref
                           .read(answerRepositoryProvider)
                           .addAnswer(
-                            question.id,
+                            widget.questionId,
                             commentController.text,
                           )
                           .then((value) {

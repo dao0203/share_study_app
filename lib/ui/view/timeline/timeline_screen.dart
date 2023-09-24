@@ -125,7 +125,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                 ),
               );
             },
-            itemBuilder: (context, item, index) =>
+            itemBuilder: (context, question, index) =>
                 AnimationConfiguration.staggeredList(
               position: index,
               duration: const Duration(milliseconds: 300),
@@ -133,17 +133,23 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                 verticalOffset: 50.0,
                 child: FadeInAnimation(
                   child: QuestionItem(
-                    question: item,
+                    question: question,
                     onPressed: () {
                       Navigator.of(context).push(
                         PageRouteBuilder(
-                          pageBuilder: (context, animation1, animation2) =>
-                              DiscussionScreen(
-                            question: item,
-                          ),
-                          transitionsBuilder:
-                              (context, animation1, animation2, child) =>
-                                  SlideTransition(
+                          pageBuilder: (
+                            context,
+                            animation1,
+                            animation2,
+                          ) =>
+                              DiscussionScreen(questionId: question.id),
+                          transitionsBuilder: (
+                            context,
+                            animation1,
+                            animation2,
+                            child,
+                          ) =>
+                              SlideTransition(
                             position: Tween<Offset>(
                               begin: const Offset(1, 0),
                               end: Offset.zero,

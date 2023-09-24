@@ -60,13 +60,19 @@ class _SearchContentState extends ConsumerState<SearchContent> {
             onPressed: () {
               Navigator.of(context).push(
                 PageRouteBuilder(
-                  pageBuilder: (context, animation1, animation2) =>
-                      DiscussionScreen(
-                    question: question,
-                  ),
-                  transitionsBuilder:
-                      (context, animation1, animation2, child) =>
-                          SlideTransition(
+                  pageBuilder: (
+                    context,
+                    animation1,
+                    animation2,
+                  ) =>
+                      DiscussionScreen(questionId: question.id),
+                  transitionsBuilder: (
+                    context,
+                    animation1,
+                    animation2,
+                    child,
+                  ) =>
+                      SlideTransition(
                     position: Tween<Offset>(
                       begin: const Offset(1, 0),
                       end: Offset.zero,
