@@ -24,17 +24,24 @@ final class SupabaseNotificationRepository implements NotificationRepository {
           return value.map((e) {
             return Notification(
               id: e['id'] as String,
-              sender: Profile(
-                id: e['sender_id']['id'] as String,
-                nickname: e['sender_id']['nickname'] as String,
-                universityName: e['sender_id']['university_name'] as String,
-                imageUrl: e['sender_id']['image_url'] as String?,
-              ),
+              sender: e['sender_id'] == null
+                  ? null
+                  : Profile(
+                      id: e['sender_id']['id'] as String,
+                      nickname: e['sender_id']['nickname'] as String,
+                      universityName:
+                          e['sender_id']['university_name'] as String,
+                      imageUrl: e['sender_id']['image_url'] as String?,
+                    ),
               type: NotificationType.values.firstWhere(
                 (element) => element.value == e['type'] as String,
               ),
-              questionId: e['question_id']['id'] as String?,
-              questionContent: e['question_id']['content'] as String?,
+              questionId: e['question_id'] == null
+                  ? null
+                  : e['question_id']['id'] as String?,
+              questionContent: e['question_id'] == null
+                  ? null
+                  : e['question_id']['content'] as String?,
               createdAt: DateTime.parse(e['created_at']),
             );
           }).toList();
