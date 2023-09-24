@@ -17,9 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Notification {
   String get id => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
   Profile get sender => throw _privateConstructorUsedError;
   String? get questionId => throw _privateConstructorUsedError;
+  String? get questionContent => throw _privateConstructorUsedError;
+  NotificationType get type => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,9 +36,10 @@ abstract class $NotificationCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String message,
       Profile sender,
       String? questionId,
+      String? questionContent,
+      NotificationType type,
       DateTime createdAt});
 
   $ProfileCopyWith<$Res> get sender;
@@ -57,19 +59,16 @@ class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
   @override
   $Res call({
     Object? id = null,
-    Object? message = null,
     Object? sender = null,
     Object? questionId = freezed,
+    Object? questionContent = freezed,
+    Object? type = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
               as String,
       sender: null == sender
           ? _value.sender
@@ -79,6 +78,14 @@ class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
               as String?,
+      questionContent: freezed == questionContent
+          ? _value.questionContent
+          : questionContent // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as NotificationType,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -105,9 +112,10 @@ abstract class _$$_NotificationCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String message,
       Profile sender,
       String? questionId,
+      String? questionContent,
+      NotificationType type,
       DateTime createdAt});
 
   @override
@@ -126,19 +134,16 @@ class __$$_NotificationCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? message = null,
     Object? sender = null,
     Object? questionId = freezed,
+    Object? questionContent = freezed,
+    Object? type = null,
     Object? createdAt = null,
   }) {
     return _then(_$_Notification(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
               as String,
       sender: null == sender
           ? _value.sender
@@ -148,6 +153,14 @@ class __$$_NotificationCopyWithImpl<$Res>
           ? _value.questionId
           : questionId // ignore: cast_nullable_to_non_nullable
               as String?,
+      questionContent: freezed == questionContent
+          ? _value.questionContent
+          : questionContent // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as NotificationType,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -161,25 +174,28 @@ class __$$_NotificationCopyWithImpl<$Res>
 class _$_Notification implements _Notification {
   const _$_Notification(
       {required this.id,
-      required this.message,
       required this.sender,
       this.questionId,
+      this.questionContent,
+      required this.type,
       required this.createdAt});
 
   @override
   final String id;
   @override
-  final String message;
-  @override
   final Profile sender;
   @override
   final String? questionId;
+  @override
+  final String? questionContent;
+  @override
+  final NotificationType type;
   @override
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Notification(id: $id, message: $message, sender: $sender, questionId: $questionId, createdAt: $createdAt)';
+    return 'Notification(id: $id, sender: $sender, questionId: $questionId, questionContent: $questionContent, type: $type, createdAt: $createdAt)';
   }
 
   @override
@@ -188,17 +204,19 @@ class _$_Notification implements _Notification {
         (other.runtimeType == runtimeType &&
             other is _$_Notification &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.message, message) || other.message == message) &&
             (identical(other.sender, sender) || other.sender == sender) &&
             (identical(other.questionId, questionId) ||
                 other.questionId == questionId) &&
+            (identical(other.questionContent, questionContent) ||
+                other.questionContent == questionContent) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, message, sender, questionId, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType, id, sender, questionId, questionContent, type, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -210,19 +228,22 @@ class _$_Notification implements _Notification {
 abstract class _Notification implements Notification {
   const factory _Notification(
       {required final String id,
-      required final String message,
       required final Profile sender,
       final String? questionId,
+      final String? questionContent,
+      required final NotificationType type,
       required final DateTime createdAt}) = _$_Notification;
 
   @override
   String get id;
   @override
-  String get message;
-  @override
   Profile get sender;
   @override
   String? get questionId;
+  @override
+  String? get questionContent;
+  @override
+  NotificationType get type;
   @override
   DateTime get createdAt;
   @override
