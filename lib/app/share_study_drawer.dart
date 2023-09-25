@@ -29,7 +29,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                           animation1,
                           animation2,
                         ) =>
-                            ProfileScreen(),
+                            const ProfileScreen(),
                         transitionsBuilder: (
                           context,
                           animation1,

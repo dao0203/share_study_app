@@ -26,7 +26,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         //質問と実績の切り替えるバーを作る
         bottom: TabBar(
           controller: _tabController,
-          tabs: [
+          tabs: const [
             Tab(text: '質問'),
             Tab(text: '実績'),
           ],
@@ -39,7 +39,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           ListView.builder(
             itemCount: 10,
             itemBuilder: (context, index) {
-              return ListTile(
+              return const ListTile(
                 title: Text('質問タイトル'),
                 subtitle: Text('質問内容'),
                 trailing: Text('回答数'),
@@ -50,7 +50,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           ListView.builder(
             itemCount: 10,
             itemBuilder: (context, index) {
-              return ListTile(
+              return const ListTile(
                 title: Text('実績タイトル'),
                 subtitle: Text('実績内容'),
                 trailing: Text('獲得ポイント'),
