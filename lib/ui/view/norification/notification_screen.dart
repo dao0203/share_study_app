@@ -107,6 +107,34 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
                 }
               },
             ),
+            newPageErrorIndicatorBuilder: (context) => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('エラーが発生しました。'),
+                const SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: () => _pagingController.refresh(),
+                  child: const Text('再読み込み'),
+                ),
+              ],
+            ),
+            firstPageErrorIndicatorBuilder: (context) => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('エラーが発生しました。'),
+                const SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: () => _pagingController.refresh(),
+                  child: const Text('再読み込み'),
+                ),
+              ],
+            ),
+            noItemsFoundIndicatorBuilder: (context) => const Center(
+              child: Text('通知はありません。'),
+            ),
+            noMoreItemsIndicatorBuilder: (context) => const Center(
+              child: Text('これ以上通知はありません。'),
+            ),
           ),
         ),
       ),
