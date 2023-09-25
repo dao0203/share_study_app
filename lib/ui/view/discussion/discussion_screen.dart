@@ -248,6 +248,26 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                         child: const Text('リトライ'),
                       ),
                     ),
+                    noItemsFoundIndicatorBuilder: (context) => Center(
+                      child: Text(
+                        'まだコメントはありません',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.onBackground,
+                          letterSpacing: 2,
+                        ),
+                      ),
+                    ),
+                    noMoreItemsIndicatorBuilder: (context) => Center(
+                      child: Text(
+                        'これ以上コメントはありません',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.onBackground,
+                          letterSpacing: 2,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
