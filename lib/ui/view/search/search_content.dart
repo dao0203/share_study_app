@@ -85,6 +85,50 @@ class _SearchContentState extends ConsumerState<SearchContent> {
             },
           );
         },
+        firstPageErrorIndicatorBuilder: (context) => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('エラーが発生しました。'),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () => _pagingController.refresh(),
+              child: const Text('再読み込み'),
+            ),
+          ],
+        ),
+        newPageErrorIndicatorBuilder: (context) => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('エラーが発生しました。'),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () => _pagingController.refresh(),
+              child: const Text('再読み込み'),
+            ),
+          ],
+        ),
+        noItemsFoundIndicatorBuilder: (context) => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('見つかりませんでした。'),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () => _pagingController.refresh(),
+              child: const Text('再読み込み'),
+            ),
+          ],
+        ),
+        noMoreItemsIndicatorBuilder: (context) => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('これ以上はありません。'),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () => _pagingController.refresh(),
+              child: const Text('再読み込み'),
+            ),
+          ],
+        ),
       ),
       separatorBuilder: (context, index) => const SizedBox(height: 2),
     );
