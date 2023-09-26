@@ -258,16 +258,6 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                         ),
                       ),
                     ),
-                    noMoreItemsIndicatorBuilder: (context) => Center(
-                      child: Text(
-                        'これ以上コメントはありません',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Theme.of(context).colorScheme.onBackground,
-                          letterSpacing: 2,
-                        ),
-                      ),
-                    ),
                   ),
                 ),
               ),

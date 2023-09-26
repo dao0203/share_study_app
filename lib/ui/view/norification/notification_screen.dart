@@ -132,9 +132,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
             noItemsFoundIndicatorBuilder: (context) => const Center(
               child: Text('通知はありません。'),
             ),
-            noMoreItemsIndicatorBuilder: (context) => const Center(
-              child: Text('これ以上通知はありません。'),
-            ),
           ),
         ),
       ),
