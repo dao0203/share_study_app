@@ -22,6 +22,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         title: const Text('プロフィール'),
         //質問と実績の切り替えるバーを作る
         bottom: TabBar(
