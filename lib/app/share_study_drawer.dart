@@ -126,7 +126,32 @@ class ShareStudyDrawer extends HookConsumerWidget {
           ListTile(
             leading: const Icon(Icons.person_outline_outlined),
             title: const Text('プロフィール'),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (
+                    context,
+                    animation1,
+                    animation2,
+                  ) =>
+                      const ProfileScreen(),
+                  transitionsBuilder: (
+                    context,
+                    animation1,
+                    animation2,
+                    child,
+                  ) =>
+                      SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(1, 0),
+                      end: Offset.zero,
+                    ).animate(animation1),
+                    child: child,
+                  ),
+                  transitionDuration: const Duration(milliseconds: 300),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.info_outline),
