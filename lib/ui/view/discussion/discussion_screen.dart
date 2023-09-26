@@ -204,7 +204,8 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                 onRefresh: () => Future.sync(
                   () => _pagingController.refresh(),
                 ),
-                child: PagedListView(
+                child: PagedListView.separated(
+                  separatorBuilder: (context, index) => const Divider(),
                   pagingController: _pagingController,
                   builderDelegate: PagedChildBuilderDelegate<Answer>(
                     itemBuilder: (context, answer, index) {
