@@ -105,7 +105,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
           );
         },
         child: PagedListView.separated(
-          separatorBuilder: (context, index) => const SizedBox(height: 8),
+          separatorBuilder: (context, index) => const Divider(),
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<Question>(
             firstPageErrorIndicatorBuilder: (context) {
