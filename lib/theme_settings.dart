@@ -8,13 +8,7 @@ class ThemeSettings extends HookConsumerWidget {
   const ThemeSettings({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //Edge to edgeの設定
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        // statusBarIconBrightness: Brightness.dark,
-      ),
-    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Share_study_app',
