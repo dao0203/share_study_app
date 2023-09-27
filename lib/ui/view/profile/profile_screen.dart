@@ -90,10 +90,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 ],
                               ),
                               //フォローボタン
-                              TextButton(
-                                onPressed: () async {},
-                                child: const Text('フォロー'),
-                              ),
+                              data.isMyProfile
+                                  ? const SizedBox()
+                                  : ElevatedButton(
+                                      onPressed: () {},
+                                      child: const Text('フォロー'),
+                                    ),
                             ],
                           ),
                           error: (error, stackTrace) =>
