@@ -58,6 +58,7 @@ class _QuetionTabState extends ConsumerState<QuetionTab>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return PagedListView.separated(
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<Question>(
@@ -96,6 +97,42 @@ class _QuetionTabState extends ConsumerState<QuetionTab>
             ),
           ),
         ),
+        firstPageProgressIndicatorBuilder: (context) {
+          return const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text('質問を取得中...'),
+            ],
+          );
+        },
+        newPageErrorIndicatorBuilder: (context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('エラーが発生しました'),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => _pagingController.retryLastFailedRequest(),
+                child: const Text('再読み込み'),
+              ),
+            ],
+          );
+        },
+        firstPageErrorIndicatorBuilder: (context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('エラーが発生しました'),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => _pagingController.refresh(),
+                child: const Text('再読み込み'),
+              ),
+            ],
+          );
+        },
       ),
       separatorBuilder: (context, index) => const Divider(),
     );
