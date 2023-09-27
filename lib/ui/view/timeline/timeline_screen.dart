@@ -63,6 +63,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
     return Scaffold(
       key: scaffoldKey.value,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).colorScheme.background,
         leading: IconButton(
           icon: const Icon(Icons.account_circle_outlined),

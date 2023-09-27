@@ -56,6 +56,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     return Scaffold(
       key: scaffoldKey.value,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.account_circle_outlined),
           onPressed: () {

@@ -74,6 +74,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
     }, [commentController]);
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).colorScheme.background,
       ),
       body: SingleChildScrollView(
