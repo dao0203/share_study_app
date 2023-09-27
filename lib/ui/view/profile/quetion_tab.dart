@@ -68,6 +68,7 @@ class _QuetionTabState extends ConsumerState<QuetionTab>
           child: FadeInAnimation(
             child: QuestionItem(
               question: question,
+              onIconPressed: () {},
               onPressed: () {
                 Navigator.of(context).push(
                   PageRouteBuilder(

@@ -5,11 +5,13 @@ import 'package:share_study_app/data/domain/question.dart';
 class QuestionItem extends HookConsumerWidget {
   final Question question;
   final Function() onPressed;
+  final Function() onIconPressed;
 
   const QuestionItem({
     super.key,
     required this.question,
     required this.onPressed,
+    required this.onIconPressed,
   });
 
   @override
@@ -22,20 +24,23 @@ class QuestionItem extends HookConsumerWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: question.questioner.imageUrl != null
-                  ? CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(question.questioner.imageUrl!),
-                      //サイズ
-                      radius: 20,
-                    )
-                  : Icon(
-                      Icons.person_outline_outlined,
-                      size: 40,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+            child: GestureDetector(
+              onTap: () => onIconPressed(),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: question.questioner.imageUrl != null
+                    ? CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(question.questioner.imageUrl!),
+                        //サイズ
+                        radius: 20,
+                      )
+                    : Icon(
+                        Icons.person_outline_outlined,
+                        size: 40,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+              ),
             ),
           ),
           Expanded(

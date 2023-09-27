@@ -4,8 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/answer.dart';
 
 class AnswerItem extends HookConsumerWidget {
-  const AnswerItem({super.key, required this.answer});
+  const AnswerItem(
+      {super.key, required this.answer, required this.onIconPressed});
   final Answer answer;
+  final Function() onIconPressed;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Row(
@@ -13,21 +15,24 @@ class AnswerItem extends HookConsumerWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: answer.answerer.imageUrl == null
-                ? CircleAvatar(
-                    backgroundColor: Theme.of(context).colorScheme.background,
-                    backgroundImage: const NetworkImage(
-                        //ミャウミャウ
-                        'https://purr.objects-us-east-1.dream.io/i/1222.jpg'),
-                    radius: 20,
-                  )
-                : Icon(
-                    Icons.person_outline_outlined,
-                    size: 40,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+          child: GestureDetector(
+            onTap: () => onIconPressed(),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: answer.answerer.imageUrl == null
+                  ? CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.background,
+                      backgroundImage: const NetworkImage(
+                          //ミャウミャウ
+                          'https://purr.objects-us-east-1.dream.io/i/1222.jpg'),
+                      radius: 20,
+                    )
+                  : Icon(
+                      Icons.person_outline_outlined,
+                      size: 40,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+            ),
           ),
         ),
         Expanded(

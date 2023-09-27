@@ -8,6 +8,7 @@ import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/question_state.dart';
 import 'package:share_study_app/ui/view/discussion/components/answer_item.dart';
+import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 
 class DiscussionScreen extends StatefulHookConsumerWidget {
   const DiscussionScreen({super.key, required this.questionId});
@@ -105,19 +106,50 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: question.questioner.imageUrl != null
-                                  ? CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          question.questioner.imageUrl!),
-                                      radius: 40,
-                                    )
-                                  : Icon(
-                                      Icons.person_outline_outlined,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSecondaryContainer,
-                                      size: 40,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder: (
+                                        context,
+                                        animation1,
+                                        animation2,
+                                      ) =>
+                                          ProfileScreen(
+                                              profileId:
+                                                  question.questioner.id),
+                                      transitionsBuilder: (
+                                        context,
+                                        animation1,
+                                        animation2,
+                                        child,
+                                      ) =>
+                                          SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(1, 0),
+                                          end: Offset.zero,
+                                        ).animate(animation1),
+                                        child: child,
+                                      ),
+                                      transitionDuration:
+                                          const Duration(milliseconds: 300),
                                     ),
+                                  );
+                                },
+                                child: question.questioner.imageUrl != null
+                                    ? CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            question.questioner.imageUrl!),
+                                        radius: 40,
+                                      )
+                                    : Icon(
+                                        Icons.person_outline_outlined,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondaryContainer,
+                                        size: 40,
+                                      ),
+                              ),
                             ),
                             Expanded(
                               child: Padding(
@@ -220,6 +252,34 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                           child: FadeInAnimation(
                             child: AnswerItem(
                               answer: answer,
+                              onIconPressed: () {
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    pageBuilder: (
+                                      context,
+                                      animation1,
+                                      animation2,
+                                    ) =>
+                                        ProfileScreen(
+                                            profileId: answer.answerer.id),
+                                    transitionsBuilder: (
+                                      context,
+                                      animation1,
+                                      animation2,
+                                      child,
+                                    ) =>
+                                        SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero,
+                                      ).animate(animation1),
+                                      child: child,
+                                    ),
+                                    transitionDuration:
+                                        const Duration(milliseconds: 300),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
