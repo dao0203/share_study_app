@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/ui/state/activity_profile_state.dart';
+import 'package:share_study_app/ui/view/profile/quetion_tab.dart';
 
 class ProfileScreen extends StatefulHookConsumerWidget {
   const ProfileScreen({super.key, required this.profileId});
@@ -46,13 +48,45 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           size: 80,
                         ),
                   //ユーザー名
-                  Text(
-                    data.profile.nickname,
-                    style: const TextStyle(fontSize: 20),
+                  const SizedBox(width: 16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        data.profile.nickname,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: data.profile.followCount.toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              recognizer: TapGestureRecognizer()..onTap = () {},
+                            ),
+                            const TextSpan(text: ' フォロー'),
+                            const TextSpan(text: '   '),
+                            TextSpan(
+                              text: data.profile.followerCount.toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              recognizer: TapGestureRecognizer()..onTap = () {},
+                            ),
+                            const TextSpan(text: ' フォロワー'),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                   //フォローボタン
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {},
                     child: const Text('フォロー'),
                   ),
                 ],
@@ -73,10 +107,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             child: TabBarView(
               controller: _tabController,
               children: [
-                //質問
-                Text('質問'),
-                //実績
-                Text('実績'),
+                QuetionTab(profileId: widget.profileId),
+                const Text('実績'),
               ],
             ),
           ),
