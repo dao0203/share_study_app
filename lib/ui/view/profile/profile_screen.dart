@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_study_app/ui/state/activity_profile_state.dart';
 
 class ProfileScreen extends StatefulHookConsumerWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.profileId});
+  final String profileId;
 
   @override
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
@@ -20,43 +22,63 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
+    final profileState =
+        ref.watch(activityProfileStateProvider(widget.profileId));
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        title: const Text('プロフィール'),
-        //質問と実績の切り替えるバーを作る
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(text: '質問'),
-            Tab(text: '実績'),
-          ],
-        ),
+        backgroundColor: Colors.transparent,
       ),
-      body: TabBarView(
-        controller: _tabController,
+      body: Column(
         children: [
-          //質問
-          ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return const ListTile(
-                title: Text('質問タイトル'),
-                subtitle: Text('質問内容'),
-                trailing: Text('回答数'),
+          //ユーザー情報
+          profileState.when(
+            data: (data) {
+              return Row(
+                children: [
+                  //ユーザー画像
+                  data.profile.imageUrl != null
+                      ? Image.network(
+                          data.profile.imageUrl!,
+                          width: 80,
+                        )
+                      : const Icon(
+                          Icons.account_circle_outlined,
+                          size: 80,
+                        ),
+                  //ユーザー名
+                  Text(
+                    data.profile.nickname,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  //フォローボタン
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text('フォロー'),
+                  ),
+                ],
               );
             },
+            error: (error, stackTrace) =>
+                Text(error.toString() + stackTrace.toString()),
+            loading: () => const CircularProgressIndicator(),
           ),
-          //実績
-          ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return const ListTile(
-                title: Text('実績タイトル'),
-                subtitle: Text('実績内容'),
-                trailing: Text('獲得ポイント'),
-              );
-            },
+          TabBar(
+            controller: _tabController,
+            tabs: const [
+              Tab(text: '質問'),
+              Tab(text: '実績'),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                //質問
+                Text('質問'),
+                //実績
+                Text('実績'),
+              ],
+            ),
           ),
         ],
       ),
