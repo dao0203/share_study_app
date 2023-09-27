@@ -29,7 +29,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                           animation1,
                           animation2,
                         ) =>
-                            const ProfileScreen(),
+                            ProfileScreen(profileId: myProfileState!.id),
                         transitionsBuilder: (
                           context,
                           animation1,
@@ -127,6 +127,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
             leading: const Icon(Icons.person_outline_outlined),
             title: const Text('プロフィール'),
             onTap: () {
+              if (myProfileState == null) return;
               Navigator.of(context).push(
                 PageRouteBuilder(
                   pageBuilder: (
@@ -134,7 +135,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                     animation1,
                     animation2,
                   ) =>
-                      const ProfileScreen(),
+                      ProfileScreen(profileId: myProfileState.id),
                   transitionsBuilder: (
                     context,
                     animation1,
