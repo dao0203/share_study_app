@@ -20,6 +20,7 @@ class ThemeSettings extends HookConsumerWidget {
         useMaterial3: true,
         colorScheme: darkColorScheme,
       ),
+      themeMode: ThemeMode.system,
       home: const AuthGate(),
     );
   }
