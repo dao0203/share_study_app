@@ -186,6 +186,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
         .eq('user_id', userId)
         .range(start, end)
         .then((value) {
+          Logger().i('getWithPaginationAndUserId.then: $value');
           return value.map((e) {
             return Question(
               //questions
