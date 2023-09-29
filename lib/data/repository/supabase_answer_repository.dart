@@ -74,4 +74,48 @@ final class SupabaseAnswerRepository implements AnswerRepository {
           throw error;
         });
   }
+
+  @override
+  Future<List<Answer>> getAnswersByProfileIdWithPagination(
+      String profileId, int start, int end) async {
+    return await _client
+        .from('answers')
+        .select<PostgrestList>(
+          '''
+id, user_id, question_id, content, is_best_answer, created_at, updated_at,
+profiles (nickname,university_name,image_url),
+questions (title, user_id, profiles(image_url))
+          ''',
+        )
+        .eq('user_id', profileId)
+        .order('created_at', ascending: false)
+        .range(start, end)
+        .then(
+          (value) {
+            Logger().i('getAnswersByProfileIdWithPagination.then: $value');
+            return value.map(
+              (e) {
+                return Answer(
+                  id: e['id'] as String,
+                  questionId: e['question_id'] as String,
+                  content: e['content'] as String,
+                  isBestAnswer: e['is_best_answer'] as bool,
+                  createdAt: DateTime.parse(e['created_at']),
+                  updatedAt: DateTime.parse(e['updated_at']),
+                  answerer: Profile(
+                    id: e['user_id'] as String,
+                    imageUrl: e['profiles']['image_url'] as String?,
+                    nickname: e['profiles']['nickname'] as String,
+                    universityName: e['profiles']['university_name'] as String,
+                  ),
+                  questionTitle: e['questions']['title'] as String,
+                  questionerId: e['questions']['user_id'] as String,
+                  questionerImageUrl:
+                      e['questions']['profile']['image_url'] as String?,
+                );
+              },
+            ).toList();
+          },
+        );
+  }
 }
