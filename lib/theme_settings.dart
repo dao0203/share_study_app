@@ -11,6 +11,8 @@ class ThemeSettings extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(myProfileStateProvider);
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
