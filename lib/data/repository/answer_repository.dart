@@ -5,4 +5,6 @@ abstract interface class AnswerRepository {
   Future<void> addAnswer(String questionId, String content);
   Future<List<Answer>> getAnswersByQuestionIdWithPagination(
       String questionId, int start, int end);
+  Future<List<Answer>> getAnswersByProfileIdWithPagination(
+      String profileId, int start, int end);
 }

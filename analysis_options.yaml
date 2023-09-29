@@ -11,3 +11,7 @@ analyzer:
     - custom_lint
   errors:
     asset_does_not_exist: ignore
+
+custom_lint:
+  rules:
+    - avoid_manual_providers_as_generated_provider_dependency: false

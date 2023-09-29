@@ -5,25 +5,27 @@ import 'package:share_study_app/data/domain/question.dart';
 class QuestionItem extends HookConsumerWidget {
   final Question question;
   final Function() onPressed;
+  final Function() onIconPressed;
 
   const QuestionItem({
     super.key,
     required this.question,
     required this.onPressed,
+    required this.onIconPressed,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () => onPressed(),
-      child: Card(
-        color: Theme.of(context).colorScheme.surface,
-        elevation: 3,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+              onTap: () => onIconPressed(),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: question.questioner.imageUrl != null
@@ -40,67 +42,67 @@ class QuestionItem extends HookConsumerWidget {
                       ),
               ),
             ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        question.questioner.nickname,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      question.questioner.nickname,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '${question.createdAt.month}月${question.createdAt.day}日',
-                        style: const TextStyle(
-                          fontSize: 12,
-                        ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${question.createdAt.month}月${question.createdAt.day}日',
+                      style: const TextStyle(
+                        fontSize: 12,
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: Text(
-                            question.subjectName,
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text(
+                          question.subjectName,
+                          style: const TextStyle(
+                            fontSize: 12,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 16),
-                    ],
-                  ),
-                  Text(
-                    question.title,
-                    style: const TextStyle(
-                      fontSize: 18,
                     ),
+                    const SizedBox(width: 16),
+                  ],
+                ),
+                Text(
+                  question.title,
+                  style: const TextStyle(
+                    fontSize: 18,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Icon(
-                    question.isResolved
-                        ? Icons.check_box
-                        : Icons.check_circle_outline,
-                    color: question.isResolved ? Colors.green : Colors.grey,
-                  ),
-                ],
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Icon(
+                  question.isResolved
+                      ? Icons.check_box
+                      : Icons.check_circle_outline,
+                  color: question.isResolved ? Colors.green : Colors.grey,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -9,23 +9,34 @@ final class SupabaseProfileRepository implements ProfileRepository {
   Future<Profile> getProfile(String id) async {
     return await supabaseClient
         .from('profiles')
-        .select()
+        .select('''
+          id, nickname, image_url, bio, university_name, faculty_name, follow_count, follower_count,
+          activities (question_count, answer_count, best_answer_count)
+        ''')
         .eq('id', id)
         .limit(1)
         .single()
         .then((value) {
-      return Profile(
-        id: value['id'],
-        nickname: value['nickname'] as String,
-        imageUrl: value['image_url'] as String?,
-        universityName: value['university_name'] as String,
-        followCount: value['follow_count'] as int,
-        followerCount: value['follower_count'] as int,
-        facultyName: value['faculty_name'] as String?,
-        departmentName: value['department_name'] as String?,
-        bio: value['bio'] as String?,
-      );
-    });
+          Logger().d('getProfile.value: $value');
+          return Profile(
+            id: value['id'],
+            nickname: value['nickname'] as String,
+            imageUrl: value['image_url'] as String?,
+            universityName: value['university_name'] as String,
+            followCount: value['follow_count'] as int,
+            followerCount: value['follower_count'] as int,
+            questionCount: value['activities']['question_count'] as int,
+            answerCount: value['activities']['answer_count'] as int,
+            bestAnswerCount: value['activities']['best_answer_count'] as int,
+            facultyName: value['faculty_name'] as String?,
+            departmentName: value['department_name'] as String?,
+            bio: value['bio'] as String?,
+          );
+        })
+        .catchError((error, stackTrace) {
+          Logger().e('getProfile.error: $error stackTrace: $stackTrace');
+          throw error;
+        });
   }
 
   @override

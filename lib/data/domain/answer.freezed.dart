@@ -20,6 +20,9 @@ mixin _$Answer {
   String get questionId => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
+  String? get questionerId => throw _privateConstructorUsedError;
+  String? get questionerImageUrl => throw _privateConstructorUsedError;
+  String? get questionTitle => throw _privateConstructorUsedError;
   bool get isBestAnswer => throw _privateConstructorUsedError;
   Profile get answerer => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -39,6 +42,9 @@ abstract class $AnswerCopyWith<$Res> {
       String questionId,
       String content,
       String? imageUrl,
+      String? questionerId,
+      String? questionerImageUrl,
+      String? questionTitle,
       bool isBestAnswer,
       Profile answerer,
       DateTime createdAt,
@@ -64,6 +70,9 @@ class _$AnswerCopyWithImpl<$Res, $Val extends Answer>
     Object? questionId = null,
     Object? content = null,
     Object? imageUrl = freezed,
+    Object? questionerId = freezed,
+    Object? questionerImageUrl = freezed,
+    Object? questionTitle = freezed,
     Object? isBestAnswer = null,
     Object? answerer = null,
     Object? createdAt = null,
@@ -85,6 +94,18 @@ class _$AnswerCopyWithImpl<$Res, $Val extends Answer>
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      questionerId: freezed == questionerId
+          ? _value.questionerId
+          : questionerId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      questionerImageUrl: freezed == questionerImageUrl
+          ? _value.questionerImageUrl
+          : questionerImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      questionTitle: freezed == questionTitle
+          ? _value.questionTitle
+          : questionTitle // ignore: cast_nullable_to_non_nullable
               as String?,
       isBestAnswer: null == isBestAnswer
           ? _value.isBestAnswer
@@ -125,6 +146,9 @@ abstract class _$$_AnswerCopyWith<$Res> implements $AnswerCopyWith<$Res> {
       String questionId,
       String content,
       String? imageUrl,
+      String? questionerId,
+      String? questionerImageUrl,
+      String? questionTitle,
       bool isBestAnswer,
       Profile answerer,
       DateTime createdAt,
@@ -148,6 +172,9 @@ class __$$_AnswerCopyWithImpl<$Res>
     Object? questionId = null,
     Object? content = null,
     Object? imageUrl = freezed,
+    Object? questionerId = freezed,
+    Object? questionerImageUrl = freezed,
+    Object? questionTitle = freezed,
     Object? isBestAnswer = null,
     Object? answerer = null,
     Object? createdAt = null,
@@ -169,6 +196,18 @@ class __$$_AnswerCopyWithImpl<$Res>
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      questionerId: freezed == questionerId
+          ? _value.questionerId
+          : questionerId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      questionerImageUrl: freezed == questionerImageUrl
+          ? _value.questionerImageUrl
+          : questionerImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      questionTitle: freezed == questionTitle
+          ? _value.questionTitle
+          : questionTitle // ignore: cast_nullable_to_non_nullable
               as String?,
       isBestAnswer: null == isBestAnswer
           ? _value.isBestAnswer
@@ -198,6 +237,9 @@ class _$_Answer implements _Answer {
       required this.questionId,
       required this.content,
       this.imageUrl,
+      this.questionerId,
+      this.questionerImageUrl,
+      this.questionTitle,
       required this.isBestAnswer,
       required this.answerer,
       required this.createdAt,
@@ -212,6 +254,12 @@ class _$_Answer implements _Answer {
   @override
   final String? imageUrl;
   @override
+  final String? questionerId;
+  @override
+  final String? questionerImageUrl;
+  @override
+  final String? questionTitle;
+  @override
   final bool isBestAnswer;
   @override
   final Profile answerer;
@@ -222,7 +270,7 @@ class _$_Answer implements _Answer {
 
   @override
   String toString() {
-    return 'Answer(id: $id, questionId: $questionId, content: $content, imageUrl: $imageUrl, isBestAnswer: $isBestAnswer, answerer: $answerer, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Answer(id: $id, questionId: $questionId, content: $content, imageUrl: $imageUrl, questionerId: $questionerId, questionerImageUrl: $questionerImageUrl, questionTitle: $questionTitle, isBestAnswer: $isBestAnswer, answerer: $answerer, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -236,6 +284,12 @@ class _$_Answer implements _Answer {
             (identical(other.content, content) || other.content == content) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
+            (identical(other.questionerId, questionerId) ||
+                other.questionerId == questionerId) &&
+            (identical(other.questionerImageUrl, questionerImageUrl) ||
+                other.questionerImageUrl == questionerImageUrl) &&
+            (identical(other.questionTitle, questionTitle) ||
+                other.questionTitle == questionTitle) &&
             (identical(other.isBestAnswer, isBestAnswer) ||
                 other.isBestAnswer == isBestAnswer) &&
             (identical(other.answerer, answerer) ||
@@ -247,8 +301,19 @@ class _$_Answer implements _Answer {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, questionId, content,
-      imageUrl, isBestAnswer, answerer, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      questionId,
+      content,
+      imageUrl,
+      questionerId,
+      questionerImageUrl,
+      questionTitle,
+      isBestAnswer,
+      answerer,
+      createdAt,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -263,6 +328,9 @@ abstract class _Answer implements Answer {
       required final String questionId,
       required final String content,
       final String? imageUrl,
+      final String? questionerId,
+      final String? questionerImageUrl,
+      final String? questionTitle,
       required final bool isBestAnswer,
       required final Profile answerer,
       required final DateTime createdAt,
@@ -276,6 +344,12 @@ abstract class _Answer implements Answer {
   String get content;
   @override
   String? get imageUrl;
+  @override
+  String? get questionerId;
+  @override
+  String? get questionerImageUrl;
+  @override
+  String? get questionTitle;
   @override
   bool get isBestAnswer;
   @override

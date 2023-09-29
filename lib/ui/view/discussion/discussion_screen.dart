@@ -8,6 +8,7 @@ import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/question_state.dart';
 import 'package:share_study_app/ui/view/discussion/components/answer_item.dart';
+import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 
 class DiscussionScreen extends StatefulHookConsumerWidget {
   const DiscussionScreen({super.key, required this.questionId});
@@ -74,137 +75,173 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
     }, [commentController]);
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).colorScheme.background,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            question.when(
-              data: (question) {
-                return Column(
-                  children: [
-                    Text(
-                      question.title,
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              question.when(
+                data: (question) {
+                  return Column(
+                    children: [
+                      Text(
+                        question.title,
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 16),
-                    Card(
-                      color: Theme.of(context).colorScheme.secondaryContainer,
-                      elevation: 3,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: question.questioner.imageUrl != null
-                                ? CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        question.questioner.imageUrl!),
-                                    radius: 40,
-                                  )
-                                : Icon(
-                                    Icons.person_outline_outlined,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondaryContainer,
-                                    size: 40,
-                                  ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 8, right: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        question.questioner.nickname,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
-                                          letterSpacing: 1.5,
-                                        ),
+                      const SizedBox(height: 16),
+                      Card(
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                        elevation: 3,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder: (
+                                        context,
+                                        animation1,
+                                        animation2,
+                                      ) =>
+                                          ProfileScreen(
+                                              profileId:
+                                                  question.questioner.id),
+                                      transitionsBuilder: (
+                                        context,
+                                        animation1,
+                                        animation2,
+                                        child,
+                                      ) =>
+                                          SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(1, 0),
+                                          end: Offset.zero,
+                                        ).animate(animation1),
+                                        child: child,
                                       ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Text(
-                                          '${question.createdAt.month}月${question.createdAt.day}日',
+                                      transitionDuration:
+                                          const Duration(milliseconds: 300),
+                                    ),
+                                  );
+                                },
+                                child: question.questioner.imageUrl != null
+                                    ? CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            question.questioner.imageUrl!),
+                                        radius: 40,
+                                      )
+                                    : Icon(
+                                        Icons.person_outline_outlined,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondaryContainer,
+                                        size: 40,
+                                      ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 8, right: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          question.questioner.nickname,
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .onBackground,
                                             letterSpacing: 1.5,
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    question.content,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
-                                      letterSpacing: 2,
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: Text(
+                                            '${question.createdAt.month}月${question.createdAt.day}日',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground,
+                                              letterSpacing: 1.5,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      question.content,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                        letterSpacing: 2,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-              error: (error, stackTrace) {
-                Logger().e('error: $error $stackTrace');
-                return Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        'エラーが発生しました',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Theme.of(context).colorScheme.onBackground,
-                          letterSpacing: 2,
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      ElevatedButton(
-                        onPressed: () => _pagingController.refresh(),
-                        child: const Text('リトライ'),
-                      ),
                     ],
-                  ),
-                );
-              },
-              loading: () => const Center(
-                child: CircularProgressIndicator(),
+                  );
+                },
+                error: (error, stackTrace) {
+                  Logger().e('error: $error $stackTrace');
+                  return Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          'エラーが発生しました',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Theme.of(context).colorScheme.onBackground,
+                            letterSpacing: 2,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        ElevatedButton(
+                          onPressed: () => _pagingController.refresh(),
+                          child: const Text('リトライ'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: RefreshIndicator(
+              const SizedBox(height: 16),
+              RefreshIndicator(
                 onRefresh: () => Future.sync(
                   () => _pagingController.refresh(),
                 ),
-                child: PagedListView(
+                child: PagedListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  separatorBuilder: (context, index) => const Divider(),
                   pagingController: _pagingController,
                   builderDelegate: PagedChildBuilderDelegate<Answer>(
                     itemBuilder: (context, answer, index) {
@@ -215,6 +252,34 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                           child: FadeInAnimation(
                             child: AnswerItem(
                               answer: answer,
+                              onIconPressed: () {
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    pageBuilder: (
+                                      context,
+                                      animation1,
+                                      animation2,
+                                    ) =>
+                                        ProfileScreen(
+                                            profileId: answer.answerer.id),
+                                    transitionsBuilder: (
+                                      context,
+                                      animation1,
+                                      animation2,
+                                      child,
+                                    ) =>
+                                        SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero,
+                                      ).animate(animation1),
+                                      child: child,
+                                    ),
+                                    transitionDuration:
+                                        const Duration(milliseconds: 300),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
@@ -258,22 +323,12 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                         ),
                       ),
                     ),
-                    noMoreItemsIndicatorBuilder: (context) => Center(
-                      child: Text(
-                        'これ以上コメントはありません',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Theme.of(context).colorScheme.onBackground,
-                          letterSpacing: 2,
-                        ),
-                      ),
-                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 70),
-          ],
+              const SizedBox(height: 70),
+            ],
+          ),
         ),
       ),
       bottomSheet: Container(

@@ -173,4 +173,88 @@ final class SupabaseQuestionRepository implements QuestionRepository {
           throw error;
         });
   }
+
+  @override
+  Future<List<Question>> getWithPaginationAndProfileId(
+      int start, int end, String userId) async {
+    return await _client
+        .from('questions')
+        .select<PostgrestList>(''' 
+          id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
+          profiles (nickname,university_name,image_url)
+          ''')
+        .eq('user_id', userId)
+        .range(start, end)
+        .then((value) {
+          Logger().i('getWithPaginationAndUserId.then: $value');
+          return value.map((e) {
+            return Question(
+              //questions
+              id: e['id'] as String,
+              title: e['title'] as String,
+              subjectName: e['subject_name'] as String,
+              content: e['content'] as String,
+              isResolved: e['is_resolved'] as bool,
+              createdAt: DateTime.parse(e['created_at']),
+              updatedAt: DateTime.parse(e['updated_at']),
+              imageUrl: e['image_url'] as String?,
+              //profiles
+              questioner: Profile(
+                id: e['user_id'] as String,
+                nickname: e['profiles']['nickname'] as String,
+                universityName: e['profiles']['university_name'] as String,
+                imageUrl: e['profiles']['image_url'] as String?,
+              ),
+            );
+          }).toList();
+        })
+        .catchError((error, stacktrace) {
+          Logger().e('getWithPaginationAndUserId.error: $error, $stacktrace');
+          throw error;
+        });
+  }
+
+  @override
+  Future<List<Question>> getResolvedWithPaginationAndProfileId(
+      String profileId, int start, int end) async {
+    return await _client
+        .from('questions')
+        .select<PostgrestList>(
+          '''
+  id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
+          profiles (nickname,university_name,image_url)
+''',
+        )
+        .eq('is_resolved', true)
+        .eq('user_id', profileId)
+        .range(start, end)
+        .then((value) {
+          Logger().i('getResolvedWithPaginationAndProfileId.then: $value');
+          return value.map((e) {
+            return Question(
+              //questions
+              id: e['id'] as String,
+              title: e['title'] as String,
+              subjectName: e['subject_name'] as String,
+              content: e['content'] as String,
+              isResolved: e['is_resolved'] as bool,
+              createdAt: DateTime.parse(e['created_at']),
+              updatedAt: DateTime.parse(e['updated_at']),
+              imageUrl: e['image_url'] as String?,
+              //profiles
+              questioner: Profile(
+                id: e['user_id'] as String,
+                nickname: e['profiles']['nickname'] as String,
+                universityName: e['profiles']['university_name'] as String,
+                imageUrl: e['profiles']['image_url'] as String?,
+              ),
+            );
+          }).toList();
+        })
+        .catchError((error, stacktrace) {
+          Logger().e(
+              'getResolvedWithPaginationAndProfileId.error: $error, $stacktrace');
+          throw error;
+        });
+  }
 }

@@ -8,13 +8,10 @@ class ThemeSettings extends HookConsumerWidget {
   const ThemeSettings({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //Edge to edgeの設定
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        // statusBarIconBrightness: Brightness.dark,
-      ),
-    );
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Share_study_app',
@@ -26,6 +23,7 @@ class ThemeSettings extends HookConsumerWidget {
         useMaterial3: true,
         colorScheme: darkColorScheme,
       ),
+      themeMode: ThemeMode.system,
       home: const AuthGate(),
     );
   }

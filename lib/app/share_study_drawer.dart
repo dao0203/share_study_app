@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
+import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 
 class ShareStudyDrawer extends HookConsumerWidget {
   const ShareStudyDrawer({super.key});
@@ -19,17 +20,45 @@ class ShareStudyDrawer extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                myProfileState?.imageUrl != null
-                    ? CircleAvatar(
-                        radius: 60,
-                        backgroundImage:
-                            NetworkImage(myProfileState!.imageUrl!),
-                      )
-                    : Icon(
-                        Icons.account_circle_outlined,
-                        size: 60,
-                        color: Theme.of(context).colorScheme.onSurface,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (
+                          context,
+                          animation1,
+                          animation2,
+                        ) =>
+                            ProfileScreen(profileId: myProfileState!.id),
+                        transitionsBuilder: (
+                          context,
+                          animation1,
+                          animation2,
+                          child,
+                        ) =>
+                            SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(1, 0),
+                            end: Offset.zero,
+                          ).animate(animation1),
+                          child: child,
+                        ),
+                        transitionDuration: const Duration(milliseconds: 300),
                       ),
+                    );
+                  },
+                  child: myProfileState?.imageUrl != null
+                      ? CircleAvatar(
+                          radius: 60,
+                          backgroundImage:
+                              NetworkImage(myProfileState!.imageUrl!),
+                        )
+                      : Icon(
+                          Icons.account_circle_outlined,
+                          size: 60,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                ),
                 Text(
                   myProfileState?.nickname ?? '',
                   style: TextStyle(
@@ -97,7 +126,33 @@ class ShareStudyDrawer extends HookConsumerWidget {
           ListTile(
             leading: const Icon(Icons.person_outline_outlined),
             title: const Text('プロフィール'),
-            onTap: () {},
+            onTap: () {
+              if (myProfileState == null) return;
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (
+                    context,
+                    animation1,
+                    animation2,
+                  ) =>
+                      ProfileScreen(profileId: myProfileState.id),
+                  transitionsBuilder: (
+                    context,
+                    animation1,
+                    animation2,
+                    child,
+                  ) =>
+                      SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(1, 0),
+                      end: Offset.zero,
+                    ).animate(animation1),
+                    child: child,
+                  ),
+                  transitionDuration: const Duration(milliseconds: 300),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.info_outline),

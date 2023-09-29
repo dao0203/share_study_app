@@ -8,6 +8,7 @@ import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/question_post_fab.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
+import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/ui/view/question_post/question_post_screen.dart';
 import 'package:share_study_app/ui/components/question_item.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -63,6 +64,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
     return Scaffold(
       key: scaffoldKey.value,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).colorScheme.background,
         leading: IconButton(
           icon: const Icon(Icons.account_circle_outlined),
@@ -105,7 +107,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
           );
         },
         child: PagedListView.separated(
-          separatorBuilder: (context, index) => const SizedBox(height: 8),
+          separatorBuilder: (context, index) => const Divider(),
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<Question>(
             firstPageErrorIndicatorBuilder: (context) {
@@ -134,6 +136,32 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                 child: FadeInAnimation(
                   child: QuestionItem(
                     question: question,
+                    onIconPressed: () {
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          pageBuilder: (
+                            context,
+                            animation1,
+                            animation2,
+                          ) =>
+                              ProfileScreen(profileId: question.questioner.id),
+                          transitionsBuilder: (
+                            context,
+                            animation1,
+                            animation2,
+                            child,
+                          ) =>
+                              SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: Offset.zero,
+                            ).animate(animation1),
+                            child: child,
+                          ),
+                          transitionDuration: const Duration(milliseconds: 300),
+                        ),
+                      );
+                    },
                     onPressed: () {
                       Navigator.of(context).push(
                         PageRouteBuilder(

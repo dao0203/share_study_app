@@ -56,6 +56,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     return Scaffold(
       key: scaffoldKey.value,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.account_circle_outlined),
           onPressed: () {
@@ -131,9 +132,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
             ),
             noItemsFoundIndicatorBuilder: (context) => const Center(
               child: Text('通知はありません。'),
-            ),
-            noMoreItemsIndicatorBuilder: (context) => const Center(
-              child: Text('これ以上通知はありません。'),
             ),
           ),
         ),

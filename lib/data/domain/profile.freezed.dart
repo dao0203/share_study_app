@@ -19,8 +19,11 @@ mixin _$Profile {
   String get id => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
   String get universityName => throw _privateConstructorUsedError;
-  int get followCount => throw _privateConstructorUsedError;
-  int get followerCount => throw _privateConstructorUsedError;
+  int? get followCount => throw _privateConstructorUsedError;
+  int? get followerCount => throw _privateConstructorUsedError;
+  int? get questionCount => throw _privateConstructorUsedError;
+  int? get answerCount => throw _privateConstructorUsedError;
+  int? get bestAnswerCount => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
   String? get facultyName => throw _privateConstructorUsedError;
   String? get departmentName => throw _privateConstructorUsedError;
@@ -40,8 +43,11 @@ abstract class $ProfileCopyWith<$Res> {
       {String id,
       String nickname,
       String universityName,
-      int followCount,
-      int followerCount,
+      int? followCount,
+      int? followerCount,
+      int? questionCount,
+      int? answerCount,
+      int? bestAnswerCount,
       String? imageUrl,
       String? facultyName,
       String? departmentName,
@@ -65,8 +71,11 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
     Object? id = null,
     Object? nickname = null,
     Object? universityName = null,
-    Object? followCount = null,
-    Object? followerCount = null,
+    Object? followCount = freezed,
+    Object? followerCount = freezed,
+    Object? questionCount = freezed,
+    Object? answerCount = freezed,
+    Object? bestAnswerCount = freezed,
     Object? imageUrl = freezed,
     Object? facultyName = freezed,
     Object? departmentName = freezed,
@@ -86,14 +95,26 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
           ? _value.universityName
           : universityName // ignore: cast_nullable_to_non_nullable
               as String,
-      followCount: null == followCount
+      followCount: freezed == followCount
           ? _value.followCount
           : followCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      followerCount: null == followerCount
+              as int?,
+      followerCount: freezed == followerCount
           ? _value.followerCount
           : followerCount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      questionCount: freezed == questionCount
+          ? _value.questionCount
+          : questionCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      answerCount: freezed == answerCount
+          ? _value.answerCount
+          : answerCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      bestAnswerCount: freezed == bestAnswerCount
+          ? _value.bestAnswerCount
+          : bestAnswerCount // ignore: cast_nullable_to_non_nullable
+              as int?,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -129,8 +150,11 @@ abstract class _$$_ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
       {String id,
       String nickname,
       String universityName,
-      int followCount,
-      int followerCount,
+      int? followCount,
+      int? followerCount,
+      int? questionCount,
+      int? answerCount,
+      int? bestAnswerCount,
       String? imageUrl,
       String? facultyName,
       String? departmentName,
@@ -151,8 +175,11 @@ class __$$_ProfileCopyWithImpl<$Res>
     Object? id = null,
     Object? nickname = null,
     Object? universityName = null,
-    Object? followCount = null,
-    Object? followerCount = null,
+    Object? followCount = freezed,
+    Object? followerCount = freezed,
+    Object? questionCount = freezed,
+    Object? answerCount = freezed,
+    Object? bestAnswerCount = freezed,
     Object? imageUrl = freezed,
     Object? facultyName = freezed,
     Object? departmentName = freezed,
@@ -172,14 +199,26 @@ class __$$_ProfileCopyWithImpl<$Res>
           ? _value.universityName
           : universityName // ignore: cast_nullable_to_non_nullable
               as String,
-      followCount: null == followCount
+      followCount: freezed == followCount
           ? _value.followCount
           : followCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      followerCount: null == followerCount
+              as int?,
+      followerCount: freezed == followerCount
           ? _value.followerCount
           : followerCount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      questionCount: freezed == questionCount
+          ? _value.questionCount
+          : questionCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      answerCount: freezed == answerCount
+          ? _value.answerCount
+          : answerCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      bestAnswerCount: freezed == bestAnswerCount
+          ? _value.bestAnswerCount
+          : bestAnswerCount // ignore: cast_nullable_to_non_nullable
+              as int?,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -211,8 +250,11 @@ class _$_Profile implements _Profile {
       {required this.id,
       required this.nickname,
       required this.universityName,
-      this.followCount = -1,
-      this.followerCount = -1,
+      this.followCount,
+      this.followerCount,
+      this.questionCount,
+      this.answerCount,
+      this.bestAnswerCount,
       this.imageUrl,
       this.facultyName,
       this.departmentName,
@@ -226,11 +268,15 @@ class _$_Profile implements _Profile {
   @override
   final String universityName;
   @override
-  @JsonKey()
-  final int followCount;
+  final int? followCount;
   @override
-  @JsonKey()
-  final int followerCount;
+  final int? followerCount;
+  @override
+  final int? questionCount;
+  @override
+  final int? answerCount;
+  @override
+  final int? bestAnswerCount;
   @override
   final String? imageUrl;
   @override
@@ -244,7 +290,7 @@ class _$_Profile implements _Profile {
 
   @override
   String toString() {
-    return 'Profile(id: $id, nickname: $nickname, universityName: $universityName, followCount: $followCount, followerCount: $followerCount, imageUrl: $imageUrl, facultyName: $facultyName, departmentName: $departmentName, grade: $grade, bio: $bio)';
+    return 'Profile(id: $id, nickname: $nickname, universityName: $universityName, followCount: $followCount, followerCount: $followerCount, questionCount: $questionCount, answerCount: $answerCount, bestAnswerCount: $bestAnswerCount, imageUrl: $imageUrl, facultyName: $facultyName, departmentName: $departmentName, grade: $grade, bio: $bio)';
   }
 
   @override
@@ -261,6 +307,12 @@ class _$_Profile implements _Profile {
                 other.followCount == followCount) &&
             (identical(other.followerCount, followerCount) ||
                 other.followerCount == followerCount) &&
+            (identical(other.questionCount, questionCount) ||
+                other.questionCount == questionCount) &&
+            (identical(other.answerCount, answerCount) ||
+                other.answerCount == answerCount) &&
+            (identical(other.bestAnswerCount, bestAnswerCount) ||
+                other.bestAnswerCount == bestAnswerCount) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.facultyName, facultyName) ||
@@ -279,6 +331,9 @@ class _$_Profile implements _Profile {
       universityName,
       followCount,
       followerCount,
+      questionCount,
+      answerCount,
+      bestAnswerCount,
       imageUrl,
       facultyName,
       departmentName,
@@ -297,8 +352,11 @@ abstract class _Profile implements Profile {
       {required final String id,
       required final String nickname,
       required final String universityName,
-      final int followCount,
-      final int followerCount,
+      final int? followCount,
+      final int? followerCount,
+      final int? questionCount,
+      final int? answerCount,
+      final int? bestAnswerCount,
       final String? imageUrl,
       final String? facultyName,
       final String? departmentName,
@@ -312,9 +370,15 @@ abstract class _Profile implements Profile {
   @override
   String get universityName;
   @override
-  int get followCount;
+  int? get followCount;
   @override
-  int get followerCount;
+  int? get followerCount;
+  @override
+  int? get questionCount;
+  @override
+  int? get answerCount;
+  @override
+  int? get bestAnswerCount;
   @override
   String? get imageUrl;
   @override
