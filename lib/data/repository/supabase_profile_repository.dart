@@ -10,7 +10,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
     return await supabaseClient
         .from('profiles')
         .select('''
-          id, nickname, image_url, university_name, faculty_name, follow_count, follower_count,
+          id, nickname, image_url, bio, university_name, faculty_name, follow_count, follower_count,
           activities (question_count, answer_count, best_answer_count)
         ''')
         .eq('id', id)
