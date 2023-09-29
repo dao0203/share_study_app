@@ -42,7 +42,7 @@ class _QuetionTabState extends ConsumerState<QuetionTab>
     try {
       final newItems = await ref
           .read(questionRepositoryProvider)
-          .getWithPaginationAndUserId(
+          .getWithPaginationAndProfileId(
               pageKey, _pageSize + pageKey, widget.profileId);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {

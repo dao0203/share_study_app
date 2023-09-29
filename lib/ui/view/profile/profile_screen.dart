@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/ui/state/activity_profile_state.dart';
+import 'package:share_study_app/ui/view/profile/resolved_question_tab.dart';
 import 'package:share_study_app/ui/view/profile/quetion_tab.dart';
 
 class ProfileScreen extends StatefulHookConsumerWidget {
@@ -113,7 +114,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   tabBar: TabBar(
                     tabs: [
                       Tab(text: '質問'),
-                      Tab(text: '実績'),
+                      Tab(text: '解決済み'),
                     ],
                   ),
                 ),
@@ -123,7 +124,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           body: TabBarView(
             children: [
               QuetionTab(profileId: widget.profileId),
-              const Text('実績'),
+              ResolvedQuestionTab(profileId: widget.profileId),
             ],
           ),
         ),
