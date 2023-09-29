@@ -59,83 +59,88 @@ class _QuetionTabState extends ConsumerState<QuetionTab>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return PagedListView.separated(
-      pagingController: _pagingController,
-      builderDelegate: PagedChildBuilderDelegate<Question>(
-        itemBuilder: (context, question, index) =>
-            AnimationConfiguration.staggeredList(
-          position: index,
-          child: FadeInAnimation(
-            child: QuestionItem(
-              question: question,
-              onIconPressed: () {},
-              onPressed: () {
-                Navigator.of(context).push(
-                  PageRouteBuilder(
-                    pageBuilder: (
-                      context,
-                      animation1,
-                      animation2,
-                    ) =>
-                        DiscussionScreen(questionId: question.id),
-                    transitionsBuilder: (
-                      context,
-                      animation1,
-                      animation2,
-                      child,
-                    ) =>
-                        SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(1, 0),
-                        end: Offset.zero,
-                      ).animate(animation1),
-                      child: child,
+    return RefreshIndicator(
+      onRefresh: () => Future.sync(
+        () => _pagingController.refresh(),
+      ),
+      child: PagedListView.separated(
+        pagingController: _pagingController,
+        builderDelegate: PagedChildBuilderDelegate<Question>(
+          itemBuilder: (context, question, index) =>
+              AnimationConfiguration.staggeredList(
+            position: index,
+            child: FadeInAnimation(
+              child: QuestionItem(
+                question: question,
+                onIconPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (
+                        context,
+                        animation1,
+                        animation2,
+                      ) =>
+                          DiscussionScreen(questionId: question.id),
+                      transitionsBuilder: (
+                        context,
+                        animation1,
+                        animation2,
+                        child,
+                      ) =>
+                          SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(1, 0),
+                          end: Offset.zero,
+                        ).animate(animation1),
+                        child: child,
+                      ),
+                      transitionDuration: const Duration(milliseconds: 300),
                     ),
-                    transitionDuration: const Duration(milliseconds: 300),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
+          firstPageProgressIndicatorBuilder: (context) {
+            return const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text('質問を取得中...'),
+              ],
+            );
+          },
+          newPageErrorIndicatorBuilder: (context) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('エラーが発生しました'),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => _pagingController.retryLastFailedRequest(),
+                  child: const Text('再読み込み'),
+                ),
+              ],
+            );
+          },
+          firstPageErrorIndicatorBuilder: (context) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('エラーが発生しました'),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => _pagingController.refresh(),
+                  child: const Text('再読み込み'),
+                ),
+              ],
+            );
+          },
         ),
-        firstPageProgressIndicatorBuilder: (context) {
-          return const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height: 16),
-              Text('質問を取得中...'),
-            ],
-          );
-        },
-        newPageErrorIndicatorBuilder: (context) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('エラーが発生しました'),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => _pagingController.retryLastFailedRequest(),
-                child: const Text('再読み込み'),
-              ),
-            ],
-          );
-        },
-        firstPageErrorIndicatorBuilder: (context) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('エラーが発生しました'),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => _pagingController.refresh(),
-                child: const Text('再読み込み'),
-              ),
-            ],
-          );
-        },
+        separatorBuilder: (context, index) => const Divider(),
       ),
-      separatorBuilder: (context, index) => const Divider(),
     );
   }
 }
