@@ -51,6 +51,7 @@ class _AnswerTabState extends ConsumerState<ResolvedQuestionTab>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RefreshIndicator(
       onRefresh: () => Future.sync(
         () => _pagingController.refresh(),
