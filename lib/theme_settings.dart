@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/auth_gate.dart';
+import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/ui/theme/colors.dart';
 
 class ThemeSettings extends HookConsumerWidget {
   const ThemeSettings({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(myProfileStateProvider);
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     return MaterialApp(
