@@ -13,7 +13,8 @@ class AuthGate extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final splashState = ref.watch(splashStateProvider);
-    final myProfileState = ref.watch(myProfileStateProvider);
+
+    ref.watch(myProfileStateProvider);
     return splashState.when(
         data: (splashTo) {
           Logger().i(splashTo);
