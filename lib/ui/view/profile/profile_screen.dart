@@ -37,6 +37,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 delegate: SliverChildListDelegate(
                   [
                     profileState.when(
+                      skipLoadingOnReload: true,
+                      skipLoadingOnRefresh: true,
                       data: (data) => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -86,7 +88,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                           .read(
                                                               profileRepositoryProvider)
                                                           .unfollow(
-                                                              data.profile.id);
+                                                              data.profile.id)
+                                                          .then((value) {
+                                                        //フォロー数を1減らす
+                                                        ref
+                                                            .watch(activityProfileStateProvider(
+                                                                    widget
+                                                                        .profileId)
+                                                                .notifier)
+                                                            .decrementFollowCount();
+                                                      });
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
@@ -112,7 +123,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                           .read(
                                                               profileRepositoryProvider)
                                                           .follow(
-                                                              data.profile.id);
+                                                              data.profile.id)
+                                                          .then((value) {
+                                                        //フォロー数を1増やす
+                                                        ref
+                                                            .watch(activityProfileStateProvider(
+                                                                    widget
+                                                                        .profileId)
+                                                                .notifier)
+                                                            .incrementFollowCount();
+                                                      });
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
