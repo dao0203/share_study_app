@@ -96,7 +96,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                                     widget
                                                                         .profileId)
                                                                 .notifier)
-                                                            .decrementFollowCount();
+                                                            .decrementFollowerCount();
                                                       });
                                                     },
                                                     style: ElevatedButton
@@ -131,7 +131,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                                     widget
                                                                         .profileId)
                                                                 .notifier)
-                                                            .incrementFollowCount();
+                                                            .incrementFollowerCount();
                                                       });
                                                     },
                                                     style: ElevatedButton
@@ -260,9 +260,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         ],
                       ),
                       error: (error, stackTrace) =>
-                          Text(error.toString() + stackTrace.toString()),
-                      loading: () =>
-                          const Center(child: CircularProgressIndicator()),
+                          const Center(child: Text('エラーが発生しました')),
+                      loading: () => const SizedBox(),
                     ),
                   ],
                 ),
