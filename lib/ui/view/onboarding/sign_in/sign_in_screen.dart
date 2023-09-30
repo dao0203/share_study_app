@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/auth_gate.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/state/my_profile_state.dart';
+import 'package:share_study_app/ui/state/splash_state.dart';
 import 'package:share_study_app/ui/view/onboarding/sign_up/sign_up_screen.dart';
 
 class SignInScreen extends HookConsumerWidget {
@@ -108,6 +110,10 @@ class SignInScreen extends HookConsumerWidget {
                             passwordController.text,
                           )
                               .then((value) {
+                            // ignore: unused_result
+                            ref.refresh(splashStateProvider);
+                            // ignore: unused_result
+                            ref.refresh(myProfileStateProvider);
                             Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                 builder: (context) => const AuthGate(),

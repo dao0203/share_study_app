@@ -74,13 +74,18 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                 await ref
                     .watch(profileRepositoryProvider)
                     .updateProfile(myProfileState.value)
-                    .then((value) {
-                  Navigator.of(context).pushAndRemoveUntil(
+                    .then(
+                  (value) {
+                    // ignore: unused_result
+                    ref.refresh(myProfileStateProvider);
+                    Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                         builder: (context) => const ShareStudyApp(),
                       ),
-                      (route) => false);
-                });
+                      (route) => false,
+                    );
+                  },
+                );
               }
             },
             label: Text(
