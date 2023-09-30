@@ -66,7 +66,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
       'following_profile_id': supabaseClient.auth.currentUser!.id,
       'followed_profile_id': profileId,
     }).then((value) {
-      Logger().d('follow.value: $value');
+      Logger().d('正常にフォローしました。');
     }).catchError((error) {
       Logger().e('follow.error: $error');
       throw error;
@@ -79,12 +79,25 @@ final class SupabaseProfileRepository implements ProfileRepository {
         .from('follows')
         .delete()
         .eq('followed_profile_id', profileId)
-        .eq('following_profile_id', supabaseClient.auth.currentUser!.id)
         .then((value) {
-      Logger().d('unfollow.value: $value');
+      Logger().d('正常にフォローを解除しました。');
     }).catchError((error) {
       Logger().e('unfollow.error: $error');
       throw error;
     });
+  }
+
+  @override
+  Stream<bool> isFollowing(String profileId) {
+    Logger().d('isFollowing.profileId: $profileId');
+    return supabaseClient
+        .from('follows')
+        .stream(primaryKey: ['id'])
+        .eq('followed_profile_id', profileId)
+        .map((event) => event.isNotEmpty)
+        .handleError((error, stackTrace) {
+          Logger().e('isFollowing.error: $error stackTrace: $stackTrace');
+          throw error;
+        });
   }
 }

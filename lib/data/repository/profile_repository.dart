@@ -4,5 +4,6 @@ abstract interface class ProfileRepository {
   Future<Profile> getProfile(String id);
   Future<void> follow(String profileId);
   Future<void> unfollow(String profileId);
+  Stream<bool> isFollowing(String profileId);
   Future<void> updateProfile(Profile profile);
 }
