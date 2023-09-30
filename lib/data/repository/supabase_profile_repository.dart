@@ -59,4 +59,16 @@ final class SupabaseProfileRepository implements ProfileRepository {
           Logger().e('updateProfile.error: $error');
         });
   }
+
+  @override
+  Future<void> follow(String profileId) {
+    // TODO: implement follow
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> unfollow(String profileId) {
+    // TODO: implement unfollow
+    throw UnimplementedError();
+  }
 }
