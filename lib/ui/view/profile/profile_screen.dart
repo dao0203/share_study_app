@@ -2,7 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/activity_profile_state.dart';
+import 'package:share_study_app/ui/state/is_following_state.dart';
 import 'package:share_study_app/ui/view/profile/resolved_question_tab.dart';
 import 'package:share_study_app/ui/view/profile/quetion_tab.dart';
 
@@ -39,7 +41,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.only(left: 16),
                             child: Row(
                               children: [
                                 //ユーザー画像
@@ -62,53 +64,90 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       ),
                                 //ユーザー名
                                 const SizedBox(width: 16),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data.profile.nickname,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: data.profile.followCount
-                                                .toString(),
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {},
-                                          ),
-                                          const TextSpan(text: ' フォロー'),
-                                          const TextSpan(text: '   '),
-                                          TextSpan(
-                                            text: data.profile.followerCount
-                                                .toString(),
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {},
-                                          ),
-                                          const TextSpan(text: ' フォロワー'),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
                                 //フォローボタン
                                 data.isMyProfile
                                     ? const SizedBox()
-                                    : ElevatedButton(
-                                        onPressed: () {},
-                                        child: const Text('フォロー'),
-                                      ),
+                                    : ref
+                                        .watch(isFollowingStateProvider(
+                                            widget.profileId))
+                                        .when(
+                                          skipError: true,
+                                          skipLoadingOnRefresh: true,
+                                          data: (isFollowing) {
+                                            Logger()
+                                                .d('isFollowing: $isFollowing');
+                                            return isFollowing
+                                                ? ElevatedButton(
+                                                    onPressed: () async {
+                                                      //フォローを解除する
+                                                      await ref
+                                                          .read(
+                                                              profileRepositoryProvider)
+                                                          .unfollow(
+                                                              data.profile.id);
+                                                    },
+                                                    child: const Text('フォロー中'),
+                                                  )
+                                                : ElevatedButton(
+                                                    onPressed: () async {
+                                                      //フォローする
+                                                      await ref
+                                                          .read(
+                                                              profileRepositoryProvider)
+                                                          .follow(
+                                                              data.profile.id);
+                                                    },
+                                                    child: const Text('フォロー'),
+                                                  );
+                                          },
+                                          error: (error, stackTrace) {
+                                            Logger().e(
+                                                'error: $error stackTrace: $stackTrace');
+                                            return const Text('error');
+                                          },
+                                          loading: () {
+                                            return const SizedBox();
+                                          },
+                                        ),
                               ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Text(
+                              data.profile.nickname,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: data.profile.followCount.toString(),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {},
+                                  ),
+                                  const TextSpan(text: ' フォロー'),
+                                  const TextSpan(text: '   '),
+                                  TextSpan(
+                                    text: data.profile.followerCount.toString(),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {},
+                                  ),
+                                  const TextSpan(text: ' フォロワー'),
+                                ],
+                              ),
                             ),
                           ),
                           //自己紹介
