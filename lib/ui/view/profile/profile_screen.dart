@@ -41,8 +41,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Row(
+                              //外いっぱいに広げる
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 //ユーザー画像
                                 data.profile.imageUrl != null
@@ -86,7 +88,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                           .unfollow(
                                                               data.profile.id);
                                                     },
-                                                    child: const Text('フォロー中'),
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Theme.of(context)
+                                                              .colorScheme
+                                                              .inversePrimary,
+                                                      elevation: 10,
+                                                    ),
+                                                    child: Text(
+                                                      'フォロー中',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .onBackground,
+                                                      ),
+                                                    ),
                                                   )
                                                 : ElevatedButton(
                                                     onPressed: () async {
@@ -97,7 +114,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                           .follow(
                                                               data.profile.id);
                                                     },
-                                                    child: const Text('フォロー'),
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Theme.of(context)
+                                                              .colorScheme
+                                                              .onSurface,
+                                                      elevation: 10,
+                                                    ),
+                                                    child: Text(
+                                                      'フォローする',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .background,
+                                                      ),
+                                                    ),
                                                   );
                                           },
                                           error: (error, stackTrace) {
