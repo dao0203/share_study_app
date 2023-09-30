@@ -6,7 +6,7 @@ part of 'is_following_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$isFollowingStateHash() => r'60761a87cc461e08bd6e2e17bd3de45324afabcf';
+String _$isFollowingStateHash() => r'c20345b01bc2c0457df67bee151426767217b9c8';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,10 +30,10 @@ class _SystemHash {
 }
 
 abstract class _$IsFollowingState
-    extends BuildlessAutoDisposeStreamNotifier<bool> {
+    extends BuildlessAutoDisposeAsyncNotifier<bool> {
   late final String profileId;
 
-  Stream<bool> build(
+  Future<bool> build(
     String profileId,
   );
 }
@@ -82,7 +82,7 @@ class IsFollowingStateFamily extends Family<AsyncValue<bool>> {
 
 /// See also [IsFollowingState].
 class IsFollowingStateProvider
-    extends AutoDisposeStreamNotifierProviderImpl<IsFollowingState, bool> {
+    extends AutoDisposeAsyncNotifierProviderImpl<IsFollowingState, bool> {
   /// See also [IsFollowingState].
   IsFollowingStateProvider(
     String profileId,
@@ -113,7 +113,7 @@ class IsFollowingStateProvider
   final String profileId;
 
   @override
-  Stream<bool> runNotifierBuild(
+  Future<bool> runNotifierBuild(
     covariant IsFollowingState notifier,
   ) {
     return notifier.build(
@@ -138,7 +138,7 @@ class IsFollowingStateProvider
   }
 
   @override
-  AutoDisposeStreamNotifierProviderElement<IsFollowingState, bool>
+  AutoDisposeAsyncNotifierProviderElement<IsFollowingState, bool>
       createElement() {
     return _IsFollowingStateProviderElement(this);
   }
@@ -157,13 +157,13 @@ class IsFollowingStateProvider
   }
 }
 
-mixin IsFollowingStateRef on AutoDisposeStreamNotifierProviderRef<bool> {
+mixin IsFollowingStateRef on AutoDisposeAsyncNotifierProviderRef<bool> {
   /// The parameter `profileId` of this provider.
   String get profileId;
 }
 
 class _IsFollowingStateProviderElement
-    extends AutoDisposeStreamNotifierProviderElement<IsFollowingState, bool>
+    extends AutoDisposeAsyncNotifierProviderElement<IsFollowingState, bool>
     with IsFollowingStateRef {
   _IsFollowingStateProviderElement(super.provider);
 

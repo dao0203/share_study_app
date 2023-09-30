@@ -6,7 +6,7 @@ part 'is_following_state.g.dart';
 @riverpod
 class IsFollowingState extends _$IsFollowingState {
   @override
-  Stream<bool> build(String profileId) {
+  Future<bool> build(String profileId) {
     return ref.watch(profileRepositoryProvider).isFollowing(profileId);
   }
 }
