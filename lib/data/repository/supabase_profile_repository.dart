@@ -61,14 +61,30 @@ final class SupabaseProfileRepository implements ProfileRepository {
   }
 
   @override
-  Future<void> follow(String profileId) {
-    // TODO: implement follow
-    throw UnimplementedError();
+  Future<void> follow(String profileId) async {
+    await supabaseClient.from('follows').insert({
+      'following_profile_id': supabaseClient.auth.currentUser!.id,
+      'followed_profile_id': profileId,
+    }).then((value) {
+      Logger().d('follow.value: $value');
+    }).catchError((error) {
+      Logger().e('follow.error: $error');
+      throw error;
+    });
   }
 
   @override
-  Future<void> unfollow(String profileId) {
-    // TODO: implement unfollow
-    throw UnimplementedError();
+  Future<void> unfollow(String profileId) async {
+    await supabaseClient
+        .from('follows')
+        .delete()
+        .eq('followed_profile_id', profileId)
+        .eq('following_profile_id', supabaseClient.auth.currentUser!.id)
+        .then((value) {
+      Logger().d('unfollow.value: $value');
+    }).catchError((error) {
+      Logger().e('unfollow.error: $error');
+      throw error;
+    });
   }
 }
