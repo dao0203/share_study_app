@@ -61,14 +61,48 @@ final class SupabaseProfileRepository implements ProfileRepository {
   }
 
   @override
-  Future<void> follow(String profileId) {
-    // TODO: implement follow
-    throw UnimplementedError();
+  Future<void> follow(String profileId) async {
+    await supabaseClient.from('follows').insert({
+      'following_profile_id': supabaseClient.auth.currentUser!.id,
+      'followed_profile_id': profileId,
+    }).then((value) {
+      Logger().d('正常にフォローしました。');
+    }).catchError((error) {
+      Logger().e('follow.error: $error');
+      throw error;
+    });
   }
 
   @override
-  Future<void> unfollow(String profileId) {
-    // TODO: implement unfollow
-    throw UnimplementedError();
+  Future<void> unfollow(String profileId) async {
+    await supabaseClient
+        .from('follows')
+        .delete()
+        .eq('followed_profile_id', profileId)
+        .eq('following_profile_id', supabaseClient.auth.currentUser!.id)
+        .then((value) {
+      Logger().d('正常にフォローを解除しました。');
+    }).catchError((error) {
+      Logger().e('unfollow.error: $error');
+      throw error;
+    });
+  }
+
+  @override
+  Future<bool> isFollowing(String profileId) {
+    Logger().d('isFollowing.profileId: $profileId');
+    return supabaseClient
+        .from('follows')
+        .select('followed_profile_id')
+        .eq('followed_profile_id', profileId)
+        .eq('following_profile_id', supabaseClient.auth.currentUser!.id)
+        .limit(1)
+        .then((value) {
+      Logger().d('isFollowing.value: $value');
+      return value != null && value.isNotEmpty;
+    }).catchError((error) {
+      Logger().e('isFollowing.error: $error');
+      throw error;
+    });
   }
 }

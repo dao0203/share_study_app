@@ -7,7 +7,23 @@ part 'activity_profile_state.g.dart';
 @riverpod
 class ActivityProfileState extends _$ActivityProfileState {
   @override
-  FutureOr<ActivityProfile> build(String param) async {
+  Future<ActivityProfile> build(String param) async {
     return ref.watch(getProfileUseCaseProvider).call(param);
+  }
+
+  void incrementFollowerCount() async {
+    state = const AsyncValue.loading();
+    update((p0) => p0.copyWith(
+        profile:
+            p0.profile.copyWith(followerCount: p0.profile.followerCount! + 1)));
+    state = AsyncValue.data(state.value!);
+  }
+
+  void decrementFollowerCount() {
+    state = const AsyncValue.loading();
+    update((p0) => p0.copyWith(
+        profile:
+            p0.profile.copyWith(followerCount: p0.profile.followerCount! - 1)));
+    state = AsyncValue.data(state.value!);
   }
 }
