@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
-import 'package:share_study_app/ui/components/follow_item.dart';
+import 'package:share_study_app/ui/view/follow/components/follow_item.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 
 class FollowerTab extends StatefulHookConsumerWidget {
