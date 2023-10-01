@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
+import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 
 class ShareStudyDrawer extends HookConsumerWidget {
@@ -60,7 +61,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                         ),
                 ),
                 Text(
-                  myProfileState?.nickname ?? '',
+                  limitTextTenChars(myProfileState?.nickname ?? ''),
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 20,

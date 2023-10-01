@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/answer.dart';
+import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
 
 class AnswerItem extends HookConsumerWidget {
   const AnswerItem(
@@ -23,7 +24,7 @@ class AnswerItem extends HookConsumerWidget {
                   ? CircleAvatar(
                       backgroundColor: Theme.of(context).colorScheme.background,
                       backgroundImage: const NetworkImage(
-                          //ミャウミャウ
+                          //TODO: ミャウミャウにしているので、変える必要あり
                           'https://purr.objects-us-east-1.dream.io/i/1222.jpg'),
                       radius: 20,
                     )
@@ -42,7 +43,7 @@ class AnswerItem extends HookConsumerWidget {
               Row(
                 children: [
                   Text(
-                    answer.answerer.nickname,
+                    limitTextTenChars(answer.answerer.nickname),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
