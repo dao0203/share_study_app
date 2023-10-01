@@ -105,4 +105,69 @@ final class SupabaseProfileRepository implements ProfileRepository {
       throw error;
     });
   }
+
+  @override
+  Future<List<Profile>> getFollowersWithPagination(
+      String profileId, int start, int end) async {
+    return await supabaseClient
+        .from('follows')
+        .select<PostgrestList>('''
+      following_profile_id (id, nickname, image_url, bio, university_name, faculty_name, follow_count, follower_count)
+    ''')
+        .eq('followed_profile_id', profileId)
+        .order('followed_at', ascending: false)
+        .range(start, end)
+        .then((value) {
+          Logger().d('getFollowers.value: $value');
+          return value
+              .map((e) => Profile(
+                    id: e['following_profile_id']['id'],
+                    nickname: e['following_profile_id']['nickname'],
+                    imageUrl: e['following_profile_id']['image_url'],
+                    bio: e['following_profile_id']['bio'],
+                    universityName: e['following_profile_id']
+                        ['university_name'],
+                    facultyName: e['following_profile_id']['faculty_name'],
+                    followCount: e['following_profile_id']['follow_count'],
+                    followerCount: e['following_profile_id']['follower_count'],
+                  ))
+              .toList();
+        })
+        .catchError((error) {
+          Logger().e('getFollowers.error: $error');
+          throw error;
+        });
+  }
+
+  @override
+  Future<List<Profile>> getFollowingWithpagination(
+      String profileId, int start, int end) async {
+    return await supabaseClient
+        .from('follows')
+        .select<PostgrestList>('''
+      followed_profile_id (id, nickname, image_url, bio, university_name, faculty_name, follow_count, follower_count)
+    ''')
+        .eq('following_profile_id', profileId)
+        .order('followed_at', ascending: false)
+        .range(start, end)
+        .then((value) {
+          Logger().d('getFollowing.value: $value');
+          return value
+              .map((e) => Profile(
+                    id: e['followed_profile_id']['id'],
+                    nickname: e['followed_profile_id']['nickname'],
+                    imageUrl: e['followed_profile_id']['image_url'],
+                    bio: e['followed_profile_id']['bio'],
+                    universityName: e['followed_profile_id']['university_name'],
+                    facultyName: e['followed_profile_id']['faculty_name'],
+                    followCount: e['followed_profile_id']['follow_count'],
+                    followerCount: e['followed_profile_id']['follower_count'],
+                  ))
+              .toList();
+        })
+        .catchError((error) {
+          Logger().e('getFollowing.error: $error');
+          throw error;
+        });
+  }
 }

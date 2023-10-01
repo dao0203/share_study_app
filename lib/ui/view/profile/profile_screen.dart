@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/activity_profile_state.dart';
 import 'package:share_study_app/ui/state/is_following_state.dart';
+import 'package:share_study_app/ui/view/follow/follow_screen.dart';
 import 'package:share_study_app/ui/view/profile/resolved_question_tab.dart';
 import 'package:share_study_app/ui/view/profile/quetion_tab.dart';
 
@@ -114,7 +115,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                           Theme.of(context)
                                                               .colorScheme
                                                               .inversePrimary,
-                                                      elevation: 10,
+                                                      elevation: 4,
                                                     ),
                                                     child: Text(
                                                       'フォロー中',
@@ -190,6 +191,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               ),
                             ),
                           ),
+                          const SizedBox(height: 8),
                           Padding(
                             padding: const EdgeInsets.only(left: 16),
                             child: Text.rich(
@@ -200,20 +202,82 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {},
                                   ),
-                                  const TextSpan(text: ' フォロー'),
+                                  TextSpan(
+                                    text: '  フォロー',
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.of(context).push(
+                                          PageRouteBuilder(
+                                            pageBuilder: (
+                                              context,
+                                              animation1,
+                                              animation2,
+                                            ) =>
+                                                FollowScreen(
+                                              profileId: data.profile.id,
+                                              initialIndex: 0,
+                                            ),
+                                            transitionsBuilder: (
+                                              context,
+                                              animation1,
+                                              animation2,
+                                              child,
+                                            ) =>
+                                                SlideTransition(
+                                              position: Tween<Offset>(
+                                                begin: const Offset(1, 0),
+                                                end: Offset.zero,
+                                              ).animate(animation1),
+                                              child: child,
+                                            ),
+                                            transitionDuration: const Duration(
+                                                milliseconds: 300),
+                                          ),
+                                        );
+                                      },
+                                  ),
                                   const TextSpan(text: '   '),
                                   TextSpan(
                                     text: data.profile.followerCount.toString(),
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {},
                                   ),
-                                  const TextSpan(text: ' フォロワー'),
+                                  TextSpan(
+                                    text: ' フォロワー',
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.of(context).push(
+                                          PageRouteBuilder(
+                                            pageBuilder: (
+                                              context,
+                                              animation1,
+                                              animation2,
+                                            ) =>
+                                                FollowScreen(
+                                              profileId: data.profile.id,
+                                              initialIndex: 1,
+                                            ),
+                                            transitionsBuilder: (
+                                              context,
+                                              animation1,
+                                              animation2,
+                                              child,
+                                            ) =>
+                                                SlideTransition(
+                                              position: Tween<Offset>(
+                                                begin: const Offset(1, 0),
+                                                end: Offset.zero,
+                                              ).animate(animation1),
+                                              child: child,
+                                            ),
+                                            transitionDuration: const Duration(
+                                                milliseconds: 300),
+                                          ),
+                                        );
+                                      },
+                                  ),
                                 ],
                               ),
                             ),
