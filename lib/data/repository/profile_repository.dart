@@ -6,4 +6,8 @@ abstract interface class ProfileRepository {
   Future<void> unfollow(String profileId);
   Future<bool> isFollowing(String profileId);
   Future<void> updateProfile(Profile profile);
+  Future<List<Profile>> getFollowersWithPagination(
+      String profileId, int start, int end);
+  Future<List<Profile>> getFollowingWithpagination(
+      String profileId, int start, int end);
 }
