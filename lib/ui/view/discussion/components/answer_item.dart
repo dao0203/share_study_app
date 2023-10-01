@@ -16,8 +16,37 @@ class AnswerItem extends HookConsumerWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onTap: () => onIconPressed(),
-            child: Align(
+            // ベストアンサーにするかどうかのアラートを表示する
+            onLongPress: () {
+              showDialog(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                    title: const Text('ベストアンサーにしますか？'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('キャンセル'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          ref
+                              .read(updateAnswerUseCaseProvider)
+                              .call(answer.copyWith(isBestAnswer: true));
+                          Navigator.pop(context);
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          child: Align(
               alignment: Alignment.bottomLeft,
               child: answer.answerer.imageUrl == null
                   ? CircleAvatar(
