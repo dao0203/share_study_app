@@ -79,9 +79,11 @@ class FollowItem extends HookConsumerWidget {
                                                         profile.id)));
                                           },
                                           style: ElevatedButton.styleFrom(
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .inversePrimary),
+                                            backgroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .inversePrimary,
+                                            elevation: 4,
+                                          ),
                                           child: Text(
                                             'フォロー中',
                                             style: TextStyle(

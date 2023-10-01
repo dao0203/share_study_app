@@ -115,7 +115,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                           Theme.of(context)
                                                               .colorScheme
                                                               .inversePrimary,
-                                                      elevation: 10,
+                                                      elevation: 4,
                                                     ),
                                                     child: Text(
                                                       'フォロー中',
