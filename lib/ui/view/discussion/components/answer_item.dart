@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/answer.dart';
-import 'package:share_study_app/data/domain/question.dart';
-import 'package:share_study_app/use_case/di/use_case_providers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AnswerItem extends HookConsumerWidget {
@@ -14,7 +12,40 @@ class AnswerItem extends HookConsumerWidget {
   final Function() onIconPressed;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Row(
+    return GestureDetector(
+        onLongPress: () {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: const Text('ベストアンサーにしますか？'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  // 画面遷移せずにアラートを閉じる
+                  Navigator.pop(context);
+                },
+                child: const Text('キャンセル'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  // ref.read(updateAnswerUseCaseProvider);
+                  //is_best_answerをtrueにして、answersテーブルを更新する
+                  await supabase
+                      .from('answers')
+                      .update({'is_best_answer': true})
+                      .eq('id', answer.id)
+                      .then((value) => Navigator.pop(context));
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    },
+    child:
+      Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -118,6 +149,7 @@ class AnswerItem extends HookConsumerWidget {
           ],
         ),
       ],
+    )
     );
   }
 }
