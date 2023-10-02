@@ -90,6 +90,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
                       );
                 },
               ).catchError((error) {
+                Logger().e('updateProfile.error: $error');
                 throw Exception('failed_to_upload_image');
               });
             }
