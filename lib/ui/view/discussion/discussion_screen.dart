@@ -296,7 +296,6 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                   return ref.refresh(
                                       questionStateProvider(widget.questionId));
                                 }).catchError((error) {
-                                  SnackBar(content: Text(error.toString()));
                                   Navigator.of(context, rootNavigator: true)
                                       .pop();
                                 });
