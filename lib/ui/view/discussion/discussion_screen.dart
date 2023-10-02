@@ -295,9 +295,12 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                   _pagingController.refresh();
                                   return ref.refresh(
                                       questionStateProvider(widget.questionId));
+                                  // ignore: body_might_complete_normally_catch_error
                                 }).catchError((error) {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
+                                  Navigator.of(
+                                    context,
+                                    rootNavigator: true,
+                                  ).pop();
                                 });
                               },
                             ),

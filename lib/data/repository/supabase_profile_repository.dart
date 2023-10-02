@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/profile_repository.dart';
@@ -40,7 +42,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
   }
 
   @override
-  Future<void> updateProfile(Profile profile) async {
+  Future<void> updateProfile(Profile profile, String? filePath) async {
     Logger().d('updateProfile.profile: $profile');
     return await supabaseClient
         .from('profiles')
@@ -52,23 +54,164 @@ final class SupabaseProfileRepository implements ProfileRepository {
           'bio': profile.bio,
         })
         .eq('id', profile.id)
-        .whenComplete(() {
-          Logger().d('updateProfile.profile: success update profile');
+        .whenComplete(
+          () async {
+            if (filePath != null) {
+              await supabaseClient.storage
+                  .from('avatars')
+                  .upload(
+                    '${supabaseClient.auth.currentUser!.id}/avatar.jpeg',
+                    File(filePath),
+                    fileOptions: const FileOptions(
+                      cacheControl: '3600',
+                      upsert: true,
+                    ),
+                  )
+                  .then(
+                (value) async {
+                  //publicUrlを取得して、profilesテーブルのimage_urlを更新する
+                  //FIXME: Functionで画像のURLを取得して処理をSupabase側でしたかったけど、できなかったのでここでやっている🥺
+                  final publicUrl = supabaseClient.storage
+                      .from('avatars')
+                      .getPublicUrl(
+                          '${supabaseClient.auth.currentUser!.id}/avatar.jpeg');
+                  await supabaseClient
+                      .from('profiles')
+                      .update({'image_url': publicUrl})
+                      .eq('id', supabaseClient.auth.currentUser!.id)
+                      .then((value) {
+                        Logger().d('正常にプロフィールを更新しました。');
+                      })
+                      .catchError(
+                        (error) {
+                          Logger().e('updateProfile.error: $error');
+                          throw Exception('failed_to_update_profile_image_url');
+                        },
+                      );
+                },
+              ).catchError((error) {
+                Logger().e('updateProfile.error: $error');
+                throw Exception('failed_to_upload_image');
+              });
+            }
+          },
+        )
+        .catchError(
+          (error) {
+            Logger().e('updateProfile.error: $error');
+            throw Exception('failed_to_update_profile');
+          },
+        );
+  }
+
+  @override
+  Future<void> follow(String profileId) async {
+    await supabaseClient.from('follows').insert({
+      'following_profile_id': supabaseClient.auth.currentUser!.id,
+      'followed_profile_id': profileId,
+    }).then((value) {
+      Logger().d('正常にフォローしました。');
+    }).catchError((error) {
+      Logger().e('follow.error: $error');
+      throw error;
+    });
+  }
+
+  @override
+  Future<void> unfollow(String profileId) async {
+    await supabaseClient
+        .from('follows')
+        .delete()
+        .eq('followed_profile_id', profileId)
+        .eq('following_profile_id', supabaseClient.auth.currentUser!.id)
+        .then((value) {
+      Logger().d('正常にフォローを解除しました。');
+    }).catchError((error) {
+      Logger().e('unfollow.error: $error');
+      throw error;
+    });
+  }
+
+  @override
+  Future<bool> isFollowing(String profileId) {
+    Logger().d('isFollowing.profileId: $profileId');
+    return supabaseClient
+        .from('follows')
+        .select('followed_profile_id')
+        .eq('followed_profile_id', profileId)
+        .eq('following_profile_id', supabaseClient.auth.currentUser!.id)
+        .limit(1)
+        .then((value) {
+      Logger().d('isFollowing.value: $value');
+      return value != null && value.isNotEmpty;
+    }).catchError((error) {
+      Logger().e('isFollowing.error: $error');
+      throw error;
+    });
+  }
+
+  @override
+  Future<List<Profile>> getFollowersWithPagination(
+      String profileId, int start, int end) async {
+    return await supabaseClient
+        .from('follows')
+        .select<PostgrestList>('''
+      following_profile_id (id, nickname, image_url, bio, university_name, faculty_name, follow_count, follower_count)
+    ''')
+        .eq('followed_profile_id', profileId)
+        .order('followed_at', ascending: false)
+        .range(start, end)
+        .then((value) {
+          Logger().d('getFollowers.value: $value');
+          return value
+              .map((e) => Profile(
+                    id: e['following_profile_id']['id'],
+                    nickname: e['following_profile_id']['nickname'],
+                    imageUrl: e['following_profile_id']['image_url'],
+                    bio: e['following_profile_id']['bio'],
+                    universityName: e['following_profile_id']
+                        ['university_name'],
+                    facultyName: e['following_profile_id']['faculty_name'],
+                    followCount: e['following_profile_id']['follow_count'],
+                    followerCount: e['following_profile_id']['follower_count'],
+                  ))
+              .toList();
         })
         .catchError((error) {
-          Logger().e('updateProfile.error: $error');
+          Logger().e('getFollowers.error: $error');
+          throw error;
         });
   }
 
   @override
-  Future<void> follow(String profileId) {
-    // TODO: implement follow
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> unfollow(String profileId) {
-    // TODO: implement unfollow
-    throw UnimplementedError();
+  Future<List<Profile>> getFollowingWithpagination(
+      String profileId, int start, int end) async {
+    return await supabaseClient
+        .from('follows')
+        .select<PostgrestList>('''
+      followed_profile_id (id, nickname, image_url, bio, university_name, faculty_name, follow_count, follower_count)
+    ''')
+        .eq('following_profile_id', profileId)
+        .order('followed_at', ascending: false)
+        .range(start, end)
+        .then((value) {
+          Logger().d('getFollowing.value: $value');
+          return value
+              .map((e) => Profile(
+                    id: e['followed_profile_id']['id'],
+                    nickname: e['followed_profile_id']['nickname'],
+                    imageUrl: e['followed_profile_id']['image_url'],
+                    bio: e['followed_profile_id']['bio'],
+                    universityName: e['followed_profile_id']['university_name'],
+                    facultyName: e['followed_profile_id']['faculty_name'],
+                    followCount: e['followed_profile_id']['follow_count'],
+                    followerCount: e['followed_profile_id']['follower_count'],
+                  ))
+              .toList();
+        })
+        .catchError((error) {
+          Logger().e('getFollowing.error: $error');
+          throw error;
+        });
   }
 }

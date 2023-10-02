@@ -7,7 +7,7 @@ part of 'activity_profile_state.dart';
 // **************************************************************************
 
 String _$activityProfileStateHash() =>
-    r'07bdef1dde34e7bf7c00a27f114cfe5b2c406c00';
+    r'ddf06c3a2f2e6631bb9172cfa3b6b8af4c9f3630';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -34,7 +34,7 @@ abstract class _$ActivityProfileState
     extends BuildlessAutoDisposeAsyncNotifier<ActivityProfile> {
   late final String param;
 
-  FutureOr<ActivityProfile> build(
+  Future<ActivityProfile> build(
     String param,
   );
 }
@@ -114,7 +114,7 @@ class ActivityProfileStateProvider extends AutoDisposeAsyncNotifierProviderImpl<
   final String param;
 
   @override
-  FutureOr<ActivityProfile> runNotifierBuild(
+  Future<ActivityProfile> runNotifierBuild(
     covariant ActivityProfileState notifier,
   ) {
     return notifier.build(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/question.dart';
+import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
 
 class QuestionItem extends HookConsumerWidget {
   final Question question;
@@ -51,7 +52,7 @@ class QuestionItem extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      question.questioner.nickname,
+                      limitTextTenChars(question.questioner.nickname),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,

@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Share Study App needs access to your photo library</string>
+	<string>プロフィール写真や質問の画像を取得するために使用</string>
+	<key>NSCameraUsageDescription</key>
+	<string>プロフィール写真や質問の画像を取得するために使用</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

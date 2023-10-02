@@ -2,7 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/activity_profile_state.dart';
+import 'package:share_study_app/ui/state/is_following_state.dart';
+import 'package:share_study_app/ui/view/follow/follow_screen.dart';
 import 'package:share_study_app/ui/view/profile/resolved_question_tab.dart';
 import 'package:share_study_app/ui/view/profile/quetion_tab.dart';
 
@@ -35,26 +38,26 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 delegate: SliverChildListDelegate(
                   [
                     profileState.when(
+                      skipLoadingOnReload: true,
+                      skipLoadingOnRefresh: true,
                       data: (data) => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Row(
+                              //外いっぱいに広げる
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 //ユーザー画像
                                 data.profile.imageUrl != null
-                                    ? Image.network(
-                                        data.profile.imageUrl!,
-                                        width: 80,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          Logger().e(error);
-                                          return const Icon(
-                                            Icons.error_outline_outlined,
-                                            size: 80,
-                                          );
-                                        },
+                                    ? CircleAvatar(
+                                        radius: 40,
+                                        backgroundImage: NetworkImage(
+                                            data.profile.imageUrl!),
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
                                       )
                                     : const Icon(
                                         Icons.account_circle_outlined,
@@ -62,53 +65,217 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       ),
                                 //ユーザー名
                                 const SizedBox(width: 16),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data.profile.nickname,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: data.profile.followCount
-                                                .toString(),
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {},
-                                          ),
-                                          const TextSpan(text: ' フォロー'),
-                                          const TextSpan(text: '   '),
-                                          TextSpan(
-                                            text: data.profile.followerCount
-                                                .toString(),
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {},
-                                          ),
-                                          const TextSpan(text: ' フォロワー'),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
                                 //フォローボタン
                                 data.isMyProfile
                                     ? const SizedBox()
-                                    : ElevatedButton(
-                                        onPressed: () {},
-                                        child: const Text('フォロー'),
-                                      ),
+                                    : ref
+                                        .watch(isFollowingStateProvider(
+                                            widget.profileId))
+                                        .when(
+                                          skipError: true,
+                                          skipLoadingOnRefresh: true,
+                                          data: (isFollowing) {
+                                            Logger()
+                                                .d('isFollowing: $isFollowing');
+                                            return isFollowing
+                                                ? ElevatedButton(
+                                                    onPressed: () async {
+                                                      //フォローを解除する
+                                                      Logger().d(
+                                                          'profileId: ${data.profile.id}');
+                                                      await ref
+                                                          .read(
+                                                              profileRepositoryProvider)
+                                                          .unfollow(
+                                                              data.profile.id)
+                                                          .then(
+                                                        (value) {
+                                                          //フォロー数を1減らす
+                                                          ref
+                                                              .watch(activityProfileStateProvider(
+                                                                      widget
+                                                                          .profileId)
+                                                                  .notifier)
+                                                              .decrementFollowerCount();
+                                                          return ref.refresh(
+                                                            isFollowingStateProvider(
+                                                                widget
+                                                                    .profileId),
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Theme.of(context)
+                                                              .colorScheme
+                                                              .inversePrimary,
+                                                      elevation: 4,
+                                                    ),
+                                                    child: Text(
+                                                      'フォロー中',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .onBackground,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : ElevatedButton(
+                                                    onPressed: () async {
+                                                      //フォローする
+                                                      await ref
+                                                          .read(
+                                                              profileRepositoryProvider)
+                                                          .follow(
+                                                              data.profile.id)
+                                                          .then(
+                                                        (value) {
+                                                          //フォロー数を1増やす
+                                                          ref
+                                                              .watch(activityProfileStateProvider(
+                                                                      widget
+                                                                          .profileId)
+                                                                  .notifier)
+                                                              .incrementFollowerCount();
+                                                          return ref.refresh(
+                                                            isFollowingStateProvider(
+                                                                widget
+                                                                    .profileId),
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Theme.of(context)
+                                                              .colorScheme
+                                                              .onSurface,
+                                                      elevation: 10,
+                                                    ),
+                                                    child: Text(
+                                                      'フォローする',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .background,
+                                                      ),
+                                                    ),
+                                                  );
+                                          },
+                                          error: (error, stackTrace) {
+                                            Logger().e(
+                                                'error: $error stackTrace: $stackTrace');
+                                            return const Text('error');
+                                          },
+                                          loading: () {
+                                            return const SizedBox();
+                                          },
+                                        ),
                               ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Text(
+                              data.profile.nickname,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: data.profile.followCount.toString(),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '  フォロー',
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.of(context).push(
+                                          PageRouteBuilder(
+                                            pageBuilder: (
+                                              context,
+                                              animation1,
+                                              animation2,
+                                            ) =>
+                                                FollowScreen(
+                                              profileId: data.profile.id,
+                                              initialIndex: 0,
+                                            ),
+                                            transitionsBuilder: (
+                                              context,
+                                              animation1,
+                                              animation2,
+                                              child,
+                                            ) =>
+                                                SlideTransition(
+                                              position: Tween<Offset>(
+                                                begin: const Offset(1, 0),
+                                                end: Offset.zero,
+                                              ).animate(animation1),
+                                              child: child,
+                                            ),
+                                            transitionDuration: const Duration(
+                                                milliseconds: 300),
+                                          ),
+                                        );
+                                      },
+                                  ),
+                                  const TextSpan(text: '   '),
+                                  TextSpan(
+                                    text: data.profile.followerCount.toString(),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: ' フォロワー',
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.of(context).push(
+                                          PageRouteBuilder(
+                                            pageBuilder: (
+                                              context,
+                                              animation1,
+                                              animation2,
+                                            ) =>
+                                                FollowScreen(
+                                              profileId: data.profile.id,
+                                              initialIndex: 1,
+                                            ),
+                                            transitionsBuilder: (
+                                              context,
+                                              animation1,
+                                              animation2,
+                                              child,
+                                            ) =>
+                                                SlideTransition(
+                                              position: Tween<Offset>(
+                                                begin: const Offset(1, 0),
+                                                end: Offset.zero,
+                                              ).animate(animation1),
+                                              child: child,
+                                            ),
+                                            transitionDuration: const Duration(
+                                                milliseconds: 300),
+                                          ),
+                                        );
+                                      },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           //自己紹介
@@ -169,9 +336,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         ],
                       ),
                       error: (error, stackTrace) =>
-                          Text(error.toString() + stackTrace.toString()),
-                      loading: () =>
-                          const Center(child: CircularProgressIndicator()),
+                          const Center(child: Text('エラーが発生しました')),
+                      loading: () => const SizedBox(),
                     ),
                   ],
                 ),
