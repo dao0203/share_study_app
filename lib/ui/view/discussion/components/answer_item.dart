@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/answer.dart';
+import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/use_case/di/use_case_providers.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AnswerItem extends HookConsumerWidget {
-  const AnswerItem(
-      {super.key, required this.answer, required this.onIconPressed});
+  AnswerItem({super.key, required this.answer, required this.onIconPressed});
+
   final Answer answer;
+  final supabase = Supabase.instance.client;
   final Function() onIconPressed;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,15 +32,19 @@ class AnswerItem extends HookConsumerWidget {
                     actions: [
                       TextButton(
                         onPressed: () {
+                          // 画面遷移せずにアラートを閉じる
                           Navigator.pop(context);
                         },
                         child: const Text('キャンセル'),
                       ),
                       TextButton(
-                        onPressed: () {
-                          ref.read(updateAnswerUseCaseProvider);
+                        onPressed: () async {
+                          // ref.read(updateAnswerUseCaseProvider);
                           Navigator.pop(context);
-                          answer.isBestAnswer = true;
+                          //is_best_answerをtrueにして、answersテーブルを更新する
+                          await supabase
+                              .from('answers')
+                              .update({'is_best_answer': true});
                         },
                         child: const Text('OK'),
                       ),

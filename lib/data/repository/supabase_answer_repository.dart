@@ -118,4 +118,10 @@ questions (title, user_id, profiles(image_url))
           },
         );
   }
+
+  @override
+  Future<void> updateIsBestAnswer(String answerId, bool isBestAnswer) {
+    // TODO: implement updateIsBestAnswer
+    throw UnimplementedError();
+  }
 }
