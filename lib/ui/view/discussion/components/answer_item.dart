@@ -40,11 +40,10 @@ class AnswerItem extends HookConsumerWidget {
                       TextButton(
                         onPressed: () async {
                           // ref.read(updateAnswerUseCaseProvider);
-                          Navigator.pop(context);
                           //is_best_answerをtrueにして、answersテーブルを更新する
                           await supabase
                               .from('answers')
-                              .update({'is_best_answer': true});
+                              .update({'is_best_answer': true}).eq('id', answer.id).then((value) => Navigator.pop(context));
                         },
                         child: const Text('OK'),
                       ),
