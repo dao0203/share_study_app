@@ -9,10 +9,10 @@ import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/question_state.dart';
 import 'package:share_study_app/ui/view/discussion/components/answer_item.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DiscussionScreen extends StatefulHookConsumerWidget {
-  DiscussionScreen({super.key, required this.questionId});
+  const DiscussionScreen({super.key, required this.questionId});
+
   final String questionId;
 
   @override
@@ -24,6 +24,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
   static const _pageSize = 10;
   final PagingController<int, Answer> _pagingController =
       PagingController(firstPageKey: 0);
+
   @override
   void initState() {
     super.initState();
@@ -63,7 +64,6 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
     final question = ref.watch(questionStateProvider(widget.questionId));
     final commentController = useTextEditingController();
     final areFieldEmpty = useState(true);
-    final supabase = Supabase.instance.client;
 
     bool checkIfFieldsAreEmpty() {
       return commentController.text.isEmpty;
@@ -283,21 +283,23 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                 );
                               },
                               onLongPress: () async {
-                                await supabase
-                                    .from('answers')
-                                    .update({
-                                      'is_best_answer': !answer.isBestAnswer
-                                    })
-                                    .eq('id', answer.id)
+                                ref
+                                    .watch(answerRepositoryProvider)
+                                    .updateIsBestAnswer(
+                                        answer.id, answer.isBestAnswer)
                                     .then((value) {
-                                      Navigator.of(
-                                        context,
-                                        rootNavigator: true,
-                                      ).pop();
-                                      _pagingController.refresh();
-                                      return ref.refresh(questionStateProvider(
-                                          widget.questionId));
-                                    });
+                                  Navigator.of(
+                                    context,
+                                    rootNavigator: true,
+                                  ).pop();
+                                  _pagingController.refresh();
+                                  return ref.refresh(
+                                      questionStateProvider(widget.questionId));
+                                }).catchError((error) {
+                                  SnackBar(content: Text(error.toString()));
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
+                                });
                               },
                             ),
                           ),
