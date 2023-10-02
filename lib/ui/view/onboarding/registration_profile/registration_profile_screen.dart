@@ -132,20 +132,44 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                       const Text('プロフィール画像を設定してください(任意)'),
                       Center(
                         child: xFile.value != null
-                            ? CircleAvatar(
-                                radius: 50,
-                                backgroundImage: FileImage(
-                                  File(xFile.value!.path),
-                                ),
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.background,
+                            ? Stack(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage: FileImage(
+                                      File(xFile.value!.path),
+                                    ),
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        xFile.value = null;
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .inverseSurface,
+                                        child: Icon(
+                                          Icons.close,
+                                          size: 20,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onInverseSurface,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               )
                             : Stack(
                                 alignment: Alignment.bottomRight,
                                 children: [
                                   GestureDetector(
-                                    //account_circle_outlinedだけに、onTap設定するようにする
-
                                     onTap: () async {
                                       await imagePickerApp
                                           .pickImageFromGallery()
@@ -154,7 +178,6 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                                         Logger().i(value?.path);
                                       });
                                     },
-
                                     child: Icon(
                                       Icons.account_circle_outlined,
                                       size: 100,
