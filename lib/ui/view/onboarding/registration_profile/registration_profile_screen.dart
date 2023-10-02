@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/app/share_study_app.dart';
+import 'package:share_study_app/util/image_picker_app.dart';
 
 class RegistrationProfileScreen extends HookConsumerWidget {
   RegistrationProfileScreen({super.key});
@@ -20,6 +24,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final myProfile = ref.watch(myProfileStateProvider);
+    final imagePickerApp = ref.watch(imagePickerAppProvider);
     final myProfileState = useState(const Profile(
       id: '',
       nickname: '',
@@ -36,6 +41,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
     final departmentNameController = useTextEditingController();
     final gradeControler = useTextEditingController();
     final bioController = useTextEditingController();
+    final xFile = useState<XFile?>(null);
     Logger().d('RegistrationProfileScreen');
     return Scaffold(
       appBar: AppBar(
@@ -119,37 +125,68 @@ class RegistrationProfileScreen extends HookConsumerWidget {
 
                 return SingleChildScrollView(
                   child: Column(
-                    //要素を中央に配置
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
-
                     children: [
                       const SizedBox(height: 20),
                       const Text('プロフィール画像を設定してください(任意)'),
                       Center(
-                        child: Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            Icon(
-                              Icons.account_circle_outlined,
-                              size: 100,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                            ),
-                            CircleAvatar(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.inverseSurface,
-                              child: Icon(
-                                Icons.camera_alt,
-                                size: 30,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onInverseSurface,
+                        child: xFile.value != null
+                            ? CircleAvatar(
+                                radius: 50,
+                                backgroundImage: FileImage(
+                                  File(xFile.value!.path),
+                                ),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.background,
+                              )
+                            : Stack(
+                                alignment: Alignment.bottomRight,
+                                children: [
+                                  GestureDetector(
+                                    //account_circle_outlinedだけに、onTap設定するようにする
+
+                                    onTap: () async {
+                                      await imagePickerApp
+                                          .pickImageFromGallery()
+                                          .then((value) {
+                                        xFile.value = value;
+                                        Logger().i(value?.path);
+                                      });
+                                    },
+
+                                    child: Icon(
+                                      Icons.account_circle_outlined,
+                                      size: 100,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      await imagePickerApp
+                                          .pickImageFromCamera()
+                                          .then((value) {
+                                        xFile.value = value;
+                                        Logger().i(value?.path);
+                                      });
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .inverseSurface,
+                                      child: Icon(
+                                        Icons.camera_alt,
+                                        size: 30,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onInverseSurface,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
