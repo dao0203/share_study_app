@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/profile_repository.dart';
@@ -40,7 +42,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
   }
 
   @override
-  Future<void> updateProfile(Profile profile) async {
+  Future<void> updateProfile(Profile profile, String? filePath) async {
     Logger().d('updateProfile.profile: $profile');
     return await supabaseClient
         .from('profiles')
@@ -52,12 +54,54 @@ final class SupabaseProfileRepository implements ProfileRepository {
           'bio': profile.bio,
         })
         .eq('id', profile.id)
-        .whenComplete(() {
-          Logger().d('updateProfile.profile: success update profile');
-        })
-        .catchError((error) {
-          Logger().e('updateProfile.error: $error');
-        });
+        .whenComplete(
+          () async {
+            if (filePath != null) {
+              await supabaseClient.storage
+                  .from('avatars')
+                  .upload(
+                    '${supabaseClient.auth.currentUser!.id}/avatar.jpeg',
+                    File(filePath),
+                    fileOptions: const FileOptions(
+                      cacheControl: '3600',
+                      upsert: true,
+                    ),
+                  )
+                  .then(
+                (value) async {
+                  //publicUrlを取得して、profilesテーブルのimage_urlを更新する
+                  //FIXME: Functionで画像のURLを取得して処理をSupabase側でしたかったけど、できなかったのでここでやっている🥺
+                  final publicUrl = supabaseClient.storage
+                      .from('avatars')
+                      .getPublicUrl(
+                          '${supabaseClient.auth.currentUser!.id}/avatar.jpeg');
+                  await supabaseClient
+                      .from('profiles')
+                      .update({'image_url': publicUrl})
+                      .eq('id', supabaseClient.auth.currentUser!.id)
+                      .then((value) {
+                        Logger().d('正常にプロフィールを更新しました。');
+                      })
+                      .catchError(
+                        (error) {
+                          Logger().e('updateProfile.error: $error');
+                          throw Exception('failed_to_update_profile_image_url');
+                        },
+                      );
+                },
+              ).catchError((error) {
+                Logger().e('updateProfile.error: $error');
+                throw Exception('failed_to_upload_image');
+              });
+            }
+          },
+        )
+        .catchError(
+          (error) {
+            Logger().e('updateProfile.error: $error');
+            throw Exception('failed_to_update_profile');
+          },
+        );
   }
 
   @override
