@@ -51,17 +51,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               children: [
                                 //ユーザー画像
                                 data.profile.imageUrl != null
-                                    ? Image.network(
-                                        data.profile.imageUrl!,
-                                        width: 80,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          Logger().e(error);
-                                          return const Icon(
-                                            Icons.error_outline_outlined,
-                                            size: 80,
-                                          );
-                                        },
+                                    ? CircleAvatar(
+                                        radius: 40,
+                                        backgroundImage: NetworkImage(
+                                            data.profile.imageUrl!),
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
                                       )
                                     : const Icon(
                                         Icons.account_circle_outlined,

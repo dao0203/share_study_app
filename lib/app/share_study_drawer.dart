@@ -50,9 +50,11 @@ class ShareStudyDrawer extends HookConsumerWidget {
                   },
                   child: myProfileState?.imageUrl != null
                       ? CircleAvatar(
-                          radius: 60,
+                          radius: 30,
                           backgroundImage:
                               NetworkImage(myProfileState!.imageUrl!),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface,
                         )
                       : Icon(
                           Icons.account_circle_outlined,

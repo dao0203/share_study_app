@@ -20,12 +20,10 @@ class AnswerItem extends HookConsumerWidget {
             onTap: () => onIconPressed(),
             child: Align(
               alignment: Alignment.bottomLeft,
-              child: answer.answerer.imageUrl == null
+              child: answer.answerer.imageUrl != null
                   ? CircleAvatar(
                       backgroundColor: Theme.of(context).colorScheme.background,
-                      backgroundImage: const NetworkImage(
-                          //TODO: ミャウミャウにしているので、変える必要あり
-                          'https://purr.objects-us-east-1.dream.io/i/1222.jpg'),
+                      backgroundImage: NetworkImage(answer.answerer.imageUrl!),
                       radius: 20,
                     )
                   : Icon(
