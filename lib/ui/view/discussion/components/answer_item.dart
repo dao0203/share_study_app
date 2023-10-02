@@ -14,7 +14,7 @@ class AnswerItem extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      behavior: HitTestBehavior.translucent,
+        behavior: HitTestBehavior.translucent,
         onLongPress: () {
           showDialog(
             context: context,
@@ -25,7 +25,7 @@ class AnswerItem extends HookConsumerWidget {
                   TextButton(
                     onPressed: () {
                       // 画面遷移せずにアラートを閉じる
-                      Navigator.pop(context);
+                      Navigator.of(context, rootNavigator: true).pop();
                     },
                     child: const Text('キャンセル'),
                   ),
@@ -37,8 +37,9 @@ class AnswerItem extends HookConsumerWidget {
                           .from('answers')
                           .update({'is_best_answer': true})
                           .eq('id', answer.id)
-                          .then((value) => Navigator.pop(context));
-                    },
+                          .then((value) =>
+                          Navigator.of(context, rootNavigator: true).pop());
+                      },
                     child: const Text('OK'),
                   ),
                 ],
@@ -90,18 +91,24 @@ class AnswerItem extends HookConsumerWidget {
                   alignment: Alignment.bottomLeft,
                   child: answer.answerer.imageUrl == null
                       ? CircleAvatar(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.background,
-                          backgroundImage: const NetworkImage(
-                              //ミャウミャウ
-                              'https://purr.objects-us-east-1.dream.io/i/1222.jpg'),
-                          radius: 20,
-                        )
+                    backgroundColor:
+                    Theme
+                        .of(context)
+                        .colorScheme
+                        .background,
+                    backgroundImage: const NetworkImage(
+                      //ミャウミャウ
+                        'https://purr.objects-us-east-1.dream.io/i/1222.jpg'),
+                    radius: 20,
+                  )
                       : Icon(
-                          Icons.person_outline_outlined,
-                          size: 40,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                    Icons.person_outline_outlined,
+                    size: 40,
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .onSurface,
+                  ),
                 ),
               ),
             ),
@@ -146,7 +153,10 @@ class AnswerItem extends HookConsumerWidget {
                   colorFilter: ColorFilter.mode(
                     answer.isBestAnswer
                         ? Colors.yellow
-                        : Theme.of(context).colorScheme.onSurface,
+                        : Theme
+                        .of(context)
+                        .colorScheme
+                        .onSurface,
                     BlendMode.srcIn,
                   ),
                 ),
