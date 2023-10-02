@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/answer.dart';
+import 'package:share_study_app/use_case/di/use_case_providers.dart';
 
 class AnswerItem extends HookConsumerWidget {
   const AnswerItem(
@@ -34,10 +35,9 @@ class AnswerItem extends HookConsumerWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          ref
-                              .read(updateAnswerUseCaseProvider)
-                              .call(answer.copyWith(isBestAnswer: true));
+                          ref.read(updateAnswerUseCaseProvider);
                           Navigator.pop(context);
+                          answer.isBestAnswer = true;
                         },
                         child: const Text('OK'),
                       ),

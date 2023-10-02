@@ -7,4 +7,5 @@ abstract interface class AnswerRepository {
       String questionId, int start, int end);
   Future<List<Answer>> getAnswersByProfileIdWithPagination(
       String profileId, int start, int end);
+  Future<void> updateIsBestAnswer(String answerId, bool isBestAnswer);
 }
