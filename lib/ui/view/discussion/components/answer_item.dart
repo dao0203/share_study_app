@@ -25,7 +25,7 @@ class AnswerItem extends HookConsumerWidget {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: const Text('削除しますか？'),
+                  title: const Text('ベストアンサーにしますか？'),
                   actions: [
                     TextButton(
                       onPressed: () async {
