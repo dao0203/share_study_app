@@ -4,7 +4,6 @@ import 'package:share_study_app/use_case/get_my_notifications_use_case.dart';
 import 'package:share_study_app/use_case/get_my_profile_use_case.dart';
 import 'package:share_study_app/use_case/get_profile_use_case.dart';
 import 'package:share_study_app/use_case/set_up_splash_use_case.dart';
-import 'package:share_study_app/use_case/update_answer_use_case.dart';
 
 
 final getMyProfileUseCaseProvider = Provider<GetMyProfileUseCase>((ref) {
@@ -32,11 +31,5 @@ final getProfileUseCaseProvider = Provider<GetProfileUseCase>((ref) {
   return GetProfileUseCase(
     ref.watch(profileRepositoryProvider),
     ref.watch(userAuthRepositoryProvider),
-  );
-});
-
-final updateAnswerUseCaseProvider = Provider<UpdateAnswerUseCase>((ref) {
-  return UpdateAnswerUseCase(
-    ref.watch(answerRepositoryProvider),
   );
 });
