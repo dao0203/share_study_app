@@ -9,9 +9,11 @@ import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/question_state.dart';
 import 'package:share_study_app/ui/view/discussion/components/answer_item.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 
 class DiscussionScreen extends StatefulHookConsumerWidget {
-  const DiscussionScreen({super.key, required this.questionId});
+  DiscussionScreen({super.key, required this.questionId});
   final String questionId;
 
   @override
@@ -62,6 +64,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
     final question = ref.watch(QuestionStateProvider(widget.questionId));
     final commentController = useTextEditingController();
     final areFieldEmpty = useState(true);
+    final supabase = Supabase.instance.client;
 
     bool checkIfFieldsAreEmpty() {
       return commentController.text.isEmpty;
@@ -279,6 +282,37 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                         const Duration(milliseconds: 300),
                                   ),
                                 );
+                              },
+                              onLongPress: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) {
+                                      return AlertDialog(
+                                        title: const Text('ベストアンサーにしますか？'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              // 画面遷移せずにアラートを閉じる
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('キャンセル'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () async {
+                                              //is_best_answerをtrueにして、answersテーブルを更新する
+                                              await supabase
+                                                  .from('answers')
+                                                  .update({'is_best_answer': !answer.isBestAnswer})
+                                                  .eq('id', answer.id)
+                                                  .then((value) =>
+                                                  Navigator.of(context).pop());
+                                            },
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
                               },
                             ),
                           ),

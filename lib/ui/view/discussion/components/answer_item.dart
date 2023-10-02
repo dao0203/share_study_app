@@ -5,48 +5,18 @@ import 'package:share_study_app/data/domain/answer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AnswerItem extends HookConsumerWidget {
-  AnswerItem({super.key, required this.answer, required this.onIconPressed});
+  AnswerItem({super.key, required this.answer, required this.onIconPressed, required this.onLongPress});
 
   final Answer answer;
   final supabase = Supabase.instance.client;
   final Function() onIconPressed;
+  final Function() onLongPress;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onLongPress: () {
-          showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: const Text('ベストアンサーにしますか？'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      // 画面遷移せずにアラートを閉じる
-                      Navigator.of(context, rootNavigator: true).pop();
-                    },
-                    child: const Text('キャンセル'),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      // ref.read(updateAnswerUseCaseProvider);
-                      //is_best_answerをtrueにして、answersテーブルを更新する
-                      await supabase
-                          .from('answers')
-                          .update({'is_best_answer': true})
-                          .eq('id', answer.id)
-                          .then((value) =>
-                          Navigator.of(context, rootNavigator: true).pop());
-                      },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
-        },
+        onLongPress: onLongPress(),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
