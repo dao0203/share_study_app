@@ -61,7 +61,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final question = ref.watch(QuestionStateProvider(widget.questionId));
+    final question = ref.watch(questionStateProvider(widget.questionId));
     final commentController = useTextEditingController();
     final areFieldEmpty = useState(true);
     final supabase = Supabase.instance.client;
