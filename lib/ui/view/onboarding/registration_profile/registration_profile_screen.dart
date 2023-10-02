@@ -79,7 +79,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                 // 登録処理
                 await ref
                     .watch(profileRepositoryProvider)
-                    .updateProfile(myProfileState.value)
+                    .updateProfile(myProfileState.value, xFile.value?.path)
                     .then(
                   (value) {
                     // ignore: unused_result

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/profile_repository.dart';
@@ -40,7 +42,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
   }
 
   @override
-  Future<void> updateProfile(Profile profile) async {
+  Future<void> updateProfile(Profile profile, String? filePath) async {
     Logger().d('updateProfile.profile: $profile');
     return await supabaseClient
         .from('profiles')
@@ -52,8 +54,17 @@ final class SupabaseProfileRepository implements ProfileRepository {
           'bio': profile.bio,
         })
         .eq('id', profile.id)
-        .whenComplete(() {
-          Logger().d('updateProfile.profile: success update profile');
+        .whenComplete(() async {
+          if (filePath != null) {
+            await supabaseClient.storage.from('avatars').upload(
+                  '${supabaseClient.auth.currentUser!.id}/avatar.jpeg',
+                  File(filePath),
+                  fileOptions: const FileOptions(
+                    cacheControl: '3600',
+                    upsert: true,
+                  ),
+                );
+          }
         })
         .catchError((error) {
           Logger().e('updateProfile.error: $error');
