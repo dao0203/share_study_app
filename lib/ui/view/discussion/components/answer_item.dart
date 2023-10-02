@@ -5,7 +5,11 @@ import 'package:share_study_app/data/domain/answer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AnswerItem extends HookConsumerWidget {
-  AnswerItem({super.key, required this.answer, required this.onIconPressed, required this.onLongPress});
+  AnswerItem(
+      {super.key,
+      required this.answer,
+      required this.onIconPressed,
+      required this.onLongPress});
 
   final Answer answer;
   final supabase = Supabase.instance.client;
@@ -16,7 +20,27 @@ class AnswerItem extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onLongPress: onLongPress(),
+        onLongPress: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('削除しますか？'),
+                  actions: [
+                    TextButton(
+                      onPressed: () async {
+                        onLongPress();
+                      },
+                      child: const Text('はい'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('いいえ'),
+                    ),
+                  ],
+                );
+              });
+        },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -25,60 +49,22 @@ class AnswerItem extends HookConsumerWidget {
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () => onIconPressed(),
-                // ベストアンサーにするかどうかのアラートを表示する
-                onLongPress: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) {
-                      return AlertDialog(
-                        title: const Text('ベストアンサーにしますか？'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              // 画面遷移せずにアラートを閉じる
-                              Navigator.pop(context);
-                            },
-                            child: const Text('キャンセル'),
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                              // ref.read(updateAnswerUseCaseProvider);
-                              //is_best_answerをtrueにして、answersテーブルを更新する
-                              await supabase
-                                  .from('answers')
-                                  .update({'is_best_answer': true})
-                                  .eq('id', answer.id)
-                                  .then((value) => Navigator.pop(context));
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: answer.answerer.imageUrl == null
                       ? CircleAvatar(
-                    backgroundColor:
-                    Theme
-                        .of(context)
-                        .colorScheme
-                        .background,
-                    backgroundImage: const NetworkImage(
-                      //ミャウミャウ
-                        'https://purr.objects-us-east-1.dream.io/i/1222.jpg'),
-                    radius: 20,
-                  )
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background,
+                          backgroundImage: const NetworkImage(
+                              //ミャウミャウ
+                              'https://purr.objects-us-east-1.dream.io/i/1222.jpg'),
+                          radius: 20,
+                        )
                       : Icon(
-                    Icons.person_outline_outlined,
-                    size: 40,
-                    color: Theme
-                        .of(context)
-                        .colorScheme
-                        .onSurface,
-                  ),
+                          Icons.person_outline_outlined,
+                          size: 40,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                 ),
               ),
             ),
@@ -123,10 +109,7 @@ class AnswerItem extends HookConsumerWidget {
                   colorFilter: ColorFilter.mode(
                     answer.isBestAnswer
                         ? Colors.yellow
-                        : Theme
-                        .of(context)
-                        .colorScheme
-                        .onSurface,
+                        : Theme.of(context).colorScheme.onSurface,
                     BlendMode.srcIn,
                   ),
                 ),

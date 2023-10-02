@@ -11,7 +11,6 @@ import 'package:share_study_app/ui/view/discussion/components/answer_item.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-
 class DiscussionScreen extends StatefulHookConsumerWidget {
   DiscussionScreen({super.key, required this.questionId});
   final String questionId;
@@ -283,36 +282,22 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                   ),
                                 );
                               },
-                              onLongPress: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (_) {
-                                      return AlertDialog(
-                                        title: const Text('ベストアンサーにしますか？'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              // 画面遷移せずにアラートを閉じる
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text('キャンセル'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () async {
-                                              //is_best_answerをtrueにして、answersテーブルを更新する
-                                              await supabase
-                                                  .from('answers')
-                                                  .update({'is_best_answer': !answer.isBestAnswer})
-                                                  .eq('id', answer.id)
-                                                  .then((value) =>
-                                                  Navigator.of(context).pop());
-                                            },
-                                            child: const Text('OK'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
+                              onLongPress: () async {
+                                await supabase
+                                    .from('answers')
+                                    .update({
+                                      'is_best_answer': !answer.isBestAnswer
+                                    })
+                                    .eq('id', answer.id)
+                                    .then((value) {
+                                      Navigator.of(
+                                        context,
+                                        rootNavigator: true,
+                                      ).pop();
+                                      _pagingController.refresh();
+                                      return ref.refresh(questionStateProvider(
+                                          widget.questionId));
+                                    });
                               },
                             ),
                           ),
