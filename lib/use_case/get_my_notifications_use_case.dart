@@ -32,7 +32,7 @@ class GetMyNotificationsWithPaginationUseCase
       case NotificationType.answer:
         return '${notification.sender!.nickname}さんがあなたの質問に回答しました';
       case NotificationType.bestAnswer:
-        return 'あなたの質問にベストアンサーがつきました';
+        return '${notification.sender!.nickname}さんがあなたの回答にベストアンサーをつけました';
       case NotificationType.newRegistration:
         return 'シェアスタに登録しました';
       case NotificationType.follow:
