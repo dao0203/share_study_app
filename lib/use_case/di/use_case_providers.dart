@@ -3,8 +3,9 @@ import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/use_case/get_my_notifications_use_case.dart';
 import 'package:share_study_app/use_case/get_my_profile_use_case.dart';
 import 'package:share_study_app/use_case/get_profile_use_case.dart';
+import 'package:share_study_app/use_case/get_question_use_case.dart';
+import 'package:share_study_app/use_case/get_questions_with_pagination_use_case.dart';
 import 'package:share_study_app/use_case/set_up_splash_use_case.dart';
-
 
 final getMyProfileUseCaseProvider = Provider<GetMyProfileUseCase>((ref) {
   return GetMyProfileUseCase(
@@ -30,6 +31,21 @@ final getMyNotificationsWithPaginationUseCaseProvider =
 final getProfileUseCaseProvider = Provider<GetProfileUseCase>((ref) {
   return GetProfileUseCase(
     ref.watch(profileRepositoryProvider),
+    ref.watch(userAuthRepositoryProvider),
+  );
+});
+
+final getQuestionsWithPaginationUseCaseProvider =
+    Provider<GetQuestionsWithPaginationUseCase>((ref) {
+  return GetQuestionsWithPaginationUseCase(
+    ref.watch(questionRepositoryProvider),
+    ref.watch(userAuthRepositoryProvider),
+  );
+});
+
+final getQuestionUseCaseProvider = Provider<GetQuestionUseCase>((ref) {
+  return GetQuestionUseCase(
+    ref.watch(questionRepositoryProvider),
     ref.watch(userAuthRepositoryProvider),
   );
 });
