@@ -303,7 +303,8 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                       questionStateProvider(widget.questionId));
                                   // ignore: body_might_complete_normally_catch_error
                                 }).catchError(
-                                  (error) {
+                                  // ignore: body_might_complete_normally_catch_error
+                                  (error, stackTrace) {
                                     Navigator.of(
                                       context,
                                       rootNavigator: true,
