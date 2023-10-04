@@ -7,12 +7,14 @@ import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/question_state.dart';
+import 'package:share_study_app/ui/state/question_ui_model_state.dart';
 import 'package:share_study_app/ui/view/discussion/components/answer_item.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/util/date_formatter.dart';
 
 class DiscussionScreen extends StatefulHookConsumerWidget {
   const DiscussionScreen({super.key, required this.questionId});
+
   final String questionId;
 
   @override
@@ -24,6 +26,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
   static const _pageSize = 10;
   final PagingController<int, Answer> _pagingController =
       PagingController(firstPageKey: 0);
+
   @override
   void initState() {
     super.initState();
@@ -60,7 +63,8 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final question = ref.watch(QuestionStateProvider(widget.questionId));
+    final questionUiModel =
+        ref.watch(questionUiModelStateProvider(widget.questionId));
     final commentController = useTextEditingController();
     final areFieldEmpty = useState(true);
 
@@ -85,12 +89,12 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              question.when(
-                data: (question) {
+              questionUiModel.when(
+                data: (questionUiModel) {
                   return Column(
                     children: [
                       Text(
-                        question.title,
+                        questionUiModel.title,
                         style: const TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -118,7 +122,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                       ) =>
                                           ProfileScreen(
                                               profileId:
-                                                  question.questioner.id),
+                                                  questionUiModel.questionerId),
                                       transitionsBuilder: (
                                         context,
                                         animation1,
@@ -137,19 +141,21 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                     ),
                                   );
                                 },
-                                child: question.questioner.imageUrl != null
-                                    ? CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            question.questioner.imageUrl!),
-                                        radius: 40,
-                                      )
-                                    : Icon(
-                                        Icons.person_outline_outlined,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondaryContainer,
-                                        size: 40,
-                                      ),
+                                child:
+                                    questionUiModel.questionerImageUrl != null
+                                        ? CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                questionUiModel
+                                                    .questionerImageUrl!),
+                                            radius: 40,
+                                          )
+                                        : Icon(
+                                            Icons.person_outline_outlined,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondaryContainer,
+                                            size: 40,
+                                          ),
                               ),
                             ),
                             Expanded(
@@ -162,7 +168,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                     Row(
                                       children: [
                                         Text(
-                                          question.questioner.nickname,
+                                          questionUiModel.questionerNickname,
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -177,7 +183,8 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                           child: Text(
                                             ref
                                                 .watch(dateFormatterProvider)
-                                                .format(question.createdAt),
+                                                .format(
+                                                    questionUiModel.createdAt),
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: Theme.of(context)
@@ -191,7 +198,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      question.content,
+                                      questionUiModel.content,
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Theme.of(context)
@@ -225,7 +232,8 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                         ),
                         const SizedBox(height: 8),
                         ElevatedButton(
-                          onPressed: () => _pagingController.refresh(),
+                          onPressed: () => ref.refresh(
+                              questionStateProvider(widget.questionId)),
                           child: const Text('リトライ'),
                         ),
                       ],
@@ -255,6 +263,12 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                           child: FadeInAnimation(
                             child: AnswerItem(
                               answer: answer,
+                              questionerId:
+                                  questionUiModel.asData?.value.questionerId ??
+                                      '',
+                              isMyQuestion:
+                                  questionUiModel.asData?.value.isMyQuestion ??
+                                      false,
                               onIconPressed: () {
                                 Navigator.of(context).push(
                                   PageRouteBuilder(
@@ -283,6 +297,33 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                   ),
                                 );
                               },
+                              onLongPress: () async {
+                                ref
+                                    .watch(answerRepositoryProvider)
+                                    .updateIsBestAnswer(
+                                        answer.id, answer.isBestAnswer)
+                                    .then((value) {
+                                  Navigator.of(
+                                    context,
+                                    rootNavigator: true,
+                                  ).pop();
+                                  _pagingController.refresh();
+                                  return ref.refresh(
+                                      questionStateProvider(widget.questionId));
+                                  // ignore: body_might_complete_normally_catch_error
+                                }).catchError(
+                                  // ignore: body_might_complete_normally_catch_error
+                                  (error, stackTrace) {
+                                    Navigator.of(
+                                      context,
+                                      rootNavigator: true,
+                                    ).pop();
+                                  },
+                                );
+                              },
+                              isResolved:
+                                  questionUiModel.asData?.value.isResolved ??
+                                      false,
                             ),
                           ),
                         ),

@@ -118,4 +118,16 @@ questions (title, user_id, profiles(image_url))
           },
         );
   }
+
+  @override
+  Future<void> updateIsBestAnswer(String answerId, bool isBestAnswer) async {
+    await _client
+        .from('answers')
+        .update({'is_best_answer': !isBestAnswer})
+        .eq('id', answerId)
+        .catchError((error, stacktrace) {
+          Logger().e('updateIsBestAnswer.error: $error $stacktrace');
+          throw Exception('failed to update error: $error');
+        });
+  }
 }

@@ -31,7 +31,7 @@ class SignUpScreen extends HookConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'サsインアップ',
+                        'サインアップ',
                         style: TextStyle(fontSize: 30),
                       ),
                       const SizedBox(height: 20),
