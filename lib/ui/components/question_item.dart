@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
+import 'package:share_study_app/util/date_formatter.dart';
 
 class QuestionItem extends HookConsumerWidget {
   final Question question;
@@ -60,7 +61,9 @@ class QuestionItem extends HookConsumerWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '${question.createdAt.month}月${question.createdAt.day}日',
+                      ref
+                          .watch(dateFormatterProvider)
+                          .format(question.createdAt),
                       style: const TextStyle(
                         fontSize: 12,
                       ),
