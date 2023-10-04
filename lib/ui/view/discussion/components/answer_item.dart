@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
+import 'package:share_study_app/util/date_formatter.dart';
 
 class AnswerItem extends HookConsumerWidget {
   const AnswerItem(
@@ -49,7 +50,7 @@ class AnswerItem extends HookConsumerWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '${answer.createdAt.month}月${answer.createdAt.day}日',
+                    ref.watch(dateFormatterProvider).format(answer.createdAt),
                     style: const TextStyle(
                       fontSize: 12,
                     ),

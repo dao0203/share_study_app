@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/my_notification.dart';
+import 'package:share_study_app/util/date_formatter.dart';
 import 'package:share_study_app/util/notification_type.dart';
-import 'package:intl/intl.dart';
 
 class MyNotificationItem extends HookConsumerWidget {
   const MyNotificationItem(
@@ -59,8 +59,9 @@ class MyNotificationItem extends HookConsumerWidget {
                       const SizedBox(width: 8),
 
                       Text(
-                        DateFormat('yyyy/MM/dd HH:mm')
-                            .format(myNotification.notification.createdAt),
+                        ref.watch(dateFormatterProvider).format(
+                              myNotification.notification.createdAt,
+                            ),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontSize: 12,
