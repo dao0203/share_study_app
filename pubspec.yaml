@@ -67,6 +67,8 @@ dependencies:
 
   ## intl
   intl: ^0.18.1
+  
+  ## flutter_markdown
   flutter_markdown: ^0.6.17+4
 
 dev_dependencies:
