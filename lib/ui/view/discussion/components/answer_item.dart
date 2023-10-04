@@ -25,6 +25,7 @@ class AnswerItem extends HookConsumerWidget {
             builder: (context) {
               return AlertDialog(
                 title: const Text('ベストアンサーにしますか？'),
+                elevation: 0,
                 actions: [
                   TextButton(
                     onPressed: () async {
