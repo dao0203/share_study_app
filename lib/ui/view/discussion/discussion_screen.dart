@@ -9,6 +9,7 @@ import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/question_state.dart';
 import 'package:share_study_app/ui/view/discussion/components/answer_item.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
+import 'package:share_study_app/util/date_formatter.dart';
 
 class DiscussionScreen extends StatefulHookConsumerWidget {
   const DiscussionScreen({super.key, required this.questionId});
@@ -176,7 +177,9 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                         const SizedBox(width: 8),
                                         Expanded(
                                           child: Text(
-                                            '${question.createdAt.month}月${question.createdAt.day}日',
+                                            ref
+                                                .watch(dateFormatterProvider)
+                                                .format(question.createdAt),
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: Theme.of(context)

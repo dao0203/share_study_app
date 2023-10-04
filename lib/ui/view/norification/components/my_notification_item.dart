@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/domain/my_notification.dart';
+import 'package:share_study_app/util/date_formatter.dart';
 import 'package:share_study_app/util/notification_type.dart';
 
 class MyNotificationItem extends HookConsumerWidget {
@@ -35,20 +36,39 @@ class MyNotificationItem extends HookConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  myNotification.notification.sender != null
-                      ? myNotification.notification.sender?.imageUrl != null
-                          ? CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                myNotification.notification.sender!.imageUrl!,
-                              ),
-                              radius: 20,
-                            )
-                          : Icon(
-                              Icons.person_outline_outlined,
-                              size: 40,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            )
-                      : const SizedBox(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      myNotification.notification.sender != null
+                          ? myNotification.notification.sender?.imageUrl != null
+                              ? CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                    myNotification
+                                        .notification.sender!.imageUrl!,
+                                  ),
+                                  radius: 20,
+                                )
+                              : Icon(
+                                  Icons.person_outline_outlined,
+                                  size: 40,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                )
+                          : const SizedBox(),
+                      //日付
+                      const SizedBox(width: 8),
+
+                      Text(
+                        ref.watch(dateFormatterProvider).format(
+                              myNotification.notification.createdAt,
+                            ),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                   Text(
                     myNotification.message,
                     style: TextStyle(
