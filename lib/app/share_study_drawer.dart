@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
+import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 
 class ShareStudyDrawer extends HookConsumerWidget {
@@ -174,6 +175,31 @@ class ShareStudyDrawer extends HookConsumerWidget {
             title: const Text('プライバシーポリシー'),
             onTap: () {
               //TODO: プライバシーポリシーの画面に遷移
+              if (myProfileState == null) return;
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (
+                      context,
+                      animation1,
+                      animation2,
+                      ) =>
+                      PrivacyPolicyScreen(),
+                  transitionsBuilder: (
+                      context,
+                      animation1,
+                      animation2,
+                      child,
+                      ) =>
+                      SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(1, 0),
+                          end: Offset.zero,
+                        ).animate(animation1),
+                        child: child,
+                      ),
+                  transitionDuration: const Duration(milliseconds: 300),
+                ),
+              );
             },
           ),
           ListTile(
