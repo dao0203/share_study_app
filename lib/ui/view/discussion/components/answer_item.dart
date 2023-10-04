@@ -14,6 +14,7 @@ class AnswerItem extends HookConsumerWidget {
     required this.onLongPress,
     required this.questionerId,
     required this.isResolved,
+    required this.isMyQuestion,
   });
 
   final Answer answer;
@@ -21,6 +22,7 @@ class AnswerItem extends HookConsumerWidget {
   final Function() onLongPress;
   final String questionerId;
   final bool isResolved;
+  final bool isMyQuestion;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,6 +37,10 @@ class AnswerItem extends HookConsumerWidget {
         if (isResolved && !answer.isBestAnswer) {
           Logger().i(
               'isResolved: $isResolved answer.isBestAnswer: ${answer.isBestAnswer}');
+          return;
+        }
+        if (!isMyQuestion) {
+          Logger().i('isMyQuestion: $isMyQuestion');
           return;
         }
         showDialog(
