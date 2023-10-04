@@ -28,6 +28,7 @@ mixin _$QuestionUiModel {
   String? get questionerImageUrl => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  bool get isMyQuestion => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $QuestionUiModelCopyWith<QuestionUiModel> get copyWith =>
@@ -51,7 +52,8 @@ abstract class $QuestionUiModelCopyWith<$Res> {
       String questionerNickname,
       String? questionerImageUrl,
       DateTime createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      bool isMyQuestion});
 }
 
 /// @nodoc
@@ -78,6 +80,7 @@ class _$QuestionUiModelCopyWithImpl<$Res, $Val extends QuestionUiModel>
     Object? questionerImageUrl = freezed,
     Object? createdAt = null,
     Object? updatedAt = freezed,
+    Object? isMyQuestion = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -124,6 +127,10 @@ class _$QuestionUiModelCopyWithImpl<$Res, $Val extends QuestionUiModel>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isMyQuestion: null == isMyQuestion
+          ? _value.isMyQuestion
+          : isMyQuestion // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -147,7 +154,8 @@ abstract class _$$_QuestionUiModelCopyWith<$Res>
       String questionerNickname,
       String? questionerImageUrl,
       DateTime createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      bool isMyQuestion});
 }
 
 /// @nodoc
@@ -172,6 +180,7 @@ class __$$_QuestionUiModelCopyWithImpl<$Res>
     Object? questionerImageUrl = freezed,
     Object? createdAt = null,
     Object? updatedAt = freezed,
+    Object? isMyQuestion = null,
   }) {
     return _then(_$_QuestionUiModel(
       id: null == id
@@ -218,6 +227,10 @@ class __$$_QuestionUiModelCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isMyQuestion: null == isMyQuestion
+          ? _value.isMyQuestion
+          : isMyQuestion // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -236,7 +249,8 @@ class _$_QuestionUiModel implements _QuestionUiModel {
       required this.questionerNickname,
       this.questionerImageUrl,
       required this.createdAt,
-      required this.updatedAt});
+      required this.updatedAt,
+      required this.isMyQuestion});
 
 //質問
   @override
@@ -262,10 +276,12 @@ class _$_QuestionUiModel implements _QuestionUiModel {
   final DateTime createdAt;
   @override
   final DateTime? updatedAt;
+  @override
+  final bool isMyQuestion;
 
   @override
   String toString() {
-    return 'QuestionUiModel(id: $id, title: $title, content: $content, subjectName: $subjectName, questionImageUrl: $questionImageUrl, isResolved: $isResolved, questionerId: $questionerId, questionerNickname: $questionerNickname, questionerImageUrl: $questionerImageUrl, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'QuestionUiModel(id: $id, title: $title, content: $content, subjectName: $subjectName, questionImageUrl: $questionImageUrl, isResolved: $isResolved, questionerId: $questionerId, questionerNickname: $questionerNickname, questionerImageUrl: $questionerImageUrl, createdAt: $createdAt, updatedAt: $updatedAt, isMyQuestion: $isMyQuestion)';
   }
 
   @override
@@ -291,7 +307,9 @@ class _$_QuestionUiModel implements _QuestionUiModel {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.isMyQuestion, isMyQuestion) ||
+                other.isMyQuestion == isMyQuestion));
   }
 
   @override
@@ -307,7 +325,8 @@ class _$_QuestionUiModel implements _QuestionUiModel {
       questionerNickname,
       questionerImageUrl,
       createdAt,
-      updatedAt);
+      updatedAt,
+      isMyQuestion);
 
   @JsonKey(ignore: true)
   @override
@@ -328,7 +347,8 @@ abstract class _QuestionUiModel implements QuestionUiModel {
       required final String questionerNickname,
       final String? questionerImageUrl,
       required final DateTime createdAt,
-      required final DateTime? updatedAt}) = _$_QuestionUiModel;
+      required final DateTime? updatedAt,
+      required final bool isMyQuestion}) = _$_QuestionUiModel;
 
   @override //質問
   String get id;
@@ -352,6 +372,8 @@ abstract class _QuestionUiModel implements QuestionUiModel {
   DateTime get createdAt;
   @override
   DateTime? get updatedAt;
+  @override
+  bool get isMyQuestion;
   @override
   @JsonKey(ignore: true)
   _$$_QuestionUiModelCopyWith<_$_QuestionUiModel> get copyWith =>

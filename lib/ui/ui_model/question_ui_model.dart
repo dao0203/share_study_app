@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:share_study_app/data/domain/question_use_case_model.dart';
 
 part 'question_ui_model.freezed.dart';
 
@@ -18,5 +19,25 @@ abstract class QuestionUiModel with _$QuestionUiModel {
     String? questionerImageUrl,
     required DateTime createdAt,
     required DateTime? updatedAt,
+    required bool isMyQuestion,
   }) = _QuestionUiModel;
+
+  factory QuestionUiModel.fromQuestionUseCaseModel({
+    required QuestionUseCaseModel questionUseCaseModel,
+  }) {
+    return QuestionUiModel(
+      id: questionUseCaseModel.question.id,
+      title: questionUseCaseModel.question.title,
+      content: questionUseCaseModel.question.content,
+      subjectName: questionUseCaseModel.question.subjectName,
+      questionImageUrl: questionUseCaseModel.question.imageUrl,
+      isResolved: questionUseCaseModel.question.isResolved,
+      questionerId: questionUseCaseModel.question.questioner.id,
+      questionerNickname: questionUseCaseModel.question.questioner.nickname,
+      questionerImageUrl: questionUseCaseModel.question.questioner.imageUrl,
+      createdAt: questionUseCaseModel.question.createdAt,
+      updatedAt: questionUseCaseModel.question.updatedAt,
+      isMyQuestion: questionUseCaseModel.isMyQuestion,
+    );
+  }
 }
