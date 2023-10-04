@@ -7,6 +7,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('プライバシーポリシー'),
+        scrolledUnderElevation: 0,
       ),
       body: const Markdown(data: _privacyPolicy),
     );
