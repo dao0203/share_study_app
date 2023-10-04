@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:share_study_app/data/domain/question.dart';
-import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/question_item.dart';
+import 'package:share_study_app/ui/ui_model/question_ui_model.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
+import 'package:share_study_app/use_case/di/use_case_providers.dart';
+import 'package:share_study_app/util/pagination_by_keyword_args.dart';
 
 class SearchContent extends StatefulHookConsumerWidget {
   const SearchContent({super.key, required this.keyword});
@@ -17,7 +18,7 @@ class SearchContent extends StatefulHookConsumerWidget {
 
 class _SearchContentState extends ConsumerState<SearchContent> {
   static const _pageSize = 10;
-  final PagingController<int, Question> _pagingController =
+  final PagingController<int, QuestionUiModel> _pagingController =
       PagingController(firstPageKey: 0);
   @override
   void initState() {
@@ -36,8 +37,15 @@ class _SearchContentState extends ConsumerState<SearchContent> {
   Future<void> _fetchPage(String keyword, int pageKey) async {
     try {
       final newItems = await ref
-          .read(questionRepositoryProvider)
-          .getWithPaginationAndKeyword(pageKey, _pageSize + pageKey, keyword);
+          .read(getQuestionsWithPaginationAndKeywordUseCaseProvider)
+          .call(PaginationByKeywordArgs(
+              start: pageKey, end: _pageSize + pageKey, keyword: keyword))
+          .then((value) {
+        return value.map((e) {
+          return QuestionUiModel.fromQuestionUseCaseModel(
+              questionUseCaseModel: e);
+        }).toList();
+      });
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -54,10 +62,10 @@ class _SearchContentState extends ConsumerState<SearchContent> {
   Widget build(BuildContext context) {
     return PagedListView.separated(
       pagingController: _pagingController,
-      builderDelegate: PagedChildBuilderDelegate<Question>(
-        itemBuilder: (context, question, index) {
+      builderDelegate: PagedChildBuilderDelegate<QuestionUiModel>(
+        itemBuilder: (context, questionUiModel, index) {
           return QuestionItem(
-            question: question,
+            questionUiModel: questionUiModel,
             onIconPressed: () {
               Navigator.of(context).push(
                 PageRouteBuilder(
@@ -66,7 +74,7 @@ class _SearchContentState extends ConsumerState<SearchContent> {
                     animation1,
                     animation2,
                   ) =>
-                      ProfileScreen(profileId: question.questioner.id),
+                      ProfileScreen(profileId: questionUiModel.questionerId),
                   transitionsBuilder: (
                     context,
                     animation1,
@@ -92,7 +100,7 @@ class _SearchContentState extends ConsumerState<SearchContent> {
                     animation1,
                     animation2,
                   ) =>
-                      DiscussionScreen(questionId: question.id),
+                      DiscussionScreen(questionId: questionUiModel.id),
                   transitionsBuilder: (
                     context,
                     animation1,
