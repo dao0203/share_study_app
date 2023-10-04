@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_study_app/data/domain/question.dart';
+import 'package:share_study_app/ui/ui_model/question_ui_model.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
 import 'package:share_study_app/util/date_formatter.dart';
 
 class QuestionItem extends HookConsumerWidget {
-  final Question question;
+  final QuestionUiModel questionUiModel;
   final Function() onPressed;
   final Function() onIconPressed;
 
   const QuestionItem({
     super.key,
-    required this.question,
+    required this.questionUiModel,
     required this.onPressed,
     required this.onIconPressed,
   });
@@ -30,10 +30,10 @@ class QuestionItem extends HookConsumerWidget {
               onTap: () => onIconPressed(),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: question.questioner.imageUrl != null
+                child: questionUiModel.questionImageUrl != null
                     ? CircleAvatar(
                         backgroundImage:
-                            NetworkImage(question.questioner.imageUrl!),
+                            NetworkImage(questionUiModel.questionImageUrl!),
                         //サイズ
                         radius: 20,
                       )
@@ -53,7 +53,7 @@ class QuestionItem extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      limitTextTenChars(question.questioner.nickname),
+                      limitTextTenChars(questionUiModel.questionerNickname),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -63,7 +63,7 @@ class QuestionItem extends HookConsumerWidget {
                     Text(
                       ref
                           .watch(dateFormatterProvider)
-                          .format(question.createdAt),
+                          .format(questionUiModel.createdAt),
                       style: const TextStyle(
                         fontSize: 12,
                       ),
@@ -73,7 +73,7 @@ class QuestionItem extends HookConsumerWidget {
                       child: Align(
                         alignment: Alignment.bottomRight,
                         child: Text(
-                          question.subjectName,
+                          questionUiModel.subjectName,
                           style: const TextStyle(
                             fontSize: 12,
                           ),
@@ -84,7 +84,7 @@ class QuestionItem extends HookConsumerWidget {
                   ],
                 ),
                 Text(
-                  question.title,
+                  questionUiModel.title,
                   style: const TextStyle(
                     fontSize: 18,
                   ),
@@ -98,10 +98,11 @@ class QuestionItem extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Icon(
-                  question.isResolved
+                  questionUiModel.isResolved
                       ? Icons.check_box
                       : Icons.check_circle_outline,
-                  color: question.isResolved ? Colors.green : Colors.grey,
+                  color:
+                      questionUiModel.isResolved ? Colors.green : Colors.grey,
                 ),
               ],
             ),
