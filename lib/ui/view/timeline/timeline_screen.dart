@@ -12,7 +12,7 @@ import 'package:share_study_app/ui/view/question_post/question_post_screen.dart'
 import 'package:share_study_app/ui/components/question_item.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:share_study_app/use_case/di/use_case_providers.dart';
-import 'package:share_study_app/util/page_args.dart';
+import 'package:share_study_app/util/pagination_args.dart';
 
 class TimelineScreen extends StatefulHookConsumerWidget {
   const TimelineScreen({super.key});
@@ -46,7 +46,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
     try {
       final newItems = await ref
           .read(getQuestionsWithPaginationUseCaseProvider)
-          .call(PageArgs(start: pageKey, end: pageKey + _pageSize))
+          .call(PaginationArgs(start: pageKey, end: pageKey + _pageSize))
           .then((value) {
         return value.map((e) {
           return QuestionUiModel.fromQuestionUseCaseModel(

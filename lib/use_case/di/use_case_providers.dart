@@ -7,6 +7,7 @@ import 'package:share_study_app/use_case/get_question_use_case.dart';
 import 'package:share_study_app/use_case/get_questions_with_pagination_and_keyword_use_case.dart';
 import 'package:share_study_app/use_case/get_questions_with_pagination_and_profile_id_use_case.dart';
 import 'package:share_study_app/use_case/get_questions_with_pagination_use_case.dart';
+import 'package:share_study_app/use_case/get_resolved_questions_with_pagination_and_profile_id_use_case.dart';
 import 'package:share_study_app/use_case/set_up_splash_use_case.dart';
 
 final getMyProfileUseCaseProvider = Provider<GetMyProfileUseCase>((ref) {
@@ -62,6 +63,13 @@ final getQuestionsWithPaginationAndProfileIdUseCase =
 final getQuestionsWithPaginationAndKeywordUseCaseProvider =
     Provider<GetQuestionsWithPaginationAndKeywordUseCase>((ref) {
   return GetQuestionsWithPaginationAndKeywordUseCase(
+    ref.watch(questionRepositoryProvider),
+  );
+});
+
+final getResolvedQuestionsWithPaginationAndProfileIdUseCaseProvider =
+    Provider<GetResolvedQuestionsWithPaginationAndProfileIdUseCase>((ref) {
+  return GetResolvedQuestionsWithPaginationAndProfileIdUseCase(
     ref.watch(questionRepositoryProvider),
   );
 });

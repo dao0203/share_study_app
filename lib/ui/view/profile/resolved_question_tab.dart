@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:share_study_app/data/domain/question.dart';
-import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/question_item.dart';
+import 'package:share_study_app/ui/ui_model/question_ui_model.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
+import 'package:share_study_app/use_case/di/use_case_providers.dart';
+import 'package:share_study_app/util/pagination_by_profile_id_args.dart';
 
 class ResolvedQuestionTab extends StatefulHookConsumerWidget {
   const ResolvedQuestionTab({super.key, required this.profileId});
@@ -20,7 +21,7 @@ class _AnswerTabState extends ConsumerState<ResolvedQuestionTab>
   bool get wantKeepAlive => true;
 
   static const _pageSize = 10;
-  final PagingController<int, Question> _pagingController =
+  final PagingController<int, QuestionUiModel> _pagingController =
       PagingController(firstPageKey: 0);
 
   @override
@@ -34,9 +35,20 @@ class _AnswerTabState extends ConsumerState<ResolvedQuestionTab>
   Future<void> _fetchPage(int pageKey) async {
     try {
       final newItems = await ref
-          .watch(questionRepositoryProvider)
-          .getResolvedWithPaginationAndProfileId(
-              widget.profileId, pageKey, _pageSize + pageKey);
+          .watch(getResolvedQuestionsWithPaginationAndProfileIdUseCaseProvider)
+          .call(
+            PaginationByProfileIdArgs(
+              start: pageKey,
+              end: pageKey + _pageSize,
+              profileId: widget.profileId,
+            ),
+          )
+          .then((value) {
+        return value
+            .map((e) => QuestionUiModel.fromQuestionUseCaseModel(
+                questionUseCaseModel: e))
+            .toList();
+      });
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -59,9 +71,9 @@ class _AnswerTabState extends ConsumerState<ResolvedQuestionTab>
       child: PagedListView.separated(
         separatorBuilder: (context, index) => const Divider(),
         pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<Question>(
-          itemBuilder: (context, question, index) => QuestionItem(
-            question: question,
+        builderDelegate: PagedChildBuilderDelegate<QuestionUiModel>(
+          itemBuilder: (context, questionUiModel, index) => QuestionItem(
+            questionUiModel: questionUiModel,
             onPressed: () {
               Navigator.of(context).push(
                 PageRouteBuilder(
@@ -70,7 +82,7 @@ class _AnswerTabState extends ConsumerState<ResolvedQuestionTab>
                     animation1,
                     animation2,
                   ) =>
-                      DiscussionScreen(questionId: question.id),
+                      DiscussionScreen(questionId: questionUiModel.id),
                   transitionsBuilder: (
                     context,
                     animation1,

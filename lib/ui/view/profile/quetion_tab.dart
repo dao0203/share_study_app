@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:share_study_app/data/domain/question.dart';
-import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/question_item.dart';
+import 'package:share_study_app/ui/ui_model/question_ui_model.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
+import 'package:share_study_app/use_case/di/use_case_providers.dart';
+import 'package:share_study_app/util/pagination_by_profile_id_args.dart';
 
 class QuetionTab extends StatefulHookConsumerWidget {
   const QuetionTab({super.key, required this.profileId});
@@ -18,7 +19,7 @@ class QuetionTab extends StatefulHookConsumerWidget {
 class _QuetionTabState extends ConsumerState<QuetionTab>
     with AutomaticKeepAliveClientMixin {
   static const _pageSize = 10;
-  final PagingController<int, Question> _pagingController =
+  final PagingController<int, QuestionUiModel> _pagingController =
       PagingController(firstPageKey: 0);
 
   @override
@@ -41,9 +42,20 @@ class _QuetionTabState extends ConsumerState<QuetionTab>
   Future<void> _fetchPage(int pageKey) async {
     try {
       final newItems = await ref
-          .read(questionRepositoryProvider)
-          .getWithPaginationAndProfileId(
-              pageKey, _pageSize + pageKey, widget.profileId);
+          .read(getQuestionsWithPaginationAndProfileIdUseCase)
+          .call(
+            PaginationByProfileIdArgs(
+              start: pageKey,
+              end: pageKey + _pageSize,
+              profileId: widget.profileId,
+            ),
+          )
+          .then((value) {
+        return value
+            .map((e) => QuestionUiModel.fromQuestionUseCaseModel(
+                questionUseCaseModel: e))
+            .toList();
+      });
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -65,13 +77,13 @@ class _QuetionTabState extends ConsumerState<QuetionTab>
       ),
       child: PagedListView.separated(
         pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<Question>(
-          itemBuilder: (context, question, index) =>
+        builderDelegate: PagedChildBuilderDelegate<QuestionUiModel>(
+          itemBuilder: (context, questionUiModel, index) =>
               AnimationConfiguration.staggeredList(
             position: index,
             child: FadeInAnimation(
               child: QuestionItem(
-                question: question,
+                questionUiModel: questionUiModel,
                 onIconPressed: () {},
                 onPressed: () {
                   Navigator.of(context).push(
@@ -81,7 +93,7 @@ class _QuetionTabState extends ConsumerState<QuetionTab>
                         animation1,
                         animation2,
                       ) =>
-                          DiscussionScreen(questionId: question.id),
+                          DiscussionScreen(questionId: questionUiModel.id),
                       transitionsBuilder: (
                         context,
                         animation1,

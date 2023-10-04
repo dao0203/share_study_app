@@ -8,7 +8,7 @@ import 'package:share_study_app/data/domain/my_notification.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
 import 'package:share_study_app/ui/view/norification/components/my_notification_item.dart';
 import 'package:share_study_app/use_case/di/use_case_providers.dart';
-import 'package:share_study_app/util/page_args.dart';
+import 'package:share_study_app/util/pagination_args.dart';
 
 class NotificationScreen extends StatefulHookConsumerWidget {
   const NotificationScreen({super.key});
@@ -33,7 +33,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     try {
       final newItems = await ref
           .watch(getMyNotificationsWithPaginationUseCaseProvider)
-          .call(PageArgs(
+          .call(PaginationArgs(
             start: pageKey,
             end: pageKey + _pageSize,
           ));
