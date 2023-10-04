@@ -174,8 +174,6 @@ class ShareStudyDrawer extends HookConsumerWidget {
             leading: const Icon(Icons.privacy_tip_outlined),
             title: const Text('プライバシーポリシー'),
             onTap: () {
-              //TODO: プライバシーポリシーの画面に遷移
-              if (myProfileState == null) return;
               Navigator.of(context).push(
                 PageRouteBuilder(
                   pageBuilder: (
