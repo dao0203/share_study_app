@@ -65,6 +65,9 @@ dependencies:
   ## flutter_svg
   flutter_svg: ^2.0.7
 
+  ## flutter_markdown
+  flutter_markdown: ^0.6.17+4
+
   ## intl
   intl: ^0.18.1
 
