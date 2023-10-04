@@ -181,7 +181,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                       animation1,
                       animation2,
                       ) =>
-                      PrivacyPolicyScreen(),
+                      const PrivacyPolicyScreen(),
                   transitionsBuilder: (
                       context,
                       animation1,
