@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
 import 'package:share_study_app/util/date_formatter.dart';
@@ -12,12 +13,14 @@ class AnswerItem extends HookConsumerWidget {
     required this.onIconPressed,
     required this.onLongPress,
     required this.questionerId,
+    required this.isResolved,
   });
 
   final Answer answer;
   final Function() onIconPressed;
   final Function() onLongPress;
   final String questionerId;
+  final bool isResolved;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,6 +28,13 @@ class AnswerItem extends HookConsumerWidget {
       behavior: HitTestBehavior.translucent,
       onLongPress: () {
         if (answer.answerer.id == questionerId) {
+          Logger().i(
+              'answer.answerer.id: ${answer.answerer.id} questionerId: $questionerId');
+          return;
+        }
+        if (isResolved && !answer.isBestAnswer) {
+          Logger().i(
+              'isResolved: $isResolved answer.isBestAnswer: ${answer.isBestAnswer}');
           return;
         }
         showDialog(

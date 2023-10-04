@@ -227,7 +227,8 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                         ),
                         const SizedBox(height: 8),
                         ElevatedButton(
-                          onPressed: () => _pagingController.refresh(),
+                          onPressed: () => ref.refresh(
+                              questionStateProvider(widget.questionId)),
                           child: const Text('リトライ'),
                         ),
                       ],
@@ -301,13 +302,17 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                   return ref.refresh(
                                       questionStateProvider(widget.questionId));
                                   // ignore: body_might_complete_normally_catch_error
-                                }).catchError((error) {
-                                  Navigator.of(
-                                    context,
-                                    rootNavigator: true,
-                                  ).pop();
-                                });
+                                }).catchError(
+                                  (error) {
+                                    Navigator.of(
+                                      context,
+                                      rootNavigator: true,
+                                    ).pop();
+                                  },
+                                );
                               },
+                              isResolved:
+                                  question.asData?.value.isResolved ?? false,
                             ),
                           ),
                         ),

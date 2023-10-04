@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:logger/logger.dart';
 import 'package:share_study_app/ui/ui_model/question_ui_model.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
 import 'package:share_study_app/util/date_formatter.dart';
