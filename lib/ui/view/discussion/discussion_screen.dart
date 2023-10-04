@@ -257,6 +257,8 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                           child: FadeInAnimation(
                             child: AnswerItem(
                               answer: answer,
+                              questionerId:
+                                  question.asData?.value.questioner.id ?? '',
                               onIconPressed: () {
                                 Navigator.of(context).push(
                                   PageRouteBuilder(
