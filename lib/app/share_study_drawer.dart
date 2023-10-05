@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
-import 'package:share_study_app/ui/view/about/about_screen.dart';
+import 'package:share_study_app/ui/view/about_app/about_app_ascreen.dart';
 import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/ui/view/tos/tos_screen.dart';
@@ -171,7 +171,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                     animation1,
                     animation2,
                   ) =>
-                      const AboutScreen(),
+                      const AboutAppScreen(),
                   transitionsBuilder: (
                     context,
                     animation1,
