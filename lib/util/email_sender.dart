@@ -7,11 +7,11 @@ final emailSenderProvider = Provider((ref) {
 });
 
 class EmailSender {
-  Future<void> sendEmail(String message) async {
+  Future<void> setupEmail() async {
     // Send email
     final Email email = Email(
-      body: message,
-      subject: 'シェアスタについてのお問い合わせ',
+      body: '',
+      subject: '',
       recipients: ['sharestaformail@gmail.com'],
     );
 

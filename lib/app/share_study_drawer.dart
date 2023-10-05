@@ -3,10 +3,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
-import 'package:share_study_app/ui/view/inquiry/inquiry_screen.dart';
 import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/ui/view/tos/tos_screen.dart';
+import 'package:share_study_app/util/email_sender.dart';
 
 class ShareStudyDrawer extends HookConsumerWidget {
   const ShareStudyDrawer({super.key});
@@ -228,32 +228,18 @@ class ShareStudyDrawer extends HookConsumerWidget {
           ListTile(
             leading: const Icon(Icons.contact_support_outlined),
             title: const Text('お問い合わせ'),
-            onTap: () {
-              //下からScreenを出す.ModalBottomSheetではなく、画面遷移として実装
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                  ) =>
-                      const InquiryScreen(),
-                  transitionsBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                    child,
-                  ) =>
-                      SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, 1),
-                      end: Offset.zero,
-                    ).animate(animation1),
-                    child: child,
+            onTap: () async {
+              await ref
+                  .watch(emailSenderProvider)
+                  .setupEmail()
+                  .catchError((error) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('お問い合わせの送信に失敗しました'),
                   ),
-                  transitionDuration: const Duration(milliseconds: 150),
-                ),
-              );
+                );
+                // Navigator.of(context).pop();
+              });
             },
           ),
           ListTile(
