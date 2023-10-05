@@ -67,9 +67,12 @@ dependencies:
 
   ## intl
   intl: ^0.18.1
-  
+
   ## flutter_markdown
   flutter_markdown: ^0.6.17+4
+
+  ## flutter_email_sender
+  flutter_email_sender: ^6.0.2
 
 dev_dependencies:
   flutter_test:
