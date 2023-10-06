@@ -62,9 +62,33 @@ class QuestionPostScreen extends HookConsumerWidget {
                         .then(
                       (value) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('質問を投稿しました'),
-                          ),
+                          SnackBar(
+                            content: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.check,
+                                    color: Colors.green,
+                                  ),
+                                  Text(
+                                    '質問が投稿できました！',
+                                    style: TextStyle(color: Colors.green),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                            showCloseIcon: true,
+                            elevation: 4.0,
+                            backgroundColor: Colors.white,
+                            closeIconColor: Colors.green,
+                            clipBehavior: Clip.hardEdge,
+                            dismissDirection: DismissDirection.horizontal,
+                          )
                         );
                       },
                     ).catchError((error) {
