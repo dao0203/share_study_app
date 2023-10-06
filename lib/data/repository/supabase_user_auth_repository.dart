@@ -21,7 +21,17 @@ final class SupabaseUserAuthRepository implements UserAuthRepository {
 
   @override
   Future<void> signIn(String email, String password) async {
-    await _client.signInWithPassword(email: email, password: password);
+    try {
+      Logger().d('email: $email, password: $password');
+      await _client.signInWithPassword(email: email, password: password);
+    } on AuthException catch (e, stacktrace) {
+      if (e.message == 'Invalid login credentials') {
+        throw const AuthException('invalid_email_or_password');
+      } else {
+        Logger().e(e.message + stacktrace.toString());
+        throw AuthException(e.message);
+      }
+    }
   }
 
   @override
@@ -31,7 +41,11 @@ final class SupabaseUserAuthRepository implements UserAuthRepository {
       await _client.signUp(email: email, password: password);
     } on AuthException catch (e, stacktrace) {
       Logger().e(e.message + stacktrace.toString());
-      rethrow;
+      if (e.message == 'User already registered') {
+        throw const AuthException('user_already_registered');
+      } else {
+        throw AuthException(e.message);
+      }
     }
   }
 }

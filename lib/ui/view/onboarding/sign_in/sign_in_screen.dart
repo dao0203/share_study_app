@@ -120,6 +120,21 @@ class SignInScreen extends HookConsumerWidget {
                               ),
                               (_) => false,
                             );
+                          }).catchError((e, stacktrace) {
+                            if (e.message == 'invalid_email_or_password') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('メールアドレスまたはパスワードが間違っています'),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('サインインに失敗しました'),
+                                ),
+                              );
+                            }
+                            Navigator.of(context).pop();
                           });
                         }
                       },

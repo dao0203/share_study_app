@@ -7,6 +7,7 @@ import 'package:share_study_app/ui/view/about_app/about_app_ascreen.dart';
 import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/ui/view/tos/tos_screen.dart';
+import 'package:share_study_app/util/email_sender.dart';
 
 class ShareStudyDrawer extends HookConsumerWidget {
   const ShareStudyDrawer({super.key});
@@ -253,8 +254,18 @@ class ShareStudyDrawer extends HookConsumerWidget {
           ListTile(
             leading: const Icon(Icons.contact_support_outlined),
             title: const Text('お問い合わせ'),
-            onTap: () {
-              //TODO: お問い合わせの画面に遷移
+            onTap: () async {
+              await ref
+                  .watch(emailSenderProvider)
+                  .setupEmail()
+                  .catchError((error) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('お問い合わせの送信に失敗しました'),
+                  ),
+                );
+                // Navigator.of(context).pop();
+              });
             },
           ),
           ListTile(
