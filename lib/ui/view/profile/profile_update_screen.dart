@@ -189,7 +189,7 @@ class ProfileUpdateScreen extends HookConsumerWidget {
                                 ? IconButton(
                                     onPressed: () async {
                                       await imagePickerApp
-                                          .pickImageFromGallery()
+                                          .pickImageFromCamera()
                                           .then(
                                         (value) {
                                           xFile.value = value;

@@ -86,10 +86,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               .background,
                                           elevation: 4,
                                         ),
-                                        child: const Text(
+                                        child: Text(
                                           '編集・設定',
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
                                           ),
                                         ),
                                       )
