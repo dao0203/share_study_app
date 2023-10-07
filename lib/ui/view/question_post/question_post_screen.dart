@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 
 class QuestionPostScreen extends HookConsumerWidget {
   const QuestionPostScreen({super.key});
@@ -47,36 +48,16 @@ class QuestionPostScreen extends HookConsumerWidget {
                     FocusScope.of(context).unfocus();
                     //最初にスナックバーを表示
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: Colors.white,
-                        content: const Row(
-                          children: [
-                            CircularProgressIndicator(
-                              // ローディングアニメーション
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.black),
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              '質問を投稿しています...',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
+                      CustomSnackBar.create(
+                        context: context,
+                        text: '質問を投稿しています...',
+
+                        // progressIndicatorの色をTheme.of(context).colorScheme.onBackgroundにする
+                        progressIndicator: const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.green,
+                          ),
                         ),
-                        duration: const Duration(seconds: 2),
-                        // SnackBarの表示時間を設定
-                        behavior: SnackBarBehavior.floating,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        showCloseIcon: true,
-                        elevation: 4.0,
-                        closeIconColor: Colors.black,
-                        clipBehavior: Clip.hardEdge,
-                        dismissDirection: DismissDirection.horizontal,
                       ),
                     );
                     Logger().d('QuestionPostScreen onPressed');
@@ -88,72 +69,22 @@ class QuestionPostScreen extends HookConsumerWidget {
                     )
                         .then(
                       (value) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.check,
-                                    color: Colors.green,
-                                  ),
-                                  Text(
-                                    '質問が投稿できました！',
-                                    style: TextStyle(color: Colors.green),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            behavior: SnackBarBehavior.floating,
-                            showCloseIcon: true,
-                            elevation: 4.0,
-                            backgroundColor: Colors.white,
-                            closeIconColor: Colors.green,
-                            clipBehavior: Clip.hardEdge,
-                            dismissDirection: DismissDirection.horizontal,
-                          ),
-                        );
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(CustomSnackBar.create(
+                          context: context,
+                          text: '質問が投稿できました！',
+                          icon: const Icon(Icons.check, color: Colors.green),
+                        ));
                         //デバッグ用のメッセージを追加
                         Logger().d('質問の投稿が成功したよ！');
                         Navigator.pop(context);
                       },
                     ).catchError((error) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          padding: const EdgeInsetsDirectional.symmetric(
-                              horizontal: 16),
-                          margin: const EdgeInsetsDirectional.all(16),
-                          content: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.cancel,
-                                  color: Colors.red,
-                                ),
-                                Text(
-                                  '質問の投稿に失敗しました: $error',
-                                  style: const TextStyle(color: Colors.red),
-                                ),
-                              ],
-                            ),
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          behavior: SnackBarBehavior.floating,
-                          showCloseIcon: true,
-                          elevation: 4.0,
-                          backgroundColor: Colors.white,
-                          closeIconColor: Colors.red,
-                          clipBehavior: Clip.hardEdge,
-                          dismissDirection: DismissDirection.horizontal,
-                        ),
-                      );
+                          CustomSnackBar.createError(
+                              context: context,
+                              text: 'エラーが発生しました',
+                              icon: const Icon(Icons.error, color: Colors.red)));
                     });
                   },
             style: ElevatedButton.styleFrom(
