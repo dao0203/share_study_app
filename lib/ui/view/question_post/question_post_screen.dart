@@ -79,7 +79,6 @@ class QuestionPostScreen extends HookConsumerWidget {
                         dismissDirection: DismissDirection.horizontal,
                       ),
                     );
-                    Navigator.pop(context);
                     Logger().d('QuestionPostScreen onPressed');
                     await questionRepository
                         .add(
@@ -120,6 +119,7 @@ class QuestionPostScreen extends HookConsumerWidget {
                         );
                         //デバッグ用のメッセージを追加
                         Logger().d('質問の投稿が成功したよ！');
+                        Navigator.pop(context);
                       },
                     ).catchError((error) {
                       ScaffoldMessenger.of(context).showSnackBar(
