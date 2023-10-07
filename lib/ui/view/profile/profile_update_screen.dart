@@ -283,6 +283,15 @@ class ProfileUpdateScreen extends HookConsumerWidget {
                       );
                     },
                   ),
+                  TextField(
+                    controller: bioController,
+                    decoration: const InputDecoration(
+                      labelText: '自己紹介',
+                      prefixIcon: Icon(Icons.person),
+                    ),
+                    maxLength: 100,
+                    maxLines: 3,
+                  ),
                 ],
               ),
             ),
