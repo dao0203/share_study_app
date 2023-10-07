@@ -305,6 +305,74 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               ),
                             ),
                           ),
+                          const SizedBox(width: 16),
+                          //大学名
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              data.profile.universityName,
+                              style: TextStyle(
+                                fontSize: 16,
+                                //すこし透明にする
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.7),
+                              ),
+                            ),
+                          ),
+                          //学部名
+                          data.profile.facultyName != null
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Text(
+                                    data.profile.facultyName!,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      //すこし透明にする
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withOpacity(0.7),
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox(),
+                          //学科名
+                          data.profile.departmentName != null
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Text(
+                                    data.profile.departmentName!,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      //すこし透明にする
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withOpacity(0.7),
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox(),
+                          const SizedBox(width: 8),
+                          //学年
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              data.profile.grade.toString(),
+                              style: TextStyle(
+                                fontSize: 16,
+                                //すこし透明にする
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.7),
+                              ),
+                            ),
+                          ),
                           //自己紹介
                           const SizedBox(height: 16),
                           Padding(
