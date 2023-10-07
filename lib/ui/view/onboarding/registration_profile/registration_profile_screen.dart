@@ -155,7 +155,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                                             .colorScheme
                                             .inverseSurface,
                                         child: Icon(
-                                          Icons.close,
+                                          Icons.delete,
                                           size: 20,
                                           color: Theme.of(context)
                                               .colorScheme
