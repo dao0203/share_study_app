@@ -118,38 +118,42 @@ class QuestionPostScreen extends HookConsumerWidget {
                             dismissDirection: DismissDirection.horizontal,
                           ),
                         );
+                        //デバッグ用のメッセージを追加
+                        Logger().d('質問の投稿が成功したよ！');
                       },
                     ).catchError((error) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        padding: const EdgeInsetsDirectional.symmetric(
-                            horizontal: 16),
-                        margin: const EdgeInsetsDirectional.all(16),
-                        content: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.cancel,
-                                color: Colors.red,
-                              ),
-                              Text(
-                                '質問の投稿に失敗しました: $error',
-                                style: const TextStyle(color: Colors.red),
-                              ),
-                            ],
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          padding: const EdgeInsetsDirectional.symmetric(
+                              horizontal: 16),
+                          margin: const EdgeInsetsDirectional.all(16),
+                          content: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.cancel,
+                                  color: Colors.red,
+                                ),
+                                Text(
+                                  '質問の投稿に失敗しました: $error',
+                                  style: const TextStyle(color: Colors.red),
+                                ),
+                              ],
+                            ),
                           ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          showCloseIcon: true,
+                          elevation: 4.0,
+                          backgroundColor: Colors.white,
+                          closeIconColor: Colors.red,
+                          clipBehavior: Clip.hardEdge,
+                          dismissDirection: DismissDirection.horizontal,
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        behavior: SnackBarBehavior.floating,
-                        showCloseIcon: true,
-                        elevation: 4.0,
-                        backgroundColor: Colors.white,
-                        closeIconColor: Colors.red,
-                        clipBehavior: Clip.hardEdge,
-                        dismissDirection: DismissDirection.horizontal,
-                      ));
+                      );
                     });
                   },
             style: ElevatedButton.styleFrom(
