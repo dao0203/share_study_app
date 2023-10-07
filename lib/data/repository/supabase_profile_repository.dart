@@ -12,7 +12,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
     return await supabaseClient
         .from('profiles')
         .select('''
-          id, nickname, image_url, bio, university_name, faculty_name, follow_count, follower_count,
+          id, nickname, image_url, bio, university_name, faculty_name, grade, follow_count, follower_count,
           activities (question_count, answer_count, best_answer_count)
         ''')
         .eq('id', id)
@@ -32,6 +32,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
             bestAnswerCount: value['activities']['best_answer_count'] as int,
             facultyName: value['faculty_name'] as String?,
             departmentName: value['department_name'] as String?,
+            grade: value['grade'] as String?,
             bio: value['bio'] as String?,
           );
         })
@@ -52,6 +53,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
           'faculty_name': profile.facultyName,
           'department_name': profile.departmentName,
           'bio': profile.bio,
+          'grade': profile.grade,
         })
         .eq('id', profile.id)
         .whenComplete(
