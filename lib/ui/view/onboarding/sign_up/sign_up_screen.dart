@@ -147,13 +147,24 @@ class SignUpScreen extends HookConsumerWidget {
                                 ),
                                 (_) => false,
                               );
-                            }).catchError((e) {
+                            }).catchError((e, stackTrace) {
                               Logger().e(e);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(e.toString()),
-                                ),
-                              );
+                              //トーストを表示
+                              if (e.message == 'user_already_registered') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('既に登録されているメールアドレスです'),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('サインアップに失敗しました'),
+                                  ),
+                                );
+                              }
+                            }).then((value) {
+                              Navigator.of(context).pop();
                             });
                           }
                         },
