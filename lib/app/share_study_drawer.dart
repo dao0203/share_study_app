@@ -278,21 +278,48 @@ class ShareStudyDrawer extends HookConsumerWidget {
               ),
               title: const Text('ログアウト'),
               onTap: () async {
-                if (ref.read(userAuthRepositoryProvider).isUserSignedIn()) {
-                  try {
-                    await ref.read(userAuthRepositoryProvider).signOut().then(
-                          (value) => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const SignInScreen(),
-                            ),
+                // alert dialogを表示
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      // ログアウト時に表示するalert dialog
+                      return AlertDialog(
+                        title: const Text('ログアウト'),
+                        content: const Text('ログアウトしますか？'),
+                        actions: [
+                          TextButton(
+                            child: const Text('キャンセル'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                           ),
-                        );
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('ログアウトに失敗しました $e')));
-                    print(e);
-                  }
-                }
+                          TextButton(
+                            child: const Text('ログアウト'),
+                            onPressed: () async {
+                              await ref
+                                  .watch(userAuthRepositoryProvider)
+                                  .signOut()
+                                  .catchError((error) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('ログアウトに失敗しました'),
+                                  ),
+                                );
+                                Navigator.of(context).pop();
+                              }).then(
+                                (value) =>
+                                    Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => const SignInScreen(),
+                                    maintainState: false,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    });
               }),
         ],
       ),
