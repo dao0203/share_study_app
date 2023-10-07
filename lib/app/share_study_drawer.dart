@@ -9,6 +9,8 @@ import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/ui/view/tos/tos_screen.dart';
 import 'package:share_study_app/util/email_sender.dart';
 
+import '../ui/view/onboarding/sign_in/sign_in_screen.dart';
+
 class ShareStudyDrawer extends HookConsumerWidget {
   const ShareStudyDrawer({super.key});
 
@@ -276,9 +278,26 @@ class ShareStudyDrawer extends HookConsumerWidget {
             ),
             title: const Text('ログアウト'),
             onTap: () async {
-              //TODO: ログアウト処理
-              Navigator.pop(context);
-              await ref.read(userAuthRepositoryProvider).signOut();
+              try {
+                await ref.read(userAuthRepositoryProvider).signOut();
+                // SignIn画面へ遷移
+                Navigator.of(context).push(
+                    PageRouteBuilder(
+                        pageBuilder: (
+                            context,
+                            animation1,
+                            animation2,
+                            ) =>
+                        const SignInScreen(),
+                    ),
+                );
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('ログアウトに失敗しました $e'))
+                );
+                print(e);
+              }
             },
           ),
         ],
