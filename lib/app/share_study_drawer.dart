@@ -271,35 +271,29 @@ class ShareStudyDrawer extends HookConsumerWidget {
             },
           ),
           ListTile(
-            textColor: Theme.of(context).colorScheme.error,
-            leading: Icon(
-              Icons.logout,
-              color: Theme.of(context).colorScheme.error,
-            ),
-            title: const Text('ログアウト'),
-            onTap: () async {
-              try {
-                await ref.read(userAuthRepositoryProvider).signOut();
-                // SignIn画面へ遷移
-                Navigator.of(context).push(
-                    PageRouteBuilder(
-                        pageBuilder: (
-                            context,
-                            animation1,
-                            animation2,
-                            ) =>
-                        const SignInScreen(),
-                    ),
-                );
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('ログアウトに失敗しました $e'))
-                );
-                print(e);
-              }
-            },
-          ),
+              textColor: Theme.of(context).colorScheme.error,
+              leading: Icon(
+                Icons.logout,
+                color: Theme.of(context).colorScheme.error,
+              ),
+              title: const Text('ログアウト'),
+              onTap: () async {
+                if (ref.read(userAuthRepositoryProvider).isUserSignedIn()) {
+                  try {
+                    await ref.read(userAuthRepositoryProvider).signOut().then(
+                          (value) => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const SignInScreen(),
+                            ),
+                          ),
+                        );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('ログアウトに失敗しました $e')));
+                    print(e);
+                  }
+                }
+              }),
         ],
       ),
     );
