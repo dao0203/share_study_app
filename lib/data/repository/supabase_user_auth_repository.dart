@@ -17,6 +17,7 @@ final class SupabaseUserAuthRepository implements UserAuthRepository {
   @override
   Future<void> signOut() async {
     await _client.signOut();
+    Logger().d('signOut');
   }
 
   @override

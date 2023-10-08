@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
 import 'package:share_study_app/ui/view/about_app/about_app_ascreen.dart';
@@ -8,6 +9,7 @@ import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dar
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/ui/view/tos/tos_screen.dart';
 import 'package:share_study_app/util/email_sender.dart';
+import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
 
 class ShareStudyDrawer extends HookConsumerWidget {
   const ShareStudyDrawer({super.key});
@@ -260,27 +262,61 @@ class ShareStudyDrawer extends HookConsumerWidget {
                   .setupEmail()
                   .catchError((error) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('お問い合わせの送信に失敗しました'),
-                  ),
+                  CustomSnackBar.createError(context: context, text: 'お問い合わせに失敗しました')
                 );
                 // Navigator.of(context).pop();
               });
             },
           ),
           ListTile(
-            textColor: Theme.of(context).colorScheme.error,
-            leading: Icon(
-              Icons.logout,
-              color: Theme.of(context).colorScheme.error,
-            ),
-            title: const Text('ログアウト'),
-            onTap: () async {
-              //TODO: ログアウト処理
-              Navigator.pop(context);
-              await ref.read(userAuthRepositoryProvider).signOut();
-            },
-          ),
+              textColor: Theme.of(context).colorScheme.error,
+              leading: Icon(
+                Icons.logout,
+                color: Theme.of(context).colorScheme.error,
+              ),
+              title: const Text('ログアウト'),
+              onTap: () async {
+                // alert dialogを表示
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      // ログアウト時に表示するalert dialog
+                      return AlertDialog(
+                        title: const Text('ログアウト'),
+                        content: const Text('ログアウトしますか？'),
+                        actions: [
+                          TextButton(
+                            child: const Text('キャンセル'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('ログアウト'),
+                            onPressed: () async {
+                              await ref
+                                  .watch(userAuthRepositoryProvider)
+                                  .signOut()
+                                  .catchError((error) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackBar.createError(context: context, text: 'ログアウトに失敗しました')
+                                );
+                                Navigator.of(context).pop();
+                              }).then(
+                                (value) =>
+                                    Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => const SignInScreen(),
+                                    maintainState: false,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              }),
         ],
       ),
     );
