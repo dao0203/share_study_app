@@ -6,6 +6,7 @@ import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/activity_profile_state.dart';
 import 'package:share_study_app/ui/state/is_following_state.dart';
 import 'package:share_study_app/ui/view/follow/follow_screen.dart';
+import 'package:share_study_app/ui/view/profile/profile_update_screen.dart';
 import 'package:share_study_app/ui/view/profile/resolved_question_tab.dart';
 import 'package:share_study_app/ui/view/profile/quetion_tab.dart';
 
@@ -67,10 +68,38 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 const SizedBox(width: 16),
                                 //フォローボタン
                                 data.isMyProfile
-                                    ? const SizedBox()
+                                    ? ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (_) {
+                                                return ProfileUpdateScreen(
+                                                    profile: data.profile);
+                                              },
+                                              fullscreenDialog: true,
+                                            ),
+                                          );
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .background,
+                                          elevation: 4,
+                                        ),
+                                        child: Text(
+                                          '編集・設定',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                          ),
+                                        ),
+                                      )
                                     : ref
-                                        .watch(isFollowingStateProvider(
-                                            widget.profileId))
+                                        .watch(
+                                          isFollowingStateProvider(
+                                              widget.profileId),
+                                        )
                                         .when(
                                           skipError: true,
                                           skipLoadingOnRefresh: true,
@@ -275,6 +304,74 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       },
                                   ),
                                 ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          //大学名
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              data.profile.universityName,
+                              style: TextStyle(
+                                fontSize: 16,
+                                //すこし透明にする
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.7),
+                              ),
+                            ),
+                          ),
+                          //学部名
+                          data.profile.facultyName != null
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Text(
+                                    data.profile.facultyName!,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      //すこし透明にする
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withOpacity(0.7),
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox(),
+                          //学科名
+                          data.profile.departmentName != null
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Text(
+                                    data.profile.departmentName!,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      //すこし透明にする
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withOpacity(0.7),
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox(),
+                          const SizedBox(width: 8),
+                          //学年
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              data.profile.grade.toString(),
+                              style: TextStyle(
+                                fontSize: 16,
+                                //すこし透明にする
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.7),
                               ),
                             ),
                           ),
