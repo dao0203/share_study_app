@@ -86,22 +86,27 @@ class ProfileUpdateScreen extends HookConsumerWidget {
                           ),
                           xFile.value?.path,
                         )
-                        .then((value) {
-                      isLoading.value = false;
-                      Navigator.of(context).pop();
-                      // ignore: unused_result
-                      ref.refresh(myProfileStateProvider);
-                      return ref
-                          .refresh(activityProfileStateProvider(profile.id));
-                    }).catchError((e) {
-                      isLoading.value = false;
-                      //TODO: あとでエラーのスナックバーを表示する
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(e.toString()),
-                        ),
-                      );
-                    });
+                        .then(
+                      (value) {
+                        isLoading.value = false;
+                        Navigator.of(context).pop();
+                        // ignore: unused_result
+                        ref.invalidate(myProfileStateProvider);
+                        ref.invalidate(
+                            activityProfileStateProvider(profile.id));
+                      },
+                    ).catchError(
+                      (e, s) {
+                        isLoading.value = false;
+                        //TODO: エラーの種類で分岐したい、またカスタムスナックバーを他のブランチで作成している予定なので、
+                        //終わり次第ここに実装する
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString()),
+                          ),
+                        );
+                      },
+                    );
                   },
             icon: Icon(
               Icons.check,
