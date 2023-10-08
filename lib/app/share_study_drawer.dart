@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
 import 'package:share_study_app/ui/view/about_app/about_app_ascreen.dart';
@@ -261,9 +262,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                   .setupEmail()
                   .catchError((error) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('お問い合わせの送信に失敗しました'),
-                  ),
+                  CustomSnackBar.createError(context: context, text: 'お問い合わせに失敗しました')
                 );
                 // Navigator.of(context).pop();
               });
@@ -300,9 +299,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                                   .signOut()
                                   .catchError((error) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('ログアウトに失敗しました'),
-                                  ),
+                                  CustomSnackBar.createError(context: context, text: 'ログアウトに失敗しました')
                                 );
                                 Navigator.of(context).pop();
                               }).then(
