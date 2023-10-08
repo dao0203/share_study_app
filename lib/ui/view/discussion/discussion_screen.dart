@@ -421,6 +421,8 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   controller: commentController,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(12),
                     hintText: 'コメントを入力',
