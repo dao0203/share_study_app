@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/util/image_picker_app.dart';
 
 class QuestionPostScreen extends HookConsumerWidget {
   const QuestionPostScreen({super.key});
@@ -12,9 +16,11 @@ class QuestionPostScreen extends HookConsumerWidget {
     Logger().d('QuestionPostScreen build');
     final questionRepository = ref.watch(questionRepositoryProvider);
     final titleController = useTextEditingController(text: '');
+    final imagePicker = ref.watch(imagePickerAppProvider);
     final subjectController = useTextEditingController(text: '');
     final contentController = useTextEditingController(text: '');
     final areFieldEmpty = useState(true);
+    final xFile = useState<XFile?>(null);
 
     bool checkIfFieldsAreEmpty() {
       return titleController.text.isEmpty ||
@@ -58,6 +64,7 @@ class QuestionPostScreen extends HookConsumerWidget {
                       titleController.text,
                       contentController.text,
                       subjectController.text,
+                      xFile.value?.path,
                     )
                         .then(
                       (value) {
@@ -129,6 +136,43 @@ class QuestionPostScreen extends HookConsumerWidget {
                   prefixIcon: Icon(Icons.subject),
                 ),
               ),
+              const SizedBox(height: 10),
+
+              //画像の選択
+              if (xFile.value == null)
+                ElevatedButton.icon(
+                  onPressed: () async {
+                    final pickedFiles =
+                        await imagePicker.pickImageFromGallery();
+                    if (pickedFiles != null) {
+                      xFile.value = pickedFiles;
+                    }
+                  },
+                  icon: const Icon(Icons.photo_library),
+                  label: const Text('ギャラリー'),
+                ),
+              const SizedBox(height: 10),
+              //画像のプレビュー
+              Stack(
+                children: [
+                  if (xFile.value != null)
+                    Image.file(
+                      File(xFile.value!.path),
+                      width: MediaQuery.of(context).size.width,
+                    ),
+                  if (xFile.value != null)
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: IconButton(
+                        onPressed: () {
+                          xFile.value = null;
+                        },
+                        icon: const Icon(Icons.delete),
+                      ),
+                    ),
+                ],
+              )
             ],
           ),
         ),
