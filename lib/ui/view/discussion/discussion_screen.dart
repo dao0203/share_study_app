@@ -9,6 +9,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/question_state.dart';
 import 'package:share_study_app/ui/state/question_ui_model_state.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
@@ -512,8 +513,31 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                       _pagingController.refresh();
                                       answerController.clear();
                                       answerXFile.value = null;
-                                    }).catchError((error) {
-                                      SnackBar(content: Text(error.toString()));
+                                    }).catchError((error, stackTrace) {
+                                      Logger().e('error: $error $stackTrace');
+                                      final String message =
+                                          switch (error.message as String) {
+                                        'failed to add answer' =>
+                                          'コメントの投稿に失敗しました',
+                                        'failed to upload image' =>
+                                          '画像のアップロードに失敗しました',
+                                        'failed to update image url' =>
+                                          '画像のURLの更新に失敗しました',
+                                        _ => 'エラーが発生しました',
+                                      };
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        CustomSnackBar.createError(
+                                          context: context,
+                                          text: message,
+                                          icon: Icon(
+                                            Icons.error,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .error,
+                                          ),
+                                        ),
+                                      );
                                     }).whenComplete(() {
                                       isAnswerLoading.value = false;
                                     });
