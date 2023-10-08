@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 
 class QuestionPostScreen extends HookConsumerWidget {
   const QuestionPostScreen({super.key});
@@ -47,11 +48,18 @@ class QuestionPostScreen extends HookConsumerWidget {
                     FocusScope.of(context).unfocus();
                     //最初にスナックバーを表示
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('質問を投稿しています...'),
+                      CustomSnackBar.create(
+                        context: context,
+                        text: '質問を投稿しています...',
+
+                        // progressIndicatorの色をTheme.of(context).colorScheme.onBackgroundにする
+                        progressIndicator: const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.green,
+                          ),
+                        ),
                       ),
                     );
-                    Navigator.pop(context);
                     Logger().d('QuestionPostScreen onPressed');
                     await questionRepository
                         .add(
@@ -61,18 +69,22 @@ class QuestionPostScreen extends HookConsumerWidget {
                     )
                         .then(
                       (value) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('質問を投稿しました'),
-                          ),
-                        );
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(CustomSnackBar.create(
+                          context: context,
+                          text: '質問が投稿できました！',
+                          icon: const Icon(Icons.check, color: Colors.green),
+                        ));
+                        //デバッグ用のメッセージを追加
+                        Logger().d('質問の投稿が成功したよ！');
+                        Navigator.pop(context);
                       },
                     ).catchError((error) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('質問の投稿に失敗しました: $error'),
-                        ),
-                      );
+                          CustomSnackBar.createError(
+                              context: context,
+                              text: 'エラーが発生しました',
+                              icon: const Icon(Icons.error, color: Colors.red)));
                     });
                   },
             style: ElevatedButton.styleFrom(
@@ -97,8 +109,7 @@ class QuestionPostScreen extends HookConsumerWidget {
           ),
           const SizedBox(width: 10)
         ],
-      ),
-      //タイトルと科目と本文の入力
+      ), //タイトルと科目と本文の入力
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
