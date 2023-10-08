@@ -8,7 +8,6 @@ import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dar
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/ui/view/tos/tos_screen.dart';
 import 'package:share_study_app/util/email_sender.dart';
-
 import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
 
 class ShareStudyDrawer extends HookConsumerWidget {
