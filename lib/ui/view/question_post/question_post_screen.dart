@@ -43,6 +43,7 @@ class QuestionPostScreen extends HookConsumerWidget {
     }, [titleController, subjectController, contentController]);
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).colorScheme.background,
         actions: [
           ElevatedButton.icon(
