@@ -239,6 +239,21 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                         letterSpacing: 2,
                                       ),
                                     ),
+                                    //画像の表示
+                                    questionUiModel.questionImageUrl != null
+                                        ? Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              child: Image.network(
+                                                questionUiModel
+                                                    .questionImageUrl!,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox(),
                                   ],
                                 ),
                               ),
