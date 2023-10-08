@@ -83,27 +83,29 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).colorScheme.background,
-        //actionsにベストアンサーかどうかでチェックボタンを表示するかどうか
         actions: [
-          questionUiModel.when(
-            skipError: true,
-            skipLoadingOnReload: true,
-            skipLoadingOnRefresh: true,
-            data: (questionUiModel) {
-              return questionUiModel.isMyQuestion
-                  ? Icon(
-                      Icons.check_circle_outline,
-                      color: questionUiModel.isResolved
-                          ? Colors.green
-                          : Colors.grey,
-                    )
-                  : const SizedBox();
-            },
-            error: (error, stackTrace) {
-              Logger().e('error: $error $stackTrace');
-              return const SizedBox();
-            },
-            loading: () => const SizedBox(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: questionUiModel.when(
+              skipError: true,
+              skipLoadingOnReload: true,
+              skipLoadingOnRefresh: true,
+              data: (questionUiModel) {
+                return questionUiModel.isMyQuestion
+                    ? Icon(
+                        Icons.check_circle_outline,
+                        color: questionUiModel.isResolved
+                            ? Colors.green
+                            : Colors.grey,
+                      )
+                    : const SizedBox();
+              },
+              error: (error, stackTrace) {
+                Logger().e('error: $error $stackTrace');
+                return const SizedBox();
+              },
+              loading: () => const SizedBox(),
+            ),
           ),
         ],
       ),
@@ -207,14 +209,26 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                           .watch(dateFormatterProvider)
                                           .format(questionUiModel.createdAt),
                                       style: TextStyle(
-                                        fontSize: 12,
+                                        fontSize: 10,
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .onBackground,
+                                            .onBackground
+                                            .withOpacity(0.5),
                                         letterSpacing: 1.5,
                                       ),
                                     ),
                                     const SizedBox(width: 8),
+                                    Text(
+                                      questionUiModel.subjectName,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground
+                                            .withOpacity(0.7),
+                                        letterSpacing: 1.5,
+                                      ),
+                                    ),
                                     Text(
                                       questionUiModel.content,
                                       style: TextStyle(
