@@ -515,16 +515,20 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                       answerXFile.value = null;
                                     }).catchError((error, stackTrace) {
                                       Logger().e('error: $error $stackTrace');
-                                      final String message =
-                                          switch (error.message as String) {
-                                        'failed to add answer' =>
-                                          'コメントの投稿に失敗しました',
-                                        'failed to upload image' =>
-                                          '画像のアップロードに失敗しました',
-                                        'failed to update image url' =>
-                                          '画像のURLの更新に失敗しました',
-                                        _ => 'エラーが発生しました',
-                                      };
+                                      String message = '';
+                                      switch (error.message) {
+                                        case 'failed to update image url':
+                                          message = '画像のアップロードに失敗しました';
+                                          break;
+                                        case 'failed to add answer':
+                                          message = 'コメントの投稿に失敗しました';
+                                          break;
+                                        case 'failed to upload image':
+                                          message = '画像のアップロードに失敗しました';
+                                        default:
+                                          message = 'エラーが発生しました';
+                                          break;
+                                      }
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         CustomSnackBar.createError(
