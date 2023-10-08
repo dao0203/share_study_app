@@ -9,7 +9,7 @@ import 'package:uuid/uuid.dart';
 
 final class SupabaseQuestionRepository implements QuestionRepository {
   final _client = Supabase.instance.client;
-  final _uuid = Uuid();
+  final _uuid = const Uuid();
   @override
   Future<void> add(
       String title, String content, String subjectName, String? path) async {
