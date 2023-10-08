@@ -8,6 +8,7 @@ import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/question_state.dart';
 import 'package:share_study_app/ui/state/question_ui_model_state.dart';
+import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
 import 'package:share_study_app/ui/view/discussion/components/answer_item.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/util/date_formatter.dart';
@@ -82,6 +83,31 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).colorScheme.background,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: questionUiModel.when(
+              skipError: true,
+              skipLoadingOnReload: true,
+              skipLoadingOnRefresh: true,
+              data: (questionUiModel) {
+                return questionUiModel.isMyQuestion
+                    ? Icon(
+                        Icons.check_circle_outline,
+                        color: questionUiModel.isResolved
+                            ? Colors.green
+                            : Colors.grey,
+                      )
+                    : const SizedBox();
+              },
+              error: (error, stackTrace) {
+                Logger().e('error: $error $stackTrace');
+                return const SizedBox();
+              },
+              loading: () => const SizedBox(),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -165,38 +191,44 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          questionUiModel.questionerNickname,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
-                                            letterSpacing: 1.5,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Expanded(
-                                          child: Text(
-                                            ref
-                                                .watch(dateFormatterProvider)
-                                                .format(
-                                                    questionUiModel.createdAt),
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onBackground,
-                                              letterSpacing: 1.5,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                    Text(
+                                      limitTextTenChars(
+                                          questionUiModel.questionerNickname),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                        letterSpacing: 1.5,
+                                      ),
                                     ),
                                     const SizedBox(width: 8),
+                                    Text(
+                                      ref
+                                          .watch(dateFormatterProvider)
+                                          .format(questionUiModel.createdAt),
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground
+                                            .withOpacity(0.5),
+                                        letterSpacing: 1.5,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      questionUiModel.subjectName,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground
+                                            .withOpacity(0.7),
+                                        letterSpacing: 1.5,
+                                      ),
+                                    ),
                                     Text(
                                       questionUiModel.content,
                                       style: TextStyle(
@@ -207,6 +239,21 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                         letterSpacing: 2,
                                       ),
                                     ),
+                                    //画像の表示
+                                    questionUiModel.questionImageUrl != null
+                                        ? Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              child: Image.network(
+                                                questionUiModel
+                                                    .questionImageUrl!,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox(),
                                   ],
                                 ),
                               ),
@@ -308,11 +355,9 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                     rootNavigator: true,
                                   ).pop();
                                   _pagingController.refresh();
-                                  return ref.refresh(
-                                      questionStateProvider(widget.questionId));
-                                  // ignore: body_might_complete_normally_catch_error
+                                  ref.invalidate(questionUiModelStateProvider(
+                                      widget.questionId));
                                 }).catchError(
-                                  // ignore: body_might_complete_normally_catch_error
                                   (error, stackTrace) {
                                     Navigator.of(
                                       context,
@@ -391,6 +436,8 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   controller: commentController,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(12),
                     hintText: 'コメントを入力',

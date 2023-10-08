@@ -77,6 +77,9 @@ dependencies:
   ## flutter_email_sender
   flutter_email_sender: ^6.0.2
 
+  ## uuid
+  uuid: ^3.0.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

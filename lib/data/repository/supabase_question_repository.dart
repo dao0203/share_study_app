@@ -1,22 +1,61 @@
+import 'dart:io';
+
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/domain/question.dart';
 import 'package:share_study_app/data/repository/question_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 final class SupabaseQuestionRepository implements QuestionRepository {
   final _client = Supabase.instance.client;
+  final _uuid = const Uuid();
   @override
-  Future<void> add(String title, String content, String subjectName) async {
+  Future<void> add(
+      String title, String content, String subjectName, String? path) async {
     Logger().d('supabaseQuestionRepository.add pressed');
+    //uuidを生成
+    final uuid = _uuid.v4();
     await _client.from('questions').insert({
+      'id': uuid,
       'title': title,
       'subject_name': subjectName,
       'content': content,
     }).then((value) {
       Logger().d('addQuestion.then: $value');
-    }).catchError((error, stacktrace) {
+      //画像がある場合
+      if (path != null) {
+        _client.storage
+            .from('questions')
+            .upload('$uuid.png', File(path))
+            .then((value) async {
+          Logger().d('uploadImage.then: $value');
+          //画像のURLを取得
+          final imageUrl =
+              _client.storage.from('questions').getPublicUrl('$uuid.png');
+          Logger().d('imageUrl: $imageUrl');
+          //画像のURLを更新
+          await _client
+              .from('questions')
+              .update({
+                'image_url': imageUrl,
+              })
+              .eq('id', uuid)
+              .then((value) {
+                Logger().d('update imageurl success');
+              })
+              .onError((error, stacktrace) {
+                Logger().e('updateImageUrl.error: $error $stacktrace');
+                throw Exception('failed to update image url');
+              });
+        }).onError((error, stacktrace) {
+          Logger().e('uploadImage.error: $error $stacktrace');
+          throw Exception('failed to upload image');
+        });
+      }
+    }).onError((error, stacktrace) {
       Logger().e('addQuestion.error: $error $stacktrace');
+      throw Exception('failed to add question');
     });
   }
 
