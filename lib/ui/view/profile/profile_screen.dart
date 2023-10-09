@@ -361,20 +361,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               : const SizedBox(),
                           const SizedBox(width: 8),
                           //学年
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Text(
-                              data.profile.grade.toString(),
-                              style: TextStyle(
-                                fontSize: 16,
-                                //すこし透明にする
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withOpacity(0.7),
-                              ),
-                            ),
-                          ),
+                          data.profile.grade != null
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Text(
+                                    data.profile.grade!,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      //すこし透明にする
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withOpacity(0.7),
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox(),
                           //自己紹介
                           const SizedBox(height: 16),
                           Padding(
