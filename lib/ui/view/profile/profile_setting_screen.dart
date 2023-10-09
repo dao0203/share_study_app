@@ -376,7 +376,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                                           .showSnackBar(
                                         CustomSnackBar.create(
                                           context: context,
-                                          text: '削除しました。',
+                                          text: 'ユーザーを削除しました',
                                           icon: Icon(
                                             Icons.check,
                                             color: Theme.of(context)
