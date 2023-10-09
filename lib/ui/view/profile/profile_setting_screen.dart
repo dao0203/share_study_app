@@ -302,6 +302,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                     maxLength: 100,
                     maxLines: 3,
                   ),
+                  const SizedBox(height: 20),
                   //ユーザ削除のボタン
                   ElevatedButton.icon(
                     onPressed: () {
@@ -406,9 +407,18 @@ class ProfileSettingScreen extends HookConsumerWidget {
                         },
                       );
                     },
-                    icon: const Icon(Icons.delete),
-                    label: const Text('削除'),
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                    label: const Text(
+                      'ユーザを削除する',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
