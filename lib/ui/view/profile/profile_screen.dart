@@ -6,7 +6,7 @@ import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/activity_profile_state.dart';
 import 'package:share_study_app/ui/state/is_following_state.dart';
 import 'package:share_study_app/ui/view/follow/follow_screen.dart';
-import 'package:share_study_app/ui/view/profile/profile_update_screen.dart';
+import 'package:share_study_app/ui/view/profile/profile_setting_screen.dart';
 import 'package:share_study_app/ui/view/profile/resolved_question_tab.dart';
 import 'package:share_study_app/ui/view/profile/quetion_tab.dart';
 
@@ -73,7 +73,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (_) {
-                                                return ProfileUpdateScreen(
+                                                return ProfileSettingScreen(
                                                     profile: data.profile);
                                               },
                                               fullscreenDialog: true,

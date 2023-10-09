@@ -12,8 +12,8 @@ import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
 import 'package:share_study_app/util/image_picker_app.dart';
 
-class ProfileUpdateScreen extends HookConsumerWidget {
-  ProfileUpdateScreen({super.key, required this.profile});
+class ProfileSettingScreen extends HookConsumerWidget {
+  ProfileSettingScreen({super.key, required this.profile});
   final Profile profile;
   final gradeList = [
     '学士1年',
@@ -103,8 +103,13 @@ class ProfileUpdateScreen extends HookConsumerWidget {
                         //TODO: エラーの種類で分岐したい、またカスタムスナックバーを他のブランチで作成している予定なので、
                         //終わり次第ここに実装する
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(e.toString()),
+                          CustomSnackBar.createError(
+                            context: context,
+                            text: '保存に失敗しました。',
+                            icon: Icon(
+                              Icons.error,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
                           ),
                         );
                       },
