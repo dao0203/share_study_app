@@ -1,22 +1,52 @@
+import 'dart:io';
+
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/answer_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 final class SupabaseAnswerRepository implements AnswerRepository {
   final _client = Supabase.instance.client;
 
+  final _uuid = const Uuid();
+
   @override
-  Future<void> addAnswer(String questionId, String content) async {
+  Future<void> addAnswer(
+      String questionId, String content, String? path) async {
+    final answerId = _uuid.v4();
     await _client.from('answers').insert({
+      'id': answerId,
       'question_id': questionId,
       'content': content,
-    }).then((value) {
-      Logger().d('addAnswer.then: $value');
-    }).catchError((error, stacktrace) {
+    }).then((value) async {
+      if (path != null) {
+        await _client.storage
+            .from('answers')
+            .upload('$answerId.jpg', File(path))
+            .then((value) async {
+          final imageUrl =
+              _client.storage.from('answers').getPublicUrl('$answerId.jpg');
+
+          await _client
+              .from('answers')
+              .update({
+                'image_url': imageUrl,
+              })
+              .eq('id', answerId)
+              .onError((error, stackTrace) {
+                Logger().e('addAnswer.update.error: $error $stackTrace');
+                throw Exception('failed to update image url');
+              });
+        }).onError((error, stackTrace) {
+          Logger().e('addAnswer.upload.error: $error $stackTrace');
+          throw Exception('failed to upload image');
+        });
+      }
+    }).onError((error, stacktrace) {
       Logger().e('addAnswer.error: $error $stacktrace');
-      throw error;
+      throw Exception('failed to add answer');
     });
   }
 
@@ -36,7 +66,7 @@ final class SupabaseAnswerRepository implements AnswerRepository {
         .from('answers')
         .select<PostgrestList>(
           '''
-          id, user_id, question_id, content, is_best_answer, created_at, updated_at,
+          id, user_id, question_id, image_url, content, is_best_answer, created_at, updated_at,
           profiles (nickname,university_name,image_url)
           ''',
         )
@@ -52,6 +82,7 @@ final class SupabaseAnswerRepository implements AnswerRepository {
                 return Answer(
                   id: e['id'] as String,
                   questionId: e['question_id'] as String,
+                  imageUrl: e['image_url'] as String?,
                   content: e['content'] as String,
                   isBestAnswer: e['is_best_answer'] as bool,
                   createdAt: DateTime.parse(e['created_at']),

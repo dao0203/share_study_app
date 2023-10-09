@@ -107,19 +107,75 @@ class AnswerItem extends HookConsumerWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      ref.watch(dateFormatterProvider).format(answer.createdAt),
-                      style: const TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
                   ],
+                ),
+                Text(
+                  ref.watch(dateFormatterProvider).format(answer.createdAt),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onBackground
+                        .withOpacity(0.7),
+                  ),
                 ),
                 Text(
                   answer.content,
                   style: const TextStyle(
                     fontSize: 18,
                   ),
+                ),
+                GestureDetector(
+                  child: answer.imageUrl != null
+                      ? Image.network(
+                          answer.imageUrl!,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: 200,
+                        )
+                      : const SizedBox(),
+                  onTap: () {
+                    //画像の拡大表示
+                    showGeneralDialog(
+                        barrierDismissible: true,
+                        barrierLabel: 'Label',
+                        transitionDuration: const Duration(milliseconds: 300),
+                        context: context,
+                        pageBuilder: (context, animation, secondaryAnimation) {
+                          return DefaultTextStyle(
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                            child: Center(
+                              child: SingleChildScrollView(
+                                child: Stack(
+                                  children: [
+                                    InteractiveViewer(
+                                      minScale: 0.1,
+                                      maxScale: 5,
+                                      child: answer.imageUrl != null
+                                          ? Image.network(
+                                              answer.imageUrl!,
+                                            )
+                                          : const SizedBox(),
+                                    ),
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: SafeArea(
+                                          child: CloseButton(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                      )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        });
+                  },
                 ),
               ],
             ),

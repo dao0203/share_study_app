@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/question_state.dart';
 import 'package:share_study_app/ui/state/question_ui_model_state.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
@@ -66,19 +70,21 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
   Widget build(BuildContext context) {
     final questionUiModel =
         ref.watch(questionUiModelStateProvider(widget.questionId));
-    final commentController = useTextEditingController();
+    final answerController = useTextEditingController();
     final areFieldEmpty = useState(true);
+    final isAnswerLoading = useState(false);
+    final answerXFile = useState<XFile?>(null);
 
     bool checkIfFieldsAreEmpty() {
-      return commentController.text.isEmpty;
+      return answerController.text.isEmpty;
     }
 
     useEffect(() {
-      commentController.addListener(() {
+      answerController.addListener(() {
         areFieldEmpty.value = checkIfFieldsAreEmpty();
       });
       return null;
-    }, [commentController]);
+    }, [answerController]);
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
@@ -420,76 +426,165 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
           ),
         ),
       ),
-      bottomSheet: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          border: Border(
-            top: BorderSide(
-              color: Colors.grey.withOpacity(0.5),
-            ),
-          ),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: commentController,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(12),
-                    hintText: 'コメントを入力',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.background,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.background,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey.withOpacity(0.2),
-                  ),
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.onBackground,
-                    letterSpacing: 1.5,
-                  ),
+      bottomSheet: Wrap(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              border: Border(
+                top: BorderSide(
+                  color: Colors.grey.withOpacity(0.5),
                 ),
               ),
             ),
-            IconButton(
-              onPressed: areFieldEmpty.value
-                  ? null
-                  : () async {
-                      FocusScope.of(context).unfocus();
-                      await ref
-                          .read(answerRepositoryProvider)
-                          .addAnswer(
-                            widget.questionId,
-                            commentController.text,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () async {
+                        final xFile = await ImagePicker().pickImage(
+                          source: ImageSource.gallery,
+                        );
+                        if (xFile != null) {
+                          answerXFile.value = xFile;
+                        }
+                      },
+                      icon: Icon(
+                        Icons.image,
+                        color: Theme.of(context).colorScheme.onBackground,
+                      ),
+                      color: Theme.of(context).colorScheme.surfaceTint,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: answerController,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.all(12),
+                            hintText: 'コメントを入力',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.background,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.background,
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey.withOpacity(0.2),
+                          ),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Theme.of(context).colorScheme.onBackground,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                    isAnswerLoading.value
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(),
                           )
-                          .then((value) {
-                        _pagingController.refresh();
-                      }).catchError((error) {
-                        SnackBar(content: Text(error.toString()));
-                      });
-                      commentController.clear();
-                    },
-              icon: const Icon(Icons.send),
-              color: areFieldEmpty.value
-                  ? null
-                  : Theme.of(context).colorScheme.surfaceTint,
+                        : IconButton(
+                            onPressed: areFieldEmpty.value
+                                ? null
+                                : () async {
+                                    FocusScope.of(context).unfocus();
+                                    isAnswerLoading.value = true;
+                                    await ref
+                                        .read(answerRepositoryProvider)
+                                        .addAnswer(
+                                          widget.questionId,
+                                          answerController.text,
+                                          answerXFile.value?.path,
+                                        )
+                                        .then((value) {
+                                      _pagingController.refresh();
+                                      answerController.clear();
+                                      answerXFile.value = null;
+                                    }).catchError((error, stackTrace) {
+                                      Logger().e('error: $error $stackTrace');
+                                      String message = '';
+                                      switch (error.message) {
+                                        case 'failed to update image url':
+                                          message = '画像のアップロードに失敗しました';
+                                          break;
+                                        case 'failed to add answer':
+                                          message = 'コメントの投稿に失敗しました';
+                                          break;
+                                        case 'failed to upload image':
+                                          message = '画像のアップロードに失敗しました';
+                                        default:
+                                          message = 'エラーが発生しました';
+                                          break;
+                                      }
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        CustomSnackBar.createError(
+                                          context: context,
+                                          text: message,
+                                          icon: Icon(
+                                            Icons.error,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .error,
+                                          ),
+                                        ),
+                                      );
+                                    }).whenComplete(() {
+                                      isAnswerLoading.value = false;
+                                    });
+                                  },
+                            icon: const Icon(Icons.send),
+                            color: areFieldEmpty.value
+                                ? null
+                                : Theme.of(context).colorScheme.surfaceTint,
+                          )
+                  ],
+                ),
+                const SizedBox(height: 8),
+                //画像を選択した場合のみ表示
+                answerXFile.value != null
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Stack(
+                          children: [
+                            Image.file(
+                              File(answerXFile.value!.path),
+                              height: 50,
+                              width: 50,
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: IconButton(
+                                onPressed: () {
+                                  answerXFile.value = null;
+                                },
+                                icon: const Icon(Icons.close),
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : const SizedBox(),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
