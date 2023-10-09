@@ -49,4 +49,16 @@ final class SupabaseUserAuthRepository implements UserAuthRepository {
       }
     }
   }
+
+  @override
+  Future<void> delete() async {
+    await Supabase.instance.client.auth.admin
+        .deleteUser(getCurrentUser()!.id)
+        .then((value) {
+      Logger().d('delete user');
+    }).onError((error, stackTrace) {
+      Logger().e(error.toString() + stackTrace.toString());
+      throw Exception('delete user failed');
+    });
+  }
 }
