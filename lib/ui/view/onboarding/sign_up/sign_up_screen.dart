@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/auth_gate.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/splash_state.dart';
 
 class SignUpScreen extends HookConsumerWidget {
@@ -162,14 +163,26 @@ class SignUpScreen extends HookConsumerWidget {
                               //トーストを表示
                               if (e.message == 'user_already_registered') {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('既に登録されているメールアドレスです'),
+                                  CustomSnackBar.createError(
+                                    context: context,
+                                    text: '既に登録されているメールアドレスです',
+                                    icon: Icon(
+                                      Icons.error_outline,
+                                      color:
+                                          Theme.of(context).colorScheme.error,
+                                    ),
                                   ),
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('サインアップに失敗しました'),
+                                  CustomSnackBar.createError(
+                                    context: context,
+                                    text: 'サインアップに失敗しました',
+                                    icon: Icon(
+                                      Icons.error_outline,
+                                      color:
+                                          Theme.of(context).colorScheme.error,
+                                    ),
                                   ),
                                 );
                               }
