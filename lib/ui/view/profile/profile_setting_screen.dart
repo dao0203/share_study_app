@@ -6,12 +6,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/activity_profile_state.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
+import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
 import 'package:share_study_app/util/image_picker_app.dart';
 
-class ProfileUpdateScreen extends HookConsumerWidget {
-  ProfileUpdateScreen({super.key, required this.profile});
+class ProfileSettingScreen extends HookConsumerWidget {
+  ProfileSettingScreen({super.key, required this.profile});
   final Profile profile;
   final gradeList = [
     '学士1年',
@@ -98,11 +100,14 @@ class ProfileUpdateScreen extends HookConsumerWidget {
                     ).catchError(
                       (e, s) {
                         isLoading.value = false;
-                        //TODO: エラーの種類で分岐したい、またカスタムスナックバーを他のブランチで作成している予定なので、
-                        //終わり次第ここに実装する
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(e.toString()),
+                          CustomSnackBar.createError(
+                            context: context,
+                            text: '保存に失敗しました。',
+                            icon: Icon(
+                              Icons.error,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
                           ),
                         );
                       },
@@ -297,6 +302,123 @@ class ProfileUpdateScreen extends HookConsumerWidget {
                     maxLength: 100,
                     maxLines: 3,
                   ),
+                  const SizedBox(height: 20),
+                  //ユーザ削除のボタン
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('ユーザの削除'),
+                            content: Text(
+                              '削除したユーザは復元できず、関連したデータ全てが削除されます。',
+                              //少しだけ透明にする
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onBackground
+                                    .withOpacity(0.5),
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  'キャンセル',
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  showGeneralDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    pageBuilder: (context, animation,
+                                        secondaryAnimation) {
+                                      return WillPopScope(
+                                        onWillPop: () async => false,
+                                        child: const Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                  ref
+                                      .read(userAuthRepositoryProvider)
+                                      .delete()
+                                      .catchError(
+                                    (e, s) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        CustomSnackBar.createError(
+                                          context: context,
+                                          text: '削除に失敗しました',
+                                          icon: Icon(
+                                            Icons.error,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .error,
+                                          ),
+                                        ),
+                                      );
+                                      Navigator.of(context).pop();
+                                    },
+                                  ).then(
+                                    (value) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        CustomSnackBar.create(
+                                          context: context,
+                                          text: 'ユーザーを削除しました',
+                                          icon: Icon(
+                                            Icons.check,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
+                                          ),
+                                        ),
+                                      );
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SignInScreen(),
+                                          maintainState: false,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: const Text(
+                                  '削除',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                    label: const Text(
+                      'ユーザを削除する',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

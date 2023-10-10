@@ -6,7 +6,7 @@ import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/activity_profile_state.dart';
 import 'package:share_study_app/ui/state/is_following_state.dart';
 import 'package:share_study_app/ui/view/follow/follow_screen.dart';
-import 'package:share_study_app/ui/view/profile/profile_update_screen.dart';
+import 'package:share_study_app/ui/view/profile/profile_setting_screen.dart';
 import 'package:share_study_app/ui/view/profile/resolved_question_tab.dart';
 import 'package:share_study_app/ui/view/profile/quetion_tab.dart';
 
@@ -73,7 +73,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (_) {
-                                                return ProfileUpdateScreen(
+                                                return ProfileSettingScreen(
                                                     profile: data.profile);
                                               },
                                               fullscreenDialog: true,
@@ -361,20 +361,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               : const SizedBox(),
                           const SizedBox(width: 8),
                           //学年
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Text(
-                              data.profile.grade.toString(),
-                              style: TextStyle(
-                                fontSize: 16,
-                                //すこし透明にする
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withOpacity(0.7),
-                              ),
-                            ),
-                          ),
+                          data.profile.grade != null
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Text(
+                                    data.profile.grade!,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      //すこし透明にする
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withOpacity(0.7),
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox(),
                           //自己紹介
                           const SizedBox(height: 16),
                           Padding(

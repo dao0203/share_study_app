@@ -62,7 +62,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
               await supabaseClient.storage
                   .from('avatars')
                   .upload(
-                    '${supabaseClient.auth.currentUser!.id}/avatar.jpeg',
+                    '${supabaseClient.auth.currentUser!.id}/avatar.png',
                     File(filePath),
                     fileOptions: const FileOptions(
                       cacheControl: '3600',
@@ -76,7 +76,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
                   final publicUrl = supabaseClient.storage
                       .from('avatars')
                       .getPublicUrl(
-                          '${supabaseClient.auth.currentUser!.id}/avatar.jpeg');
+                          '${supabaseClient.auth.currentUser!.id}/avatar.png');
                   await supabaseClient
                       .from('profiles')
                       .update({'image_url': publicUrl})
