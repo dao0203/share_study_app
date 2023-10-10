@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:share_study_app/auth_gate.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
-import 'package:share_study_app/ui/view/onboarding/registration_profile/registration_profile_screen.dart';
 
 class SignUpScreen extends HookConsumerWidget {
   const SignUpScreen({super.key});
@@ -140,12 +140,13 @@ class SignUpScreen extends HookConsumerWidget {
                                     passwordConfirmController.text)
                                 .then((value) {
                               Logger().d('signup success');
-                              Navigator.of(context).pushAndRemoveUntil(
+                              //少しだけ待ってから画面遷移
+                              Future.delayed(const Duration(seconds: 1), () {});
+                              Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      RegistrationProfileScreen(),
+                                  builder: (context) => const AuthGate(),
+                                  maintainState: false,
                                 ),
-                                (_) => false,
                               );
                             }).catchError((e, stackTrace) {
                               Logger().e(e);
@@ -163,8 +164,6 @@ class SignUpScreen extends HookConsumerWidget {
                                   ),
                                 );
                               }
-                            }).then((value) {
-                              Navigator.of(context).pop();
                             });
                           }
                         },

@@ -353,24 +353,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                                   ref
                                       .read(userAuthRepositoryProvider)
                                       .delete()
-                                      .catchError(
-                                    (e, s) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        CustomSnackBar.createError(
-                                          context: context,
-                                          text: '削除に失敗しました',
-                                          icon: Icon(
-                                            Icons.error,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .error,
-                                          ),
-                                        ),
-                                      );
-                                      Navigator.of(context).pop();
-                                    },
-                                  ).then(
+                                      .then(
                                     (value) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
@@ -392,6 +375,24 @@ class ProfileSettingScreen extends HookConsumerWidget {
                                           maintainState: false,
                                         ),
                                       );
+                                    },
+                                  ).catchError(
+                                    (e, s) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        CustomSnackBar.createError(
+                                          context: context,
+                                          text: '削除に失敗しました',
+                                          icon: Icon(
+                                            Icons.error,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .error,
+                                          ),
+                                        ),
+                                      );
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
                                     },
                                   );
                                 },
