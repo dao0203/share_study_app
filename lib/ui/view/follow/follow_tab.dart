@@ -86,6 +86,16 @@ class _FollowTabState extends ConsumerState<FollowTab>
               );
             },
           ),
+          noItemsFoundIndicatorBuilder: (context) => const Center(
+            child: Text('フォローしているユーザーはいません'),
+          ),
+          noMoreItemsIndicatorBuilder: (context) => const SizedBox(),
+          newPageErrorIndicatorBuilder: (context) => const Center(
+            child: Text('エラーが発生しました'),
+          ),
+          firstPageErrorIndicatorBuilder: (context) => const Center(
+            child: Text('エラーが発生しました'),
+          ),
         ),
       ),
     );
