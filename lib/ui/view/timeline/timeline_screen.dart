@@ -203,6 +203,9 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                 child: Text('エラーが発生しました'),
               );
             },
+            noItemsFoundIndicatorBuilder: (context) => const Center(
+              child: Text('質問がありません'),
+            ),
           ),
         ),
       ),

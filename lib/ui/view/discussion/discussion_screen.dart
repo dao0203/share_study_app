@@ -222,7 +222,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      questionUiModel.subjectName,
+                                      questionUiModel.tags,
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Theme.of(context)

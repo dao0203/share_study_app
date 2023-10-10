@@ -77,7 +77,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
             //questions
             id: value['id'] as String,
             title: value['title'] as String,
-            subjectName: value['tags'][0] as String,
+            tags: value['tags'][0] as String,
             content: value['content'] as String,
             isResolved: value['is_resolved'] as bool,
             createdAt: DateTime.parse(value['created_at']),
@@ -124,7 +124,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
               //questions
               id: e['id'] as String,
               title: e['title'] as String,
-              subjectName: e['tags'][0] as String,
+              tags: e['tags'][0] as String,
               content: e['content'] as String,
               isResolved: e['is_resolved'] as bool,
               createdAt: DateTime.parse(e['created_at']),
@@ -192,7 +192,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
               //questions
               id: e['id'] as String,
               title: e['title'] as String,
-              subjectName: e['tags'][0] as String,
+              tags: e['tags'][0] as String,
               content: e['content'] as String,
               isResolved: e['is_resolved'] as bool,
               createdAt: DateTime.parse(e['created_at']),
@@ -232,7 +232,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
               //questions
               id: e['id'] as String,
               title: e['title'] as String,
-              subjectName: e['tags'][0] as String,
+              tags: e['tags'][0] as String,
               content: e['content'] as String,
               isResolved: e['is_resolved'] as bool,
               createdAt: DateTime.parse(e['created_at']),
@@ -275,7 +275,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
               //questions
               id: e['id'] as String,
               title: e['title'] as String,
-              subjectName: e['tags'][0] as String,
+              tags: e['tags'][0] as String,
               content: e['content'] as String,
               isResolved: e['is_resolved'] as bool,
               createdAt: DateTime.parse(e['created_at']),

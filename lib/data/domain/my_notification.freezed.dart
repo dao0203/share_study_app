@@ -79,11 +79,11 @@ class _$MyNotificationCopyWithImpl<$Res, $Val extends MyNotification>
 }
 
 /// @nodoc
-abstract class _$$_MyNotificationCopyWith<$Res>
+abstract class _$$MyNotificationImplCopyWith<$Res>
     implements $MyNotificationCopyWith<$Res> {
-  factory _$$_MyNotificationCopyWith(
-          _$_MyNotification value, $Res Function(_$_MyNotification) then) =
-      __$$_MyNotificationCopyWithImpl<$Res>;
+  factory _$$MyNotificationImplCopyWith(_$MyNotificationImpl value,
+          $Res Function(_$MyNotificationImpl) then) =
+      __$$MyNotificationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Notification notification, bool hasQuestion, String message});
@@ -93,11 +93,11 @@ abstract class _$$_MyNotificationCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MyNotificationCopyWithImpl<$Res>
-    extends _$MyNotificationCopyWithImpl<$Res, _$_MyNotification>
-    implements _$$_MyNotificationCopyWith<$Res> {
-  __$$_MyNotificationCopyWithImpl(
-      _$_MyNotification _value, $Res Function(_$_MyNotification) _then)
+class __$$MyNotificationImplCopyWithImpl<$Res>
+    extends _$MyNotificationCopyWithImpl<$Res, _$MyNotificationImpl>
+    implements _$$MyNotificationImplCopyWith<$Res> {
+  __$$MyNotificationImplCopyWithImpl(
+      _$MyNotificationImpl _value, $Res Function(_$MyNotificationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -107,7 +107,7 @@ class __$$_MyNotificationCopyWithImpl<$Res>
     Object? hasQuestion = null,
     Object? message = null,
   }) {
-    return _then(_$_MyNotification(
+    return _then(_$MyNotificationImpl(
       notification: null == notification
           ? _value.notification
           : notification // ignore: cast_nullable_to_non_nullable
@@ -126,8 +126,8 @@ class __$$_MyNotificationCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MyNotification implements _MyNotification {
-  const _$_MyNotification(
+class _$MyNotificationImpl implements _MyNotification {
+  const _$MyNotificationImpl(
       {required this.notification,
       required this.hasQuestion,
       required this.message});
@@ -148,7 +148,7 @@ class _$_MyNotification implements _MyNotification {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MyNotification &&
+            other is _$MyNotificationImpl &&
             (identical(other.notification, notification) ||
                 other.notification == notification) &&
             (identical(other.hasQuestion, hasQuestion) ||
@@ -163,15 +163,16 @@ class _$_MyNotification implements _MyNotification {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MyNotificationCopyWith<_$_MyNotification> get copyWith =>
-      __$$_MyNotificationCopyWithImpl<_$_MyNotification>(this, _$identity);
+  _$$MyNotificationImplCopyWith<_$MyNotificationImpl> get copyWith =>
+      __$$MyNotificationImplCopyWithImpl<_$MyNotificationImpl>(
+          this, _$identity);
 }
 
 abstract class _MyNotification implements MyNotification {
   const factory _MyNotification(
       {required final Notification notification,
       required final bool hasQuestion,
-      required final String message}) = _$_MyNotification;
+      required final String message}) = _$MyNotificationImpl;
 
   @override
   Notification get notification;
@@ -181,6 +182,6 @@ abstract class _MyNotification implements MyNotification {
   String get message;
   @override
   @JsonKey(ignore: true)
-  _$$_MyNotificationCopyWith<_$_MyNotification> get copyWith =>
+  _$$MyNotificationImplCopyWith<_$MyNotificationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

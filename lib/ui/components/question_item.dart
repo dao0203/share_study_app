@@ -73,7 +73,7 @@ class QuestionItem extends HookConsumerWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  questionUiModel.subjectName,
+                  questionUiModel.tags,
                   style: const TextStyle(
                     fontSize: 16,
                   ),

@@ -20,7 +20,7 @@ mixin _$QuestionUiModel {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  String get subjectName => throw _privateConstructorUsedError;
+  String get tags => throw _privateConstructorUsedError;
   String? get questionImageUrl => throw _privateConstructorUsedError;
   bool get isResolved => throw _privateConstructorUsedError; //質問者
   String get questionerId => throw _privateConstructorUsedError;
@@ -45,7 +45,7 @@ abstract class $QuestionUiModelCopyWith<$Res> {
       {String id,
       String title,
       String content,
-      String subjectName,
+      String tags,
       String? questionImageUrl,
       bool isResolved,
       String questionerId,
@@ -72,7 +72,7 @@ class _$QuestionUiModelCopyWithImpl<$Res, $Val extends QuestionUiModel>
     Object? id = null,
     Object? title = null,
     Object? content = null,
-    Object? subjectName = null,
+    Object? tags = null,
     Object? questionImageUrl = freezed,
     Object? isResolved = null,
     Object? questionerId = null,
@@ -95,9 +95,9 @@ class _$QuestionUiModelCopyWithImpl<$Res, $Val extends QuestionUiModel>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      subjectName: null == subjectName
-          ? _value.subjectName
-          : subjectName // ignore: cast_nullable_to_non_nullable
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
               as String,
       questionImageUrl: freezed == questionImageUrl
           ? _value.questionImageUrl
@@ -136,18 +136,18 @@ class _$QuestionUiModelCopyWithImpl<$Res, $Val extends QuestionUiModel>
 }
 
 /// @nodoc
-abstract class _$$_QuestionUiModelCopyWith<$Res>
+abstract class _$$QuestionUiModelImplCopyWith<$Res>
     implements $QuestionUiModelCopyWith<$Res> {
-  factory _$$_QuestionUiModelCopyWith(
-          _$_QuestionUiModel value, $Res Function(_$_QuestionUiModel) then) =
-      __$$_QuestionUiModelCopyWithImpl<$Res>;
+  factory _$$QuestionUiModelImplCopyWith(_$QuestionUiModelImpl value,
+          $Res Function(_$QuestionUiModelImpl) then) =
+      __$$QuestionUiModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String id,
       String title,
       String content,
-      String subjectName,
+      String tags,
       String? questionImageUrl,
       bool isResolved,
       String questionerId,
@@ -159,11 +159,11 @@ abstract class _$$_QuestionUiModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_QuestionUiModelCopyWithImpl<$Res>
-    extends _$QuestionUiModelCopyWithImpl<$Res, _$_QuestionUiModel>
-    implements _$$_QuestionUiModelCopyWith<$Res> {
-  __$$_QuestionUiModelCopyWithImpl(
-      _$_QuestionUiModel _value, $Res Function(_$_QuestionUiModel) _then)
+class __$$QuestionUiModelImplCopyWithImpl<$Res>
+    extends _$QuestionUiModelCopyWithImpl<$Res, _$QuestionUiModelImpl>
+    implements _$$QuestionUiModelImplCopyWith<$Res> {
+  __$$QuestionUiModelImplCopyWithImpl(
+      _$QuestionUiModelImpl _value, $Res Function(_$QuestionUiModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -172,7 +172,7 @@ class __$$_QuestionUiModelCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? content = null,
-    Object? subjectName = null,
+    Object? tags = null,
     Object? questionImageUrl = freezed,
     Object? isResolved = null,
     Object? questionerId = null,
@@ -182,7 +182,7 @@ class __$$_QuestionUiModelCopyWithImpl<$Res>
     Object? updatedAt = freezed,
     Object? isMyQuestion = null,
   }) {
-    return _then(_$_QuestionUiModel(
+    return _then(_$QuestionUiModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -195,9 +195,9 @@ class __$$_QuestionUiModelCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      subjectName: null == subjectName
-          ? _value.subjectName
-          : subjectName // ignore: cast_nullable_to_non_nullable
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
               as String,
       questionImageUrl: freezed == questionImageUrl
           ? _value.questionImageUrl
@@ -237,12 +237,12 @@ class __$$_QuestionUiModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_QuestionUiModel implements _QuestionUiModel {
-  const _$_QuestionUiModel(
+class _$QuestionUiModelImpl implements _QuestionUiModel {
+  const _$QuestionUiModelImpl(
       {required this.id,
       required this.title,
       required this.content,
-      required this.subjectName,
+      required this.tags,
       this.questionImageUrl,
       required this.isResolved,
       required this.questionerId,
@@ -260,7 +260,7 @@ class _$_QuestionUiModel implements _QuestionUiModel {
   @override
   final String content;
   @override
-  final String subjectName;
+  final String tags;
   @override
   final String? questionImageUrl;
   @override
@@ -281,19 +281,18 @@ class _$_QuestionUiModel implements _QuestionUiModel {
 
   @override
   String toString() {
-    return 'QuestionUiModel(id: $id, title: $title, content: $content, subjectName: $subjectName, questionImageUrl: $questionImageUrl, isResolved: $isResolved, questionerId: $questionerId, questionerNickname: $questionerNickname, questionerImageUrl: $questionerImageUrl, createdAt: $createdAt, updatedAt: $updatedAt, isMyQuestion: $isMyQuestion)';
+    return 'QuestionUiModel(id: $id, title: $title, content: $content, tags: $tags, questionImageUrl: $questionImageUrl, isResolved: $isResolved, questionerId: $questionerId, questionerNickname: $questionerNickname, questionerImageUrl: $questionerImageUrl, createdAt: $createdAt, updatedAt: $updatedAt, isMyQuestion: $isMyQuestion)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_QuestionUiModel &&
+            other is _$QuestionUiModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
-            (identical(other.subjectName, subjectName) ||
-                other.subjectName == subjectName) &&
+            (identical(other.tags, tags) || other.tags == tags) &&
             (identical(other.questionImageUrl, questionImageUrl) ||
                 other.questionImageUrl == questionImageUrl) &&
             (identical(other.isResolved, isResolved) ||
@@ -318,7 +317,7 @@ class _$_QuestionUiModel implements _QuestionUiModel {
       id,
       title,
       content,
-      subjectName,
+      tags,
       questionImageUrl,
       isResolved,
       questionerId,
@@ -331,8 +330,9 @@ class _$_QuestionUiModel implements _QuestionUiModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_QuestionUiModelCopyWith<_$_QuestionUiModel> get copyWith =>
-      __$$_QuestionUiModelCopyWithImpl<_$_QuestionUiModel>(this, _$identity);
+  _$$QuestionUiModelImplCopyWith<_$QuestionUiModelImpl> get copyWith =>
+      __$$QuestionUiModelImplCopyWithImpl<_$QuestionUiModelImpl>(
+          this, _$identity);
 }
 
 abstract class _QuestionUiModel implements QuestionUiModel {
@@ -340,7 +340,7 @@ abstract class _QuestionUiModel implements QuestionUiModel {
       {required final String id,
       required final String title,
       required final String content,
-      required final String subjectName,
+      required final String tags,
       final String? questionImageUrl,
       required final bool isResolved,
       required final String questionerId,
@@ -348,7 +348,7 @@ abstract class _QuestionUiModel implements QuestionUiModel {
       final String? questionerImageUrl,
       required final DateTime createdAt,
       required final DateTime? updatedAt,
-      required final bool isMyQuestion}) = _$_QuestionUiModel;
+      required final bool isMyQuestion}) = _$QuestionUiModelImpl;
 
   @override //質問
   String get id;
@@ -357,7 +357,7 @@ abstract class _QuestionUiModel implements QuestionUiModel {
   @override
   String get content;
   @override
-  String get subjectName;
+  String get tags;
   @override
   String? get questionImageUrl;
   @override
@@ -376,6 +376,6 @@ abstract class _QuestionUiModel implements QuestionUiModel {
   bool get isMyQuestion;
   @override
   @JsonKey(ignore: true)
-  _$$_QuestionUiModelCopyWith<_$_QuestionUiModel> get copyWith =>
+  _$$QuestionUiModelImplCopyWith<_$QuestionUiModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -70,23 +70,25 @@ class _$PaginationByKeywordArgsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PaginationByKeywordArgsCopyWith<$Res>
+abstract class _$$PaginationByKeywordArgsImplCopyWith<$Res>
     implements $PaginationByKeywordArgsCopyWith<$Res> {
-  factory _$$_PaginationByKeywordArgsCopyWith(_$_PaginationByKeywordArgs value,
-          $Res Function(_$_PaginationByKeywordArgs) then) =
-      __$$_PaginationByKeywordArgsCopyWithImpl<$Res>;
+  factory _$$PaginationByKeywordArgsImplCopyWith(
+          _$PaginationByKeywordArgsImpl value,
+          $Res Function(_$PaginationByKeywordArgsImpl) then) =
+      __$$PaginationByKeywordArgsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String keyword, int start, int end});
 }
 
 /// @nodoc
-class __$$_PaginationByKeywordArgsCopyWithImpl<$Res>
+class __$$PaginationByKeywordArgsImplCopyWithImpl<$Res>
     extends _$PaginationByKeywordArgsCopyWithImpl<$Res,
-        _$_PaginationByKeywordArgs>
-    implements _$$_PaginationByKeywordArgsCopyWith<$Res> {
-  __$$_PaginationByKeywordArgsCopyWithImpl(_$_PaginationByKeywordArgs _value,
-      $Res Function(_$_PaginationByKeywordArgs) _then)
+        _$PaginationByKeywordArgsImpl>
+    implements _$$PaginationByKeywordArgsImplCopyWith<$Res> {
+  __$$PaginationByKeywordArgsImplCopyWithImpl(
+      _$PaginationByKeywordArgsImpl _value,
+      $Res Function(_$PaginationByKeywordArgsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +98,7 @@ class __$$_PaginationByKeywordArgsCopyWithImpl<$Res>
     Object? start = null,
     Object? end = null,
   }) {
-    return _then(_$_PaginationByKeywordArgs(
+    return _then(_$PaginationByKeywordArgsImpl(
       keyword: null == keyword
           ? _value.keyword
           : keyword // ignore: cast_nullable_to_non_nullable
@@ -115,8 +117,8 @@ class __$$_PaginationByKeywordArgsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PaginationByKeywordArgs implements _PaginationByKeywordArgs {
-  const _$_PaginationByKeywordArgs(
+class _$PaginationByKeywordArgsImpl implements _PaginationByKeywordArgs {
+  const _$PaginationByKeywordArgsImpl(
       {required this.keyword, required this.start, required this.end});
 
   @override
@@ -135,7 +137,7 @@ class _$_PaginationByKeywordArgs implements _PaginationByKeywordArgs {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PaginationByKeywordArgs &&
+            other is _$PaginationByKeywordArgsImpl &&
             (identical(other.keyword, keyword) || other.keyword == keyword) &&
             (identical(other.start, start) || other.start == start) &&
             (identical(other.end, end) || other.end == end));
@@ -147,17 +149,16 @@ class _$_PaginationByKeywordArgs implements _PaginationByKeywordArgs {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PaginationByKeywordArgsCopyWith<_$_PaginationByKeywordArgs>
-      get copyWith =>
-          __$$_PaginationByKeywordArgsCopyWithImpl<_$_PaginationByKeywordArgs>(
-              this, _$identity);
+  _$$PaginationByKeywordArgsImplCopyWith<_$PaginationByKeywordArgsImpl>
+      get copyWith => __$$PaginationByKeywordArgsImplCopyWithImpl<
+          _$PaginationByKeywordArgsImpl>(this, _$identity);
 }
 
 abstract class _PaginationByKeywordArgs implements PaginationByKeywordArgs {
   const factory _PaginationByKeywordArgs(
       {required final String keyword,
       required final int start,
-      required final int end}) = _$_PaginationByKeywordArgs;
+      required final int end}) = _$PaginationByKeywordArgsImpl;
 
   @override
   String get keyword;
@@ -167,6 +168,6 @@ abstract class _PaginationByKeywordArgs implements PaginationByKeywordArgs {
   int get end;
   @override
   @JsonKey(ignore: true)
-  _$$_PaginationByKeywordArgsCopyWith<_$_PaginationByKeywordArgs>
+  _$$PaginationByKeywordArgsImplCopyWith<_$PaginationByKeywordArgsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
