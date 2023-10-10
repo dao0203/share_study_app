@@ -137,7 +137,6 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
             itemBuilder: (context, question, index) =>
                 AnimationConfiguration.staggeredList(
               position: index,
-              duration: const Duration(milliseconds: 300),
               child: SlideAnimation(
                 verticalOffset: 50.0,
                 child: FadeInAnimation(
