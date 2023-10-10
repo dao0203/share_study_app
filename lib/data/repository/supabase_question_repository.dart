@@ -12,14 +12,14 @@ final class SupabaseQuestionRepository implements QuestionRepository {
   final _uuid = const Uuid();
   @override
   Future<void> add(
-      String title, String content, String subjectName, String? path) async {
+      String title, String content, String tags, String? path) async {
     Logger().d('supabaseQuestionRepository.add pressed');
     //uuidを生成
     final uuid = _uuid.v4();
     await _client.from('questions').insert({
       'id': uuid,
       'title': title,
-      'subject_name': subjectName,
+      'tags': [tags],
       'content': content,
     }).then((value) {
       Logger().d('addQuestion.then: $value');
@@ -65,7 +65,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
         .from('questions')
         .select<PostgrestMap>(
           '''
-          id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
+          id,user_id, image_url, title, tags, content, is_resolved, created_at, updated_at,
           profiles (nickname,university_name,image_url)
           ''',
         )
@@ -77,7 +77,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
             //questions
             id: value['id'] as String,
             title: value['title'] as String,
-            subjectName: value['subject_name'] as String,
+            subjectName: value['tags'][0] as String,
             content: value['content'] as String,
             isResolved: value['is_resolved'] as bool,
             createdAt: DateTime.parse(value['created_at']),
@@ -110,7 +110,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
         .from('questions')
         .select<PostgrestList>(
           ''' 
-          id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
+          id,user_id, image_url, title, tags, content, is_resolved, created_at, updated_at,
           profiles (nickname,university_name,image_url)
           ''',
         )
@@ -124,7 +124,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
               //questions
               id: e['id'] as String,
               title: e['title'] as String,
-              subjectName: e['subject_name'] as String,
+              subjectName: e['tags'][0] as String,
               content: e['content'] as String,
               isResolved: e['is_resolved'] as bool,
               createdAt: DateTime.parse(e['created_at']),
@@ -178,12 +178,12 @@ final class SupabaseQuestionRepository implements QuestionRepository {
         .from('questions')
         .select<PostgrestList>(
           ''' 
-          id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
+          id,user_id, image_url, title, tags, content, is_resolved, created_at, updated_at,
           profiles (nickname,university_name,image_url)
           ''',
         )
         //曖昧検索
-        .or('or(title.ilike.%$keyword%,content.ilike.%$keyword%,subject_name.ilike.%$keyword%))')
+        .or('or(title.ilike.%$keyword%,content.ilike.%$keyword%,tags.ilike.%$keyword%))')
         .range(start, end)
         .then((value) {
           Logger().i('getWithPaginationAndKeyword.then: $value');
@@ -192,7 +192,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
               //questions
               id: e['id'] as String,
               title: e['title'] as String,
-              subjectName: e['subject_name'] as String,
+              subjectName: e['tags'][0] as String,
               content: e['content'] as String,
               isResolved: e['is_resolved'] as bool,
               createdAt: DateTime.parse(e['created_at']),
@@ -220,7 +220,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
     return await _client
         .from('questions')
         .select<PostgrestList>(''' 
-          id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
+          id,user_id, image_url, title, tags, content, is_resolved, created_at, updated_at,
           profiles (nickname,university_name,image_url)
           ''')
         .eq('user_id', userId)
@@ -232,7 +232,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
               //questions
               id: e['id'] as String,
               title: e['title'] as String,
-              subjectName: e['subject_name'] as String,
+              subjectName: e['tags'][0] as String,
               content: e['content'] as String,
               isResolved: e['is_resolved'] as bool,
               createdAt: DateTime.parse(e['created_at']),
@@ -261,7 +261,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
         .from('questions')
         .select<PostgrestList>(
           '''
-  id,user_id, image_url, title, subject_name, content, is_resolved, created_at, updated_at,
+  id,user_id, image_url, title, tags, content, is_resolved, created_at, updated_at,
           profiles (nickname,university_name,image_url)
 ''',
         )
@@ -275,7 +275,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
               //questions
               id: e['id'] as String,
               title: e['title'] as String,
-              subjectName: e['subject_name'] as String,
+              subjectName: e['tags'][0] as String,
               content: e['content'] as String,
               isResolved: e['is_resolved'] as bool,
               createdAt: DateTime.parse(e['created_at']),
