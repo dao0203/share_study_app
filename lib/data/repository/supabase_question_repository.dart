@@ -182,8 +182,8 @@ final class SupabaseQuestionRepository implements QuestionRepository {
           profiles (nickname,university_name,image_url)
           ''',
         )
-        //曖昧検索
-        .or('or(title.ilike.%$keyword%,content.ilike.%$keyword%,tags.ilike.%$keyword%))')
+        //曖昧検索: tagsはリスト型
+        .or('or(title.ilike.%$keyword%,content.ilike.%$keyword%,tags.cs.{$keyword})')
         .range(start, end)
         .then((value) {
           Logger().i('getWithPaginationAndKeyword.then: $value');
