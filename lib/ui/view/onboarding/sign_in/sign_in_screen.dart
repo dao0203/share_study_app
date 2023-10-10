@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:share_study_app/auth_gate.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
@@ -114,11 +115,10 @@ class SignInScreen extends HookConsumerWidget {
                             ref.refresh(splashStateProvider);
                             // ignore: unused_result
                             ref.refresh(myProfileStateProvider);
-                            Navigator.of(context).pushAndRemoveUntil(
+                            Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                 builder: (context) => const AuthGate(),
                               ),
-                              (_) => false,
                             );
                           }).catchError((e, stacktrace) {
                             if (e.message == 'invalid_email_or_password') {

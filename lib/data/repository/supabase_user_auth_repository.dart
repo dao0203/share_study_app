@@ -24,8 +24,12 @@ final class SupabaseUserAuthRepository implements UserAuthRepository {
   Future<void> signIn(String email, String password) async {
     try {
       Logger().d('email: $email, password: $password');
-      await _client.signInWithPassword(email: email, password: password);
+      await _client.signInWithPassword(
+        email: email,
+        password: password,
+      );
     } on AuthException catch (e, stacktrace) {
+      Logger().e(e.message + stacktrace.toString());
       if (e.message == 'Invalid login credentials') {
         throw const AuthException('invalid_email_or_password');
       } else {

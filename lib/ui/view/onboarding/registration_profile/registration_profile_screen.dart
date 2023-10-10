@@ -82,11 +82,11 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                     .updateProfile(myProfileState.value, xFile.value?.path)
                     .then(
                   (value) {
-                    // ignore: unused_result
-                    ref.refresh(myProfileStateProvider);
+                    ref.invalidate(myProfileStateProvider);
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                         builder: (context) => const ShareStudyApp(),
+                        maintainState: false,
                       ),
                       (route) => false,
                     );

@@ -130,11 +130,19 @@ class SignUpScreen extends HookConsumerWidget {
                       ElevatedButton.icon(
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (_) => const Center(
-                                    child: CircularProgressIndicator()));
+                            showGeneralDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              barrierLabel: 'サインアップ中',
+                              pageBuilder: (context, animation1, animation2) {
+                                return WillPopScope(
+                                  onWillPop: () async => false,
+                                  child: const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              },
+                            );
                             await userRepository
                                 .signUp(emailController.text,
                                     passwordConfirmController.text)
@@ -142,11 +150,12 @@ class SignUpScreen extends HookConsumerWidget {
                               Logger().d('signup success');
                               //少しだけ待ってから画面遷移
                               Future.delayed(const Duration(seconds: 1), () {});
-                              Navigator.of(context).push(
+                              Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                   builder: (context) => const AuthGate(),
                                   maintainState: false,
                                 ),
+                                (_) => false,
                               );
                             }).catchError((e, stackTrace) {
                               Logger().e(e);
