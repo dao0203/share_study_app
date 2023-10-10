@@ -49,40 +49,36 @@ class QuestionItem extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      limitTextTenChars(questionUiModel.questionerNickname),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      ref
-                          .watch(dateFormatterProvider)
-                          .format(questionUiModel.createdAt),
-                      style: const TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Text(
-                          questionUiModel.subjectName,
-                          style: const TextStyle(
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                  ],
+                Text(
+                  limitTextTenChars(questionUiModel.questionerNickname),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
+                const SizedBox(width: 8),
+                Text(
+                  ref
+                      .watch(dateFormatterProvider)
+                      .format(questionUiModel.createdAt),
+                  style: TextStyle(
+                    fontSize: 12,
+                    //少し薄くする
+
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onBackground
+                        .withOpacity(0.5),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  questionUiModel.subjectName,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(width: 16),
                 Text(
                   questionUiModel.title,
                   style: const TextStyle(
@@ -98,9 +94,7 @@ class QuestionItem extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Icon(
-                  questionUiModel.isResolved
-                      ? Icons.check_box
-                      : Icons.check_circle_outline,
+                  Icons.check_circle_outline,
                   color:
                       questionUiModel.isResolved ? Colors.green : Colors.grey,
                 ),

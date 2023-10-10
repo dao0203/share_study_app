@@ -353,7 +353,32 @@ class ProfileSettingScreen extends HookConsumerWidget {
                                   ref
                                       .read(userAuthRepositoryProvider)
                                       .delete()
-                                      .catchError(
+                                      .then(
+                                    (value) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        CustomSnackBar.create(
+                                          context: context,
+                                          text: 'ユーザーを削除しました',
+                                          icon: Icon(
+                                            Icons.check,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
+                                          ),
+                                        ),
+                                      );
+                                      ref.invalidate(myProfileStateProvider);
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SignInScreen(),
+                                          maintainState: false,
+                                        ),
+                                        (_) => false,
+                                      );
+                                    },
+                                  ).catchError(
                                     (e, s) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
@@ -369,29 +394,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                                         ),
                                       );
                                       Navigator.of(context).pop();
-                                    },
-                                  ).then(
-                                    (value) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        CustomSnackBar.create(
-                                          context: context,
-                                          text: 'ユーザーを削除しました',
-                                          icon: Icon(
-                                            Icons.check,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
-                                          ),
-                                        ),
-                                      );
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SignInScreen(),
-                                          maintainState: false,
-                                        ),
-                                      );
+                                      Navigator.of(context).pop();
                                     },
                                   );
                                 },
