@@ -368,12 +368,14 @@ class ProfileSettingScreen extends HookConsumerWidget {
                                           ),
                                         ),
                                       );
-                                      Navigator.of(context).push(
+                                      ref.invalidate(myProfileStateProvider);
+                                      Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               const SignInScreen(),
                                           maintainState: false,
                                         ),
+                                        (_) => false,
                                       );
                                     },
                                   ).catchError(

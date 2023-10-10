@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/auth_gate.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/state/splash_state.dart';
 
 class SignUpScreen extends HookConsumerWidget {
   const SignUpScreen({super.key});
@@ -148,8 +149,7 @@ class SignUpScreen extends HookConsumerWidget {
                                     passwordConfirmController.text)
                                 .then((value) {
                               Logger().d('signup success');
-                              //少しだけ待ってから画面遷移
-                              Future.delayed(const Duration(seconds: 1), () {});
+                              ref.invalidate(splashStateProvider);
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                   builder: (context) => const AuthGate(),
