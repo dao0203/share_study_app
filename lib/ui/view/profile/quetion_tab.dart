@@ -150,6 +150,10 @@ class _QuetionTabState extends ConsumerState<QuetionTab>
               ],
             );
           },
+          noItemsFoundIndicatorBuilder: (context) => const Center(
+            child: Text('質問はありません'),
+          ),
+          noMoreItemsIndicatorBuilder: (context) => const SizedBox(),
         ),
         separatorBuilder: (context, index) => const Divider(),
       ),
