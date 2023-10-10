@@ -114,6 +114,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
           profiles (nickname,university_name,image_url)
           ''',
         )
+        .order('created_at', ascending: false)
         .range(start, end)
         .then((value) {
           Logger().i('getWithPagination.then: $value');
