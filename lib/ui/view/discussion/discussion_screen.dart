@@ -97,14 +97,11 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
               skipLoadingOnReload: true,
               skipLoadingOnRefresh: true,
               data: (questionUiModel) {
-                return questionUiModel.isMyQuestion
-                    ? Icon(
-                        Icons.check_circle_outline,
-                        color: questionUiModel.isResolved
-                            ? Colors.green
-                            : Colors.grey,
-                      )
-                    : const SizedBox();
+                return Icon(
+                  Icons.check_circle_outline,
+                  color:
+                      questionUiModel.isResolved ? Colors.green : Colors.grey,
+                );
               },
               error: (error, stackTrace) {
                 Logger().e('error: $error $stackTrace');
