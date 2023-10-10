@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/app/share_study_app.dart';
 import 'package:share_study_app/util/image_picker_app.dart';
@@ -65,16 +66,14 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                   grade: gradeControler.text,
                   bio: bioController.text,
                 );
-                showDialog(
-                    barrierColor: Colors.white54,
+                showGeneralDialog(
+                    barrierDismissible: false,
+                    barrierLabel: '登録中',
                     context: context,
-                    builder: (context) {
+                    pageBuilder: (context, animation1, animation2) {
                       return const Center(
-                          child: SizedBox(
-                        height: 50,
-                        width: 50,
                         child: CircularProgressIndicator(),
-                      ));
+                      );
                     });
                 // 登録処理
                 await ref
@@ -89,6 +88,21 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                         maintainState: false,
                       ),
                       (route) => false,
+                    );
+                  },
+                ).catchError(
+                  (error, stackTrace) {
+                    Logger().e({error, stackTrace});
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      CustomSnackBar.createError(
+                        context: context,
+                        text: '登録に失敗しました',
+                        icon: Icon(
+                          Icons.error_outline,
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
                     );
                   },
                 );
