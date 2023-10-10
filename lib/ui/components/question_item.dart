@@ -94,9 +94,7 @@ class QuestionItem extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Icon(
-                  questionUiModel.isResolved
-                      ? Icons.check_box
-                      : Icons.check_circle_outline,
+                  Icons.check_circle_outline,
                   color:
                       questionUiModel.isResolved ? Colors.green : Colors.grey,
                 ),
