@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
@@ -262,8 +263,8 @@ class ShareStudyDrawer extends HookConsumerWidget {
                   .setupEmail()
                   .catchError((error) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  CustomSnackBar.createError(context: context, text: 'お問い合わせに失敗しました')
-                );
+                    CustomSnackBar.createError(
+                        context: context, text: 'お問い合わせに失敗しました'));
                 // Navigator.of(context).pop();
               });
             },
@@ -294,22 +295,50 @@ class ShareStudyDrawer extends HookConsumerWidget {
                           TextButton(
                             child: const Text('ログアウト'),
                             onPressed: () async {
-                              await ref
+                              showGeneralDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) {
+                                  return WillPopScope(
+                                    onWillPop: () async => false,
+                                    child: const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+                                },
+                              );
+                              ref
                                   .watch(userAuthRepositoryProvider)
                                   .signOut()
-                                  .catchError((error) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackBar.createError(context: context, text: 'ログアウトに失敗しました')
-                                );
-                                Navigator.of(context).pop();
-                              }).then(
-                                (value) =>
-                                    Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) => const SignInScreen(),
-                                    maintainState: false,
-                                  ),
-                                ),
+                                  .then(
+                                (value) {
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignInScreen(),
+                                      maintainState: false,
+                                    ),
+                                    (_) => false,
+                                  );
+                                },
+                              ).catchError(
+                                (error, stackTrace) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    CustomSnackBar.createError(
+                                      context: context,
+                                      text: 'ログアウトに失敗しました',
+                                      icon: Icon(
+                                        Icons.error,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onError,
+                                      ),
+                                    ),
+                                  );
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                },
                               );
                             },
                           ),
