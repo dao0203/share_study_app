@@ -90,10 +90,13 @@ dev_dependencies:
   custom_lint: ^0.5.3
   riverpod_lint: ^2.0.3
 
-flutter_icons:
+flutter_launcher_icons:
   ios: true
+  image_path: "assets/icons/app_icon_ios.png"
+  remove_alpha_ios: true
   android: true
-  image_path: "assets/icons/app_icon.png"
+  adaptive_icon_background: "assets/icons/app_adaptive_background.png"
+  adaptive_icon_foreground: "assets/icons/app_adaptive_foreground.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
