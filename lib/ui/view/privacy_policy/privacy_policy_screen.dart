@@ -10,6 +10,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('プライバシーポリシー'),
         scrolledUnderElevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.background,
       ),
       body: const Markdown(data: _privacyPolicy),
     );
@@ -102,6 +103,6 @@ const String _privacyPolicy = '''
 
 本ポリシーに関するお問い合わせは、下記の窓口までお願いいたします。
 
-Eメールアドレス：g031t071@s.iwate-pu.ac.jp
+Eメールアドレス：sharestaformail@gmail.com
 
 ''';
