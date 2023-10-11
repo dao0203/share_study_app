@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -6,6 +7,8 @@ import 'package:share_study_app/auth_gate.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/splash_state.dart';
+import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
+import 'package:share_study_app/ui/view/tos/tos_screen.dart';
 
 class SignUpScreen extends HookConsumerWidget {
   const SignUpScreen({super.key});
@@ -189,27 +192,79 @@ class SignUpScreen extends HookConsumerWidget {
                             });
                           }
                         },
-                        icon: const Icon(Icons.person_add),
-                        label: const Text('サインアップ'),
+                        icon: Icon(
+                          Icons.person_add,
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
+                        label: Text(
+                          'サインアップ',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                        ),
                       ),
                       const SizedBox(height: 20),
                       TextButton.icon(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: const Icon(Icons.login),
-                        label: const Text('サインインはこちら'),
-                      ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(
+                            Icons.login,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
+                          label: Text(
+                            'サインインはこちら',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.secondary,
+                          )),
                       const SizedBox(height: 20),
-                      const Text.rich(
+                      Text.rich(
                         TextSpan(
-                          style: TextStyle(height: 1.8),
+                          style: const TextStyle(height: 1.8),
                           children: [
-                            TextSpan(text: 'このサービスのご利用を開始することで、'),
-                            TextSpan(text: 'プライバシーポリシー'),
-                            TextSpan(text: 'および'),
-                            TextSpan(text: '利用規約'),
-                            TextSpan(text: 'に同意するものとします。'),
+                            const TextSpan(text: 'このサービスのご利用を開始することで、'),
+                            TextSpan(
+                              text: 'プライバシーポリシー',
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .surfaceTint),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PrivacyPolicyScreen(),
+                                    ),
+                                  );
+                                },
+                            ),
+                            const TextSpan(text: 'および'),
+                            TextSpan(
+                              text: '利用規約',
+                              style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.surfaceTint,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const TosScreen(),
+                                    ),
+                                  );
+                                },
+                            ),
+                            const TextSpan(text: 'に同意するものとします。'),
                           ],
                         ),
                       ),
