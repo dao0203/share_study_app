@@ -49,7 +49,6 @@ class CustomSnackBar {
               text,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.error,
-                fontSize: 16,
               ),
             ),
           ),
