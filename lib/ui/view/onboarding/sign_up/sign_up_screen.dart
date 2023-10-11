@@ -189,6 +189,7 @@ class SignUpScreen extends HookConsumerWidget {
                                   ),
                                 );
                               }
+                              Navigator.of(context).pop();
                             });
                           }
                         },
