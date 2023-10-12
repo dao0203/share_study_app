@@ -132,49 +132,59 @@ class AnswerItem extends HookConsumerWidget {
                           fit: BoxFit.cover,
                           width: double.infinity,
                           height: 200,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
                         )
                       : const SizedBox(),
                   onTap: () {
                     //画像の拡大表示
                     showGeneralDialog(
-                        barrierDismissible: true,
-                        barrierLabel: 'Label',
-                        transitionDuration: const Duration(milliseconds: 300),
-                        context: context,
-                        pageBuilder: (context, animation, secondaryAnimation) {
-                          return DefaultTextStyle(
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                            child: Center(
-                              child: SingleChildScrollView(
-                                child: Stack(
-                                  children: [
-                                    InteractiveViewer(
-                                      minScale: 0.1,
-                                      maxScale: 5,
-                                      child: answer.imageUrl != null
-                                          ? Image.network(
-                                              answer.imageUrl!,
-                                            )
-                                          : const SizedBox(),
-                                    ),
-                                    Positioned(
-                                      top: 0,
-                                      right: 0,
-                                      child: SafeArea(
-                                          child: CloseButton(
+                      barrierDismissible: true,
+                      barrierLabel: 'Label',
+                      transitionDuration: const Duration(milliseconds: 300),
+                      context: context,
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return DefaultTextStyle(
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                          child: Center(
+                            child: SingleChildScrollView(
+                              child: Stack(
+                                children: [
+                                  InteractiveViewer(
+                                    minScale: 0.1,
+                                    maxScale: 5,
+                                    child: answer.imageUrl != null
+                                        ? Image.network(
+                                            answer.imageUrl!,
+                                          )
+                                        : const SizedBox(),
+                                  ),
+                                  Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: SafeArea(
+                                      child: CloseButton(
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onSurface,
-                                      )),
+                                      ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                          );
-                        });
+                          ),
+                        );
+                      },
+                    );
                   },
                 ),
               ],
