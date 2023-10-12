@@ -174,9 +174,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                         null
                                     ? CircleAvatar(
                                         radius: 20,
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .secondaryContainer,
+                                        backgroundColor: Colors.transparent,
                                         backgroundImage: NetworkImage(
                                           questionUiModel.questionerImageUrl!,
                                         ),

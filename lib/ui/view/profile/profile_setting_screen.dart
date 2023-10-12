@@ -182,6 +182,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                                   backgroundImage: FileImage(
                                     File(xFile.value!.path),
                                   ),
+                                  backgroundColor: Colors.transparent,
                                 ),
                         ),
                         Positioned(

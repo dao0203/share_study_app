@@ -79,8 +79,7 @@ class AnswerItem extends HookConsumerWidget {
                 alignment: Alignment.bottomLeft,
                 child: answer.answerer.imageUrl != null
                     ? CircleAvatar(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.background,
+                        backgroundColor: Colors.transparent,
                         backgroundImage:
                             NetworkImage(answer.answerer.imageUrl!),
                         radius: 20,
