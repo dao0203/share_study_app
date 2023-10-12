@@ -170,21 +170,24 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                     ),
                                   );
                                 },
-                                child:
-                                    questionUiModel.questionerImageUrl != null
-                                        ? Image.network(
-                                            questionUiModel.questionerImageUrl!,
-                                            height: 40,
-                                            width: 40,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Icon(
-                                            Icons.person_outline_outlined,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSecondaryContainer,
-                                            size: 40,
-                                          ),
+                                child: questionUiModel.questionerImageUrl !=
+                                        null
+                                    ? CircleAvatar(
+                                        radius: 20,
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .secondaryContainer,
+                                        backgroundImage: NetworkImage(
+                                          questionUiModel.questionerImageUrl!,
+                                        ),
+                                      )
+                                    : Icon(
+                                        Icons.person_outline_outlined,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondaryContainer,
+                                        size: 40,
+                                      ),
                               ),
                             ),
                             Expanded(
