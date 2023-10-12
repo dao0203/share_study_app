@@ -91,7 +91,7 @@ class QuestionItem extends HookConsumerWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.only(right: 8, top: 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
