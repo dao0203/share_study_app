@@ -60,112 +60,107 @@ class _SearchContentState extends ConsumerState<SearchContent> {
 
   @override
   Widget build(BuildContext context) {
-    return PagedListView.separated(
-      pagingController: _pagingController,
-      builderDelegate: PagedChildBuilderDelegate<QuestionUiModel>(
-        itemBuilder: (context, questionUiModel, index) {
-          return QuestionItem(
-            questionUiModel: questionUiModel,
-            onIconPressed: () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                  ) =>
-                      ProfileScreen(profileId: questionUiModel.questionerId),
-                  transitionsBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                    child,
-                  ) =>
-                      SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation1),
-                    child: child,
-                  ),
-                  transitionDuration: const Duration(milliseconds: 300),
-                ),
-              );
-            },
-            onPressed: () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                  ) =>
-                      DiscussionScreen(questionId: questionUiModel.id),
-                  transitionsBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                    child,
-                  ) =>
-                      SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation1),
-                    child: child,
-                  ),
-                  transitionDuration: const Duration(milliseconds: 300),
-                ),
-              );
-            },
-          );
-        },
-        firstPageErrorIndicatorBuilder: (context) => Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('エラーが発生しました。'),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () => _pagingController.refresh(),
-              child: const Text('再読み込み'),
-            ),
-          ],
-        ),
-        newPageErrorIndicatorBuilder: (context) => Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('エラーが発生しました。'),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () => _pagingController.refresh(),
-              child: const Text('再読み込み'),
-            ),
-          ],
-        ),
-        noItemsFoundIndicatorBuilder: (context) => Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('見つかりませんでした。'),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () => _pagingController.refresh(),
-              child: const Text('再読み込み'),
-            ),
-          ],
-        ),
-        noMoreItemsIndicatorBuilder: (context) => Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('これ以上はありません。'),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () => _pagingController.refresh(),
-              child: const Text('再読み込み'),
-            ),
-          ],
-        ),
+    return RefreshIndicator(
+      onRefresh: () => Future.sync(
+        () => _pagingController.refresh(),
       ),
-      separatorBuilder: (context, index) => const SizedBox(height: 2),
+      child: PagedListView.separated(
+        pagingController: _pagingController,
+        builderDelegate: PagedChildBuilderDelegate<QuestionUiModel>(
+          itemBuilder: (context, questionUiModel, index) {
+            return QuestionItem(
+              questionUiModel: questionUiModel,
+              onIconPressed: () {
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (
+                      context,
+                      animation1,
+                      animation2,
+                    ) =>
+                        ProfileScreen(profileId: questionUiModel.questionerId),
+                    transitionsBuilder: (
+                      context,
+                      animation1,
+                      animation2,
+                      child,
+                    ) =>
+                        SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(1, 0),
+                        end: Offset.zero,
+                      ).animate(animation1),
+                      child: child,
+                    ),
+                    transitionDuration: const Duration(milliseconds: 300),
+                  ),
+                );
+              },
+              onPressed: () {
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (
+                      context,
+                      animation1,
+                      animation2,
+                    ) =>
+                        DiscussionScreen(questionId: questionUiModel.id),
+                    transitionsBuilder: (
+                      context,
+                      animation1,
+                      animation2,
+                      child,
+                    ) =>
+                        SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(1, 0),
+                        end: Offset.zero,
+                      ).animate(animation1),
+                      child: child,
+                    ),
+                    transitionDuration: const Duration(milliseconds: 300),
+                  ),
+                );
+              },
+            );
+          },
+          firstPageErrorIndicatorBuilder: (context) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('エラーが発生しました。'),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () => _pagingController.refresh(),
+                child: const Text('再読み込み'),
+              ),
+            ],
+          ),
+          newPageErrorIndicatorBuilder: (context) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('エラーが発生しました。'),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () => _pagingController.refresh(),
+                child: const Text('再読み込み'),
+              ),
+            ],
+          ),
+          noItemsFoundIndicatorBuilder: (context) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('見つかりませんでした。'),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () => _pagingController.refresh(),
+                child: const Text('再読み込み'),
+              ),
+            ],
+          ),
+          noMoreItemsIndicatorBuilder: (context) => const SizedBox(),
+        ),
+        separatorBuilder: (context, index) => const SizedBox(height: 2),
+      ),
     );
   }
 }
