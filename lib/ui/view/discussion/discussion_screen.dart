@@ -492,7 +492,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 70),
+              const SizedBox(height: 100),
             ],
           ),
         ),

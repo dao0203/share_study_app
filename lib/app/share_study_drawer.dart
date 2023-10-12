@@ -50,7 +50,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                           ).animate(animation1),
                           child: child,
                         ),
-                        transitionDuration: const Duration(milliseconds: 300),
+                        transitionDuration: const Duration(milliseconds: 200),
                       ),
                     );
                   },
