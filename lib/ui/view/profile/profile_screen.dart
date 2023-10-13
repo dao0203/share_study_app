@@ -223,19 +223,61 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               ? ElevatedButton(
                                                   onPressed: () async {
                                                     //ブロック解除する
-                                                    await ref
-                                                        .read(
-                                                            profileRepositoryProvider)
-                                                        .unblock(
-                                                            widget.profileId)
-                                                        .then(
-                                                      (value) {
-                                                        ref.invalidate(
-                                                            isBlockingStateProvider(
-                                                                widget
-                                                                    .profileId));
-                                                      },
-                                                    );
+                                                    showGeneralDialog(
+                                                        context: context,
+                                                        pageBuilder: (context,
+                                                            animation1,
+                                                            animation2) {
+                                                          return AlertDialog(
+                                                            title: const Text(
+                                                                'ブロック解除'),
+                                                            content: const Text(
+                                                                '本当にブロック解除しますか？'),
+                                                            actions: [
+                                                              TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                        'キャンセル'),
+                                                              ),
+                                                              TextButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                  await ref
+                                                                      .read(
+                                                                          profileRepositoryProvider)
+                                                                      .unblock(
+                                                                          widget
+                                                                              .profileId)
+                                                                      .then(
+                                                                          (value) {
+                                                                    ref.invalidate(
+                                                                        isBlockingStateProvider(
+                                                                            widget.profileId));
+                                                                  }).catchError(
+                                                                          (error) {
+                                                                    Logger().e(
+                                                                        'error: $error stackTrace: $error');
+                                                                    ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar.createError(
+                                                                        context:
+                                                                            context,
+                                                                        text:
+                                                                            'ブロック解除に失敗しました'));
+                                                                  });
+                                                                },
+                                                                child: const Text(
+                                                                    'ブロック解除'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        });
                                                   },
                                                   style:
                                                       ElevatedButton.styleFrom(
