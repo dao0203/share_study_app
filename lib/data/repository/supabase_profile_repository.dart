@@ -250,7 +250,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
         .from('blocks')
         .select('blocked_profile_id')
         .eq('blocked_profile_id', profileId)
-        .eq('blocking_profile_id', supabaseClient.auth.currentUser!.id)
+        .eq('blocker_profile_id', supabaseClient.auth.currentUser!.id)
         .limit(1)
         .then((value) {
       Logger().d('isBlocking.value: $value');
