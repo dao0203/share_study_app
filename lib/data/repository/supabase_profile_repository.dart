@@ -216,4 +216,48 @@ final class SupabaseProfileRepository implements ProfileRepository {
           throw error;
         });
   }
+
+  @override
+  Future<void> block(String profileId) async {
+    await supabaseClient.from('blocks').insert({
+      'blocked_profile_id': profileId,
+    }).then((value) {
+      Logger().d('正常にブロックしました');
+    }).catchError((error) {
+      Logger().e('block.error: $error');
+      throw Exception('failed_to_block');
+    });
+  }
+
+  @override
+  Future<void> unblock(String profileId) async {
+    await supabaseClient
+        .from('blocks')
+        .delete()
+        .eq('blocked_profile_id', profileId)
+        .then((value) {
+      Logger().d('正常にブロックを解除しました');
+    }).catchError((error) {
+      Logger().e('unblock.error: $error');
+      throw Exception('failed_to_unblock');
+    });
+  }
+
+  @override
+  Future<bool> isBlocking(String profileId) {
+    Logger().d('isBlocking.profileId: $profileId');
+    return supabaseClient
+        .from('blocks')
+        .select('blocked_profile_id')
+        .eq('blocked_profile_id', profileId)
+        .eq('blocker_profile_id', supabaseClient.auth.currentUser!.id)
+        .limit(1)
+        .then((value) {
+      Logger().d('isBlocking.value: $value');
+      return value != null && value.isNotEmpty;
+    }).catchError((error) {
+      Logger().e('isBlocking.error: $error');
+      throw error;
+    });
+  }
 }
