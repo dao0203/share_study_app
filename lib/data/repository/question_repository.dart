@@ -5,7 +5,10 @@ abstract interface class QuestionRepository {
   Future<Question> get(String id);
   Future<void> add(
       String title, String content, String subjectName, String? path);
-  Future<List<Question>> getWithPagination(int start, int end);
+  Future<List<Question>> getWithPagination({
+    required int offset,
+    required int limit,
+  });
   Future<List<Question>> getWithPaginationAndKeyword(
       int start, int end, String keyword);
   Future<List<Question>> getWithPaginationAndProfileId(
