@@ -242,4 +242,22 @@ final class SupabaseProfileRepository implements ProfileRepository {
       throw Exception('failed_to_unblock');
     });
   }
+
+  @override
+  Future<bool> isBlocking(String profileId) {
+    Logger().d('isBlocking.profileId: $profileId');
+    return supabaseClient
+        .from('blocks')
+        .select('blocked_profile_id')
+        .eq('blocked_profile_id', profileId)
+        .eq('blocking_profile_id', supabaseClient.auth.currentUser!.id)
+        .limit(1)
+        .then((value) {
+      Logger().d('isBlocking.value: $value');
+      return value != null && value.isNotEmpty;
+    }).catchError((error) {
+      Logger().e('isBlocking.error: $error');
+      throw error;
+    });
+  }
 }
