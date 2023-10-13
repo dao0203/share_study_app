@@ -34,7 +34,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
       final newItems =
           await ref.watch(getMyNotificationsWithPaginationUseCaseProvider).call(
                 param: PaginationArgs(
-                  start: pageKey,
+                  limit: pageKey,
                   offset: pageKey + _pageSize,
                 ),
               );

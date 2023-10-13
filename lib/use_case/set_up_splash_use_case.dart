@@ -18,7 +18,7 @@ class SetUpSplashUseCase extends UseCase<void, Future<SplashTo>> {
       return SplashTo.signInScreen;
     }
 
-    final myProfile = await _getMyProfileUseCase.call(param: param);
+    final myProfile = await _getMyProfileUseCase.call(param: null);
 
     if (myProfile.nickname.isEmpty || myProfile.universityName.isEmpty) {
       Logger().i('profile is not set');

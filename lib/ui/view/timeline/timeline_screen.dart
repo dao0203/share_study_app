@@ -22,7 +22,7 @@ class TimelineScreen extends StatefulHookConsumerWidget {
 }
 
 class _TimelineScreenState extends ConsumerState<TimelineScreen> {
-  static const _pageSize = 5;
+  static const _pageSize = 30;
   final PagingController<int, QuestionUiModel> _pagingController =
       PagingController(firstPageKey: 0);
 
