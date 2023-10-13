@@ -14,7 +14,9 @@ class GetMyProfileUseCase extends UseCase<void, Future<Profile>> {
   );
 
   @override
-  Future<Profile> call(param) async {
+  Future<Profile> call({
+    required void param,
+  }) async {
     Logger().i('GetMyProfileUseCase');
     final user = _userRepository.getCurrentUser();
     //userがnullの場合は3回くらいリトライする

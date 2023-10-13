@@ -10,7 +10,9 @@ class GetQuestionsWithPaginationAndProfileIdUseCase extends UseCase<
   GetQuestionsWithPaginationAndProfileIdUseCase(this._questionRepository);
 
   @override
-  Future<List<QuestionUseCaseModel>> call(param) {
+  Future<List<QuestionUseCaseModel>> call({
+    required PaginationByProfileIdArgs param,
+  }) {
     return _questionRepository
         .getWithPaginationAndProfileId(param.start, param.end, param.profileId)
         .then((value) {

@@ -8,6 +8,6 @@ part 'splash_state.g.dart';
 class SplashState extends _$SplashState {
   @override
   Future<SplashTo> build() async {
-    return await ref.watch(setUpSplashUseCaseProvider).call(null);
+    return await ref.watch(setUpSplashUseCaseProvider).call(param: null);
   }
 }

@@ -105,45 +105,45 @@ final class SupabaseQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<List<Question>> getWithPagination(int start, int end) async {
-    return await _client
-        .from('questions')
-        .select<PostgrestList>(
-          ''' 
-          id,user_id, image_url, title, tags, content, is_resolved, created_at, updated_at,
-          profiles (nickname,university_name,image_url)
-          ''',
-        )
-        .order('created_at', ascending: false)
-        .range(start, end)
-        .then((value) {
-          Logger().i('getWithPagination.then: $value');
-          //valueをリスト型に変換
-          return value.map((e) {
-            return Question(
-              //questions
-              id: e['id'] as String,
-              title: e['title'] as String,
-              tags: e['tags'][0] as String,
-              content: e['content'] as String,
-              isResolved: e['is_resolved'] as bool,
-              createdAt: DateTime.parse(e['created_at']),
-              updatedAt: DateTime.parse(e['updated_at']),
-              imageUrl: e['image_url'] as String?,
-              //profiles
-              questioner: Profile(
-                id: e['user_id'] as String,
-                nickname: e['profiles']['nickname'] as String,
-                universityName: e['profiles']['university_name'] as String,
-                imageUrl: e['profiles']['image_url'] as String?,
-              ),
-            );
-          }).toList();
-        })
-        .catchError((error, stacktrace) {
-          Logger().e('getWithPagination.error: $error, $stacktrace');
-          throw error;
-        });
+  Future<List<Question>> getWithPagination({
+    required int offset,
+    required int limit,
+  }) async {
+    return await _client.rpc(
+      'get_questions_with_pagination',
+      params: {
+        'offset_amount': offset,
+        'limit_amount': limit,
+      },
+    ).then((value) async {
+      Logger().i('getWithPagination.then: $value');
+      //valueをリスト型に変換
+      final valueListDynamic = value as List<dynamic>;
+      final valueList = valueListDynamic.cast<Map<String, dynamic>>();
+      return valueList.map((question) {
+        return Question(
+          //questions
+          id: question['question_id'] as String,
+          title: question['title'] as String,
+          tags: question['tags'][0] as String,
+          content: question['content'] as String,
+          isResolved: question['is_resolved'] as bool,
+          createdAt: DateTime.parse(question['created_at']),
+          updatedAt: DateTime.parse(question['updated_at']),
+          imageUrl: question['image_url'] as String?,
+          //profiles
+          questioner: Profile(
+            id: question['questioner_user_id'] as String,
+            nickname: question['questioner_nickname'] as String,
+            universityName: question['questioner_university_name'] as String,
+            imageUrl: question['questioner_image_url'] as String?,
+          ),
+        );
+      }).toList();
+    }).catchError((error, stacktrace) {
+      Logger().e('getWithPagination.error: $error, $stacktrace');
+      throw error;
+    });
   }
 
   @override

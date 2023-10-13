@@ -37,7 +37,7 @@ class _AnswerTabState extends ConsumerState<ResolvedQuestionTab>
       final newItems = await ref
           .watch(getResolvedQuestionsWithPaginationAndProfileIdUseCaseProvider)
           .call(
-            PaginationByProfileIdArgs(
+            param: PaginationByProfileIdArgs(
               start: pageKey,
               end: pageKey + _pageSize,
               profileId: widget.profileId,

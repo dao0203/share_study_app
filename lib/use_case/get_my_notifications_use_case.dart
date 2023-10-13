@@ -10,11 +10,13 @@ class GetMyNotificationsWithPaginationUseCase
   final NotificationRepository _notificationRepository;
   GetMyNotificationsWithPaginationUseCase(this._notificationRepository);
   @override
-  Future<List<MyNotification>> call(param) async {
+  Future<List<MyNotification>> call({
+    required PaginationArgs param,
+  }) async {
     return await _notificationRepository
         .getWithPagination(
-      param.start,
-      param.end,
+      param.limit,
+      param.offset,
     )
         .then((value) {
       return value

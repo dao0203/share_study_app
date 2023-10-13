@@ -38,8 +38,9 @@ class _SearchContentState extends ConsumerState<SearchContent> {
     try {
       final newItems = await ref
           .read(getQuestionsWithPaginationAndKeywordUseCaseProvider)
-          .call(PaginationByKeywordArgs(
-              start: pageKey, end: _pageSize + pageKey, keyword: keyword))
+          .call(
+              param: PaginationByKeywordArgs(
+                  start: pageKey, end: _pageSize + pageKey, keyword: keyword))
           .then((value) {
         return value.map((e) {
           return QuestionUiModel.fromQuestionUseCaseModel(

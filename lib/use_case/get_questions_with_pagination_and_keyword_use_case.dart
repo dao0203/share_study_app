@@ -11,7 +11,9 @@ class GetQuestionsWithPaginationAndKeywordUseCase
   GetQuestionsWithPaginationAndKeywordUseCase(this._questionRepository);
 
   @override
-  Future<List<QuestionUseCaseModel>> call(param) {
+  Future<List<QuestionUseCaseModel>> call({
+    required PaginationByKeywordArgs param,
+  }) {
     return _questionRepository
         .getWithPaginationAndKeyword(param.start, param.end, param.keyword)
         .then((value) {
