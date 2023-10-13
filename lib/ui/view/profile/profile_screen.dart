@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/activity_profile_state.dart';
+import 'package:share_study_app/ui/state/is_blocking_state.dart';
 import 'package:share_study_app/ui/state/is_following_state.dart';
 import 'package:share_study_app/ui/view/follow/follow_screen.dart';
 import 'package:share_study_app/ui/view/profile/profile_setting_screen.dart';
@@ -24,11 +26,121 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   Widget build(BuildContext context) {
     final profileState =
         ref.watch(activityProfileStateProvider(widget.profileId));
+    final isBlockingState =
+        ref.watch(isBlockingStateProvider(widget.profileId));
     return Scaffold(
       appBar: AppBar(
         //Appbarの背景色を変更
         scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).colorScheme.background,
+        actions: [
+          profileState.when(
+            skipError: true,
+            skipLoadingOnRefresh: true,
+            skipLoadingOnReload: true,
+            data: (data) => data.isMyProfile
+                ? const SizedBox()
+                : IconButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return SafeArea(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  isBlockingState.when(
+                                    skipError: true,
+                                    skipLoadingOnRefresh: true,
+                                    skipLoadingOnReload: true,
+                                    data: (isBlocking) {
+                                      return ListTile(
+                                        leading: Icon(
+                                          Icons.block,
+                                          color: isBlocking ? null : Colors.red,
+                                        ),
+                                        title: Text(
+                                          isBlocking ? 'ブロック解除' : 'ブロック',
+                                          style: TextStyle(
+                                            color:
+                                                isBlocking ? null : Colors.red,
+                                          ),
+                                        ),
+                                        onTap: () async {
+                                          if (isBlocking) {
+                                            //ブロック解除
+                                            await ref
+                                                .read(profileRepositoryProvider)
+                                                .unblock(data.profile.id)
+                                                .then(
+                                              (value) {
+                                                ref.invalidate(
+                                                  isBlockingStateProvider(
+                                                      widget.profileId),
+                                                );
+                                              },
+                                            ).catchError(
+                                              (error) {
+                                                Logger().e(
+                                                    'error: $error stackTrace: $error');
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  CustomSnackBar.createError(
+                                                    context: context,
+                                                    text: 'ブロック解除に失敗しました',
+                                                  ),
+                                                );
+                                              },
+                                            ).whenComplete(() =>
+                                                    Navigator.of(context)
+                                                        .pop());
+                                          } else {
+                                            //ブロック
+                                            await ref
+                                                .read(profileRepositoryProvider)
+                                                .block(data.profile.id)
+                                                .then((value) {
+                                              ref.invalidate(
+                                                isBlockingStateProvider(
+                                                    widget.profileId),
+                                              );
+                                            }).catchError((error) {
+                                              Logger().e(
+                                                  'error: $error stackTrace: $error');
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                CustomSnackBar.createError(
+                                                  context: context,
+                                                  text: 'ブロックに失敗しました',
+                                                ),
+                                              );
+                                            }).whenComplete(() =>
+                                                    Navigator.of(context)
+                                                        .pop());
+                                          }
+                                        },
+                                      );
+                                    },
+                                    error: (error, stackTrace) {
+                                      Logger().e(
+                                          'error: $error stackTrace: $stackTrace');
+                                      return const SizedBox();
+                                    },
+                                    loading: () {
+                                      return const SizedBox();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
+                    },
+                    icon: const Icon(Icons.more_vert),
+                  ),
+            error: (error, stackTrace) => const SizedBox(),
+            loading: () => const SizedBox(),
+          ),
+        ],
       ),
       body: DefaultTabController(
         length: 2,
