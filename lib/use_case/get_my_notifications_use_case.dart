@@ -15,7 +15,7 @@ class GetMyNotificationsWithPaginationUseCase
   }) async {
     return await _notificationRepository
         .getWithPagination(
-      param.start,
+      param.limit,
       param.offset,
     )
         .then((value) {

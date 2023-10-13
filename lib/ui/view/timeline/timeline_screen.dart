@@ -45,7 +45,11 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
     try {
       final newItems = await ref
           .read(getQuestionsWithPaginationUseCaseProvider)
-          .call(param: pageKey)
+          .call(
+              param: PaginationArgs(
+            limit: _pageSize,
+            offset: pageKey,
+          ))
           .then((value) {
         return value.map((e) {
           return QuestionUiModel.fromQuestionUseCaseModel(
