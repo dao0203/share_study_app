@@ -6,6 +6,6 @@ part 'pagination_args.freezed.dart';
 abstract class PaginationArgs with _$PaginationArgs {
   const factory PaginationArgs({
     required int start,
-    required int end,
+    required int offset,
   }) = _PaginationArgs;
 }
