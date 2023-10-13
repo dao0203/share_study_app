@@ -290,7 +290,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                     style: TextStyle(
                                                       color: Theme.of(context)
                                                           .colorScheme
-                                                          .background,
+                                                          .onBackground,
                                                     ),
                                                   ),
                                                 )
@@ -353,7 +353,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                               ? Theme.of(
                                                                       context)
                                                                   .colorScheme
-                                                                  .onPrimary
+                                                                  .onBackground
                                                               : Theme.of(
                                                                       context)
                                                                   .colorScheme
