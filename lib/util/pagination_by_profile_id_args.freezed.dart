@@ -70,25 +70,25 @@ class _$PaginationByProfileIdArgsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PaginationByProfileIdArgsCopyWith<$Res>
+abstract class _$$PaginationByProfileIdArgsImplCopyWith<$Res>
     implements $PaginationByProfileIdArgsCopyWith<$Res> {
-  factory _$$_PaginationByProfileIdArgsCopyWith(
-          _$_PaginationByProfileIdArgs value,
-          $Res Function(_$_PaginationByProfileIdArgs) then) =
-      __$$_PaginationByProfileIdArgsCopyWithImpl<$Res>;
+  factory _$$PaginationByProfileIdArgsImplCopyWith(
+          _$PaginationByProfileIdArgsImpl value,
+          $Res Function(_$PaginationByProfileIdArgsImpl) then) =
+      __$$PaginationByProfileIdArgsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String profileId, int start, int end});
 }
 
 /// @nodoc
-class __$$_PaginationByProfileIdArgsCopyWithImpl<$Res>
+class __$$PaginationByProfileIdArgsImplCopyWithImpl<$Res>
     extends _$PaginationByProfileIdArgsCopyWithImpl<$Res,
-        _$_PaginationByProfileIdArgs>
-    implements _$$_PaginationByProfileIdArgsCopyWith<$Res> {
-  __$$_PaginationByProfileIdArgsCopyWithImpl(
-      _$_PaginationByProfileIdArgs _value,
-      $Res Function(_$_PaginationByProfileIdArgs) _then)
+        _$PaginationByProfileIdArgsImpl>
+    implements _$$PaginationByProfileIdArgsImplCopyWith<$Res> {
+  __$$PaginationByProfileIdArgsImplCopyWithImpl(
+      _$PaginationByProfileIdArgsImpl _value,
+      $Res Function(_$PaginationByProfileIdArgsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -98,7 +98,7 @@ class __$$_PaginationByProfileIdArgsCopyWithImpl<$Res>
     Object? start = null,
     Object? end = null,
   }) {
-    return _then(_$_PaginationByProfileIdArgs(
+    return _then(_$PaginationByProfileIdArgsImpl(
       profileId: null == profileId
           ? _value.profileId
           : profileId // ignore: cast_nullable_to_non_nullable
@@ -117,8 +117,8 @@ class __$$_PaginationByProfileIdArgsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PaginationByProfileIdArgs implements _PaginationByProfileIdArgs {
-  const _$_PaginationByProfileIdArgs(
+class _$PaginationByProfileIdArgsImpl implements _PaginationByProfileIdArgs {
+  const _$PaginationByProfileIdArgsImpl(
       {required this.profileId, required this.start, required this.end});
 
   @override
@@ -137,7 +137,7 @@ class _$_PaginationByProfileIdArgs implements _PaginationByProfileIdArgs {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PaginationByProfileIdArgs &&
+            other is _$PaginationByProfileIdArgsImpl &&
             (identical(other.profileId, profileId) ||
                 other.profileId == profileId) &&
             (identical(other.start, start) || other.start == start) &&
@@ -150,16 +150,16 @@ class _$_PaginationByProfileIdArgs implements _PaginationByProfileIdArgs {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PaginationByProfileIdArgsCopyWith<_$_PaginationByProfileIdArgs>
-      get copyWith => __$$_PaginationByProfileIdArgsCopyWithImpl<
-          _$_PaginationByProfileIdArgs>(this, _$identity);
+  _$$PaginationByProfileIdArgsImplCopyWith<_$PaginationByProfileIdArgsImpl>
+      get copyWith => __$$PaginationByProfileIdArgsImplCopyWithImpl<
+          _$PaginationByProfileIdArgsImpl>(this, _$identity);
 }
 
 abstract class _PaginationByProfileIdArgs implements PaginationByProfileIdArgs {
   const factory _PaginationByProfileIdArgs(
       {required final String profileId,
       required final int start,
-      required final int end}) = _$_PaginationByProfileIdArgs;
+      required final int end}) = _$PaginationByProfileIdArgsImpl;
 
   @override
   String get profileId;
@@ -169,6 +169,6 @@ abstract class _PaginationByProfileIdArgs implements PaginationByProfileIdArgs {
   int get end;
   @override
   @JsonKey(ignore: true)
-  _$$_PaginationByProfileIdArgsCopyWith<_$_PaginationByProfileIdArgs>
+  _$$PaginationByProfileIdArgsImplCopyWith<_$PaginationByProfileIdArgsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

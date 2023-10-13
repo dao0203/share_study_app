@@ -10,7 +10,7 @@ abstract class QuestionUiModel with _$QuestionUiModel {
     required String id,
     required String title,
     required String content,
-    required String subjectName,
+    required String tags,
     String? questionImageUrl,
     required bool isResolved,
     //質問者
@@ -29,7 +29,7 @@ abstract class QuestionUiModel with _$QuestionUiModel {
       id: questionUseCaseModel.question.id,
       title: questionUseCaseModel.question.title,
       content: questionUseCaseModel.question.content,
-      subjectName: questionUseCaseModel.question.subjectName,
+      tags: questionUseCaseModel.question.tags,
       questionImageUrl: questionUseCaseModel.question.imageUrl,
       isResolved: questionUseCaseModel.question.isResolved,
       questionerId: questionUseCaseModel.question.questioner.id,

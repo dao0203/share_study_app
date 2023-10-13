@@ -138,7 +138,6 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                 AnimationConfiguration.staggeredList(
               position: index,
               child: SlideAnimation(
-                verticalOffset: 50.0,
                 child: FadeInAnimation(
                   child: QuestionItem(
                     questionUiModel: question,
@@ -164,7 +163,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                             ).animate(animation1),
                             child: child,
                           ),
-                          transitionDuration: const Duration(milliseconds: 300),
+                          transitionDuration: const Duration(milliseconds: 100),
                         ),
                       );
                     },
@@ -190,7 +189,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                             ).animate(animation1),
                             child: child,
                           ),
-                          transitionDuration: const Duration(milliseconds: 300),
+                          transitionDuration: const Duration(milliseconds: 100),
                         ),
                       );
                     },
@@ -203,6 +202,9 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                 child: Text('エラーが発生しました'),
               );
             },
+            noItemsFoundIndicatorBuilder: (context) => const Center(
+              child: Text('質問がありません'),
+            ),
           ),
         ),
       ),

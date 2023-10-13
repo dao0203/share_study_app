@@ -50,7 +50,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                           ).animate(animation1),
                           child: child,
                         ),
-                        transitionDuration: const Duration(milliseconds: 300),
+                        transitionDuration: const Duration(milliseconds: 200),
                       ),
                     );
                   },
@@ -158,7 +158,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                     ).animate(animation1),
                     child: child,
                   ),
-                  transitionDuration: const Duration(milliseconds: 300),
+                  transitionDuration: const Duration(milliseconds: 200),
                 ),
               );
             },
@@ -257,15 +257,45 @@ class ShareStudyDrawer extends HookConsumerWidget {
             leading: const Icon(Icons.contact_support_outlined),
             title: const Text('お問い合わせ'),
             onTap: () async {
-              await ref
-                  .watch(emailSenderProvider)
-                  .setupEmail()
-                  .catchError((error) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    CustomSnackBar.createError(
-                        context: context, text: 'お問い合わせに失敗しました'));
-                // Navigator.of(context).pop();
-              });
+              showGeneralDialog(
+                context: context,
+                pageBuilder: (
+                  context,
+                  animation1,
+                  animation2,
+                ) {
+                  return AlertDialog(
+                    title: const Text('お問い合わせ'),
+                    content: const Text('外部のメールアプリに遷移します'),
+                    actions: [
+                      TextButton(
+                        child: const Text('キャンセル'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('起動'),
+                        onPressed: () async {
+                          await ref
+                              .watch(emailSenderProvider)
+                              .setupEmail()
+                              .catchError(
+                            (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackBar.createError(
+                                      context: context, text: 'お問い合わせに失敗しました'));
+                              // Navigator.of(context).pop();
+                            },
+                          ).whenComplete(() {
+                            Navigator.of(context).pop();
+                          });
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
             },
           ),
           ListTile(

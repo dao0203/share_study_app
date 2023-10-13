@@ -140,10 +140,10 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
 }
 
 /// @nodoc
-abstract class _$$_ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
-  factory _$$_ProfileCopyWith(
-          _$_Profile value, $Res Function(_$_Profile) then) =
-      __$$_ProfileCopyWithImpl<$Res>;
+abstract class _$$ProfileImplCopyWith<$Res> implements $ProfileCopyWith<$Res> {
+  factory _$$ProfileImplCopyWith(
+          _$ProfileImpl value, $Res Function(_$ProfileImpl) then) =
+      __$$ProfileImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -163,10 +163,11 @@ abstract class _$$_ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_ProfileCopyWithImpl<$Res>
-    extends _$ProfileCopyWithImpl<$Res, _$_Profile>
-    implements _$$_ProfileCopyWith<$Res> {
-  __$$_ProfileCopyWithImpl(_$_Profile _value, $Res Function(_$_Profile) _then)
+class __$$ProfileImplCopyWithImpl<$Res>
+    extends _$ProfileCopyWithImpl<$Res, _$ProfileImpl>
+    implements _$$ProfileImplCopyWith<$Res> {
+  __$$ProfileImplCopyWithImpl(
+      _$ProfileImpl _value, $Res Function(_$ProfileImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -186,7 +187,7 @@ class __$$_ProfileCopyWithImpl<$Res>
     Object? grade = freezed,
     Object? bio = freezed,
   }) {
-    return _then(_$_Profile(
+    return _then(_$ProfileImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -245,8 +246,8 @@ class __$$_ProfileCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Profile implements _Profile {
-  const _$_Profile(
+class _$ProfileImpl implements _Profile {
+  const _$ProfileImpl(
       {required this.id,
       required this.nickname,
       required this.universityName,
@@ -297,7 +298,7 @@ class _$_Profile implements _Profile {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Profile &&
+            other is _$ProfileImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
@@ -343,8 +344,8 @@ class _$_Profile implements _Profile {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ProfileCopyWith<_$_Profile> get copyWith =>
-      __$$_ProfileCopyWithImpl<_$_Profile>(this, _$identity);
+  _$$ProfileImplCopyWith<_$ProfileImpl> get copyWith =>
+      __$$ProfileImplCopyWithImpl<_$ProfileImpl>(this, _$identity);
 }
 
 abstract class _Profile implements Profile {
@@ -361,7 +362,7 @@ abstract class _Profile implements Profile {
       final String? facultyName,
       final String? departmentName,
       final String? grade,
-      final String? bio}) = _$_Profile;
+      final String? bio}) = _$ProfileImpl;
 
   @override
   String get id;
@@ -391,6 +392,6 @@ abstract class _Profile implements Profile {
   String? get bio;
   @override
   @JsonKey(ignore: true)
-  _$$_ProfileCopyWith<_$_Profile> get copyWith =>
+  _$$ProfileImplCopyWith<_$ProfileImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

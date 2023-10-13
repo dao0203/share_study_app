@@ -136,9 +136,10 @@ class _$AnswerCopyWithImpl<$Res, $Val extends Answer>
 }
 
 /// @nodoc
-abstract class _$$_AnswerCopyWith<$Res> implements $AnswerCopyWith<$Res> {
-  factory _$$_AnswerCopyWith(_$_Answer value, $Res Function(_$_Answer) then) =
-      __$$_AnswerCopyWithImpl<$Res>;
+abstract class _$$AnswerImplCopyWith<$Res> implements $AnswerCopyWith<$Res> {
+  factory _$$AnswerImplCopyWith(
+          _$AnswerImpl value, $Res Function(_$AnswerImpl) then) =
+      __$$AnswerImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -159,10 +160,11 @@ abstract class _$$_AnswerCopyWith<$Res> implements $AnswerCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_AnswerCopyWithImpl<$Res>
-    extends _$AnswerCopyWithImpl<$Res, _$_Answer>
-    implements _$$_AnswerCopyWith<$Res> {
-  __$$_AnswerCopyWithImpl(_$_Answer _value, $Res Function(_$_Answer) _then)
+class __$$AnswerImplCopyWithImpl<$Res>
+    extends _$AnswerCopyWithImpl<$Res, _$AnswerImpl>
+    implements _$$AnswerImplCopyWith<$Res> {
+  __$$AnswerImplCopyWithImpl(
+      _$AnswerImpl _value, $Res Function(_$AnswerImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -180,7 +182,7 @@ class __$$_AnswerCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(_$_Answer(
+    return _then(_$AnswerImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -231,8 +233,8 @@ class __$$_AnswerCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Answer implements _Answer {
-  const _$_Answer(
+class _$AnswerImpl implements _Answer {
+  const _$AnswerImpl(
       {required this.id,
       required this.questionId,
       required this.content,
@@ -277,7 +279,7 @@ class _$_Answer implements _Answer {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Answer &&
+            other is _$AnswerImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.questionId, questionId) ||
                 other.questionId == questionId) &&
@@ -318,8 +320,8 @@ class _$_Answer implements _Answer {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AnswerCopyWith<_$_Answer> get copyWith =>
-      __$$_AnswerCopyWithImpl<_$_Answer>(this, _$identity);
+  _$$AnswerImplCopyWith<_$AnswerImpl> get copyWith =>
+      __$$AnswerImplCopyWithImpl<_$AnswerImpl>(this, _$identity);
 }
 
 abstract class _Answer implements Answer {
@@ -334,7 +336,7 @@ abstract class _Answer implements Answer {
       required final bool isBestAnswer,
       required final Profile answerer,
       required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$_Answer;
+      required final DateTime updatedAt}) = _$AnswerImpl;
 
   @override
   String get id;
@@ -360,6 +362,6 @@ abstract class _Answer implements Answer {
   DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
-  _$$_AnswerCopyWith<_$_Answer> get copyWith =>
+  _$$AnswerImplCopyWith<_$AnswerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

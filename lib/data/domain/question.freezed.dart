@@ -19,7 +19,7 @@ mixin _$Question {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  String get subjectName => throw _privateConstructorUsedError;
+  String get tags => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
   bool get isResolved => throw _privateConstructorUsedError;
   Profile get questioner => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $QuestionCopyWith<$Res> {
       {String id,
       String title,
       String content,
-      String subjectName,
+      String tags,
       String? imageUrl,
       bool isResolved,
       Profile questioner,
@@ -66,7 +66,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? id = null,
     Object? title = null,
     Object? content = null,
-    Object? subjectName = null,
+    Object? tags = null,
     Object? imageUrl = freezed,
     Object? isResolved = null,
     Object? questioner = null,
@@ -86,9 +86,9 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      subjectName: null == subjectName
-          ? _value.subjectName
-          : subjectName // ignore: cast_nullable_to_non_nullable
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
               as String,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
@@ -123,17 +123,18 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
 }
 
 /// @nodoc
-abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
-  factory _$$_QuestionCopyWith(
-          _$_Question value, $Res Function(_$_Question) then) =
-      __$$_QuestionCopyWithImpl<$Res>;
+abstract class _$$QuestionImplCopyWith<$Res>
+    implements $QuestionCopyWith<$Res> {
+  factory _$$QuestionImplCopyWith(
+          _$QuestionImpl value, $Res Function(_$QuestionImpl) then) =
+      __$$QuestionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String id,
       String title,
       String content,
-      String subjectName,
+      String tags,
       String? imageUrl,
       bool isResolved,
       Profile questioner,
@@ -145,11 +146,11 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_QuestionCopyWithImpl<$Res>
-    extends _$QuestionCopyWithImpl<$Res, _$_Question>
-    implements _$$_QuestionCopyWith<$Res> {
-  __$$_QuestionCopyWithImpl(
-      _$_Question _value, $Res Function(_$_Question) _then)
+class __$$QuestionImplCopyWithImpl<$Res>
+    extends _$QuestionCopyWithImpl<$Res, _$QuestionImpl>
+    implements _$$QuestionImplCopyWith<$Res> {
+  __$$QuestionImplCopyWithImpl(
+      _$QuestionImpl _value, $Res Function(_$QuestionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -158,14 +159,14 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? content = null,
-    Object? subjectName = null,
+    Object? tags = null,
     Object? imageUrl = freezed,
     Object? isResolved = null,
     Object? questioner = null,
     Object? createdAt = null,
     Object? updatedAt = freezed,
   }) {
-    return _then(_$_Question(
+    return _then(_$QuestionImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -178,9 +179,9 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      subjectName: null == subjectName
-          ? _value.subjectName
-          : subjectName // ignore: cast_nullable_to_non_nullable
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
               as String,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
@@ -208,12 +209,12 @@ class __$$_QuestionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Question implements _Question {
-  const _$_Question(
+class _$QuestionImpl implements _Question {
+  const _$QuestionImpl(
       {required this.id,
       required this.title,
       required this.content,
-      required this.subjectName,
+      required this.tags,
       this.imageUrl,
       required this.isResolved,
       required this.questioner,
@@ -227,7 +228,7 @@ class _$_Question implements _Question {
   @override
   final String content;
   @override
-  final String subjectName;
+  final String tags;
   @override
   final String? imageUrl;
   @override
@@ -241,19 +242,18 @@ class _$_Question implements _Question {
 
   @override
   String toString() {
-    return 'Question(id: $id, title: $title, content: $content, subjectName: $subjectName, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Question(id: $id, title: $title, content: $content, tags: $tags, imageUrl: $imageUrl, isResolved: $isResolved, questioner: $questioner, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Question &&
+            other is _$QuestionImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
-            (identical(other.subjectName, subjectName) ||
-                other.subjectName == subjectName) &&
+            (identical(other.tags, tags) || other.tags == tags) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.isResolved, isResolved) ||
@@ -267,14 +267,14 @@ class _$_Question implements _Question {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, content, subjectName,
+  int get hashCode => Object.hash(runtimeType, id, title, content, tags,
       imageUrl, isResolved, questioner, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_QuestionCopyWith<_$_Question> get copyWith =>
-      __$$_QuestionCopyWithImpl<_$_Question>(this, _$identity);
+  _$$QuestionImplCopyWith<_$QuestionImpl> get copyWith =>
+      __$$QuestionImplCopyWithImpl<_$QuestionImpl>(this, _$identity);
 }
 
 abstract class _Question implements Question {
@@ -282,12 +282,12 @@ abstract class _Question implements Question {
       {required final String id,
       required final String title,
       required final String content,
-      required final String subjectName,
+      required final String tags,
       final String? imageUrl,
       required final bool isResolved,
       required final Profile questioner,
       required final DateTime createdAt,
-      required final DateTime? updatedAt}) = _$_Question;
+      required final DateTime? updatedAt}) = _$QuestionImpl;
 
   @override
   String get id;
@@ -296,7 +296,7 @@ abstract class _Question implements Question {
   @override
   String get content;
   @override
-  String get subjectName;
+  String get tags;
   @override
   String? get imageUrl;
   @override
@@ -309,6 +309,6 @@ abstract class _Question implements Question {
   DateTime? get updatedAt;
   @override
   @JsonKey(ignore: true)
-  _$$_QuestionCopyWith<_$_Question> get copyWith =>
+  _$$QuestionImplCopyWith<_$QuestionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
