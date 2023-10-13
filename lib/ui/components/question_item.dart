@@ -36,6 +36,7 @@ class QuestionItem extends HookConsumerWidget {
                             NetworkImage(questionUiModel.questionerImageUrl!),
                         //サイズ
                         radius: 20,
+                        backgroundColor: Colors.transparent,
                       )
                     : Icon(
                         Icons.person_outline_outlined,
@@ -63,8 +64,6 @@ class QuestionItem extends HookConsumerWidget {
                       .format(questionUiModel.createdAt),
                   style: TextStyle(
                     fontSize: 12,
-                    //少し薄くする
-
                     color: Theme.of(context)
                         .colorScheme
                         .onBackground
@@ -73,9 +72,13 @@ class QuestionItem extends HookConsumerWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  questionUiModel.subjectName,
-                  style: const TextStyle(
+                  questionUiModel.tags,
+                  style: TextStyle(
                     fontSize: 16,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onBackground
+                        .withOpacity(0.5),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -89,7 +92,7 @@ class QuestionItem extends HookConsumerWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.only(right: 8, top: 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

@@ -170,21 +170,22 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                     ),
                                   );
                                 },
-                                child:
-                                    questionUiModel.questionerImageUrl != null
-                                        ? CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                                questionUiModel
-                                                    .questionerImageUrl!),
-                                            radius: 40,
-                                          )
-                                        : Icon(
-                                            Icons.person_outline_outlined,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSecondaryContainer,
-                                            size: 40,
-                                          ),
+                                child: questionUiModel.questionerImageUrl !=
+                                        null
+                                    ? CircleAvatar(
+                                        radius: 20,
+                                        backgroundColor: Colors.transparent,
+                                        backgroundImage: NetworkImage(
+                                          questionUiModel.questionerImageUrl!,
+                                        ),
+                                      )
+                                    : Icon(
+                                        Icons.person_outline_outlined,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondaryContainer,
+                                        size: 40,
+                                      ),
                               ),
                             ),
                             Expanded(
@@ -222,7 +223,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      questionUiModel.subjectName,
+                                      questionUiModel.tags,
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Theme.of(context)
@@ -246,13 +247,87 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                     questionUiModel.questionImageUrl != null
                                         ? Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              child: Image.network(
-                                                questionUiModel
-                                                    .questionImageUrl!,
-                                                fit: BoxFit.cover,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                showGeneralDialog(
+                                                  barrierDismissible: true,
+                                                  barrierLabel: 'Label',
+                                                  transitionDuration:
+                                                      const Duration(
+                                                          milliseconds: 300),
+                                                  context: context,
+                                                  pageBuilder: (context,
+                                                      animation,
+                                                      secondaryAnimation) {
+                                                    return DefaultTextStyle(
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .onSurface,
+                                                      ),
+                                                      child: Center(
+                                                        child:
+                                                            SingleChildScrollView(
+                                                          child: Stack(
+                                                            children: [
+                                                              InteractiveViewer(
+                                                                minScale: 0.1,
+                                                                maxScale: 5,
+                                                                child: Image
+                                                                    .network(
+                                                                  questionUiModel
+                                                                      .questionImageUrl!,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  loadingBuilder: (context,
+                                                                          child,
+                                                                          loadingProgress) =>
+                                                                      loadingProgress ==
+                                                                              null
+                                                                          ? child
+                                                                          : const Center(
+                                                                              child: CircularProgressIndicator(),
+                                                                            ),
+                                                                ),
+                                                              ),
+                                                              Positioned(
+                                                                top: 0,
+                                                                right: 0,
+                                                                child: SafeArea(
+                                                                  child:
+                                                                      CloseButton(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .onSurface,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Image.network(
+                                                  questionUiModel
+                                                      .questionImageUrl!,
+                                                  fit: BoxFit.cover,
+                                                  loadingBuilder: (context,
+                                                          child,
+                                                          loadingProgress) =>
+                                                      loadingProgress == null
+                                                          ? child
+                                                          : const Center(
+                                                              child:
+                                                                  CircularProgressIndicator(),
+                                                            ),
+                                                ),
                                               ),
                                             ),
                                           )
@@ -418,7 +493,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 70),
+              const SizedBox(height: 100),
             ],
           ),
         ),

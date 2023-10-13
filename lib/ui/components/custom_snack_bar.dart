@@ -16,10 +16,9 @@ class CustomSnackBar {
           progressIndicator ?? const SizedBox(),
           icon ?? const SizedBox(),
           const SizedBox(width: 24),
-          Text(
-            text,
-            style: TextStyle(color: Theme.of(context).colorScheme.onBackground)
-          ),
+          Text(text,
+              style:
+                  TextStyle(color: Theme.of(context).colorScheme.onBackground)),
         ],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -34,22 +33,24 @@ class CustomSnackBar {
       dismissDirection: DismissDirection.horizontal,
     );
   }
+
   static SnackBar createError({
     required BuildContext context,
     required String text,
     Icon? icon,
-    ProgressIndicator? progressIndicator,
   }) {
     return SnackBar(
       content: Row(
         children: [
-          const SizedBox(width: 24),
-          progressIndicator ?? const SizedBox(),
-          const SizedBox(width: 24),
           icon ?? const SizedBox(),
-          Text(
-            text,
-            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          const SizedBox(width: 12),
+          Flexible(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.error,
+              ),
+            ),
           ),
         ],
       ),
@@ -60,7 +61,7 @@ class CustomSnackBar {
       ),
       showCloseIcon: true,
       elevation: 4.0,
-      closeIconColor: Colors.black,
+      closeIconColor: Theme.of(context).colorScheme.onBackground,
       clipBehavior: Clip.hardEdge,
       dismissDirection: DismissDirection.horizontal,
     );

@@ -96,11 +96,11 @@ class _$ActivityProfileCopyWithImpl<$Res, $Val extends ActivityProfile>
 }
 
 /// @nodoc
-abstract class _$$_ActivityProfileCopyWith<$Res>
+abstract class _$$ActivityProfileImplCopyWith<$Res>
     implements $ActivityProfileCopyWith<$Res> {
-  factory _$$_ActivityProfileCopyWith(
-          _$_ActivityProfile value, $Res Function(_$_ActivityProfile) then) =
-      __$$_ActivityProfileCopyWithImpl<$Res>;
+  factory _$$ActivityProfileImplCopyWith(_$ActivityProfileImpl value,
+          $Res Function(_$ActivityProfileImpl) then) =
+      __$$ActivityProfileImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -115,11 +115,11 @@ abstract class _$$_ActivityProfileCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ActivityProfileCopyWithImpl<$Res>
-    extends _$ActivityProfileCopyWithImpl<$Res, _$_ActivityProfile>
-    implements _$$_ActivityProfileCopyWith<$Res> {
-  __$$_ActivityProfileCopyWithImpl(
-      _$_ActivityProfile _value, $Res Function(_$_ActivityProfile) _then)
+class __$$ActivityProfileImplCopyWithImpl<$Res>
+    extends _$ActivityProfileCopyWithImpl<$Res, _$ActivityProfileImpl>
+    implements _$$ActivityProfileImplCopyWith<$Res> {
+  __$$ActivityProfileImplCopyWithImpl(
+      _$ActivityProfileImpl _value, $Res Function(_$ActivityProfileImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -131,7 +131,7 @@ class __$$_ActivityProfileCopyWithImpl<$Res>
     Object? bestAnswerCount = null,
     Object? isMyProfile = null,
   }) {
-    return _then(_$_ActivityProfile(
+    return _then(_$ActivityProfileImpl(
       profile: null == profile
           ? _value.profile
           : profile // ignore: cast_nullable_to_non_nullable
@@ -158,8 +158,8 @@ class __$$_ActivityProfileCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ActivityProfile implements _ActivityProfile {
-  const _$_ActivityProfile(
+class _$ActivityProfileImpl implements _ActivityProfile {
+  const _$ActivityProfileImpl(
       {required this.profile,
       required this.questionCount,
       required this.answerCount,
@@ -186,7 +186,7 @@ class _$_ActivityProfile implements _ActivityProfile {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ActivityProfile &&
+            other is _$ActivityProfileImpl &&
             (identical(other.profile, profile) || other.profile == profile) &&
             (identical(other.questionCount, questionCount) ||
                 other.questionCount == questionCount) &&
@@ -205,8 +205,9 @@ class _$_ActivityProfile implements _ActivityProfile {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ActivityProfileCopyWith<_$_ActivityProfile> get copyWith =>
-      __$$_ActivityProfileCopyWithImpl<_$_ActivityProfile>(this, _$identity);
+  _$$ActivityProfileImplCopyWith<_$ActivityProfileImpl> get copyWith =>
+      __$$ActivityProfileImplCopyWithImpl<_$ActivityProfileImpl>(
+          this, _$identity);
 }
 
 abstract class _ActivityProfile implements ActivityProfile {
@@ -215,7 +216,7 @@ abstract class _ActivityProfile implements ActivityProfile {
       required final int questionCount,
       required final int answerCount,
       required final int bestAnswerCount,
-      required final bool isMyProfile}) = _$_ActivityProfile;
+      required final bool isMyProfile}) = _$ActivityProfileImpl;
 
   @override
   Profile get profile;
@@ -229,6 +230,6 @@ abstract class _ActivityProfile implements ActivityProfile {
   bool get isMyProfile;
   @override
   @JsonKey(ignore: true)
-  _$$_ActivityProfileCopyWith<_$_ActivityProfile> get copyWith =>
+  _$$ActivityProfileImplCopyWith<_$ActivityProfileImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

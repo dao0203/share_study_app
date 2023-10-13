@@ -9,7 +9,7 @@ abstract class Question with _$Question {
     required String id,
     required String title,
     required String content,
-    required String subjectName,
+    required String tags,
     String? imageUrl,
     required bool isResolved,
     required Profile questioner,

@@ -74,11 +74,11 @@ class _$QuestionUseCaseModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_QuestionUseCaseModelCopyWith<$Res>
+abstract class _$$QuestionUseCaseModelImplCopyWith<$Res>
     implements $QuestionUseCaseModelCopyWith<$Res> {
-  factory _$$_QuestionUseCaseModelCopyWith(_$_QuestionUseCaseModel value,
-          $Res Function(_$_QuestionUseCaseModel) then) =
-      __$$_QuestionUseCaseModelCopyWithImpl<$Res>;
+  factory _$$QuestionUseCaseModelImplCopyWith(_$QuestionUseCaseModelImpl value,
+          $Res Function(_$QuestionUseCaseModelImpl) then) =
+      __$$QuestionUseCaseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Question question, bool isMyQuestion});
@@ -88,11 +88,11 @@ abstract class _$$_QuestionUseCaseModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_QuestionUseCaseModelCopyWithImpl<$Res>
-    extends _$QuestionUseCaseModelCopyWithImpl<$Res, _$_QuestionUseCaseModel>
-    implements _$$_QuestionUseCaseModelCopyWith<$Res> {
-  __$$_QuestionUseCaseModelCopyWithImpl(_$_QuestionUseCaseModel _value,
-      $Res Function(_$_QuestionUseCaseModel) _then)
+class __$$QuestionUseCaseModelImplCopyWithImpl<$Res>
+    extends _$QuestionUseCaseModelCopyWithImpl<$Res, _$QuestionUseCaseModelImpl>
+    implements _$$QuestionUseCaseModelImplCopyWith<$Res> {
+  __$$QuestionUseCaseModelImplCopyWithImpl(_$QuestionUseCaseModelImpl _value,
+      $Res Function(_$QuestionUseCaseModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +101,7 @@ class __$$_QuestionUseCaseModelCopyWithImpl<$Res>
     Object? question = null,
     Object? isMyQuestion = null,
   }) {
-    return _then(_$_QuestionUseCaseModel(
+    return _then(_$QuestionUseCaseModelImpl(
       question: null == question
           ? _value.question
           : question // ignore: cast_nullable_to_non_nullable
@@ -116,8 +116,8 @@ class __$$_QuestionUseCaseModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_QuestionUseCaseModel implements _QuestionUseCaseModel {
-  const _$_QuestionUseCaseModel(
+class _$QuestionUseCaseModelImpl implements _QuestionUseCaseModel {
+  const _$QuestionUseCaseModelImpl(
       {required this.question, required this.isMyQuestion});
 
   @override
@@ -134,7 +134,7 @@ class _$_QuestionUseCaseModel implements _QuestionUseCaseModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_QuestionUseCaseModel &&
+            other is _$QuestionUseCaseModelImpl &&
             (identical(other.question, question) ||
                 other.question == question) &&
             (identical(other.isMyQuestion, isMyQuestion) ||
@@ -147,15 +147,16 @@ class _$_QuestionUseCaseModel implements _QuestionUseCaseModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_QuestionUseCaseModelCopyWith<_$_QuestionUseCaseModel> get copyWith =>
-      __$$_QuestionUseCaseModelCopyWithImpl<_$_QuestionUseCaseModel>(
-          this, _$identity);
+  _$$QuestionUseCaseModelImplCopyWith<_$QuestionUseCaseModelImpl>
+      get copyWith =>
+          __$$QuestionUseCaseModelImplCopyWithImpl<_$QuestionUseCaseModelImpl>(
+              this, _$identity);
 }
 
 abstract class _QuestionUseCaseModel implements QuestionUseCaseModel {
   const factory _QuestionUseCaseModel(
       {required final Question question,
-      required final bool isMyQuestion}) = _$_QuestionUseCaseModel;
+      required final bool isMyQuestion}) = _$QuestionUseCaseModelImpl;
 
   @override
   Question get question;
@@ -163,6 +164,6 @@ abstract class _QuestionUseCaseModel implements QuestionUseCaseModel {
   bool get isMyQuestion;
   @override
   @JsonKey(ignore: true)
-  _$$_QuestionUseCaseModelCopyWith<_$_QuestionUseCaseModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$QuestionUseCaseModelImplCopyWith<_$QuestionUseCaseModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

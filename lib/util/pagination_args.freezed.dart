@@ -63,22 +63,22 @@ class _$PaginationArgsCopyWithImpl<$Res, $Val extends PaginationArgs>
 }
 
 /// @nodoc
-abstract class _$$_PaginationArgsCopyWith<$Res>
+abstract class _$$PaginationArgsImplCopyWith<$Res>
     implements $PaginationArgsCopyWith<$Res> {
-  factory _$$_PaginationArgsCopyWith(
-          _$_PaginationArgs value, $Res Function(_$_PaginationArgs) then) =
-      __$$_PaginationArgsCopyWithImpl<$Res>;
+  factory _$$PaginationArgsImplCopyWith(_$PaginationArgsImpl value,
+          $Res Function(_$PaginationArgsImpl) then) =
+      __$$PaginationArgsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int start, int end});
 }
 
 /// @nodoc
-class __$$_PaginationArgsCopyWithImpl<$Res>
-    extends _$PaginationArgsCopyWithImpl<$Res, _$_PaginationArgs>
-    implements _$$_PaginationArgsCopyWith<$Res> {
-  __$$_PaginationArgsCopyWithImpl(
-      _$_PaginationArgs _value, $Res Function(_$_PaginationArgs) _then)
+class __$$PaginationArgsImplCopyWithImpl<$Res>
+    extends _$PaginationArgsCopyWithImpl<$Res, _$PaginationArgsImpl>
+    implements _$$PaginationArgsImplCopyWith<$Res> {
+  __$$PaginationArgsImplCopyWithImpl(
+      _$PaginationArgsImpl _value, $Res Function(_$PaginationArgsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_PaginationArgsCopyWithImpl<$Res>
     Object? start = null,
     Object? end = null,
   }) {
-    return _then(_$_PaginationArgs(
+    return _then(_$PaginationArgsImpl(
       start: null == start
           ? _value.start
           : start // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_PaginationArgsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PaginationArgs implements _PaginationArgs {
-  const _$_PaginationArgs({required this.start, required this.end});
+class _$PaginationArgsImpl implements _PaginationArgs {
+  const _$PaginationArgsImpl({required this.start, required this.end});
 
   @override
   final int start;
@@ -119,7 +119,7 @@ class _$_PaginationArgs implements _PaginationArgs {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PaginationArgs &&
+            other is _$PaginationArgsImpl &&
             (identical(other.start, start) || other.start == start) &&
             (identical(other.end, end) || other.end == end));
   }
@@ -130,13 +130,15 @@ class _$_PaginationArgs implements _PaginationArgs {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PaginationArgsCopyWith<_$_PaginationArgs> get copyWith =>
-      __$$_PaginationArgsCopyWithImpl<_$_PaginationArgs>(this, _$identity);
+  _$$PaginationArgsImplCopyWith<_$PaginationArgsImpl> get copyWith =>
+      __$$PaginationArgsImplCopyWithImpl<_$PaginationArgsImpl>(
+          this, _$identity);
 }
 
 abstract class _PaginationArgs implements PaginationArgs {
   const factory _PaginationArgs(
-      {required final int start, required final int end}) = _$_PaginationArgs;
+      {required final int start,
+      required final int end}) = _$PaginationArgsImpl;
 
   @override
   int get start;
@@ -144,6 +146,6 @@ abstract class _PaginationArgs implements PaginationArgs {
   int get end;
   @override
   @JsonKey(ignore: true)
-  _$$_PaginationArgsCopyWith<_$_PaginationArgs> get copyWith =>
+  _$$PaginationArgsImplCopyWith<_$PaginationArgsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

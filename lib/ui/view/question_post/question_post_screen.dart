@@ -92,7 +92,8 @@ class QuestionPostScreen extends HookConsumerWidget {
                           CustomSnackBar.createError(
                               context: context,
                               text: 'エラーが発生しました',
-                              icon: const Icon(Icons.error, color: Colors.red)));
+                              icon:
+                                  const Icon(Icons.error, color: Colors.red)));
                     });
                   },
             style: ElevatedButton.styleFrom(
@@ -135,7 +136,7 @@ class QuestionPostScreen extends HookConsumerWidget {
                 controller: subjectController,
                 maxLength: 20,
                 decoration: const InputDecoration(
-                  labelText: '科目',
+                  labelText: 'タグ',
                   prefixIcon: Icon(Icons.menu_book),
                 ),
               ),
