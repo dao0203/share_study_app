@@ -10,7 +10,7 @@ class QuestionUiModelState extends _$QuestionUiModelState {
   Future<QuestionUiModel> build(String questionId) async {
     return await ref
         .watch(getQuestionUseCaseProvider)
-        .call(questionId)
+        .call(param: questionId)
         .then((value) {
       return QuestionUiModel.fromQuestionUseCaseModel(
         questionUseCaseModel: value,
