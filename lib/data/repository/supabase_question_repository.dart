@@ -144,43 +144,6 @@ final class SupabaseQuestionRepository implements QuestionRepository {
       Logger().e('getWithPagination.error: $error, $stacktrace');
       throw error;
     });
-
-    // .select<PostgrestList>(
-    //   '''
-    //   id,user_id, image_url, title, tags, content, is_resolved, created_at, updated_at,
-    //   profiles (nickname,university_name,image_url)
-    //   ''',
-    // )
-    // .order('created_at', ascending: false)
-    // .range(start, end)
-    // .then((value) {
-    //   Logger().i('getWithPagination.then: $value');
-    //   //valueをリスト型に変換
-    //   return value.map((e) {
-    //     return Question(
-    //       //questions
-    //       id: e['id'] as String,
-    //       title: e['title'] as String,
-    //       tags: e['tags'][0] as String,
-    //       content: e['content'] as String,
-    //       isResolved: e['is_resolved'] as bool,
-    //       createdAt: DateTime.parse(e['created_at']),
-    //       updatedAt: DateTime.parse(e['updated_at']),
-    //       imageUrl: e['image_url'] as String?,
-    //       //profiles
-    //       questioner: Profile(
-    //         id: e['user_id'] as String,
-    //         nickname: e['profiles']['nickname'] as String,
-    //         universityName: e['profiles']['university_name'] as String,
-    //         imageUrl: e['profiles']['image_url'] as String?,
-    //       ),
-    //     );
-    //   }).toList();
-    // })
-    // .catchError((error, stacktrace) {
-    //   Logger().e('getWithPagination.error: $error, $stacktrace');
-    //   throw error;
-    // });
   }
 
   @override
