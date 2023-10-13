@@ -28,6 +28,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         ref.watch(activityProfileStateProvider(widget.profileId));
     final isBlockingState =
         ref.watch(isBlockingStateProvider(widget.profileId));
+    final isFollowingState =
+        ref.watch(isFollowingStateProvider(widget.profileId));
     return Scaffold(
       appBar: AppBar(
         //Appbarの背景色を変更
@@ -207,114 +209,127 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           ),
                                         ),
                                       )
-                                    : ref
-                                        .watch(
-                                          isFollowingStateProvider(
-                                              widget.profileId),
-                                        )
-                                        .when(
-                                          skipError: true,
-                                          skipLoadingOnRefresh: true,
-                                          data: (isFollowing) {
-                                            Logger()
-                                                .d('isFollowing: $isFollowing');
-                                            return isFollowing
-                                                ? ElevatedButton(
-                                                    onPressed: () async {
-                                                      //フォローを解除する
-                                                      Logger().d(
-                                                          'profileId: ${data.profile.id}');
-                                                      await ref
-                                                          .read(
-                                                              profileRepositoryProvider)
-                                                          .unfollow(
-                                                              data.profile.id)
-                                                          .then(
-                                                        (value) {
-                                                          //フォロー数を1減らす
-                                                          ref
-                                                              .watch(activityProfileStateProvider(
-                                                                      widget
-                                                                          .profileId)
-                                                                  .notifier)
-                                                              .decrementFollowerCount();
-                                                          return ref.refresh(
-                                                            isFollowingStateProvider(
+                                    : isBlockingState.when(
+                                        error: (error, stackTrace) {
+                                          Logger().e(
+                                              'error: $error stackTrace: $stackTrace');
+                                          return const SizedBox();
+                                        },
+                                        loading: () {
+                                          return const SizedBox();
+                                        },
+                                        data: (isBlocking) {
+                                          return isBlocking
+                                              ? ElevatedButton(
+                                                  onPressed: () async {
+                                                    //ブロック解除する
+                                                    await ref
+                                                        .read(
+                                                            profileRepositoryProvider)
+                                                        .unblock(
+                                                            widget.profileId)
+                                                        .then(
+                                                      (value) {
+                                                        ref.invalidate(
+                                                            isBlockingStateProvider(
                                                                 widget
-                                                                    .profileId),
-                                                          );
-                                                        },
-                                                      );
-                                                    },
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor:
-                                                          Theme.of(context)
-                                                              .colorScheme
-                                                              .inversePrimary,
-                                                      elevation: 4,
+                                                                    .profileId));
+                                                      },
+                                                    );
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors.red
+                                                        .withOpacity(0.8),
+                                                    elevation: 4,
+                                                  ),
+                                                  child: Text(
+                                                    'ブロック中',
+                                                    style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .background,
                                                     ),
-                                                    child: Text(
-                                                      'フォロー中',
-                                                      style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onBackground,
-                                                      ),
-                                                    ),
-                                                  )
-                                                : ElevatedButton(
-                                                    onPressed: () async {
-                                                      //フォローする
-                                                      await ref
-                                                          .read(
-                                                              profileRepositoryProvider)
-                                                          .follow(
-                                                              data.profile.id)
-                                                          .then(
-                                                        (value) {
-                                                          //フォロー数を1増やす
-                                                          ref
-                                                              .watch(activityProfileStateProvider(
+                                                  ),
+                                                )
+                                              : isFollowingState.when(
+                                                  data: (isFollowing) {
+                                                    return ElevatedButton(
+                                                      onPressed: () async {
+                                                        if (isFollowing) {
+                                                          //フォロー解除する
+                                                          await ref
+                                                              .read(
+                                                                  profileRepositoryProvider)
+                                                              .unfollow(widget
+                                                                  .profileId)
+                                                              .then(
+                                                            (value) {
+                                                              ref.invalidate(
+                                                                  isFollowingStateProvider(
                                                                       widget
-                                                                          .profileId)
-                                                                  .notifier)
-                                                              .incrementFollowerCount();
-                                                          return ref.refresh(
-                                                            isFollowingStateProvider(
-                                                                widget
-                                                                    .profileId),
+                                                                          .profileId));
+                                                            },
                                                           );
-                                                        },
-                                                      );
-                                                    },
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor:
-                                                          Theme.of(context)
-                                                              .colorScheme
-                                                              .onSurface,
-                                                      elevation: 10,
-                                                    ),
-                                                    child: Text(
-                                                      'フォローする',
-                                                      style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .background,
+                                                        } else {
+                                                          //フォローする
+                                                          await ref
+                                                              .read(
+                                                                  profileRepositoryProvider)
+                                                              .follow(widget
+                                                                  .profileId)
+                                                              .then(
+                                                            (value) {
+                                                              ref.invalidate(
+                                                                  isFollowingStateProvider(
+                                                                      widget
+                                                                          .profileId));
+                                                            },
+                                                          );
+                                                        }
+                                                      },
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            isFollowing
+                                                                ? Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .inversePrimary
+                                                                : Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .onSurface,
+                                                        elevation: 4,
                                                       ),
-                                                    ),
-                                                  );
-                                          },
-                                          error: (error, stackTrace) {
-                                            Logger().e(
-                                                'error: $error stackTrace: $stackTrace');
-                                            return const Text('error');
-                                          },
-                                          loading: () {
-                                            return const SizedBox();
-                                          },
-                                        ),
+                                                      child: Text(
+                                                        isFollowing
+                                                            ? 'フォロー中'
+                                                            : 'フォローする',
+                                                        style: TextStyle(
+                                                          color: isFollowing
+                                                              ? Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .onBackground
+                                                              : Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .background,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  error: (error, stackTrace) {
+                                                    Logger().e(
+                                                        'error: $error stackTrace: $stackTrace');
+                                                    return const SizedBox();
+                                                  },
+                                                  loading: () =>
+                                                      const SizedBox(),
+                                                );
+                                        },
+                                      ),
                               ],
                             ),
                           ),
