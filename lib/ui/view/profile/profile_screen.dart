@@ -311,7 +311,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                               ? Theme.of(
                                                                       context)
                                                                   .colorScheme
-                                                                  .onBackground
+                                                                  .onPrimary
                                                               : Theme.of(
                                                                       context)
                                                                   .colorScheme
