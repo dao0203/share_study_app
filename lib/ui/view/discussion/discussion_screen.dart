@@ -559,6 +559,8 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                             color: Theme.of(context).colorScheme.onBackground,
                             letterSpacing: 1.5,
                           ),
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
                         ),
                       ),
                     ),
