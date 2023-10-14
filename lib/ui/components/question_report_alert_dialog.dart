@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 
 class QuestionReportAlertDialog extends HookConsumerWidget {
   const QuestionReportAlertDialog({super.key, required this.questionId});
@@ -51,13 +52,39 @@ class QuestionReportAlertDialog extends HookConsumerWidget {
         TextButton(
           onPressed: isReasonEmpty.value
               ? null
-              : () {
-                  Navigator.of(context).pop();
-                  ref.read(questionRepositoryProvider).reportQuestion(
+              : () async {
+                  await ref
+                      .read(questionRepositoryProvider)
+                      .reportQuestion(
                         questionId: questionId,
                         reason: reasonController.text,
                         wantToHideQuestion: wantToHideQuestion.value,
-                      );
+                      )
+                      .then(
+                        (value) => ScaffoldMessenger.of(context).showSnackBar(
+                          CustomSnackBar.create(
+                            context: context,
+                            text: '通報しました',
+                            icon: Icon(
+                              Icons.check_circle_outline,
+                              color: Theme.of(context).colorScheme.onBackground,
+                            ),
+                          ),
+                        ),
+                      )
+                      .catchError(
+                        (error) => ScaffoldMessenger.of(context).showSnackBar(
+                          CustomSnackBar.createError(
+                            context: context,
+                            text: '通報に失敗しました',
+                            icon: Icon(
+                              Icons.error_outline,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                        ),
+                      )
+                      .whenComplete(() => Navigator.of(context).pop());
                 },
           child: const Text('通報する'),
         ),

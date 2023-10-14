@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/components/question_report_alert_dialog.dart';
 import 'package:share_study_app/ui/ui_model/question_ui_model.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
@@ -122,7 +123,29 @@ class QuestionItem extends HookConsumerWidget {
                                         ref
                                             .watch(questionRepositoryProvider)
                                             .delete(
-                                                questionId: questionUiModel.id);
+                                                questionId: questionUiModel.id)
+                                            .then((value) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            content: Text('質問を削除しました'),
+                                          ));
+                                        }).catchError((error) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            CustomSnackBar.createError(
+                                              context: context,
+                                              text: '質問の削除に失敗しました',
+                                              icon: Icon(
+                                                Icons.error_outline,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .error,
+                                              ),
+                                            ),
+                                          );
+                                        }).whenComplete(() {
+                                          Navigator.of(context).pop();
+                                        });
                                       },
                                     )
                                   : const SizedBox(),
