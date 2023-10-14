@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_study_app/data/repository/di/repository_providers.dart';
+import 'package:share_study_app/ui/components/question_report_alert_dialog.dart';
 import 'package:share_study_app/ui/ui_model/question_ui_model.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
 import 'package:share_study_app/util/date_formatter.dart';
@@ -91,18 +93,69 @@ class QuestionItem extends HookConsumerWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8, top: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Icon(
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 4, top: 8),
+                child: Icon(
                   Icons.check_circle_outline,
                   color:
                       questionUiModel.isResolved ? Colors.green : Colors.grey,
                 ),
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 4),
+                child: IconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return SizedBox(
+                          child: Column(
+                            children: [
+                              questionUiModel.isMyQuestion
+                                  ? ListTile(
+                                      leading: const Icon(Icons.delete),
+                                      title: const Text('質問を削除'),
+                                      onTap: () {
+                                        ref
+                                            .watch(questionRepositoryProvider)
+                                            .delete(
+                                                questionId: questionUiModel.id);
+                                      },
+                                    )
+                                  : const SizedBox(),
+                              //通報
+                              questionUiModel.isMyQuestion
+                                  ? const SizedBox()
+                                  : ListTile(
+                                      leading: const Icon(Icons.report),
+                                      title: const Text('通報'),
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return QuestionReportAlertDialog(
+                                              questionId: questionUiModel.id,
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  icon: Icon(
+                    Icons.more_horiz,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
