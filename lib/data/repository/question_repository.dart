@@ -5,6 +5,12 @@ abstract interface class QuestionRepository {
   Future<Question> get(String id);
   Future<void> add(
       String title, String content, String subjectName, String? path);
+  Future<void> delete({required String questionId});
+  Future<void> reportQuestion({
+    required String questionId,
+    required String reason,
+    required bool wantToHideQuestion,
+  });
   Future<List<Question>> getWithPagination({
     required int offset,
     required int limit,

@@ -297,4 +297,32 @@ final class SupabaseQuestionRepository implements QuestionRepository {
           throw error;
         });
   }
+
+  @override
+  Future<void> delete({required String questionId}) async {
+    await _client.from('questions').delete().eq('id', questionId).then((value) {
+      Logger().d('delete question success');
+    }).catchError((error, stacktrace) {
+      Logger().e('deleteQuestion.error: $error $stacktrace');
+      throw Exception('failed to delete question');
+    });
+  }
+
+  @override
+  Future<void> reportQuestion({
+    required String questionId,
+    required String reason,
+    required bool wantToHideQuestion,
+  }) async {
+    await _client.rpc('report_question', params: {
+      'question_id': questionId,
+      'reason': reason,
+      'want_to_hide_question': wantToHideQuestion,
+    }).then((value) {
+      Logger().d('reportQuestion.then: $value');
+    }).catchError((error, stacktrace) {
+      Logger().e('reportQuestion.error: $error $stacktrace');
+      throw Exception('failed to report question');
+    });
+  }
 }
