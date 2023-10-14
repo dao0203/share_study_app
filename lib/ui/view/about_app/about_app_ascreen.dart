@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:io' show Platform;
 
 class AboutAppScreen extends HookConsumerWidget {
   const AboutAppScreen({super.key});
@@ -16,10 +17,25 @@ class AboutAppScreen extends HookConsumerWidget {
       body: Markdown(
         imageBuilder: (uri, title, alt) {
           //これをしないと、画像が表示されない
-          return Image.asset(
-            uri.path,
-            fit: BoxFit.cover,
-          );
+          if(Platform.isAndroid) {
+            // Androidのとき
+            return Image.asset(
+              'assets/images/about_sharesta.png',
+              fit: BoxFit.cover,
+            );
+          } else if(Platform.isIOS) {
+            // iOSのとき
+            return Image.asset(
+              'assets/images/about_sharesta_ios.png',
+              fit: BoxFit.cover,
+            );
+          } else {
+            // その他
+            return Image.asset(
+              'assets/images/about_sharesta.png',
+              fit: BoxFit.cover,
+            );
+          }
         },
         onTapLink: (text, href, title) {
           final url = Uri.parse(href!);
@@ -28,7 +44,7 @@ class AboutAppScreen extends HookConsumerWidget {
         data: '''
 # **よりスマートでスピーディーなスタディライフを**
 
-![image info](assets/images/about_sharesta.png)
+![image info](assets/images/about_sharesta)
 
 シェアスタは、岩手県立大学の学習支援コーナーというコミュニティ中で活動していく中で感じた課題をヒントに、
 より早く、賢く学習を進めるためのアプリです。勉強効率を上げたい、より質の高い学習をしたいという方におすすめです。
