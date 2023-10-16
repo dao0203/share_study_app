@@ -166,6 +166,79 @@ class QuestionItem extends HookConsumerWidget {
                                         );
                                       },
                                     ),
+
+                              //ユーザーをブロック
+                              questionUiModel.isMyQuestion
+                                  ? const SizedBox()
+                                  : ListTile(
+                                      leading: const Icon(Icons.block),
+                                      title: const Text('ユーザーをブロック'),
+                                      onTap: () {
+                                        ref
+                                            .watch(profileRepositoryProvider)
+                                            .block(
+                                                profileId: questionUiModel
+                                                    .questionerId)
+                                            .then((value) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            content: Text('ユーザーをブロックしました'),
+                                          ));
+                                        }).catchError((error) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            CustomSnackBar.createError(
+                                              context: context,
+                                              text: 'ユーザーのブロックに失敗しました',
+                                              icon: Icon(
+                                                Icons.error_outline,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .error,
+                                              ),
+                                            ),
+                                          );
+                                        }).whenComplete(() {
+                                          Navigator.of(context).pop();
+                                        });
+                                      },
+                                    ),
+
+                              //質問を非表示
+                              questionUiModel.isMyQuestion
+                                  ? const SizedBox()
+                                  : ListTile(
+                                      leading: const Icon(Icons.visibility_off),
+                                      title: const Text('質問を非表示'),
+                                      onTap: () {
+                                        ref
+                                            .watch(questionRepositoryProvider)
+                                            .hide(
+                                                questionId: questionUiModel.id)
+                                            .then((value) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            content: Text('質問を非表示にしました'),
+                                          ));
+                                        }).catchError((error) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            CustomSnackBar.createError(
+                                              context: context,
+                                              text: '質問の非表示に失敗しました',
+                                              icon: Icon(
+                                                Icons.error_outline,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .error,
+                                              ),
+                                            ),
+                                          );
+                                        }).whenComplete(() {
+                                          Navigator.of(context).pop();
+                                        });
+                                      },
+                                    ),
                             ],
                           ),
                         );

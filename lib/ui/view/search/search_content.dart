@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:logger/logger.dart';
 import 'package:share_study_app/ui/components/question_item.dart';
 import 'package:share_study_app/ui/ui_model/question_ui_model.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
@@ -40,7 +41,10 @@ class _SearchContentState extends ConsumerState<SearchContent> {
           .read(getQuestionsWithPaginationAndKeywordUseCaseProvider)
           .call(
               param: PaginationByKeywordArgs(
-                  start: pageKey, end: _pageSize + pageKey, keyword: keyword))
+            keyword: keyword,
+            offsetAmount: pageKey,
+            limitAmount: _pageSize,
+          ))
           .then((value) {
         return value.map((e) {
           return QuestionUiModel.fromQuestionUseCaseModel(
@@ -54,7 +58,8 @@ class _SearchContentState extends ConsumerState<SearchContent> {
         final nextPageKey = pageKey + newItems.length;
         _pagingController.appendPage(newItems, nextPageKey);
       }
-    } catch (error) {
+    } catch (error, stackTrace) {
+      Logger().e('error: $error' 'stackTrace: $stackTrace');
       _pagingController.error = error;
     }
   }
