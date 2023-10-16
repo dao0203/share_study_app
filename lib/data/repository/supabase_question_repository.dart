@@ -171,47 +171,46 @@ final class SupabaseQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<List<Question>> getWithPaginationAndKeyword(
-      int start, int end, String keyword) async {
-    Logger().d('getWithPaginationAndKeyword: $keyword');
-    return await _client
-        .from('questions')
-        .select<PostgrestList>(
-          ''' 
-          id,user_id, image_url, title, tags, content, is_resolved, created_at, updated_at,
-          profiles (nickname,university_name,image_url)
-          ''',
-        )
-        //曖昧検索: tagsはリスト型
-        .or('or(title.ilike.%$keyword%,content.ilike.%$keyword%,tags.cs.{$keyword})')
-        .range(start, end)
-        .then((value) {
-          Logger().i('getWithPaginationAndKeyword.then: $value');
-          return value.map((e) {
-            return Question(
-              //questions
-              id: e['id'] as String,
-              title: e['title'] as String,
-              tags: e['tags'][0] as String,
-              content: e['content'] as String,
-              isResolved: e['is_resolved'] as bool,
-              createdAt: DateTime.parse(e['created_at']),
-              updatedAt: DateTime.parse(e['updated_at']),
-              imageUrl: e['image_url'] as String?,
-              //profiles
-              questioner: Profile(
-                id: e['user_id'] as String,
-                nickname: e['profiles']['nickname'] as String,
-                universityName: e['profiles']['university_name'] as String,
-                imageUrl: e['profiles']['image_url'] as String?,
-              ),
-            );
-          }).toList();
-        })
-        .catchError((error, stacktrace) {
-          Logger().e('getWithPaginationAndKeyword.error: $error, $stacktrace');
-          throw error;
-        });
+  Future<List<Question>> getWithPaginationAndKeyword({
+    required int offsetAmount,
+    required int limitAmount,
+    required String keyword,
+  }) async {
+    return await _client.rpc(
+      'get_questions_with_pagination_and_keyword',
+      params: {
+        'offset_amount': offsetAmount,
+        'limit_amount': limitAmount,
+        'keyword': keyword,
+      },
+    ).then((value) {
+      Logger().i('getWithPaginationAndKeyword.then: $value');
+      final valueListDynamic = value as List<dynamic>;
+      final valueList = valueListDynamic.cast<Map<String, dynamic>>();
+      return valueList.map((e) {
+        return Question(
+          //questions
+          id: e['question_id'] as String,
+          title: e['title'] as String,
+          tags: e['tags'][0] as String,
+          content: e['content'] as String,
+          isResolved: e['is_resolved'] as bool,
+          createdAt: DateTime.parse(e['created_at']),
+          updatedAt: DateTime.parse(e['updated_at']),
+          imageUrl: e['image_url'] as String?,
+          //profiles
+          questioner: Profile(
+            id: e['questioner_user_id'] as String,
+            nickname: e['questioner_nickname'] as String,
+            universityName: e['questioner_university_name'] as String,
+            imageUrl: e['questioner_image_url'] as String?,
+          ),
+        );
+      }).toList();
+    }).catchError((error, stacktrace) {
+      Logger().e('getWithPaginationAndKeyword.error: $error, $stacktrace');
+      throw error;
+    });
   }
 
   @override
@@ -323,6 +322,19 @@ final class SupabaseQuestionRepository implements QuestionRepository {
     }).catchError((error, stacktrace) {
       Logger().e('reportQuestion.error: $error $stacktrace');
       throw Exception('failed to report question');
+    });
+  }
+
+  @override
+  Future<void> hide({required String questionId}) async {
+    await _client.from('hidden_questions').insert({
+      'question_id': questionId,
+      'profile_id': _client.auth.currentUser!.id,
+    }).then((value) {
+      Logger().d('hide question success');
+    }).catchError((error, stacktrace) {
+      Logger().e('hideQuestion.error: $error $stacktrace');
+      throw Exception('failed to hide question');
     });
   }
 }
