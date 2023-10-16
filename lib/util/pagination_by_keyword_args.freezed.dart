@@ -17,8 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$PaginationByKeywordArgs {
   String get keyword => throw _privateConstructorUsedError;
-  int get start => throw _privateConstructorUsedError;
-  int get end => throw _privateConstructorUsedError;
+  int get offsetAmount => throw _privateConstructorUsedError;
+  int get limitAmount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PaginationByKeywordArgsCopyWith<PaginationByKeywordArgs> get copyWith =>
@@ -31,7 +31,7 @@ abstract class $PaginationByKeywordArgsCopyWith<$Res> {
           $Res Function(PaginationByKeywordArgs) then) =
       _$PaginationByKeywordArgsCopyWithImpl<$Res, PaginationByKeywordArgs>;
   @useResult
-  $Res call({String keyword, int start, int end});
+  $Res call({String keyword, int offsetAmount, int limitAmount});
 }
 
 /// @nodoc
@@ -49,21 +49,21 @@ class _$PaginationByKeywordArgsCopyWithImpl<$Res,
   @override
   $Res call({
     Object? keyword = null,
-    Object? start = null,
-    Object? end = null,
+    Object? offsetAmount = null,
+    Object? limitAmount = null,
   }) {
     return _then(_value.copyWith(
       keyword: null == keyword
           ? _value.keyword
           : keyword // ignore: cast_nullable_to_non_nullable
               as String,
-      start: null == start
-          ? _value.start
-          : start // ignore: cast_nullable_to_non_nullable
+      offsetAmount: null == offsetAmount
+          ? _value.offsetAmount
+          : offsetAmount // ignore: cast_nullable_to_non_nullable
               as int,
-      end: null == end
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
+      limitAmount: null == limitAmount
+          ? _value.limitAmount
+          : limitAmount // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -78,7 +78,7 @@ abstract class _$$PaginationByKeywordArgsImplCopyWith<$Res>
       __$$PaginationByKeywordArgsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String keyword, int start, int end});
+  $Res call({String keyword, int offsetAmount, int limitAmount});
 }
 
 /// @nodoc
@@ -95,21 +95,21 @@ class __$$PaginationByKeywordArgsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? keyword = null,
-    Object? start = null,
-    Object? end = null,
+    Object? offsetAmount = null,
+    Object? limitAmount = null,
   }) {
     return _then(_$PaginationByKeywordArgsImpl(
       keyword: null == keyword
           ? _value.keyword
           : keyword // ignore: cast_nullable_to_non_nullable
               as String,
-      start: null == start
-          ? _value.start
-          : start // ignore: cast_nullable_to_non_nullable
+      offsetAmount: null == offsetAmount
+          ? _value.offsetAmount
+          : offsetAmount // ignore: cast_nullable_to_non_nullable
               as int,
-      end: null == end
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
+      limitAmount: null == limitAmount
+          ? _value.limitAmount
+          : limitAmount // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -119,18 +119,20 @@ class __$$PaginationByKeywordArgsImplCopyWithImpl<$Res>
 
 class _$PaginationByKeywordArgsImpl implements _PaginationByKeywordArgs {
   const _$PaginationByKeywordArgsImpl(
-      {required this.keyword, required this.start, required this.end});
+      {required this.keyword,
+      required this.offsetAmount,
+      required this.limitAmount});
 
   @override
   final String keyword;
   @override
-  final int start;
+  final int offsetAmount;
   @override
-  final int end;
+  final int limitAmount;
 
   @override
   String toString() {
-    return 'PaginationByKeywordArgs(keyword: $keyword, start: $start, end: $end)';
+    return 'PaginationByKeywordArgs(keyword: $keyword, offsetAmount: $offsetAmount, limitAmount: $limitAmount)';
   }
 
   @override
@@ -139,12 +141,15 @@ class _$PaginationByKeywordArgsImpl implements _PaginationByKeywordArgs {
         (other.runtimeType == runtimeType &&
             other is _$PaginationByKeywordArgsImpl &&
             (identical(other.keyword, keyword) || other.keyword == keyword) &&
-            (identical(other.start, start) || other.start == start) &&
-            (identical(other.end, end) || other.end == end));
+            (identical(other.offsetAmount, offsetAmount) ||
+                other.offsetAmount == offsetAmount) &&
+            (identical(other.limitAmount, limitAmount) ||
+                other.limitAmount == limitAmount));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, keyword, start, end);
+  int get hashCode =>
+      Object.hash(runtimeType, keyword, offsetAmount, limitAmount);
 
   @JsonKey(ignore: true)
   @override
@@ -157,15 +162,15 @@ class _$PaginationByKeywordArgsImpl implements _PaginationByKeywordArgs {
 abstract class _PaginationByKeywordArgs implements PaginationByKeywordArgs {
   const factory _PaginationByKeywordArgs(
       {required final String keyword,
-      required final int start,
-      required final int end}) = _$PaginationByKeywordArgsImpl;
+      required final int offsetAmount,
+      required final int limitAmount}) = _$PaginationByKeywordArgsImpl;
 
   @override
   String get keyword;
   @override
-  int get start;
+  int get offsetAmount;
   @override
-  int get end;
+  int get limitAmount;
   @override
   @JsonKey(ignore: true)
   _$$PaginationByKeywordArgsImplCopyWith<_$PaginationByKeywordArgsImpl>
