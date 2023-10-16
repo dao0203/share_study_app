@@ -131,15 +131,10 @@ class _AnswerTabState extends ConsumerState<ResolvedQuestionTab>
               ),
             ],
           ),
-          noItemsFoundIndicatorBuilder: (context) => Column(
+          noItemsFoundIndicatorBuilder: (context) => const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('まだ解決済みの質問はありません'),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => _pagingController.refresh(),
-                child: const Text('再読み込み'),
-              ),
+              Text('まだ解決済みの質問はありません'),
             ],
           ),
         ),
