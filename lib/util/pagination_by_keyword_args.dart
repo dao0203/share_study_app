@@ -6,7 +6,7 @@ part 'pagination_by_keyword_args.freezed.dart';
 abstract class PaginationByKeywordArgs with _$PaginationByKeywordArgs {
   const factory PaginationByKeywordArgs({
     required String keyword,
-    required int start,
-    required int end,
+    required int offsetAmount,
+    required int limitAmount,
   }) = _PaginationByKeywordArgs;
 }

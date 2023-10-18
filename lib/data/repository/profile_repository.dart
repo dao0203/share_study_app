@@ -11,6 +11,6 @@ abstract interface class ProfileRepository {
       String profileId, int start, int end);
   Future<List<Profile>> getFollowingWithpagination(
       String profileId, int start, int end);
-  Future<void> block(String profileId);
+  Future<void> block({required String profileId});
   Future<void> unblock(String profileId);
 }

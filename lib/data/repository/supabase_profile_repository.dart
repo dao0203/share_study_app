@@ -218,7 +218,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
   }
 
   @override
-  Future<void> block(String profileId) async {
+  Future<void> block({required String profileId}) async {
     await supabaseClient.from('blocks').insert({
       'blocked_profile_id': profileId,
     }).then((value) {

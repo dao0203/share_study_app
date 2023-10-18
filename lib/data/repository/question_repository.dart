@@ -15,8 +15,14 @@ abstract interface class QuestionRepository {
     required int offset,
     required int limit,
   });
-  Future<List<Question>> getWithPaginationAndKeyword(
-      int start, int end, String keyword);
+  Future<void> hide({
+    required String questionId,
+  });
+  Future<List<Question>> getWithPaginationAndKeyword({
+    required int offsetAmount,
+    required int limitAmount,
+    required String keyword,
+  });
   Future<List<Question>> getWithPaginationAndProfileId(
       int start, int end, String userId);
   Future<List<Question>> getResolvedWithPaginationAndProfileId(

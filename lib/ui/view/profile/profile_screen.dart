@@ -100,7 +100,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             //ブロック
                                             await ref
                                                 .read(profileRepositoryProvider)
-                                                .block(data.profile.id)
+                                                .block(
+                                                    profileId: data.profile.id)
                                                 .then((value) {
                                               ref.invalidate(
                                                 isBlockingStateProvider(
@@ -624,11 +625,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               ),
             ];
           }),
-          body: TabBarView(
-            children: [
-              QuetionTab(profileId: widget.profileId),
-              ResolvedQuestionTab(profileId: widget.profileId),
-            ],
+          body: isBlockingState.when(
+            skipError: true,
+            skipLoadingOnRefresh: true,
+            skipLoadingOnReload: true,
+            data: (isBlocking) {
+              return isBlocking
+                  ? const Center(
+                      child: Text('ブロックしているため、質問を見ることができません'),
+                    )
+                  : TabBarView(
+                      children: [
+                        QuetionTab(profileId: widget.profileId),
+                        ResolvedQuestionTab(profileId: widget.profileId),
+                      ],
+                    );
+            },
+            error: (error, stackTrace) {
+              Logger().e('error: $error stackTrace: $stackTrace');
+              return const SizedBox();
+            },
+            loading: () => const SizedBox(),
           ),
         ),
       ),

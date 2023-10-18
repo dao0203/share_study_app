@@ -91,11 +91,10 @@ class ProfileSettingScreen extends HookConsumerWidget {
                         .then(
                       (value) {
                         isLoading.value = false;
-                        Navigator.of(context).pop();
-                        // ignore: unused_result
                         ref.invalidate(myProfileStateProvider);
                         ref.invalidate(
                             activityProfileStateProvider(profile.id));
+                        Navigator.of(context).pop();
                       },
                     ).catchError(
                       (e, s) {
@@ -135,10 +134,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
           isLoading.value
               ? Positioned.fill(
                   child: Container(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .background
-                        .withOpacity(0.5),
+                    color: Colors.black.withOpacity(0.5),
                     child: const Center(child: CircularProgressIndicator()),
                   ),
                 )
