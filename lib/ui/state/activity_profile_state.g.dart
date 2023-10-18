@@ -7,7 +7,7 @@ part of 'activity_profile_state.dart';
 // **************************************************************************
 
 String _$activityProfileStateHash() =>
-    r'ddf06c3a2f2e6631bb9172cfa3b6b8af4c9f3630';
+    r'dc8f75157149c35e69dbc7e74c6651d3f40218a4';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -9,7 +9,9 @@ class GetProfileUseCase extends UseCase<String, Future<ActivityProfile>> {
 
   GetProfileUseCase(this._profileRepository, this._userAuthRepository);
   @override
-  Future<ActivityProfile> call(String param) async {
+  Future<ActivityProfile> call({
+    required String param,
+  }) async {
     final currentUser = _userAuthRepository.getCurrentUser();
     return await _profileRepository.getProfile(param).then((value) {
       return ActivityProfile(

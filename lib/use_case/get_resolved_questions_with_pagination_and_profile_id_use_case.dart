@@ -10,7 +10,9 @@ class GetResolvedQuestionsWithPaginationAndProfileIdUseCase extends UseCase<
   GetResolvedQuestionsWithPaginationAndProfileIdUseCase(
       this._questionRepository);
   @override
-  Future<List<QuestionUseCaseModel>> call(param) async {
+  Future<List<QuestionUseCaseModel>> call({
+    required PaginationByProfileIdArgs param,
+  }) async {
     return _questionRepository
         .getResolvedWithPaginationAndProfileId(
             param.profileId, param.start, param.end)

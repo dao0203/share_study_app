@@ -8,6 +8,6 @@ part 'my_profile_state.g.dart';
 class MyProfileState extends _$MyProfileState {
   @override
   Future<Profile> build() async {
-    return ref.watch(getMyProfileUseCaseProvider).call(null);
+    return ref.watch(getMyProfileUseCaseProvider).call(param: null);
   }
 }

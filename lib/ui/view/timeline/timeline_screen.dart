@@ -22,7 +22,7 @@ class TimelineScreen extends StatefulHookConsumerWidget {
 }
 
 class _TimelineScreenState extends ConsumerState<TimelineScreen> {
-  static const _pageSize = 5;
+  static const _pageSize = 30;
   final PagingController<int, QuestionUiModel> _pagingController =
       PagingController(firstPageKey: 0);
 
@@ -42,11 +42,14 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    Logger().d('_fetchPage: $pageKey');
     try {
       final newItems = await ref
           .read(getQuestionsWithPaginationUseCaseProvider)
-          .call(PaginationArgs(start: pageKey, end: pageKey + _pageSize))
+          .call(
+              param: PaginationArgs(
+            limit: _pageSize,
+            offset: pageKey,
+          ))
           .then((value) {
         return value.map((e) {
           return QuestionUiModel.fromQuestionUseCaseModel(
@@ -60,7 +63,8 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
         final nextPageKey = pageKey + newItems.length;
         _pagingController.appendPage(newItems, nextPageKey);
       }
-    } catch (error) {
+    } catch (error, stackTrace) {
+      Logger().e('error: $error, stackTrace: $stackTrace');
       _pagingController.error = error;
     }
   }

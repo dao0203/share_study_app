@@ -57,6 +57,7 @@ final getQuestionsWithPaginationAndProfileIdUseCase =
     Provider<GetQuestionsWithPaginationAndProfileIdUseCase>((ref) {
   return GetQuestionsWithPaginationAndProfileIdUseCase(
     ref.watch(questionRepositoryProvider),
+    ref.watch(userAuthRepositoryProvider),
   );
 });
 
@@ -64,6 +65,7 @@ final getQuestionsWithPaginationAndKeywordUseCaseProvider =
     Provider<GetQuestionsWithPaginationAndKeywordUseCase>((ref) {
   return GetQuestionsWithPaginationAndKeywordUseCase(
     ref.watch(questionRepositoryProvider),
+    ref.watch(userAuthRepositoryProvider),
   );
 });
 

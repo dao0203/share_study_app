@@ -44,7 +44,7 @@ class _QuetionTabState extends ConsumerState<QuetionTab>
       final newItems = await ref
           .read(getQuestionsWithPaginationAndProfileIdUseCase)
           .call(
-            PaginationByProfileIdArgs(
+            param: PaginationByProfileIdArgs(
               start: pageKey,
               end: pageKey + _pageSize,
               profileId: widget.profileId,

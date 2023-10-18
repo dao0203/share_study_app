@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PaginationArgs {
-  int get start => throw _privateConstructorUsedError;
-  int get end => throw _privateConstructorUsedError;
+  int get limit => throw _privateConstructorUsedError;
+  int get offset => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PaginationArgsCopyWith<PaginationArgs> get copyWith =>
@@ -30,7 +30,7 @@ abstract class $PaginationArgsCopyWith<$Res> {
           PaginationArgs value, $Res Function(PaginationArgs) then) =
       _$PaginationArgsCopyWithImpl<$Res, PaginationArgs>;
   @useResult
-  $Res call({int start, int end});
+  $Res call({int limit, int offset});
 }
 
 /// @nodoc
@@ -46,17 +46,17 @@ class _$PaginationArgsCopyWithImpl<$Res, $Val extends PaginationArgs>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? start = null,
-    Object? end = null,
+    Object? limit = null,
+    Object? offset = null,
   }) {
     return _then(_value.copyWith(
-      start: null == start
-          ? _value.start
-          : start // ignore: cast_nullable_to_non_nullable
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
               as int,
-      end: null == end
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
+      offset: null == offset
+          ? _value.offset
+          : offset // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -70,7 +70,7 @@ abstract class _$$PaginationArgsImplCopyWith<$Res>
       __$$PaginationArgsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int start, int end});
+  $Res call({int limit, int offset});
 }
 
 /// @nodoc
@@ -84,17 +84,17 @@ class __$$PaginationArgsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? start = null,
-    Object? end = null,
+    Object? limit = null,
+    Object? offset = null,
   }) {
     return _then(_$PaginationArgsImpl(
-      start: null == start
-          ? _value.start
-          : start // ignore: cast_nullable_to_non_nullable
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
               as int,
-      end: null == end
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
+      offset: null == offset
+          ? _value.offset
+          : offset // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -103,16 +103,16 @@ class __$$PaginationArgsImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PaginationArgsImpl implements _PaginationArgs {
-  const _$PaginationArgsImpl({required this.start, required this.end});
+  const _$PaginationArgsImpl({required this.limit, required this.offset});
 
   @override
-  final int start;
+  final int limit;
   @override
-  final int end;
+  final int offset;
 
   @override
   String toString() {
-    return 'PaginationArgs(start: $start, end: $end)';
+    return 'PaginationArgs(limit: $limit, offset: $offset)';
   }
 
   @override
@@ -120,12 +120,12 @@ class _$PaginationArgsImpl implements _PaginationArgs {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PaginationArgsImpl &&
-            (identical(other.start, start) || other.start == start) &&
-            (identical(other.end, end) || other.end == end));
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.offset, offset) || other.offset == offset));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, start, end);
+  int get hashCode => Object.hash(runtimeType, limit, offset);
 
   @JsonKey(ignore: true)
   @override
@@ -137,13 +137,13 @@ class _$PaginationArgsImpl implements _PaginationArgs {
 
 abstract class _PaginationArgs implements PaginationArgs {
   const factory _PaginationArgs(
-      {required final int start,
-      required final int end}) = _$PaginationArgsImpl;
+      {required final int limit,
+      required final int offset}) = _$PaginationArgsImpl;
 
   @override
-  int get start;
+  int get limit;
   @override
-  int get end;
+  int get offset;
   @override
   @JsonKey(ignore: true)
   _$$PaginationArgsImplCopyWith<_$PaginationArgsImpl> get copyWith =>

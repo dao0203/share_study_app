@@ -10,7 +10,9 @@ class GetQuestionUseCase extends UseCase<String, Future<QuestionUseCaseModel>> {
   GetQuestionUseCase(this._questionRepository, this._userAuthRepository);
 
   @override
-  Future<QuestionUseCaseModel> call(param) async {
+  Future<QuestionUseCaseModel> call({
+    required String param,
+  }) async {
     final user = _userAuthRepository.getCurrentUser();
     return await _questionRepository.get(param).then(
       (value) {

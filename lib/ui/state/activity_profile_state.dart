@@ -8,7 +8,9 @@ part 'activity_profile_state.g.dart';
 class ActivityProfileState extends _$ActivityProfileState {
   @override
   Future<ActivityProfile> build(String param) async {
-    return ref.watch(getProfileUseCaseProvider).call(param);
+    return ref.watch(getProfileUseCaseProvider).call(
+          param: param,
+        );
   }
 
   void incrementFollowerCount() async {
