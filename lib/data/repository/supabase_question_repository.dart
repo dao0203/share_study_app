@@ -63,7 +63,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
   Future<Question> get(String id) async {
     return await _client
         .from('questions')
-        .select<PostgrestMap>(
+        .select(
           '''
           id,user_id, image_url, title, tags, content, is_resolved, created_at, updated_at,
           profiles (nickname,university_name,image_url)
@@ -218,7 +218,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
       int start, int end, String userId) async {
     return await _client
         .from('questions')
-        .select<PostgrestList>(''' 
+        .select(''' 
           id,user_id, image_url, title, tags, content, is_resolved, created_at, updated_at,
           profiles (nickname,university_name,image_url)
           ''')
@@ -258,7 +258,7 @@ final class SupabaseQuestionRepository implements QuestionRepository {
       String profileId, int start, int end) async {
     return await _client
         .from('questions')
-        .select<PostgrestList>(
+        .select(
           '''
   id,user_id, image_url, title, tags, content, is_resolved, created_at, updated_at,
           profiles (nickname,university_name,image_url)

@@ -145,7 +145,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
         .limit(1)
         .then((value) {
       Logger().d('isFollowing.value: $value');
-      return value != null && value.isNotEmpty;
+      return value.isNotEmpty;
     }).catchError((error) {
       Logger().e('isFollowing.error: $error');
       throw error;
@@ -157,7 +157,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
       String profileId, int start, int end) async {
     return await supabaseClient
         .from('follows')
-        .select<PostgrestList>('''
+        .select('''
       following_profile_id (id, nickname, image_url, bio, university_name, faculty_name, follow_count, follower_count)
     ''')
         .eq('followed_profile_id', profileId)
@@ -190,7 +190,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
       String profileId, int start, int end) async {
     return await supabaseClient
         .from('follows')
-        .select<PostgrestList>('''
+        .select('''
       followed_profile_id (id, nickname, image_url, bio, university_name, faculty_name, follow_count, follower_count)
     ''')
         .eq('following_profile_id', profileId)
@@ -254,7 +254,7 @@ final class SupabaseProfileRepository implements ProfileRepository {
         .limit(1)
         .then((value) {
       Logger().d('isBlocking.value: $value');
-      return value != null && value.isNotEmpty;
+      return value.isNotEmpty;
     }).catchError((error) {
       Logger().e('isBlocking.error: $error');
       throw error;

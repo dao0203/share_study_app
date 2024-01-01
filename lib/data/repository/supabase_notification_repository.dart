@@ -12,7 +12,7 @@ final class SupabaseNotificationRepository implements NotificationRepository {
   Future<List<Notification>> getWithPagination(int start, int end) async {
     return await _client
         .from('notifications')
-        .select<PostgrestList>('''
+        .select('''
     id, question_id, created_at, type,
     answer_id (content),
     sender_id (id, nickname,university_name,image_url)

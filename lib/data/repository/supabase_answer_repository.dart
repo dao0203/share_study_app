@@ -64,7 +64,7 @@ final class SupabaseAnswerRepository implements AnswerRepository {
   ) async {
     return await _client
         .from('answers')
-        .select<PostgrestList>(
+        .select(
           '''
           id, user_id, question_id, image_url, content, is_best_answer, created_at, updated_at,
           profiles (nickname,university_name,image_url)
@@ -111,7 +111,7 @@ final class SupabaseAnswerRepository implements AnswerRepository {
       String profileId, int start, int end) async {
     return await _client
         .from('answers')
-        .select<PostgrestList>(
+        .select(
           '''
 id, user_id, question_id, content, is_best_answer, created_at, updated_at,
 profiles (nickname,university_name,image_url),
