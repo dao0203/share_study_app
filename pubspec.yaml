@@ -55,7 +55,7 @@ dependencies:
   riverpod_annotation: ^2.1.5
 
   ## supabase
-  supabase_flutter: ^1.10.14
+  supabase_flutter: ^2.0.0
 
   ##logger
   logger: ^2.0.1
