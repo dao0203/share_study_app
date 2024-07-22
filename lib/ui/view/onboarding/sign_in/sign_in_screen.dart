@@ -1,14 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_study_app/auth_gate.dart';
+import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
-import 'package:share_study_app/ui/view/onboarding/sign_up/sign_up_screen.dart';
-import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
-import 'package:share_study_app/ui/view/tos/tos_screen.dart';
 
 class SignInScreen extends HookConsumerWidget {
   const SignInScreen({super.key});
@@ -117,11 +115,7 @@ class SignInScreen extends HookConsumerWidget {
                           )
                               .then((value) {
                             ref.invalidate(myProfileStateProvider);
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => const AuthGate(),
-                              ),
-                            );
+                            context.pushReplacement(AppRouter.timeline);
                           }).catchError((e, stacktrace) {
                             if (e.message == 'invalid_email_or_password') {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -146,7 +140,7 @@ class SignInScreen extends HookConsumerWidget {
                                 ),
                               );
                             }
-                            Navigator.of(context).pop();
+                            context.pop();
                           });
                         }
                       },
@@ -168,11 +162,7 @@ class SignInScreen extends HookConsumerWidget {
                     const SizedBox(height: 20),
                     TextButton.icon(
                       onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const SignUpScreen(),
-                          ),
-                        );
+                        context.push(AppRouter.signUp);
                       },
                       icon: Icon(
                         Icons.person_add,
@@ -202,12 +192,7 @@ class SignInScreen extends HookConsumerWidget {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const PrivacyPolicyScreen(),
-                                  ),
-                                );
+                                context.push(AppRouter.privacyPolicy);
                               },
                           ),
                           const TextSpan(text: 'および'),
@@ -218,11 +203,7 @@ class SignInScreen extends HookConsumerWidget {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const TosScreen(),
-                                  ),
-                                );
+                                context.push(AppRouter.tos);
                               },
                           ),
                           const TextSpan(text: 'に同意するものとします。'),
