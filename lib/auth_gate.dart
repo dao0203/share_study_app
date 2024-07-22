@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/use_case/di/use_case_providers.dart';
+import 'package:share_study_app/util/assets.gen.dart';
 import 'package:share_study_app/util/splash.dart';
 
 class AuthGate extends StatefulHookConsumerWidget {
@@ -32,7 +33,7 @@ class _AuthGateState extends ConsumerState<AuthGate> {
         case SplashTo.profileScreen:
           context.go(AppRouter.registrationProfile);
           return;
-        case SplashTo.homeScreen:
+        case SplashTo.timelineScreen:
           context.go(AppRouter.timeline);
           return;
       }
@@ -42,6 +43,21 @@ class _AuthGateState extends ConsumerState<AuthGate> {
   @override
   Widget build(BuildContext context) {
     ref.watch(myProfileStateProvider);
-    return const CircularProgressIndicator();
+    return Scaffold(
+      body: Center(
+          child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Assets.icons.appAdaptiveBackground.image(
+            width: 200,
+            height: 200,
+          ),
+          Assets.icons.appAdaptiveForeground.image(
+            width: 340,
+            height: 340,
+          ),
+        ],
+      )),
+    );
   }
 }

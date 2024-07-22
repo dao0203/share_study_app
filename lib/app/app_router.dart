@@ -77,10 +77,11 @@ class AppRouter {
             navigatorKey: notificationKey,
             routes: [
               GoRoute(
-                  path: notification,
-                  builder: (context, state) {
-                    return const NotificationScreen();
-                  }),
+                path: notification,
+                builder: (context, state) {
+                  return const NotificationScreen();
+                },
+              ),
             ],
           ),
         ],
