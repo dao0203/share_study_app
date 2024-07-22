@@ -6,7 +6,6 @@ import 'package:share_study_app/auth_gate.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
-import 'package:share_study_app/ui/state/splash_state.dart';
 import 'package:share_study_app/ui/view/onboarding/sign_up/sign_up_screen.dart';
 import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:share_study_app/ui/view/tos/tos_screen.dart';
@@ -22,7 +21,7 @@ class SignInScreen extends HookConsumerWidget {
     final passwordController = useTextEditingController();
     final passwordVisible = useState(false);
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
@@ -53,7 +52,7 @@ class SignInScreen extends HookConsumerWidget {
                         labelText: 'メールアドレス',
                         //テキストのラベルの色を変更
                         labelStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground),
+                            color: Theme.of(context).colorScheme.onSurface),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -81,7 +80,7 @@ class SignInScreen extends HookConsumerWidget {
                           },
                         ),
                         labelStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground),
+                            color: Theme.of(context).colorScheme.onSurface),
                         labelText: 'パスワード',
                       ),
                       maxLength: 20,
@@ -114,10 +113,7 @@ class SignInScreen extends HookConsumerWidget {
                               passwordController.text,
                             )
                                 .then((value) {
-                              // ignore: unused_result
-                              ref.refresh(splashStateProvider);
-                              // ignore: unused_result
-                              ref.refresh(myProfileStateProvider);
+                              ref.invalidate(myProfileStateProvider);
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                   builder: (context) => const AuthGate(),

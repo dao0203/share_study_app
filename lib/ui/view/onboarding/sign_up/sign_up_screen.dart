@@ -6,7 +6,6 @@ import 'package:logger/logger.dart';
 import 'package:share_study_app/auth_gate.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
-import 'package:share_study_app/ui/state/splash_state.dart';
 import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:share_study_app/ui/view/tos/tos_screen.dart';
 
@@ -21,7 +20,7 @@ class SignUpScreen extends HookConsumerWidget {
     final passwordVisible = useState(false);
     final formKey = GlobalKey<FormState>();
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Padding(
@@ -53,8 +52,7 @@ class SignUpScreen extends HookConsumerWidget {
                           labelText: 'メールアドレス',
                           //テキストのラベルの色を変更
                           labelStyle: TextStyle(
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
+                              color: Theme.of(context).colorScheme.onSurface),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -84,8 +82,7 @@ class SignUpScreen extends HookConsumerWidget {
                           labelText: 'パスワード',
                           //テキストのラベルの色を変更
                           labelStyle: TextStyle(
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
+                              color: Theme.of(context).colorScheme.onSurface),
                         ),
                         maxLength: 20,
                         validator: (value) {
@@ -118,8 +115,7 @@ class SignUpScreen extends HookConsumerWidget {
                             labelText: 'パスワード(確認)',
                             //テキストのラベルの色を変更
                             labelStyle: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.onBackground),
+                                color: Theme.of(context).colorScheme.onSurface),
                           ),
                           maxLength: 20,
                           validator: (value) {
@@ -152,8 +148,6 @@ class SignUpScreen extends HookConsumerWidget {
                                 .signUp(emailController.text,
                                     passwordConfirmController.text)
                                 .then((value) {
-                              Logger().d('signup success');
-                              ref.invalidate(splashStateProvider);
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                   builder: (context) => const AuthGate(),
