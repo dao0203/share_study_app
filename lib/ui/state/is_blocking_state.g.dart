@@ -33,7 +33,7 @@ abstract class _$IsBlockingState
     extends BuildlessAutoDisposeAsyncNotifier<bool> {
   late final String profileId;
 
-  Future<bool> build(
+  FutureOr<bool> build(
     String profileId,
   );
 }
@@ -113,7 +113,7 @@ class IsBlockingStateProvider
   final String profileId;
 
   @override
-  Future<bool> runNotifierBuild(
+  FutureOr<bool> runNotifierBuild(
     covariant IsBlockingState notifier,
   ) {
     return notifier.build(
