@@ -5,13 +5,23 @@ import 'package:share_study_app/auth_gate.dart';
 import 'package:share_study_app/ui/view/notification/notification_screen.dart';
 import 'package:share_study_app/ui/view/onboarding/registration_profile/registration_profile_screen.dart';
 import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
+import 'package:share_study_app/ui/view/onboarding/sign_up/sign_up_screen.dart';
+import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
+import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/ui/view/search/search_screen.dart';
 import 'package:share_study_app/ui/view/timeline/timeline_screen.dart';
+import 'package:share_study_app/ui/view/tos/tos_screen.dart';
 
 class AppRouter {
   static const splash = '/splash';
 
   static const signIn = '/sign_in';
+
+  static const signUp = '/sign_up';
+
+  static const privacyPolicy = '/privacy_policy';
+
+  static const tos = '/tos';
 
   static const registrationProfile = '/registration_profile';
 
@@ -20,6 +30,8 @@ class AppRouter {
   static const search = '/search';
 
   static const notification = '/notification';
+
+  static const profile = '/profile';
 
   static final timelineKey = GlobalKey<NavigatorState>();
   static final searchKey = GlobalKey<NavigatorState>();
@@ -42,9 +54,34 @@ class AppRouter {
         },
       ),
       GoRoute(
+        path: signUp,
+        builder: (context, state) {
+          return const SignUpScreen();
+        },
+      ),
+      GoRoute(
+        path: privacyPolicy,
+        builder: (context, state) {
+          return const PrivacyPolicyScreen();
+        },
+      ),
+      GoRoute(
+        path: tos,
+        builder: (context, state) {
+          return const TosScreen();
+        },
+      ),
+      GoRoute(
         path: registrationProfile,
         builder: (context, state) {
           return RegistrationProfileScreen();
+        },
+      ),
+      GoRoute(
+        path: profile,
+        builder: (context, state) {
+          final profileId = state.extra as String;
+          return ProfileScreen(profileId: profileId);
         },
       ),
       StatefulShellRoute.indexedStack(
