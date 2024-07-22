@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:share_study_app/app/share_study_drawer.dart';
 import 'package:share_study_app/data/domain/my_notification.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
-import 'package:share_study_app/ui/view/norification/components/my_notification_item.dart';
+import 'package:share_study_app/ui/view/notification/components/my_notification_item.dart';
 import 'package:share_study_app/use_case/di/use_case_providers.dart';
 import 'package:share_study_app/util/pagination_args.dart';
 

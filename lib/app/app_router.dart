@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_study_app/app/bottom_nav_app_bar.dart';
 import 'package:share_study_app/auth_gate.dart';
-import 'package:share_study_app/ui/view/norification/notification_screen.dart';
+import 'package:share_study_app/ui/view/notification/notification_screen.dart';
 import 'package:share_study_app/ui/view/onboarding/registration_profile/registration_profile_screen.dart';
 import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
 import 'package:share_study_app/ui/view/search/search_screen.dart';
