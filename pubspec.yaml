@@ -50,7 +50,7 @@ dependencies:
 
   ## riverpod
   flutter_hooks: ^0.20.1
-  hooks_riverpod: ^2.4.0
+  hooks_riverpod: ^2.5.1
   riverpod_generator: ^2.3.2
   riverpod_annotation: ^2.1.5
 
