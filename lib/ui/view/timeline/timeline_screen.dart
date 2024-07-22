@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/app/share_study_drawer.dart';
+import 'package:share_study_app/ui/components/question_item.dart';
 import 'package:share_study_app/ui/components/question_post_fab.dart';
 import 'package:share_study_app/ui/ui_model/question_ui_model.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/ui/view/question_post/question_post_screen.dart';
-import 'package:share_study_app/ui/components/question_item.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:share_study_app/use_case/di/use_case_providers.dart';
 import 'package:share_study_app/util/pagination_args.dart';
 
@@ -46,14 +46,16 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
       final newItems = await ref
           .read(getQuestionsWithPaginationUseCaseProvider)
           .call(
-              param: PaginationArgs(
-            limit: _pageSize,
-            offset: pageKey,
-          ))
+            param: PaginationArgs(
+              limit: _pageSize,
+              offset: pageKey,
+            ),
+          )
           .then((value) {
         return value.map((e) {
           return QuestionUiModel.fromQuestionUseCaseModel(
-              questionUseCaseModel: e);
+            questionUseCaseModel: e,
+          );
         }).toList();
       });
       final isLastPage = newItems.length < _pageSize;
@@ -76,7 +78,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
       key: scaffoldKey.value,
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         leading: IconButton(
           icon: const Icon(Icons.account_circle_outlined),
           onPressed: () {

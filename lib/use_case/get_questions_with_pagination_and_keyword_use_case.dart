@@ -28,10 +28,12 @@ class GetQuestionsWithPaginationAndKeywordUseCase
     )
         .then((value) {
       return value
-          .map((e) => QuestionUseCaseModel(
-                question: e,
-                isMyQuestion: (user?.id ?? '') == e.id,
-              ))
+          .map(
+            (e) => QuestionUseCaseModel(
+              question: e,
+              isMyQuestion: (user?.id ?? '') == e.id,
+            ),
+          )
           .toList();
     });
   }

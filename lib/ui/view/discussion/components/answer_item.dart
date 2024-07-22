@@ -31,12 +31,14 @@ class AnswerItem extends HookConsumerWidget {
       onLongPress: () {
         if (answer.answerer.id == questionerId) {
           Logger().i(
-              'answer.answerer.id: ${answer.answerer.id} questionerId: $questionerId');
+            'answer.answerer.id: ${answer.answerer.id} questionerId: $questionerId',
+          );
           return;
         }
         if (isResolved && !answer.isBestAnswer) {
           Logger().i(
-              'isResolved: $isResolved answer.isBestAnswer: ${answer.isBestAnswer}');
+            'isResolved: $isResolved answer.isBestAnswer: ${answer.isBestAnswer}',
+          );
           return;
         }
         if (!isMyQuestion) {
@@ -114,7 +116,7 @@ class AnswerItem extends HookConsumerWidget {
                     fontSize: 12,
                     color: Theme.of(context)
                         .colorScheme
-                        .onBackground
+                        .onSurface
                         .withOpacity(0.7),
                   ),
                 ),

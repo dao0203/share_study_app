@@ -4,8 +4,14 @@ abstract interface class AnswerRepository {
   Future<List<Answer>> getAnswers();
   Future<void> addAnswer(String questionId, String content, String? path);
   Future<List<Answer>> getAnswersByQuestionIdWithPagination(
-      String questionId, int start, int end);
+    String questionId,
+    int start,
+    int end,
+  );
   Future<List<Answer>> getAnswersByProfileIdWithPagination(
-      String profileId, int start, int end);
+    String profileId,
+    int start,
+    int end,
+  );
   Future<void> updateIsBestAnswer(String answerId, bool isBestAnswer);
 }

@@ -52,7 +52,8 @@ class SignInScreen extends HookConsumerWidget {
                         labelText: 'メールアドレス',
                         //テキストのラベルの色を変更
                         labelStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface),
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -80,7 +81,8 @@ class SignInScreen extends HookConsumerWidget {
                           },
                         ),
                         labelStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface),
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                         labelText: 'パスワード',
                       ),
                       maxLength: 20,
@@ -97,72 +99,72 @@ class SignInScreen extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 30),
                     ElevatedButton.icon(
-                        onPressed: () async {
-                          if (formKey.currentState!.validate()) {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (context) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                });
-                            await userAuthRepository
-                                .signIn(
-                              emailController.text,
-                              passwordController.text,
-                            )
-                                .then((value) {
-                              ref.invalidate(myProfileStateProvider);
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (context) => const AuthGate(),
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                          );
+                          await userAuthRepository
+                              .signIn(
+                            emailController.text,
+                            passwordController.text,
+                          )
+                              .then((value) {
+                            ref.invalidate(myProfileStateProvider);
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => const AuthGate(),
+                              ),
+                            );
+                          }).catchError((e, stacktrace) {
+                            if (e.message == 'invalid_email_or_password') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackBar.createError(
+                                  context: context,
+                                  text: 'メールアドレスまたはパスワードが間違っています',
+                                  icon: Icon(
+                                    Icons.error_outline,
+                                    color: Theme.of(context).colorScheme.error,
+                                  ),
                                 ),
                               );
-                            }).catchError((e, stacktrace) {
-                              if (e.message == 'invalid_email_or_password') {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackBar.createError(
-                                    context: context,
-                                    text: 'メールアドレスまたはパスワードが間違っています',
-                                    icon: Icon(
-                                      Icons.error_outline,
-                                      color:
-                                          Theme.of(context).colorScheme.error,
-                                    ),
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackBar.createError(
+                                  context: context,
+                                  text: 'サインインに失敗しました',
+                                  icon: Icon(
+                                    Icons.error_outline,
+                                    color: Theme.of(context).colorScheme.error,
                                   ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackBar.createError(
-                                    context: context,
-                                    text: 'サインインに失敗しました',
-                                    icon: Icon(
-                                      Icons.error_outline,
-                                      color:
-                                          Theme.of(context).colorScheme.error,
-                                    ),
-                                  ),
-                                );
-                              }
-                              Navigator.of(context).pop();
-                            });
-                          }
-                        },
-                        icon: Icon(
-                          Icons.login,
+                                ),
+                              );
+                            }
+                            Navigator.of(context).pop();
+                          });
+                        }
+                      },
+                      icon: Icon(
+                        Icons.login,
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                      label: Text(
+                        'サインイン',
+                        style: TextStyle(
                           color: Theme.of(context).colorScheme.onSecondary,
                         ),
-                        label: Text(
-                          'サインイン',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSecondary,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.secondary,
-                        )),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
                     const SizedBox(height: 20),
                     TextButton.icon(
                       onPressed: () {

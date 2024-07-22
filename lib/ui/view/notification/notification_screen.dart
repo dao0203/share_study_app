@@ -66,7 +66,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
         ),
         title: const Text('通知'),
         centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
       ),
       body: RefreshIndicator(
         onRefresh: () => Future.sync(
@@ -88,8 +88,8 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
                         animation2,
                       ) =>
                           DiscussionScreen(
-                              questionId:
-                                  myNotification.notification.questionId!),
+                        questionId: myNotification.notification.questionId!,
+                      ),
                       transitionsBuilder: (
                         context,
                         animation1,

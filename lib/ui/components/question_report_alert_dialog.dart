@@ -12,12 +12,15 @@ class QuestionReportAlertDialog extends HookConsumerWidget {
     final reasonController = useTextEditingController();
     final wantToHideQuestion = useState(false);
     final isReasonEmpty = useState(true);
-    useEffect(() {
-      reasonController.addListener(() {
-        isReasonEmpty.value = reasonController.text.isEmpty;
-      });
-      return null;
-    }, [reasonController.text]);
+    useEffect(
+      () {
+        reasonController.addListener(() {
+          isReasonEmpty.value = reasonController.text.isEmpty;
+        });
+        return null;
+      },
+      [reasonController.text],
+    );
     return AlertDialog(
       title: const Text('質問を通報しますか？'),
       content: SizedBox(
@@ -67,7 +70,7 @@ class QuestionReportAlertDialog extends HookConsumerWidget {
                             text: '通報しました',
                             icon: Icon(
                               Icons.check_circle_outline,
-                              color: Theme.of(context).colorScheme.onBackground,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ),

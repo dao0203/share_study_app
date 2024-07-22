@@ -20,7 +20,7 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 );
 
 class SignInDemo extends StatefulWidget {
-  const SignInDemo({Key? key}) : super(key: key);
+  const SignInDemo({super.key});
 
   @override
   State createState() => SignInDemoState();
@@ -89,12 +89,13 @@ class SignInDemoState extends State<SignInDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Google Sign In'),
-        ),
-        body: ConstrainedBox(
-          constraints: const BoxConstraints.expand(),
-          child: _buildBody(),
-        ));
+      appBar: AppBar(
+        title: const Text('Google Sign In'),
+      ),
+      body: ConstrainedBox(
+        constraints: const BoxConstraints.expand(),
+        child: _buildBody(),
+      ),
+    );
   }
 }

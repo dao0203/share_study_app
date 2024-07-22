@@ -15,17 +15,23 @@ class ActivityProfileState extends _$ActivityProfileState {
 
   void incrementFollowerCount() async {
     state = const AsyncValue.loading();
-    update((p0) => p0.copyWith(
+    update(
+      (p0) => p0.copyWith(
         profile:
-            p0.profile.copyWith(followerCount: p0.profile.followerCount! + 1)));
+            p0.profile.copyWith(followerCount: p0.profile.followerCount! + 1),
+      ),
+    );
     state = AsyncValue.data(state.value!);
   }
 
   void decrementFollowerCount() {
     state = const AsyncValue.loading();
-    update((p0) => p0.copyWith(
+    update(
+      (p0) => p0.copyWith(
         profile:
-            p0.profile.copyWith(followerCount: p0.profile.followerCount! - 1)));
+            p0.profile.copyWith(followerCount: p0.profile.followerCount! - 1),
+      ),
+    );
     state = AsyncValue.data(state.value!);
   }
 }

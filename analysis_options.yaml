@@ -5,12 +5,17 @@ linter:
     avoid_print: true
     always_use_package_imports: true
     prefer_single_quotes: true
+    require_trailing_commas: true
 
 analyzer:
   plugins:
     - custom_lint
   errors:
     asset_does_not_exist: ignore
+  
+  exclude: 
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
 
 custom_lint:
   rules:

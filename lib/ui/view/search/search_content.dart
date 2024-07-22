@@ -40,15 +40,17 @@ class _SearchContentState extends ConsumerState<SearchContent> {
       final newItems = await ref
           .read(getQuestionsWithPaginationAndKeywordUseCaseProvider)
           .call(
-              param: PaginationByKeywordArgs(
-            keyword: keyword,
-            offsetAmount: pageKey,
-            limitAmount: _pageSize,
-          ))
+            param: PaginationByKeywordArgs(
+              keyword: keyword,
+              offsetAmount: pageKey,
+              limitAmount: _pageSize,
+            ),
+          )
           .then((value) {
         return value.map((e) {
           return QuestionUiModel.fromQuestionUseCaseModel(
-              questionUseCaseModel: e);
+            questionUseCaseModel: e,
+          );
         }).toList();
       });
       final isLastPage = newItems.length < _pageSize;

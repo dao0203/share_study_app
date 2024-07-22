@@ -69,7 +69,7 @@ class QuestionItem extends HookConsumerWidget {
                     fontSize: 12,
                     color: Theme.of(context)
                         .colorScheme
-                        .onBackground
+                        .onSurface
                         .withOpacity(0.5),
                   ),
                 ),
@@ -80,7 +80,7 @@ class QuestionItem extends HookConsumerWidget {
                     fontSize: 16,
                     color: Theme.of(context)
                         .colorScheme
-                        .onBackground
+                        .onSurface
                         .withOpacity(0.5),
                   ),
                 ),
@@ -123,12 +123,15 @@ class QuestionItem extends HookConsumerWidget {
                                         ref
                                             .watch(questionRepositoryProvider)
                                             .delete(
-                                                questionId: questionUiModel.id)
+                                              questionId: questionUiModel.id,
+                                            )
                                             .then((value) {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            content: Text('質問を削除しました'),
-                                          ));
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text('質問を削除しました'),
+                                            ),
+                                          );
                                         }).catchError((error) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -177,13 +180,16 @@ class QuestionItem extends HookConsumerWidget {
                                         ref
                                             .watch(profileRepositoryProvider)
                                             .block(
-                                                profileId: questionUiModel
-                                                    .questionerId)
+                                              profileId:
+                                                  questionUiModel.questionerId,
+                                            )
                                             .then((value) {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            content: Text('ユーザーをブロックしました'),
-                                          ));
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text('ユーザーをブロックしました'),
+                                            ),
+                                          );
                                         }).catchError((error) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -214,12 +220,15 @@ class QuestionItem extends HookConsumerWidget {
                                         ref
                                             .watch(questionRepositoryProvider)
                                             .hide(
-                                                questionId: questionUiModel.id)
+                                              questionId: questionUiModel.id,
+                                            )
                                             .then((value) {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            content: Text('質問を非表示にしました'),
-                                          ));
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text('質問を非表示にしました'),
+                                            ),
+                                          );
                                         }).catchError((error) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(

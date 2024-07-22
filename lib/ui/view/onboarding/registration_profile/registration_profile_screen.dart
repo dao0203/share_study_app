@@ -5,11 +5,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+import 'package:share_study_app/app/share_study_app.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
-import 'package:share_study_app/app/share_study_app.dart';
 import 'package:share_study_app/util/image_picker_app.dart';
 
 class RegistrationProfileScreen extends HookConsumerWidget {
@@ -26,15 +26,17 @@ class RegistrationProfileScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final myProfile = ref.watch(myProfileStateProvider);
     final imagePickerApp = ref.watch(imagePickerAppProvider);
-    final myProfileState = useState(const Profile(
-      id: '',
-      nickname: '',
-      universityName: '',
-      facultyName: '',
-      departmentName: '',
-      grade: '',
-      bio: '',
-    ));
+    final myProfileState = useState(
+      const Profile(
+        id: '',
+        nickname: '',
+        universityName: '',
+        facultyName: '',
+        departmentName: '',
+        grade: '',
+        bio: '',
+      ),
+    );
     final formKey = GlobalKey<FormState>();
     final nicknameController = useTextEditingController();
     final universityNameController = useTextEditingController();
@@ -52,7 +54,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
-        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
         //登録ボタンを配置
         actions: [
           TextButton.icon(
@@ -67,14 +69,15 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                   bio: bioController.text,
                 );
                 showGeneralDialog(
-                    barrierDismissible: false,
-                    barrierLabel: '登録中',
-                    context: context,
-                    pageBuilder: (context, animation1, animation2) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    });
+                  barrierDismissible: false,
+                  barrierLabel: '登録中',
+                  context: context,
+                  pageBuilder: (context, animation1, animation2) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                );
                 // 登録処理
                 await ref
                     .watch(profileRepositoryProvider)
@@ -153,9 +156,8 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                                     backgroundImage: FileImage(
                                       File(xFile.value!.path),
                                     ),
-                                    backgroundColor: Theme.of(context)
-                                        .colorScheme
-                                        .background,
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.surface,
                                   ),
                                   Positioned(
                                     bottom: 0,
@@ -298,33 +300,34 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                         readOnly: true,
                         onTap: () {
                           showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.4,
-                                  child: Column(
-                                    children: [
-                                      const Text('学年を選択してください'),
-                                      Expanded(
-                                        child: ListView.builder(
-                                          itemCount: gradeList.length,
-                                          itemBuilder: (context, index) {
-                                            return ListTile(
-                                              title: Text(gradeList[index]),
-                                              onTap: () {
-                                                gradeControler.text =
-                                                    gradeList[index];
-                                                Navigator.pop(context);
-                                              },
-                                            );
-                                          },
-                                        ),
+                            context: context,
+                            builder: (context) {
+                              return SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
+                                child: Column(
+                                  children: [
+                                    const Text('学年を選択してください'),
+                                    Expanded(
+                                      child: ListView.builder(
+                                        itemCount: gradeList.length,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            title: Text(gradeList[index]),
+                                            onTap: () {
+                                              gradeControler.text =
+                                                  gradeList[index];
+                                              Navigator.pop(context);
+                                            },
+                                          );
+                                        },
                                       ),
-                                    ],
-                                  ),
-                                );
-                              });
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
                         },
                       ),
                       const SizedBox(height: 20),

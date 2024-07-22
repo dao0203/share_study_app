@@ -45,19 +45,20 @@ class _AuthGateState extends ConsumerState<AuthGate> {
     ref.watch(myProfileStateProvider);
     return Scaffold(
       body: Center(
-          child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Assets.icons.appAdaptiveBackground.image(
-            width: 200,
-            height: 200,
-          ),
-          Assets.icons.appAdaptiveForeground.image(
-            width: 340,
-            height: 340,
-          ),
-        ],
-      )),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Assets.icons.appAdaptiveBackground.image(
+              width: 200,
+              height: 200,
+            ),
+            Assets.icons.appAdaptiveForeground.image(
+              width: 340,
+              height: 340,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

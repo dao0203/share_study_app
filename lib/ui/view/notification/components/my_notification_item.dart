@@ -5,8 +5,11 @@ import 'package:share_study_app/util/date_formatter.dart';
 import 'package:share_study_app/util/notification_type.dart';
 
 class MyNotificationItem extends HookConsumerWidget {
-  const MyNotificationItem(
-      {super.key, required this.myNotification, required this.onTap});
+  const MyNotificationItem({
+    super.key,
+    required this.myNotification,
+    required this.onTap,
+  });
   final MyNotification myNotification;
   final void Function() onTap;
 

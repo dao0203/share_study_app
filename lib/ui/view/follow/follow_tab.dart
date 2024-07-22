@@ -30,10 +30,12 @@ class _FollowTabState extends ConsumerState<FollowTab>
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await ref
-          .read(profileRepositoryProvider)
-          .getFollowingWithpagination(
-              widget.profileId, pageKey, _pageSize + pageKey);
+      final newItems =
+          await ref.read(profileRepositoryProvider).getFollowingWithpagination(
+                widget.profileId,
+                pageKey,
+                _pageSize + pageKey,
+              );
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);

@@ -67,10 +67,11 @@ class AppRouter {
             navigatorKey: searchKey,
             routes: [
               GoRoute(
-                  path: search,
-                  builder: (context, state) {
-                    return const SearchScreen();
-                  }),
+                path: search,
+                builder: (context, state) {
+                  return const SearchScreen();
+                },
+              ),
             ],
           ),
           StatefulShellBranch(
@@ -85,7 +86,7 @@ class AppRouter {
             ],
           ),
         ],
-      )
+      ),
     ],
   );
 }

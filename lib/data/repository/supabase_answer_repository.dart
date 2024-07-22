@@ -14,7 +14,10 @@ final class SupabaseAnswerRepository implements AnswerRepository {
 
   @override
   Future<void> addAnswer(
-      String questionId, String content, String? path) async {
+    String questionId,
+    String content,
+    String? path,
+  ) async {
     final answerId = _uuid.v4();
     await _client.from('answers').insert({
       'id': answerId,
@@ -101,14 +104,18 @@ final class SupabaseAnswerRepository implements AnswerRepository {
         )
         .catchError((error, stacktrace) {
           Logger().e(
-              'getAnswersByQuestionIdWithPagination.error: $error $stacktrace');
+            'getAnswersByQuestionIdWithPagination.error: $error $stacktrace',
+          );
           throw error;
         });
   }
 
   @override
   Future<List<Answer>> getAnswersByProfileIdWithPagination(
-      String profileId, int start, int end) async {
+    String profileId,
+    int start,
+    int end,
+  ) async {
     return await _client
         .from('answers')
         .select(

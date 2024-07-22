@@ -4,8 +4,11 @@ import 'package:share_study_app/ui/view/follow/follow_tab.dart';
 import 'package:share_study_app/ui/view/follow/follower_tab.dart';
 
 class FollowScreen extends HookConsumerWidget {
-  const FollowScreen(
-      {super.key, required this.profileId, required this.initialIndex});
+  const FollowScreen({
+    super.key,
+    required this.profileId,
+    required this.initialIndex,
+  });
   final String profileId;
   final int initialIndex;
   @override
@@ -15,7 +18,7 @@ class FollowScreen extends HookConsumerWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           title: const Text('フォロー'),
           bottom: const TabBar(
             tabs: [

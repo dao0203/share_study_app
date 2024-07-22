@@ -73,10 +73,10 @@ final class SupabaseProfileRepository implements ProfileRepository {
                 (value) async {
                   //publicUrlを取得して、profilesテーブルのimage_urlを更新する
                   //FIXME: Functionで画像のURLを取得して処理をSupabase側でしたかったけど、できなかったのでここでやっている🥺
-                  final publicUrl = supabaseClient.storage
-                      .from('avatars')
-                      .getPublicUrl(
-                          '${supabaseClient.auth.currentUser!.id}/avatar.png');
+                  final publicUrl =
+                      supabaseClient.storage.from('avatars').getPublicUrl(
+                            '${supabaseClient.auth.currentUser!.id}/avatar.png',
+                          );
                   await supabaseClient
                       .from('profiles')
                       .update({'image_url': publicUrl})
@@ -154,7 +154,10 @@ final class SupabaseProfileRepository implements ProfileRepository {
 
   @override
   Future<List<Profile>> getFollowersWithPagination(
-      String profileId, int start, int end) async {
+    String profileId,
+    int start,
+    int end,
+  ) async {
     return await supabaseClient
         .from('follows')
         .select('''
@@ -166,17 +169,18 @@ final class SupabaseProfileRepository implements ProfileRepository {
         .then((value) {
           Logger().d('getFollowers.value: $value');
           return value
-              .map((e) => Profile(
-                    id: e['following_profile_id']['id'],
-                    nickname: e['following_profile_id']['nickname'],
-                    imageUrl: e['following_profile_id']['image_url'],
-                    bio: e['following_profile_id']['bio'],
-                    universityName: e['following_profile_id']
-                        ['university_name'],
-                    facultyName: e['following_profile_id']['faculty_name'],
-                    followCount: e['following_profile_id']['follow_count'],
-                    followerCount: e['following_profile_id']['follower_count'],
-                  ))
+              .map(
+                (e) => Profile(
+                  id: e['following_profile_id']['id'],
+                  nickname: e['following_profile_id']['nickname'],
+                  imageUrl: e['following_profile_id']['image_url'],
+                  bio: e['following_profile_id']['bio'],
+                  universityName: e['following_profile_id']['university_name'],
+                  facultyName: e['following_profile_id']['faculty_name'],
+                  followCount: e['following_profile_id']['follow_count'],
+                  followerCount: e['following_profile_id']['follower_count'],
+                ),
+              )
               .toList();
         })
         .catchError((error) {
@@ -187,7 +191,10 @@ final class SupabaseProfileRepository implements ProfileRepository {
 
   @override
   Future<List<Profile>> getFollowingWithpagination(
-      String profileId, int start, int end) async {
+    String profileId,
+    int start,
+    int end,
+  ) async {
     return await supabaseClient
         .from('follows')
         .select('''
@@ -199,16 +206,18 @@ final class SupabaseProfileRepository implements ProfileRepository {
         .then((value) {
           Logger().d('getFollowing.value: $value');
           return value
-              .map((e) => Profile(
-                    id: e['followed_profile_id']['id'],
-                    nickname: e['followed_profile_id']['nickname'],
-                    imageUrl: e['followed_profile_id']['image_url'],
-                    bio: e['followed_profile_id']['bio'],
-                    universityName: e['followed_profile_id']['university_name'],
-                    facultyName: e['followed_profile_id']['faculty_name'],
-                    followCount: e['followed_profile_id']['follow_count'],
-                    followerCount: e['followed_profile_id']['follower_count'],
-                  ))
+              .map(
+                (e) => Profile(
+                  id: e['followed_profile_id']['id'],
+                  nickname: e['followed_profile_id']['nickname'],
+                  imageUrl: e['followed_profile_id']['image_url'],
+                  bio: e['followed_profile_id']['bio'],
+                  universityName: e['followed_profile_id']['university_name'],
+                  facultyName: e['followed_profile_id']['faculty_name'],
+                  followCount: e['followed_profile_id']['follow_count'],
+                  followerCount: e['followed_profile_id']['follower_count'],
+                ),
+              )
               .toList();
         })
         .catchError((error) {

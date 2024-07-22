@@ -12,7 +12,11 @@ final class SupabaseQuestionRepository implements QuestionRepository {
   final _uuid = const Uuid();
   @override
   Future<void> add(
-      String title, String content, String tags, String? path) async {
+    String title,
+    String content,
+    String tags,
+    String? path,
+  ) async {
     Logger().d('supabaseQuestionRepository.add pressed');
     //uuidを生成
     final uuid = _uuid.v4();
@@ -215,10 +219,13 @@ final class SupabaseQuestionRepository implements QuestionRepository {
 
   @override
   Future<List<Question>> getWithPaginationAndProfileId(
-      int start, int end, String userId) async {
+    int start,
+    int end,
+    String userId,
+  ) async {
     return await _client
         .from('questions')
-        .select(''' 
+        .select('''
           id,user_id, image_url, title, tags, content, is_resolved, created_at, updated_at,
           profiles (nickname,university_name,image_url)
           ''')
@@ -255,7 +262,10 @@ final class SupabaseQuestionRepository implements QuestionRepository {
 
   @override
   Future<List<Question>> getResolvedWithPaginationAndProfileId(
-      String profileId, int start, int end) async {
+    String profileId,
+    int start,
+    int end,
+  ) async {
     return await _client
         .from('questions')
         .select(
@@ -292,7 +302,8 @@ final class SupabaseQuestionRepository implements QuestionRepository {
         })
         .catchError((error, stacktrace) {
           Logger().e(
-              'getResolvedWithPaginationAndProfileId.error: $error, $stacktrace');
+            'getResolvedWithPaginationAndProfileId.error: $error, $stacktrace',
+          );
           throw error;
         });
   }
@@ -313,11 +324,14 @@ final class SupabaseQuestionRepository implements QuestionRepository {
     required String reason,
     required bool wantToHideQuestion,
   }) async {
-    await _client.rpc('report_question', params: {
-      'question_id': questionId,
-      'reason': reason,
-      'want_to_hide_question': wantToHideQuestion,
-    }).then((value) {
+    await _client.rpc(
+      'report_question',
+      params: {
+        'question_id': questionId,
+        'reason': reason,
+        'want_to_hide_question': wantToHideQuestion,
+      },
+    ).then((value) {
       Logger().d('reportQuestion.then: $value');
     }).catchError((error, stacktrace) {
       Logger().e('reportQuestion.error: $error $stacktrace');

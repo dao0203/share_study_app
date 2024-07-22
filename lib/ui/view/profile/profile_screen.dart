@@ -9,8 +9,8 @@ import 'package:share_study_app/ui/state/is_blocking_state.dart';
 import 'package:share_study_app/ui/state/is_following_state.dart';
 import 'package:share_study_app/ui/view/follow/follow_screen.dart';
 import 'package:share_study_app/ui/view/profile/profile_setting_screen.dart';
-import 'package:share_study_app/ui/view/profile/resolved_question_tab.dart';
 import 'package:share_study_app/ui/view/profile/quetion_tab.dart';
+import 'package:share_study_app/ui/view/profile/resolved_question_tab.dart';
 
 class ProfileScreen extends StatefulHookConsumerWidget {
   const ProfileScreen({super.key, required this.profileId});
@@ -34,7 +34,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       appBar: AppBar(
         //Appbarの背景色を変更
         scrolledUnderElevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         actions: [
           profileState.when(
             skipError: true,
@@ -45,98 +45,104 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 : IconButton(
                     onPressed: () {
                       showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return SafeArea(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  isBlockingState.when(
-                                    skipError: true,
-                                    skipLoadingOnRefresh: true,
-                                    skipLoadingOnReload: true,
-                                    data: (isBlocking) {
-                                      return ListTile(
-                                        leading: Icon(
-                                          Icons.block,
+                        context: context,
+                        builder: (context) {
+                          return SafeArea(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                isBlockingState.when(
+                                  skipError: true,
+                                  skipLoadingOnRefresh: true,
+                                  skipLoadingOnReload: true,
+                                  data: (isBlocking) {
+                                    return ListTile(
+                                      leading: Icon(
+                                        Icons.block,
+                                        color: isBlocking ? null : Colors.red,
+                                      ),
+                                      title: Text(
+                                        isBlocking ? 'ブロック解除' : 'ブロック',
+                                        style: TextStyle(
                                           color: isBlocking ? null : Colors.red,
                                         ),
-                                        title: Text(
-                                          isBlocking ? 'ブロック解除' : 'ブロック',
-                                          style: TextStyle(
-                                            color:
-                                                isBlocking ? null : Colors.red,
-                                          ),
-                                        ),
-                                        onTap: () async {
-                                          if (isBlocking) {
-                                            //ブロック解除
-                                            await ref
-                                                .read(profileRepositoryProvider)
-                                                .unblock(data.profile.id)
-                                                .then(
-                                              (value) {
-                                                ref.invalidate(
-                                                  isBlockingStateProvider(
-                                                      widget.profileId),
-                                                );
-                                              },
-                                            ).catchError(
-                                              (error) {
-                                                Logger().e(
-                                                    'error: $error stackTrace: $error');
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  CustomSnackBar.createError(
-                                                    context: context,
-                                                    text: 'ブロック解除に失敗しました',
-                                                  ),
-                                                );
-                                              },
-                                            ).whenComplete(() =>
-                                                    Navigator.of(context)
-                                                        .pop());
-                                          } else {
-                                            //ブロック
-                                            await ref
-                                                .read(profileRepositoryProvider)
-                                                .block(
-                                                    profileId: data.profile.id)
-                                                .then((value) {
+                                      ),
+                                      onTap: () async {
+                                        if (isBlocking) {
+                                          //ブロック解除
+                                          await ref
+                                              .read(profileRepositoryProvider)
+                                              .unblock(data.profile.id)
+                                              .then(
+                                            (value) {
                                               ref.invalidate(
                                                 isBlockingStateProvider(
-                                                    widget.profileId),
+                                                  widget.profileId,
+                                                ),
                                               );
-                                            }).catchError((error) {
+                                            },
+                                          ).catchError(
+                                            (error) {
                                               Logger().e(
-                                                  'error: $error stackTrace: $error');
+                                                'error: $error stackTrace: $error',
+                                              );
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 CustomSnackBar.createError(
                                                   context: context,
-                                                  text: 'ブロックに失敗しました',
+                                                  text: 'ブロック解除に失敗しました',
                                                 ),
                                               );
-                                            }).whenComplete(() =>
-                                                    Navigator.of(context)
-                                                        .pop());
-                                          }
-                                        },
-                                      );
-                                    },
-                                    error: (error, stackTrace) {
-                                      Logger().e(
-                                          'error: $error stackTrace: $stackTrace');
-                                      return const SizedBox();
-                                    },
-                                    loading: () {
-                                      return const SizedBox();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
-                          });
+                                            },
+                                          ).whenComplete(
+                                            () => Navigator.of(context).pop(),
+                                          );
+                                        } else {
+                                          //ブロック
+                                          await ref
+                                              .read(profileRepositoryProvider)
+                                              .block(
+                                                profileId: data.profile.id,
+                                              )
+                                              .then((value) {
+                                            ref.invalidate(
+                                              isBlockingStateProvider(
+                                                widget.profileId,
+                                              ),
+                                            );
+                                          }).catchError((error) {
+                                            Logger().e(
+                                              'error: $error stackTrace: $error',
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              CustomSnackBar.createError(
+                                                context: context,
+                                                text: 'ブロックに失敗しました',
+                                              ),
+                                            );
+                                          }).whenComplete(
+                                            () => Navigator.of(context).pop(),
+                                          );
+                                        }
+                                      },
+                                    );
+                                  },
+                                  error: (error, stackTrace) {
+                                    Logger().e(
+                                      'error: $error stackTrace: $stackTrace',
+                                    );
+                                    return const SizedBox();
+                                  },
+                                  loading: () {
+                                    return const SizedBox();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
                     },
                     icon: const Icon(Icons.more_vert),
                   ),
@@ -170,7 +176,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     ? CircleAvatar(
                                         radius: 40,
                                         backgroundImage: NetworkImage(
-                                            data.profile.imageUrl!),
+                                          data.profile.imageUrl!,
+                                        ),
                                         backgroundColor: Theme.of(context)
                                             .colorScheme
                                             .surface,
@@ -189,7 +196,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             MaterialPageRoute(
                                               builder: (_) {
                                                 return ProfileSettingScreen(
-                                                    profile: data.profile);
+                                                  profile: data.profile,
+                                                );
                                               },
                                               fullscreenDialog: true,
                                             ),
@@ -198,7 +206,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Theme.of(context)
                                               .colorScheme
-                                              .background,
+                                              .surface,
                                           elevation: 4,
                                         ),
                                         child: Text(
@@ -206,14 +214,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .onBackground,
+                                                .onSurface,
                                           ),
                                         ),
                                       )
                                     : isBlockingState.when(
                                         error: (error, stackTrace) {
                                           Logger().e(
-                                              'error: $error stackTrace: $stackTrace');
+                                            'error: $error stackTrace: $stackTrace',
+                                          );
                                           return const SizedBox();
                                         },
                                         loading: () {
@@ -225,60 +234,79 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                   onPressed: () async {
                                                     //ブロック解除する
                                                     showGeneralDialog(
-                                                        context: context,
-                                                        pageBuilder: (context,
-                                                            animation1,
-                                                            animation2) {
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'ブロック解除'),
-                                                            content: const Text(
-                                                                '本当にブロック解除しますか？'),
-                                                            actions: [
-                                                              TextButton(
-                                                                onPressed: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                },
-                                                                child:
-                                                                    const Text(
-                                                                        'キャンセル'),
+                                                      context: context,
+                                                      pageBuilder: (
+                                                        context,
+                                                        animation1,
+                                                        animation2,
+                                                      ) {
+                                                        return AlertDialog(
+                                                          title: const Text(
+                                                            'ブロック解除',
+                                                          ),
+                                                          content: const Text(
+                                                            '本当にブロック解除しますか？',
+                                                          ),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                  context,
+                                                                ).pop();
+                                                              },
+                                                              child: const Text(
+                                                                'キャンセル',
                                                               ),
-                                                              TextButton(
-                                                                onPressed:
-                                                                    () async {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                  await ref
-                                                                      .read(
-                                                                          profileRepositoryProvider)
-                                                                      .unblock(
-                                                                          widget
-                                                                              .profileId)
-                                                                      .then(
-                                                                          (value) {
-                                                                    ref.invalidate(
-                                                                        isBlockingStateProvider(
-                                                                            widget.profileId));
-                                                                  }).catchError(
-                                                                          (error) {
-                                                                    Logger().e(
-                                                                        'error: $error stackTrace: $error');
-                                                                    ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar.createError(
-                                                                        context:
-                                                                            context,
-                                                                        text:
-                                                                            'ブロック解除に失敗しました'));
-                                                                  });
-                                                                },
-                                                                child: const Text(
-                                                                    'ブロック解除'),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                Navigator.of(
+                                                                  context,
+                                                                ).pop();
+                                                                await ref
+                                                                    .read(
+                                                                      profileRepositoryProvider,
+                                                                    )
+                                                                    .unblock(
+                                                                      widget
+                                                                          .profileId,
+                                                                    )
+                                                                    .then(
+                                                                        (value) {
+                                                                  ref.invalidate(
+                                                                    isBlockingStateProvider(
+                                                                      widget
+                                                                          .profileId,
+                                                                    ),
+                                                                  );
+                                                                }).catchError(
+                                                                        (error) {
+                                                                  Logger().e(
+                                                                    'error: $error stackTrace: $error',
+                                                                  );
+                                                                  ScaffoldMessenger
+                                                                      .of(
+                                                                    context,
+                                                                  ).showSnackBar(
+                                                                    CustomSnackBar
+                                                                        .createError(
+                                                                      context:
+                                                                          context,
+                                                                      text:
+                                                                          'ブロック解除に失敗しました',
+                                                                    ),
+                                                                  );
+                                                                });
+                                                              },
+                                                              child: const Text(
+                                                                'ブロック解除',
                                                               ),
-                                                            ],
-                                                          );
-                                                        });
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
                                                   },
                                                   style:
                                                       ElevatedButton.styleFrom(
@@ -291,7 +319,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                     style: TextStyle(
                                                       color: Theme.of(context)
                                                           .colorScheme
-                                                          .onBackground,
+                                                          .onSurface,
                                                     ),
                                                   ),
                                                 )
@@ -303,30 +331,40 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                           //フォロー解除する
                                                           await ref
                                                               .read(
-                                                                  profileRepositoryProvider)
-                                                              .unfollow(widget
-                                                                  .profileId)
+                                                                profileRepositoryProvider,
+                                                              )
+                                                              .unfollow(
+                                                                widget
+                                                                    .profileId,
+                                                              )
                                                               .then(
                                                             (value) {
                                                               ref.invalidate(
-                                                                  isFollowingStateProvider(
-                                                                      widget
-                                                                          .profileId));
+                                                                isFollowingStateProvider(
+                                                                  widget
+                                                                      .profileId,
+                                                                ),
+                                                              );
                                                             },
                                                           );
                                                         } else {
                                                           //フォローする
                                                           await ref
                                                               .read(
-                                                                  profileRepositoryProvider)
-                                                              .follow(widget
-                                                                  .profileId)
+                                                                profileRepositoryProvider,
+                                                              )
+                                                              .follow(
+                                                                widget
+                                                                    .profileId,
+                                                              )
                                                               .then(
                                                             (value) {
                                                               ref.invalidate(
-                                                                  isFollowingStateProvider(
-                                                                      widget
-                                                                          .profileId));
+                                                                isFollowingStateProvider(
+                                                                  widget
+                                                                      .profileId,
+                                                                ),
+                                                              );
                                                             },
                                                           );
                                                         }
@@ -336,11 +374,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                         backgroundColor:
                                                             isFollowing
                                                                 ? Theme.of(
-                                                                        context)
+                                                                    context,
+                                                                  )
                                                                     .colorScheme
                                                                     .inversePrimary
                                                                 : Theme.of(
-                                                                        context)
+                                                                    context,
+                                                                  )
                                                                     .colorScheme
                                                                     .onSurface,
                                                         elevation: 4,
@@ -352,20 +392,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                         style: TextStyle(
                                                           color: isFollowing
                                                               ? Theme.of(
-                                                                      context)
+                                                                  context,
+                                                                )
                                                                   .colorScheme
-                                                                  .onBackground
+                                                                  .onSurface
                                                               : Theme.of(
-                                                                      context)
+                                                                  context,
+                                                                )
                                                                   .colorScheme
-                                                                  .background,
+                                                                  .surface,
                                                         ),
                                                       ),
                                                     );
                                                   },
                                                   error: (error, stackTrace) {
                                                     Logger().e(
-                                                        'error: $error stackTrace: $stackTrace');
+                                                      'error: $error stackTrace: $stackTrace',
+                                                    );
                                                     return const SizedBox();
                                                   },
                                                   loading: () =>
@@ -427,7 +470,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               child: child,
                                             ),
                                             transitionDuration: const Duration(
-                                                milliseconds: 300),
+                                              milliseconds: 300,
+                                            ),
                                           ),
                                         );
                                       },
@@ -468,7 +512,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               child: child,
                                             ),
                                             transitionDuration: const Duration(
-                                                milliseconds: 300),
+                                              milliseconds: 300,
+                                            ),
                                           ),
                                         );
                                       },
@@ -497,7 +542,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           data.profile.facultyName != null
                               ? Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
+                                    horizontal: 16,
+                                  ),
                                   child: Text(
                                     data.profile.facultyName!,
                                     style: TextStyle(
@@ -515,7 +561,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           data.profile.departmentName != null
                               ? Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
+                                    horizontal: 16,
+                                  ),
                                   child: Text(
                                     data.profile.departmentName!,
                                     style: TextStyle(
@@ -534,7 +581,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           data.profile.grade != null
                               ? Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
+                                    horizontal: 16,
+                                  ),
                                   child: Text(
                                     data.profile.grade!,
                                     style: TextStyle(
@@ -569,9 +617,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               title: const Text('実績'),
                               leading: const Icon(Icons.emoji_events_outlined),
                               collapsedIconColor:
-                                  Theme.of(context).colorScheme.onBackground,
+                                  Theme.of(context).colorScheme.onSurface,
                               iconColor:
-                                  Theme.of(context).colorScheme.onBackground,
+                                  Theme.of(context).colorScheme.onSurface,
                               children: [
                                 ListTile(
                                   title: const Text('質問'),
@@ -673,7 +721,7 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
     bool overlapsContent,
   ) {
     return Container(
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       child: tabBar,
     );
   }

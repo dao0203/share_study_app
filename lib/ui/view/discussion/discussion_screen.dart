@@ -47,7 +47,10 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
       final newItems = await ref
           .watch(answerRepositoryProvider)
           .getAnswersByQuestionIdWithPagination(
-              widget.questionId, pageKey, _pageSize + pageKey);
+            widget.questionId,
+            pageKey,
+            _pageSize + pageKey,
+          );
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -79,16 +82,19 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
       return answerController.text.isEmpty;
     }
 
-    useEffect(() {
-      answerController.addListener(() {
-        areFieldEmpty.value = checkIfFieldsAreEmpty();
-      });
-      return null;
-    }, [answerController]);
+    useEffect(
+      () {
+        answerController.addListener(() {
+          areFieldEmpty.value = checkIfFieldsAreEmpty();
+        });
+        return null;
+      },
+      [answerController],
+    );
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -150,8 +156,8 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                         animation2,
                                       ) =>
                                           ProfileScreen(
-                                              profileId:
-                                                  questionUiModel.questionerId),
+                                        profileId: questionUiModel.questionerId,
+                                      ),
                                       transitionsBuilder: (
                                         context,
                                         animation1,
@@ -197,13 +203,14 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                   children: [
                                     Text(
                                       limitTextTenChars(
-                                          questionUiModel.questionerNickname),
+                                        questionUiModel.questionerNickname,
+                                      ),
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .onBackground,
+                                            .onSurface,
                                         letterSpacing: 1.5,
                                       ),
                                     ),
@@ -216,7 +223,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                         fontSize: 10,
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .onBackground
+                                            .onSurface
                                             .withOpacity(0.5),
                                         letterSpacing: 1.5,
                                       ),
@@ -228,7 +235,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                         fontSize: 14,
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .onBackground
+                                            .onSurface
                                             .withOpacity(0.7),
                                         letterSpacing: 1.5,
                                       ),
@@ -239,7 +246,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                         fontSize: 16,
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .onBackground,
+                                            .onSurface,
                                         letterSpacing: 2,
                                       ),
                                     ),
@@ -254,11 +261,14 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                                   barrierLabel: 'Label',
                                                   transitionDuration:
                                                       const Duration(
-                                                          milliseconds: 300),
+                                                    milliseconds: 300,
+                                                  ),
                                                   context: context,
-                                                  pageBuilder: (context,
-                                                      animation,
-                                                      secondaryAnimation) {
+                                                  pageBuilder: (
+                                                    context,
+                                                    animation,
+                                                    secondaryAnimation,
+                                                  ) {
                                                     return DefaultTextStyle(
                                                       style: TextStyle(
                                                         color: Theme.of(context)
@@ -279,11 +289,12 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                                                       .questionImageUrl!,
                                                                   fit: BoxFit
                                                                       .cover,
-                                                                  loadingBuilder: (context,
-                                                                          child,
-                                                                          loadingProgress) =>
-                                                                      loadingProgress ==
-                                                                              null
+                                                                  loadingBuilder: (
+                                                                    context,
+                                                                    child,
+                                                                    loadingProgress,
+                                                                  ) =>
+                                                                      loadingProgress == null
                                                                           ? child
                                                                           : const Center(
                                                                               child: CircularProgressIndicator(),
@@ -296,8 +307,10 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                                                 child: SafeArea(
                                                                   child:
                                                                       CloseButton(
-                                                                    color: Theme.of(
-                                                                            context)
+                                                                    color: Theme
+                                                                            .of(
+                                                                      context,
+                                                                    )
                                                                         .colorScheme
                                                                         .onSurface,
                                                                   ),
@@ -318,9 +331,11 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                                   questionUiModel
                                                       .questionImageUrl!,
                                                   fit: BoxFit.cover,
-                                                  loadingBuilder: (context,
-                                                          child,
-                                                          loadingProgress) =>
+                                                  loadingBuilder: (
+                                                    context,
+                                                    child,
+                                                    loadingProgress,
+                                                  ) =>
                                                       loadingProgress == null
                                                           ? child
                                                           : const Center(
@@ -351,14 +366,15 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                           'エラーが発生しました',
                           style: TextStyle(
                             fontSize: 16,
-                            color: Theme.of(context).colorScheme.onBackground,
+                            color: Theme.of(context).colorScheme.onSurface,
                             letterSpacing: 2,
                           ),
                         ),
                         const SizedBox(height: 8),
                         ElevatedButton(
                           onPressed: () => ref.refresh(
-                              questionStateProvider(widget.questionId)),
+                            questionStateProvider(widget.questionId),
+                          ),
                           child: const Text('リトライ'),
                         ),
                       ],
@@ -403,7 +419,8 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                       animation2,
                                     ) =>
                                         ProfileScreen(
-                                            profileId: answer.answerer.id),
+                                      profileId: answer.answerer.id,
+                                    ),
                                     transitionsBuilder: (
                                       context,
                                       animation1,
@@ -426,15 +443,20 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                 ref
                                     .watch(answerRepositoryProvider)
                                     .updateIsBestAnswer(
-                                        answer.id, answer.isBestAnswer)
+                                      answer.id,
+                                      answer.isBestAnswer,
+                                    )
                                     .then((value) {
                                   Navigator.of(
                                     context,
                                     rootNavigator: true,
                                   ).pop();
                                   _pagingController.refresh();
-                                  ref.invalidate(questionUiModelStateProvider(
-                                      widget.questionId));
+                                  ref.invalidate(
+                                    questionUiModelStateProvider(
+                                      widget.questionId,
+                                    ),
+                                  );
                                 }).catchError(
                                   (error, stackTrace) {
                                     Navigator.of(
@@ -460,8 +482,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                               'エラーが発生しました',
                               style: TextStyle(
                                 fontSize: 16,
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 letterSpacing: 2,
                               ),
                             ),
@@ -485,7 +506,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                         'まだコメントはありません',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Theme.of(context).colorScheme.onBackground,
+                          color: Theme.of(context).colorScheme.onSurface,
                           letterSpacing: 2,
                         ),
                       ),
@@ -526,7 +547,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                       },
                       icon: Icon(
                         Icons.image,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                       color: Theme.of(context).colorScheme.surfaceTint,
                     ),
@@ -543,12 +564,12 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.background,
+                                color: Theme.of(context).colorScheme.surface,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.background,
+                                color: Theme.of(context).colorScheme.surface,
                               ),
                             ),
                             filled: true,
@@ -556,7 +577,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                           ),
                           style: TextStyle(
                             fontSize: 16,
-                            color: Theme.of(context).colorScheme.onBackground,
+                            color: Theme.of(context).colorScheme.onSurface,
                             letterSpacing: 1.5,
                           ),
                           keyboardType: TextInputType.multiline,
@@ -624,7 +645,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                             color: areFieldEmpty.value
                                 ? null
                                 : Theme.of(context).colorScheme.surfaceTint,
-                          )
+                          ),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -647,8 +668,7 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                   answerXFile.value = null;
                                 },
                                 icon: const Icon(Icons.close),
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
+                                color: Theme.of(context).colorScheme.onSurface,
                               ),
                             ),
                           ],

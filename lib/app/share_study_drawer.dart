@@ -5,11 +5,11 @@ import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
 import 'package:share_study_app/ui/view/about_app/about_app_ascreen.dart';
+import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
 import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/ui/view/tos/tos_screen.dart';
 import 'package:share_study_app/util/email_sender.dart';
-import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
 
 class ShareStudyDrawer extends HookConsumerWidget {
   const ShareStudyDrawer({super.key});
@@ -283,8 +283,11 @@ class ShareStudyDrawer extends HookConsumerWidget {
                               .catchError(
                             (error) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackBar.createError(
-                                      context: context, text: 'お問い合わせに失敗しました'));
+                                CustomSnackBar.createError(
+                                  context: context,
+                                  text: 'お問い合わせに失敗しました',
+                                ),
+                              );
                               // Navigator.of(context).pop();
                             },
                           ).whenComplete(() {
@@ -299,82 +302,79 @@ class ShareStudyDrawer extends HookConsumerWidget {
             },
           ),
           ListTile(
-              textColor: Theme.of(context).colorScheme.error,
-              leading: Icon(
-                Icons.logout,
-                color: Theme.of(context).colorScheme.error,
-              ),
-              title: const Text('ログアウト'),
-              onTap: () async {
-                // alert dialogを表示
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      // ログアウト時に表示するalert dialog
-                      return AlertDialog(
-                        title: const Text('ログアウト'),
-                        content: const Text('ログアウトしますか？'),
-                        actions: [
-                          TextButton(
-                            child: const Text('キャンセル'),
-                            onPressed: () {
+            textColor: Theme.of(context).colorScheme.error,
+            leading: Icon(
+              Icons.logout,
+              color: Theme.of(context).colorScheme.error,
+            ),
+            title: const Text('ログアウト'),
+            onTap: () async {
+              // alert dialogを表示
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // ログアウト時に表示するalert dialog
+                  return AlertDialog(
+                    title: const Text('ログアウト'),
+                    content: const Text('ログアウトしますか？'),
+                    actions: [
+                      TextButton(
+                        child: const Text('キャンセル'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('ログアウト'),
+                        onPressed: () async {
+                          showGeneralDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) {
+                              return WillPopScope(
+                                onWillPop: () async => false,
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            },
+                          );
+                          ref.watch(userAuthRepositoryProvider).signOut().then(
+                            (value) {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                  builder: (context) => const SignInScreen(),
+                                  maintainState: false,
+                                ),
+                                (_) => false,
+                              );
+                            },
+                          ).catchError(
+                            (error, stackTrace) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackBar.createError(
+                                  context: context,
+                                  text: 'ログアウトに失敗しました',
+                                  icon: Icon(
+                                    Icons.error,
+                                    color:
+                                        Theme.of(context).colorScheme.onError,
+                                  ),
+                                ),
+                              );
+                              Navigator.of(context).pop();
                               Navigator.of(context).pop();
                             },
-                          ),
-                          TextButton(
-                            child: const Text('ログアウト'),
-                            onPressed: () async {
-                              showGeneralDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) {
-                                  return WillPopScope(
-                                    onWillPop: () async => false,
-                                    child: const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  );
-                                },
-                              );
-                              ref
-                                  .watch(userAuthRepositoryProvider)
-                                  .signOut()
-                                  .then(
-                                (value) {
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignInScreen(),
-                                      maintainState: false,
-                                    ),
-                                    (_) => false,
-                                  );
-                                },
-                              ).catchError(
-                                (error, stackTrace) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    CustomSnackBar.createError(
-                                      context: context,
-                                      text: 'ログアウトに失敗しました',
-                                      icon: Icon(
-                                        Icons.error,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onError,
-                                      ),
-                                    ),
-                                  );
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).pop();
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      );
-                    });
-              }),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
         ],
       ),
     );

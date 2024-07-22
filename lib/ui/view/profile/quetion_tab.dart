@@ -52,8 +52,11 @@ class _QuetionTabState extends ConsumerState<QuetionTab>
           )
           .then((value) {
         return value
-            .map((e) => QuestionUiModel.fromQuestionUseCaseModel(
-                questionUseCaseModel: e))
+            .map(
+              (e) => QuestionUiModel.fromQuestionUseCaseModel(
+                questionUseCaseModel: e,
+              ),
+            )
             .toList();
       });
       final isLastPage = newItems.length < _pageSize;

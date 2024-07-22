@@ -26,15 +26,17 @@ class ProfileSettingScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final imagePickerApp = ref.watch(imagePickerAppProvider);
-    final myProfileState = useState(Profile(
-      id: profile.id,
-      nickname: '',
-      universityName: '',
-      departmentName: '',
-      facultyName: '',
-      grade: '',
-      bio: '',
-    ));
+    final myProfileState = useState(
+      Profile(
+        id: profile.id,
+        nickname: '',
+        universityName: '',
+        departmentName: '',
+        facultyName: '',
+        grade: '',
+        bio: '',
+      ),
+    );
     final isEmptyField = useState(
       profile.nickname.isEmpty || profile.universityName.isEmpty,
     );
@@ -66,7 +68,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('編集'),
         actions: [
           TextButton.icon(
@@ -93,7 +95,8 @@ class ProfileSettingScreen extends HookConsumerWidget {
                         isLoading.value = false;
                         ref.invalidate(myProfileStateProvider);
                         ref.invalidate(
-                            activityProfileStateProvider(profile.id));
+                          activityProfileStateProvider(profile.id),
+                        );
                         Navigator.of(context).pop();
                       },
                     ).catchError(
@@ -126,7 +129,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                     : Theme.of(context).colorScheme.onSurface,
               ),
             ),
-          )
+          ),
         ],
       ),
       body: Stack(
@@ -188,7 +191,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                             decoration: BoxDecoration(
                               color: Theme.of(context)
                                   .colorScheme
-                                  .background
+                                  .surface
                                   .withOpacity(0.5),
                               shape: BoxShape.circle,
                             ),
@@ -314,7 +317,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                               style: TextStyle(
                                 color: Theme.of(context)
                                     .colorScheme
-                                    .onBackground
+                                    .onSurface
                                     .withOpacity(0.5),
                               ),
                             ),
@@ -326,9 +329,8 @@ class ProfileSettingScreen extends HookConsumerWidget {
                                 child: Text(
                                   'キャンセル',
                                   style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
                                   ),
                                 ),
                               ),
@@ -337,8 +339,11 @@ class ProfileSettingScreen extends HookConsumerWidget {
                                   showGeneralDialog(
                                     barrierDismissible: false,
                                     context: context,
-                                    pageBuilder: (context, animation,
-                                        secondaryAnimation) {
+                                    pageBuilder: (
+                                      context,
+                                      animation,
+                                      secondaryAnimation,
+                                    ) {
                                       return WillPopScope(
                                         onWillPop: () async => false,
                                         child: const Center(

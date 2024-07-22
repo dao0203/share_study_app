@@ -18,16 +18,18 @@ class ShareStudyApp extends HookConsumerWidget {
       body: SafeArea(
         child: Stack(
           children: TopLevelDestination.values
-              .map((item) => Offstage(
-                    offstage: currentTab.value != item,
-                    child: Navigator(
-                      key: _navigatorKey[item],
-                      onGenerateRoute: (settings) => MaterialPageRoute(
-                        settings: settings,
-                        builder: (context) => item.page,
-                      ),
+              .map(
+                (item) => Offstage(
+                  offstage: currentTab.value != item,
+                  child: Navigator(
+                    key: _navigatorKey[item],
+                    onGenerateRoute: (settings) => MaterialPageRoute(
+                      settings: settings,
+                      builder: (context) => item.page,
                     ),
-                  ))
+                  ),
+                ),
+              )
               .toList(),
         ),
       ),
