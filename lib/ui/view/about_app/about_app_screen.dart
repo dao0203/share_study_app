@@ -1,8 +1,10 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_study_app/util/assets.gen.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:io' show Platform;
 
 class AboutAppScreen extends HookConsumerWidget {
   const AboutAppScreen({super.key});
@@ -10,29 +12,26 @@ class AboutAppScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         scrolledUnderElevation: 0,
         title: const Text('シェアスタについて'),
       ),
       body: Markdown(
         imageBuilder: (uri, title, alt) {
           //これをしないと、画像が表示されない
-          if(Platform.isAndroid) {
+          if (Platform.isAndroid) {
             // Androidのとき
-            return Image.asset(
-              'assets/images/about_sharesta.png',
+            return Assets.images.aboutSharesta.image(
               fit: BoxFit.cover,
             );
-          } else if(Platform.isIOS) {
+          } else if (Platform.isIOS) {
             // iOSのとき
-            return Image.asset(
-              'assets/images/about_sharesta_ios.png',
+            return Assets.images.aboutSharestaIos.image(
               fit: BoxFit.cover,
             );
           } else {
             // その他
-            return Image.asset(
-              'assets/images/about_sharesta.png',
+            return Assets.images.aboutSharesta.image(
               fit: BoxFit.cover,
             );
           }
