@@ -8,6 +8,7 @@ import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
 import 'package:share_study_app/ui/view/onboarding/sign_up/sign_up_screen.dart';
 import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:share_study_app/ui/view/profile/profile_screen.dart';
+import 'package:share_study_app/ui/view/question_post/question_post_screen.dart';
 import 'package:share_study_app/ui/view/search/search_screen.dart';
 import 'package:share_study_app/ui/view/timeline/timeline_screen.dart';
 import 'package:share_study_app/ui/view/tos/tos_screen.dart';
@@ -32,6 +33,10 @@ class AppRouter {
   static const notification = '/notification';
 
   static const profile = '/profile';
+
+  static const questionPost = '/question_post';
+
+  static const discuss = '/discuss';
 
   static final timelineKey = GlobalKey<NavigatorState>();
   static final searchKey = GlobalKey<NavigatorState>();
@@ -78,10 +83,9 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: profile,
-        builder: (context, state) {
-          final profileId = state.extra as String;
-          return ProfileScreen(profileId: profileId);
+        path: questionPost,
+        pageBuilder: (context, state) {
+          return _questionPostTransitionPage();
         },
       ),
       StatefulShellRoute.indexedStack(
@@ -98,6 +102,7 @@ class AppRouter {
                   return const TimelineScreen();
                 },
               ),
+              ...profileRoutes,
             ],
           ),
           StatefulShellBranch(
@@ -109,6 +114,7 @@ class AppRouter {
                   return const SearchScreen();
                 },
               ),
+              ...profileRoutes,
             ],
           ),
           StatefulShellBranch(
@@ -120,10 +126,45 @@ class AppRouter {
                   return const NotificationScreen();
                 },
               ),
+              ...profileRoutes,
             ],
           ),
         ],
       ),
     ],
   );
+
+  static final profileRoutes = <RouteBase>[
+    GoRoute(
+      path: profile,
+      builder: (context, state) {
+        final profileId = state.extra as String;
+        return ProfileScreen(profileId: profileId);
+      },
+    ),
+  ];
+
+  static final discussRoute = GoRoute(path: '/discuss');
+
+  static CustomTransitionPage _questionPostTransitionPage() {
+    return CustomTransitionPage(
+      child: const QuestionPostScreen(),
+      transitionsBuilder: (
+        context,
+        animation,
+        secondaryAnimation,
+        child,
+      ) {
+        const begin = Offset(0, 1);
+        const end = Offset.zero;
+        final tween = Tween(begin: begin, end: end)
+            .chain(CurveTween(curve: Curves.easeInOut));
+        final offsetAnimation = animation.drive(tween);
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
+        );
+      },
+    );
+  }
 }
