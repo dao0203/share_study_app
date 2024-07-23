@@ -86,7 +86,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                     .then(
                   (value) {
                     ref.invalidate(myProfileStateProvider);
-                    context.push(AppRouter.timeline);
+                    context.go(AppRouter.timeline);
                   },
                 ).catchError(
                   (error, stackTrace) {

@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
@@ -95,7 +96,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               );
                                             },
                                           ).whenComplete(
-                                            () => Navigator.of(context).pop(),
+                                            () => context.pop(),
                                           );
                                         } else {
                                           //ブロック

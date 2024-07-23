@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
+import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/app/share_study_drawer.dart';
 import 'package:share_study_app/ui/components/question_item.dart';
 import 'package:share_study_app/ui/components/question_post_fab.dart';
 import 'package:share_study_app/ui/ui_model/question_ui_model.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
-import 'package:share_study_app/ui/view/profile/profile_screen.dart';
-import 'package:share_study_app/ui/view/question_post/question_post_screen.dart';
 import 'package:share_study_app/use_case/di/use_case_providers.dart';
 import 'package:share_study_app/util/pagination_args.dart';
 
@@ -91,25 +91,7 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
       floatingActionButton: QuestionPostFAB(
         label: '質問する',
         onPressed: () {
-          Navigator.push(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  const QuestionPostScreen(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                const begin = Offset(0, 1);
-                const end = Offset.zero;
-                final tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: Curves.easeInOut));
-                final offsetAnimation = animation.drive(tween);
-                return SlideTransition(
-                  position: offsetAnimation,
-                  child: child,
-                );
-              },
-            ),
-          );
+          context.push(AppRouter.questionPost);
         },
       ),
       drawer: const ShareStudyDrawer(),
@@ -148,29 +130,9 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                   child: QuestionItem(
                     questionUiModel: question,
                     onIconPressed: () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          pageBuilder: (
-                            context,
-                            animation1,
-                            animation2,
-                          ) =>
-                              ProfileScreen(profileId: question.questionerId),
-                          transitionsBuilder: (
-                            context,
-                            animation1,
-                            animation2,
-                            child,
-                          ) =>
-                              SlideTransition(
-                            position: Tween<Offset>(
-                              begin: const Offset(1, 0),
-                              end: Offset.zero,
-                            ).animate(animation1),
-                            child: child,
-                          ),
-                          transitionDuration: const Duration(milliseconds: 100),
-                        ),
+                      context.push(
+                        AppRouter.profile,
+                        extra: question.questionerId,
                       );
                     },
                     onPressed: () {
