@@ -72,11 +72,16 @@ class FollowItem extends HookConsumerWidget {
                                           onPressed: () async {
                                             await ref
                                                 .watch(
-                                                    profileRepositoryProvider)
+                                                  profileRepositoryProvider,
+                                                )
                                                 .unfollow(profile.id)
-                                                .then((value) => ref.refresh(
+                                                .then(
+                                                  (value) => ref.refresh(
                                                     isFollowingStateProvider(
-                                                        profile.id)));
+                                                      profile.id,
+                                                    ),
+                                                  ),
+                                                );
                                           },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Theme.of(context)
@@ -89,7 +94,7 @@ class FollowItem extends HookConsumerWidget {
                                             style: TextStyle(
                                               color: Theme.of(context)
                                                   .colorScheme
-                                                  .onBackground,
+                                                  .onSurface,
                                             ),
                                           ),
                                         )
@@ -97,11 +102,16 @@ class FollowItem extends HookConsumerWidget {
                                           onPressed: () async {
                                             await ref
                                                 .watch(
-                                                    profileRepositoryProvider)
+                                                  profileRepositoryProvider,
+                                                )
                                                 .follow(profile.id)
-                                                .then((value) => ref.refresh(
+                                                .then(
+                                                  (value) => ref.refresh(
                                                     isFollowingStateProvider(
-                                                        profile.id)));
+                                                      profile.id,
+                                                    ),
+                                                  ),
+                                                );
                                           },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Theme.of(context)
@@ -113,7 +123,7 @@ class FollowItem extends HookConsumerWidget {
                                             style: TextStyle(
                                               color: Theme.of(context)
                                                   .colorScheme
-                                                  .background,
+                                                  .surface,
                                             ),
                                           ),
                                         ),

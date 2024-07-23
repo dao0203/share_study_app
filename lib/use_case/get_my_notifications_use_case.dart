@@ -20,11 +20,13 @@ class GetMyNotificationsWithPaginationUseCase
     )
         .then((value) {
       return value
-          .map((e) => MyNotification(
-                notification: e,
-                hasQuestion: e.questionId != null,
-                message: createMessage(e),
-              ))
+          .map(
+            (e) => MyNotification(
+              notification: e,
+              hasQuestion: e.questionId != null,
+              message: createMessage(e),
+            ),
+          )
           .toList();
     });
   }

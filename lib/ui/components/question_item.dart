@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
@@ -69,7 +70,7 @@ class QuestionItem extends HookConsumerWidget {
                     fontSize: 12,
                     color: Theme.of(context)
                         .colorScheme
-                        .onBackground
+                        .onSurface
                         .withOpacity(0.5),
                   ),
                 ),
@@ -80,7 +81,7 @@ class QuestionItem extends HookConsumerWidget {
                     fontSize: 16,
                     color: Theme.of(context)
                         .colorScheme
-                        .onBackground
+                        .onSurface
                         .withOpacity(0.5),
                   ),
                 ),
@@ -123,12 +124,15 @@ class QuestionItem extends HookConsumerWidget {
                                         ref
                                             .watch(questionRepositoryProvider)
                                             .delete(
-                                                questionId: questionUiModel.id)
+                                              questionId: questionUiModel.id,
+                                            )
                                             .then((value) {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            content: Text('質問を削除しました'),
-                                          ));
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text('質問を削除しました'),
+                                            ),
+                                          );
                                         }).catchError((error) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -144,7 +148,7 @@ class QuestionItem extends HookConsumerWidget {
                                             ),
                                           );
                                         }).whenComplete(() {
-                                          Navigator.of(context).pop();
+                                          context.pop();
                                         });
                                       },
                                     )
@@ -177,13 +181,16 @@ class QuestionItem extends HookConsumerWidget {
                                         ref
                                             .watch(profileRepositoryProvider)
                                             .block(
-                                                profileId: questionUiModel
-                                                    .questionerId)
+                                              profileId:
+                                                  questionUiModel.questionerId,
+                                            )
                                             .then((value) {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            content: Text('ユーザーをブロックしました'),
-                                          ));
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text('ユーザーをブロックしました'),
+                                            ),
+                                          );
                                         }).catchError((error) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -199,7 +206,7 @@ class QuestionItem extends HookConsumerWidget {
                                             ),
                                           );
                                         }).whenComplete(() {
-                                          Navigator.of(context).pop();
+                                          context.pop();
                                         });
                                       },
                                     ),
@@ -214,12 +221,15 @@ class QuestionItem extends HookConsumerWidget {
                                         ref
                                             .watch(questionRepositoryProvider)
                                             .hide(
-                                                questionId: questionUiModel.id)
+                                              questionId: questionUiModel.id,
+                                            )
                                             .then((value) {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            content: Text('質問を非表示にしました'),
-                                          ));
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text('質問を非表示にしました'),
+                                            ),
+                                          );
                                         }).catchError((error) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -235,7 +245,7 @@ class QuestionItem extends HookConsumerWidget {
                                             ),
                                           );
                                         }).whenComplete(() {
-                                          Navigator.of(context).pop();
+                                          context.pop();
                                         });
                                       },
                                     ),

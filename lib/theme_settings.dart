@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_study_app/auth_gate.dart';
+import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/ui/theme/colors.dart';
 
 class ThemeSettings extends HookConsumerWidget {
@@ -17,7 +17,7 @@ class ThemeSettings extends HookConsumerWidget {
       ),
     );
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Share_study_app',
       theme: ThemeData(
@@ -29,7 +29,7 @@ class ThemeSettings extends HookConsumerWidget {
         colorScheme: darkColorScheme,
       ),
       themeMode: ThemeMode.system,
-      home: const AuthGate(),
+      routerConfig: AppRouter.router,
     );
   }
 }

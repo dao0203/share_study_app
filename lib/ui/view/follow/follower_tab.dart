@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/view/follow/components/follow_item.dart';
-import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 
 class FollowerTab extends StatefulHookConsumerWidget {
   const FollowerTab({super.key, required this.profileId});
@@ -30,10 +31,12 @@ class _FollowerTabState extends ConsumerState<FollowerTab>
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await ref
-          .read(profileRepositoryProvider)
-          .getFollowersWithPagination(
-              widget.profileId, pageKey, _pageSize + pageKey);
+      final newItems =
+          await ref.read(profileRepositoryProvider).getFollowersWithPagination(
+                widget.profileId,
+                pageKey,
+                _pageSize + pageKey,
+              );
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -60,29 +63,9 @@ class _FollowerTabState extends ConsumerState<FollowerTab>
           itemBuilder: (context, profile, index) => FollowItem(
             profile: profile,
             onPressed: () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                  ) =>
-                      ProfileScreen(profileId: profile.id),
-                  transitionsBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                    child,
-                  ) =>
-                      SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation1),
-                    child: child,
-                  ),
-                  transitionDuration: const Duration(milliseconds: 300),
-                ),
+              context.push(
+                AppRouter.profile,
+                extra: profile.id,
               );
             },
           ),

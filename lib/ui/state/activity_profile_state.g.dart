@@ -34,7 +34,7 @@ abstract class _$ActivityProfileState
     extends BuildlessAutoDisposeAsyncNotifier<ActivityProfile> {
   late final String param;
 
-  Future<ActivityProfile> build(
+  FutureOr<ActivityProfile> build(
     String param,
   );
 }
@@ -114,7 +114,7 @@ class ActivityProfileStateProvider extends AutoDisposeAsyncNotifierProviderImpl<
   final String param;
 
   @override
-  Future<ActivityProfile> runNotifierBuild(
+  FutureOr<ActivityProfile> runNotifierBuild(
     covariant ActivityProfileState notifier,
   ) {
     return notifier.build(

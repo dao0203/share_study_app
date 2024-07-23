@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
+import 'package:share_study_app/util/assets.gen.dart';
 import 'package:share_study_app/util/date_formatter.dart';
 
 class AnswerItem extends HookConsumerWidget {
@@ -31,41 +32,21 @@ class AnswerItem extends HookConsumerWidget {
       onLongPress: () {
         if (answer.answerer.id == questionerId) {
           Logger().i(
-              'answer.answerer.id: ${answer.answerer.id} questionerId: $questionerId');
+            'answer.answerer.id: ${answer.answerer.id} questionerId: $questionerId',
+          );
           return;
         }
         if (isResolved && !answer.isBestAnswer) {
           Logger().i(
-              'isResolved: $isResolved answer.isBestAnswer: ${answer.isBestAnswer}');
+            'isResolved: $isResolved answer.isBestAnswer: ${answer.isBestAnswer}',
+          );
           return;
         }
         if (!isMyQuestion) {
           Logger().i('isMyQuestion: $isMyQuestion');
           return;
         }
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text(
-                answer.isBestAnswer ? 'ベストアンサーを外しますか？' : 'ベストアンサーにしますか？',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () async {
-                    onLongPress();
-                  },
-                  child: const Text('はい'),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('いいえ'),
-                ),
-              ],
-              elevation: 0,
-            );
-          },
-        );
+        onLongPress();
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +95,7 @@ class AnswerItem extends HookConsumerWidget {
                     fontSize: 12,
                     color: Theme.of(context)
                         .colorScheme
-                        .onBackground
+                        .onSurface
                         .withOpacity(0.7),
                   ),
                 ),
@@ -192,17 +173,17 @@ class AnswerItem extends HookConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              SvgPicture.asset(
-                answer.isBestAnswer
-                    ? 'assets/icons/crown.svg'
-                    : 'assets/icons/crown-outlined.svg',
-                colorFilter: ColorFilter.mode(
-                  answer.isBestAnswer
-                      ? Colors.yellow
-                      : Theme.of(context).colorScheme.onSurface,
-                  BlendMode.srcIn,
-                ),
-              ),
+              answer.isBestAnswer
+                  ? Assets.icons.crown.svg(
+                      theme: const SvgTheme(
+                        currentColor: Colors.yellow,
+                      ),
+                    )
+                  : Assets.icons.crownOutlined.svg(
+                      theme: SvgTheme(
+                        currentColor: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
             ],
           ),
         ],

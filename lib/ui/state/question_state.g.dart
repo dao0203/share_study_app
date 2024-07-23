@@ -33,7 +33,7 @@ abstract class _$QuestionState
     extends BuildlessAutoDisposeAsyncNotifier<Question> {
   late final String questionId;
 
-  Future<Question> build(
+  FutureOr<Question> build(
     String questionId,
   );
 }
@@ -113,7 +113,7 @@ class QuestionStateProvider
   final String questionId;
 
   @override
-  Future<Question> runNotifierBuild(
+  FutureOr<Question> runNotifierBuild(
     covariant QuestionState notifier,
   ) {
     return notifier.build(

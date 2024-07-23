@@ -8,9 +8,15 @@ abstract interface class ProfileRepository {
   Future<bool> isBlocking(String profileId);
   Future<void> updateProfile(Profile profile, String? filePath);
   Future<List<Profile>> getFollowersWithPagination(
-      String profileId, int start, int end);
+    String profileId,
+    int start,
+    int end,
+  );
   Future<List<Profile>> getFollowingWithpagination(
-      String profileId, int start, int end);
+    String profileId,
+    int start,
+    int end,
+  );
   Future<void> block({required String profileId});
   Future<void> unblock(String profileId);
 }

@@ -4,7 +4,11 @@ abstract interface class QuestionRepository {
   Future<List<Question>> getAll();
   Future<Question> get(String id);
   Future<void> add(
-      String title, String content, String subjectName, String? path);
+    String title,
+    String content,
+    String subjectName,
+    String? path,
+  );
   Future<void> delete({required String questionId});
   Future<void> reportQuestion({
     required String questionId,
@@ -24,9 +28,15 @@ abstract interface class QuestionRepository {
     required String keyword,
   });
   Future<List<Question>> getWithPaginationAndProfileId(
-      int start, int end, String userId);
+    int start,
+    int end,
+    String userId,
+  );
   Future<List<Question>> getResolvedWithPaginationAndProfileId(
-      String profileId, int start, int end);
+    String profileId,
+    int start,
+    int end,
+  );
   Future<void> bookmark(String id);
   Future<void> unbookmark(String id);
 }

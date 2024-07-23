@@ -16,19 +16,20 @@ class CustomSnackBar {
           progressIndicator ?? const SizedBox(),
           icon ?? const SizedBox(),
           const SizedBox(width: 24),
-          Text(text,
-              style:
-                  TextStyle(color: Theme.of(context).colorScheme.onBackground)),
+          Text(
+            text,
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          ),
         ],
       ),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
       showCloseIcon: true,
       elevation: 4.0,
-      closeIconColor: Theme.of(context).colorScheme.onBackground,
+      closeIconColor: Theme.of(context).colorScheme.onSurface,
       clipBehavior: Clip.hardEdge,
       dismissDirection: DismissDirection.horizontal,
     );
@@ -54,14 +55,14 @@ class CustomSnackBar {
           ),
         ],
       ),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
       showCloseIcon: true,
       elevation: 4.0,
-      closeIconColor: Theme.of(context).colorScheme.onBackground,
+      closeIconColor: Theme.of(context).colorScheme.onSurface,
       clipBehavior: Clip.hardEdge,
       dismissDirection: DismissDirection.horizontal,
     );

@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
-import 'package:share_study_app/util/image_picker_app.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
+import 'package:share_study_app/util/image_picker_app.dart';
 
 class QuestionPostScreen extends HookConsumerWidget {
   const QuestionPostScreen({super.key});
@@ -29,23 +30,26 @@ class QuestionPostScreen extends HookConsumerWidget {
           contentController.text.isEmpty;
     }
 
-    useEffect(() {
-      Logger().d('QuestionPostScreen useEffect');
-      titleController.addListener(() {
-        areFieldEmpty.value = checkIfFieldsAreEmpty();
-      });
-      subjectController.addListener(() {
-        areFieldEmpty.value = checkIfFieldsAreEmpty();
-      });
-      contentController.addListener(() {
-        areFieldEmpty.value = checkIfFieldsAreEmpty();
-      });
-      return null;
-    }, [titleController, subjectController, contentController]);
+    useEffect(
+      () {
+        Logger().d('QuestionPostScreen useEffect');
+        titleController.addListener(() {
+          areFieldEmpty.value = checkIfFieldsAreEmpty();
+        });
+        subjectController.addListener(() {
+          areFieldEmpty.value = checkIfFieldsAreEmpty();
+        });
+        contentController.addListener(() {
+          areFieldEmpty.value = checkIfFieldsAreEmpty();
+        });
+        return null;
+      },
+      [titleController, subjectController, contentController],
+    );
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         actions: [
           ElevatedButton.icon(
             onPressed: areFieldEmpty.value
@@ -77,46 +81,48 @@ class QuestionPostScreen extends HookConsumerWidget {
                     )
                         .then(
                       (value) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(CustomSnackBar.create(
-                          context: context,
-                          text: '質問が投稿できました！',
-                          icon: const Icon(Icons.check, color: Colors.green),
-                        ));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          CustomSnackBar.create(
+                            context: context,
+                            text: '質問が投稿できました！',
+                            icon: const Icon(Icons.check, color: Colors.green),
+                          ),
+                        );
                         //デバッグ用のメッセージを追加
                         Logger().d('質問の投稿が成功したよ！');
-                        Navigator.pop(context);
+                        context.pop();
                       },
                     ).catchError((error) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                          CustomSnackBar.createError(
-                              context: context,
-                              text: 'エラーが発生しました',
-                              icon:
-                                  const Icon(Icons.error, color: Colors.red)));
+                        CustomSnackBar.createError(
+                          context: context,
+                          text: 'エラーが発生しました',
+                          icon: const Icon(Icons.error, color: Colors.red),
+                        ),
+                      );
                     });
                   },
             style: ElevatedButton.styleFrom(
               backgroundColor: areFieldEmpty.value
                   ? null
-                  : Theme.of(context).colorScheme.background,
+                  : Theme.of(context).colorScheme.surface,
             ),
             icon: Icon(
               Icons.send,
               color: areFieldEmpty.value
                   ? null
-                  : Theme.of(context).colorScheme.onBackground,
+                  : Theme.of(context).colorScheme.onSurface,
             ),
             label: Text(
               '投稿',
               style: TextStyle(
                 color: areFieldEmpty.value
                     ? null
-                    : Theme.of(context).colorScheme.onBackground,
+                    : Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ),
-          const SizedBox(width: 10)
+          const SizedBox(width: 10),
         ],
       ), //タイトルと科目と本文の入力
       body: Padding(
@@ -185,7 +191,7 @@ class QuestionPostScreen extends HookConsumerWidget {
                       ),
                     ),
                 ],
-              )
+              ),
             ],
           ),
         ),

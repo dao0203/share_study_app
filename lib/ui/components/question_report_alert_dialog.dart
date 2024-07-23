@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
@@ -12,12 +13,15 @@ class QuestionReportAlertDialog extends HookConsumerWidget {
     final reasonController = useTextEditingController();
     final wantToHideQuestion = useState(false);
     final isReasonEmpty = useState(true);
-    useEffect(() {
-      reasonController.addListener(() {
-        isReasonEmpty.value = reasonController.text.isEmpty;
-      });
-      return null;
-    }, [reasonController.text]);
+    useEffect(
+      () {
+        reasonController.addListener(() {
+          isReasonEmpty.value = reasonController.text.isEmpty;
+        });
+        return null;
+      },
+      [reasonController.text],
+    );
     return AlertDialog(
       title: const Text('質問を通報しますか？'),
       content: SizedBox(
@@ -46,7 +50,7 @@ class QuestionReportAlertDialog extends HookConsumerWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
           child: const Text('キャンセル'),
         ),
         TextButton(
@@ -67,7 +71,7 @@ class QuestionReportAlertDialog extends HookConsumerWidget {
                             text: '通報しました',
                             icon: Icon(
                               Icons.check_circle_outline,
-                              color: Theme.of(context).colorScheme.onBackground,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ),
@@ -84,7 +88,7 @@ class QuestionReportAlertDialog extends HookConsumerWidget {
                           ),
                         ),
                       )
-                      .whenComplete(() => Navigator.of(context).pop());
+                      .whenComplete(() => context.pop());
                 },
           child: const Text('通報する'),
         ),

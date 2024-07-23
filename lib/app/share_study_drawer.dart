@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
-import 'package:share_study_app/ui/view/about_app/about_app_ascreen.dart';
-import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
-import 'package:share_study_app/ui/view/profile/profile_screen.dart';
-import 'package:share_study_app/ui/view/tos/tos_screen.dart';
 import 'package:share_study_app/util/email_sender.dart';
-import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
 
 class ShareStudyDrawer extends HookConsumerWidget {
   const ShareStudyDrawer({super.key});
@@ -29,29 +26,9 @@ class ShareStudyDrawer extends HookConsumerWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(
-                      PageRouteBuilder(
-                        pageBuilder: (
-                          context,
-                          animation1,
-                          animation2,
-                        ) =>
-                            ProfileScreen(profileId: myProfileState!.id),
-                        transitionsBuilder: (
-                          context,
-                          animation1,
-                          animation2,
-                          child,
-                        ) =>
-                            SlideTransition(
-                          position: Tween<Offset>(
-                            begin: const Offset(1, 0),
-                            end: Offset.zero,
-                          ).animate(animation1),
-                          child: child,
-                        ),
-                        transitionDuration: const Duration(milliseconds: 200),
-                      ),
+                    context.push(
+                      AppRouter.profile,
+                      extra: myProfileState!.id,
                     );
                   },
                   child: myProfileState?.imageUrl != null
@@ -137,29 +114,9 @@ class ShareStudyDrawer extends HookConsumerWidget {
             title: const Text('プロフィール'),
             onTap: () {
               if (myProfileState == null) return;
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                  ) =>
-                      ProfileScreen(profileId: myProfileState.id),
-                  transitionsBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                    child,
-                  ) =>
-                      SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation1),
-                    child: child,
-                  ),
-                  transitionDuration: const Duration(milliseconds: 200),
-                ),
+              context.push(
+                AppRouter.profile,
+                extra: myProfileState.id,
               );
             },
           ),
@@ -167,90 +124,21 @@ class ShareStudyDrawer extends HookConsumerWidget {
             leading: const Icon(Icons.info_outline),
             title: const Text('シェアスタについて'),
             onTap: () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                  ) =>
-                      const AboutAppScreen(),
-                  transitionsBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                    child,
-                  ) =>
-                      SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation1),
-                    child: child,
-                  ),
-                  transitionDuration: const Duration(milliseconds: 300),
-                ),
-              );
+              context.push(AppRouter.aboutApp);
             },
           ),
           ListTile(
             leading: const Icon(Icons.description_outlined),
             title: const Text('利用規約'),
             onTap: () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                  ) =>
-                      const TosScreen(),
-                  transitionsBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                    child,
-                  ) =>
-                      SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation1),
-                    child: child,
-                  ),
-                  transitionDuration: const Duration(milliseconds: 300),
-                ),
-              );
+              context.push(AppRouter.tos);
             },
           ),
           ListTile(
             leading: const Icon(Icons.privacy_tip_outlined),
             title: const Text('プライバシーポリシー'),
             onTap: () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                  ) =>
-                      const PrivacyPolicyScreen(),
-                  transitionsBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                    child,
-                  ) =>
-                      SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation1),
-                    child: child,
-                  ),
-                  transitionDuration: const Duration(milliseconds: 300),
-                ),
-              );
+              context.push(AppRouter.privacyPolicy);
             },
           ),
           ListTile(
@@ -271,7 +159,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                       TextButton(
                         child: const Text('キャンセル'),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          context.pop();
                         },
                       ),
                       TextButton(
@@ -283,12 +171,14 @@ class ShareStudyDrawer extends HookConsumerWidget {
                               .catchError(
                             (error) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackBar.createError(
-                                      context: context, text: 'お問い合わせに失敗しました'));
-                              // Navigator.of(context).pop();
+                                CustomSnackBar.createError(
+                                  context: context,
+                                  text: 'お問い合わせに失敗しました',
+                                ),
+                              );
                             },
                           ).whenComplete(() {
-                            Navigator.of(context).pop();
+                            context.pop();
                           });
                         },
                       ),
@@ -299,82 +189,74 @@ class ShareStudyDrawer extends HookConsumerWidget {
             },
           ),
           ListTile(
-              textColor: Theme.of(context).colorScheme.error,
-              leading: Icon(
-                Icons.logout,
-                color: Theme.of(context).colorScheme.error,
-              ),
-              title: const Text('ログアウト'),
-              onTap: () async {
-                // alert dialogを表示
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      // ログアウト時に表示するalert dialog
-                      return AlertDialog(
-                        title: const Text('ログアウト'),
-                        content: const Text('ログアウトしますか？'),
-                        actions: [
-                          TextButton(
-                            child: const Text('キャンセル'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          TextButton(
-                            child: const Text('ログアウト'),
-                            onPressed: () async {
-                              showGeneralDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) {
-                                  return WillPopScope(
-                                    onWillPop: () async => false,
-                                    child: const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  );
-                                },
-                              );
-                              ref
-                                  .watch(userAuthRepositoryProvider)
-                                  .signOut()
-                                  .then(
-                                (value) {
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignInScreen(),
-                                      maintainState: false,
-                                    ),
-                                    (_) => false,
-                                  );
-                                },
-                              ).catchError(
-                                (error, stackTrace) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    CustomSnackBar.createError(
-                                      context: context,
-                                      text: 'ログアウトに失敗しました',
-                                      icon: Icon(
-                                        Icons.error,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onError,
-                                      ),
-                                    ),
-                                  );
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).pop();
-                                },
+            textColor: Theme.of(context).colorScheme.error,
+            leading: Icon(
+              Icons.logout,
+              color: Theme.of(context).colorScheme.error,
+            ),
+            title: const Text('ログアウト'),
+            onTap: () async {
+              // alert dialogを表示
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // ログアウト時に表示するalert dialog
+                  return AlertDialog(
+                    title: const Text('ログアウト'),
+                    content: const Text('ログアウトしますか？'),
+                    actions: [
+                      TextButton(
+                        child: const Text('キャンセル'),
+                        onPressed: () {
+                          context.pop();
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('ログアウト'),
+                        onPressed: () async {
+                          showGeneralDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) {
+                              return WillPopScope(
+                                onWillPop: () async => false,
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                               );
                             },
-                          ),
-                        ],
-                      );
-                    });
-              }),
+                          );
+                          ref.watch(userAuthRepositoryProvider).signOut().then(
+                            (value) {
+                              context.go(AppRouter.signIn);
+                            },
+                          ).catchError(
+                            (error, stackTrace) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackBar.createError(
+                                  context: context,
+                                  text: 'ログアウトに失敗しました',
+                                  icon: Icon(
+                                    Icons.error,
+                                    color:
+                                        Theme.of(context).colorScheme.onError,
+                                  ),
+                                ),
+                              );
+                              context
+                                ..pop()
+                                ..pop();
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
         ],
       ),
     );

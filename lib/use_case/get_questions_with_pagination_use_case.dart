@@ -9,10 +9,13 @@ class GetQuestionsWithPaginationUseCase
   final QuestionRepository _questionRepository;
   final UserAuthRepository _userAuthRepository;
   GetQuestionsWithPaginationUseCase(
-      this._questionRepository, this._userAuthRepository);
+    this._questionRepository,
+    this._userAuthRepository,
+  );
   @override
-  Future<List<QuestionUseCaseModel>> call(
-      {required PaginationArgs param}) async {
+  Future<List<QuestionUseCaseModel>> call({
+    required PaginationArgs param,
+  }) async {
     final user = _userAuthRepository.getCurrentUser();
     return await _questionRepository
         .getWithPagination(

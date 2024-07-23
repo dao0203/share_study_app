@@ -25,6 +25,6 @@ class SetUpSplashUseCase extends UseCase<void, Future<SplashTo>> {
       return SplashTo.profileScreen;
     }
 
-    return SplashTo.homeScreen;
+    return SplashTo.timelineScreen;
   }
 }

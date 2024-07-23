@@ -23,10 +23,12 @@ class GetQuestionsWithPaginationAndProfileIdUseCase extends UseCase<
         .getWithPaginationAndProfileId(param.start, param.end, param.profileId)
         .then((value) {
       return value
-          .map((e) => QuestionUseCaseModel(
-                question: e,
-                isMyQuestion: param.profileId == (user?.id ?? ''),
-              ))
+          .map(
+            (e) => QuestionUseCaseModel(
+              question: e,
+              isMyQuestion: param.profileId == (user?.id ?? ''),
+            ),
+          )
           .toList();
     });
   }

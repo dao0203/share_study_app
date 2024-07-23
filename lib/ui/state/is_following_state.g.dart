@@ -33,7 +33,7 @@ abstract class _$IsFollowingState
     extends BuildlessAutoDisposeAsyncNotifier<bool> {
   late final String profileId;
 
-  Future<bool> build(
+  FutureOr<bool> build(
     String profileId,
   );
 }
@@ -113,7 +113,7 @@ class IsFollowingStateProvider
   final String profileId;
 
   @override
-  Future<bool> runNotifierBuild(
+  FutureOr<bool> runNotifierBuild(
     covariant IsFollowingState notifier,
   ) {
     return notifier.build(

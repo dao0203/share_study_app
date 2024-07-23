@@ -14,15 +14,17 @@ class _PrivacyPolicyWebPageState extends State<PrivacyPolicyWebPage> {
     final controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(Theme.of(context).scaffoldBackgroundColor)
-      ..setNavigationDelegate(NavigationDelegate(
-        onNavigationRequest: (NavigationRequest request) {
-          if (request.url
-              .startsWith('https://yuyudevelop0203.wixsite.com/my-site')) {
-            return NavigationDecision.prevent;
-          }
-          return NavigationDecision.navigate;
-        },
-      ))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url
+                .startsWith('https://yuyudevelop0203.wixsite.com/my-site')) {
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
       ..loadRequest(Uri.parse('https://yuyudevelop0203.wixsite.com/my-site'));
 
     return Scaffold(

@@ -1,15 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_study_app/auth_gate.dart';
+import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
-import 'package:share_study_app/ui/state/splash_state.dart';
-import 'package:share_study_app/ui/view/onboarding/sign_up/sign_up_screen.dart';
-import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
-import 'package:share_study_app/ui/view/tos/tos_screen.dart';
 
 class SignInScreen extends HookConsumerWidget {
   const SignInScreen({super.key});
@@ -22,7 +19,7 @@ class SignInScreen extends HookConsumerWidget {
     final passwordController = useTextEditingController();
     final passwordVisible = useState(false);
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
@@ -53,7 +50,8 @@ class SignInScreen extends HookConsumerWidget {
                         labelText: 'メールアドレス',
                         //テキストのラベルの色を変更
                         labelStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground),
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -81,7 +79,8 @@ class SignInScreen extends HookConsumerWidget {
                           },
                         ),
                         labelStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground),
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                         labelText: 'パスワード',
                       ),
                       maxLength: 20,
@@ -98,83 +97,72 @@ class SignInScreen extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 30),
                     ElevatedButton.icon(
-                        onPressed: () async {
-                          if (formKey.currentState!.validate()) {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (context) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                });
-                            await userAuthRepository
-                                .signIn(
-                              emailController.text,
-                              passwordController.text,
-                            )
-                                .then((value) {
-                              // ignore: unused_result
-                              ref.refresh(splashStateProvider);
-                              // ignore: unused_result
-                              ref.refresh(myProfileStateProvider);
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (context) => const AuthGate(),
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                          );
+                          await userAuthRepository
+                              .signIn(
+                            emailController.text,
+                            passwordController.text,
+                          )
+                              .then((value) {
+                            ref.invalidate(myProfileStateProvider);
+                            context.pushReplacement(AppRouter.timeline);
+                          }).catchError((e, stacktrace) {
+                            if (e.message == 'invalid_email_or_password') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackBar.createError(
+                                  context: context,
+                                  text: 'メールアドレスまたはパスワードが間違っています',
+                                  icon: Icon(
+                                    Icons.error_outline,
+                                    color: Theme.of(context).colorScheme.error,
+                                  ),
                                 ),
                               );
-                            }).catchError((e, stacktrace) {
-                              if (e.message == 'invalid_email_or_password') {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackBar.createError(
-                                    context: context,
-                                    text: 'メールアドレスまたはパスワードが間違っています',
-                                    icon: Icon(
-                                      Icons.error_outline,
-                                      color:
-                                          Theme.of(context).colorScheme.error,
-                                    ),
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackBar.createError(
+                                  context: context,
+                                  text: 'サインインに失敗しました',
+                                  icon: Icon(
+                                    Icons.error_outline,
+                                    color: Theme.of(context).colorScheme.error,
                                   ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackBar.createError(
-                                    context: context,
-                                    text: 'サインインに失敗しました',
-                                    icon: Icon(
-                                      Icons.error_outline,
-                                      color:
-                                          Theme.of(context).colorScheme.error,
-                                    ),
-                                  ),
-                                );
-                              }
-                              Navigator.of(context).pop();
-                            });
-                          }
-                        },
-                        icon: Icon(
-                          Icons.login,
+                                ),
+                              );
+                            }
+                            context.pop();
+                          });
+                        }
+                      },
+                      icon: Icon(
+                        Icons.login,
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                      label: Text(
+                        'サインイン',
+                        style: TextStyle(
                           color: Theme.of(context).colorScheme.onSecondary,
                         ),
-                        label: Text(
-                          'サインイン',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSecondary,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.secondary,
-                        )),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
                     const SizedBox(height: 20),
                     TextButton.icon(
                       onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const SignUpScreen(),
-                          ),
-                        );
+                        context.push(AppRouter.signUp);
                       },
                       icon: Icon(
                         Icons.person_add,
@@ -204,12 +192,7 @@ class SignInScreen extends HookConsumerWidget {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const PrivacyPolicyScreen(),
-                                  ),
-                                );
+                                context.push(AppRouter.privacyPolicy);
                               },
                           ),
                           const TextSpan(text: 'および'),
@@ -220,11 +203,7 @@ class SignInScreen extends HookConsumerWidget {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const TosScreen(),
-                                  ),
-                                );
+                                context.push(AppRouter.tos);
                               },
                           ),
                           const TextSpan(text: 'に同意するものとします。'),

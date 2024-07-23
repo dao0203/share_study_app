@@ -8,20 +8,26 @@ class GetResolvedQuestionsWithPaginationAndProfileIdUseCase extends UseCase<
   final QuestionRepository _questionRepository;
 
   GetResolvedQuestionsWithPaginationAndProfileIdUseCase(
-      this._questionRepository);
+    this._questionRepository,
+  );
   @override
   Future<List<QuestionUseCaseModel>> call({
     required PaginationByProfileIdArgs param,
   }) async {
     return _questionRepository
         .getResolvedWithPaginationAndProfileId(
-            param.profileId, param.start, param.end)
+      param.profileId,
+      param.start,
+      param.end,
+    )
         .then((value) {
       return value
-          .map((e) => QuestionUseCaseModel(
-                question: e,
-                isMyQuestion: e.questioner.id == param.profileId,
-              ))
+          .map(
+            (e) => QuestionUseCaseModel(
+              question: e,
+              isMyQuestion: e.questioner.id == param.profileId,
+            ),
+          )
           .toList();
     });
   }
