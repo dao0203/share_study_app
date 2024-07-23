@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
-import 'package:share_study_app/app/share_study_app.dart';
+import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
@@ -42,7 +43,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
     final universityNameController = useTextEditingController();
     final facultyNameController = useTextEditingController();
     final departmentNameController = useTextEditingController();
-    final gradeControler = useTextEditingController();
+    final gradeController = useTextEditingController();
     final bioController = useTextEditingController();
     final xFile = useState<XFile?>(null);
     Logger().d('RegistrationProfileScreen');
@@ -65,7 +66,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                   universityName: universityNameController.text,
                   facultyName: facultyNameController.text,
                   departmentName: departmentNameController.text,
-                  grade: gradeControler.text,
+                  grade: gradeController.text,
                   bio: bioController.text,
                 );
                 showGeneralDialog(
@@ -85,18 +86,12 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                     .then(
                   (value) {
                     ref.invalidate(myProfileStateProvider);
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => const ShareStudyApp(),
-                        maintainState: false,
-                      ),
-                      (route) => false,
-                    );
+                    context.push(AppRouter.timeline);
                   },
                 ).catchError(
                   (error, stackTrace) {
                     Logger().e({error, stackTrace});
-                    Navigator.pop(context);
+                    context.pop();
                     ScaffoldMessenger.of(context).showSnackBar(
                       CustomSnackBar.createError(
                         context: context,
@@ -137,7 +132,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                 universityNameController.text = myProfile.universityName;
                 facultyNameController.text = myProfile.facultyName ?? '';
                 departmentNameController.text = myProfile.departmentName ?? '';
-                gradeControler.text = myProfile.grade ?? '';
+                gradeController.text = myProfile.grade ?? '';
                 bioController.text = myProfile.bio ?? '';
 
                 return SingleChildScrollView(
@@ -289,7 +284,7 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                         },
                       ),
                       TextFormField(
-                        controller: gradeControler,
+                        controller: gradeController,
                         decoration: const InputDecoration(
                           labelText: '学年(任意)',
                           prefixIcon: Icon(Icons.school_outlined),
@@ -315,9 +310,9 @@ class RegistrationProfileScreen extends HookConsumerWidget {
                                           return ListTile(
                                             title: Text(gradeList[index]),
                                             onTap: () {
-                                              gradeControler.text =
+                                              gradeController.text =
                                                   gradeList[index];
-                                              Navigator.pop(context);
+                                              context.pop();
                                             },
                                           );
                                         },
