@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/activity_profile_state.dart';
 import 'package:share_study_app/ui/state/is_blocking_state.dart';
 import 'package:share_study_app/ui/state/is_following_state.dart';
-import 'package:share_study_app/ui/view/follow/follow_screen.dart';
-import 'package:share_study_app/ui/view/profile/profile_setting_screen.dart';
 import 'package:share_study_app/ui/view/profile/quetion_tab.dart';
 import 'package:share_study_app/ui/view/profile/resolved_question_tab.dart';
 
@@ -123,7 +122,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               ),
                                             );
                                           }).whenComplete(
-                                            () => Navigator.of(context).pop(),
+                                            () => context.pop(),
                                           );
                                         }
                                       },
@@ -193,15 +192,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 data.isMyProfile
                                     ? ElevatedButton(
                                         onPressed: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (_) {
-                                                return ProfileSettingScreen(
-                                                  profile: data.profile,
-                                                );
-                                              },
-                                              fullscreenDialog: true,
-                                            ),
+                                          context.push(
+                                            AppRouter.profileSetting,
+                                            extra: data.profile,
                                           );
                                         },
                                         style: ElevatedButton.styleFrom(
@@ -251,9 +244,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                           actions: [
                                                             TextButton(
                                                               onPressed: () {
-                                                                Navigator.of(
-                                                                  context,
-                                                                ).pop();
+                                                                context.pop();
                                                               },
                                                               child: const Text(
                                                                 'キャンセル',
@@ -262,9 +253,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                             TextButton(
                                                               onPressed:
                                                                   () async {
-                                                                Navigator.of(
-                                                                  context,
-                                                                ).pop();
+                                                                context.pop();
                                                                 await ref
                                                                     .read(
                                                                       profileRepositoryProvider,
@@ -446,34 +435,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     text: '  フォロー',
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Navigator.of(context).push(
-                                          PageRouteBuilder(
-                                            pageBuilder: (
-                                              context,
-                                              animation1,
-                                              animation2,
-                                            ) =>
-                                                FollowScreen(
-                                              profileId: data.profile.id,
-                                              initialIndex: 0,
-                                            ),
-                                            transitionsBuilder: (
-                                              context,
-                                              animation1,
-                                              animation2,
-                                              child,
-                                            ) =>
-                                                SlideTransition(
-                                              position: Tween<Offset>(
-                                                begin: const Offset(1, 0),
-                                                end: Offset.zero,
-                                              ).animate(animation1),
-                                              child: child,
-                                            ),
-                                            transitionDuration: const Duration(
-                                              milliseconds: 300,
-                                            ),
-                                          ),
+                                        context.push(
+                                          AppRouter.follow,
+                                          extra: {
+                                            'profileId': data.profile.id,
+                                            'initialIndex': 0,
+                                          },
                                         );
                                       },
                                   ),
@@ -488,34 +455,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     text: ' フォロワー',
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Navigator.of(context).push(
-                                          PageRouteBuilder(
-                                            pageBuilder: (
-                                              context,
-                                              animation1,
-                                              animation2,
-                                            ) =>
-                                                FollowScreen(
-                                              profileId: data.profile.id,
-                                              initialIndex: 1,
-                                            ),
-                                            transitionsBuilder: (
-                                              context,
-                                              animation1,
-                                              animation2,
-                                              child,
-                                            ) =>
-                                                SlideTransition(
-                                              position: Tween<Offset>(
-                                                begin: const Offset(1, 0),
-                                                end: Offset.zero,
-                                              ).animate(animation1),
-                                              child: child,
-                                            ),
-                                            transitionDuration: const Duration(
-                                              milliseconds: 300,
-                                            ),
-                                          ),
+                                        context.push(
+                                          AppRouter.follow,
+                                          extra: {
+                                            'profileId': data.profile.id,
+                                            'initialIndex': 1,
+                                          },
                                         );
                                       },
                                   ),
