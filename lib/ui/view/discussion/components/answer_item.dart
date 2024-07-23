@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
+import 'package:share_study_app/util/assets.gen.dart';
 import 'package:share_study_app/util/date_formatter.dart';
 
 class AnswerItem extends HookConsumerWidget {
@@ -172,17 +173,17 @@ class AnswerItem extends HookConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              SvgPicture.asset(
-                answer.isBestAnswer
-                    ? 'assets/icons/crown.svg'
-                    : 'assets/icons/crown-outlined.svg',
-                colorFilter: ColorFilter.mode(
-                  answer.isBestAnswer
-                      ? Colors.yellow
-                      : Theme.of(context).colorScheme.onSurface,
-                  BlendMode.srcIn,
-                ),
-              ),
+              answer.isBestAnswer
+                  ? Assets.icons.crown.svg(
+                      theme: const SvgTheme(
+                        currentColor: Colors.yellow,
+                      ),
+                    )
+                  : Assets.icons.crownOutlined.svg(
+                      theme: SvgTheme(
+                        currentColor: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
             ],
           ),
         ],
