@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
+import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/app/share_study_drawer.dart';
 import 'package:share_study_app/data/domain/my_notification.dart';
-import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
 import 'package:share_study_app/ui/view/notification/components/my_notification_item.dart';
 import 'package:share_study_app/use_case/di/use_case_providers.dart';
 import 'package:share_study_app/util/pagination_args.dart';
@@ -80,31 +81,9 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
               myNotification: myNotification,
               onTap: () {
                 if (myNotification.hasQuestion) {
-                  Navigator.of(context).push(
-                    PageRouteBuilder(
-                      pageBuilder: (
-                        context,
-                        animation1,
-                        animation2,
-                      ) =>
-                          DiscussionScreen(
-                        questionId: myNotification.notification.questionId!,
-                      ),
-                      transitionsBuilder: (
-                        context,
-                        animation1,
-                        animation2,
-                        child,
-                      ) =>
-                          SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(1, 0),
-                          end: Offset.zero,
-                        ).animate(animation1),
-                        child: child,
-                      ),
-                      transitionDuration: const Duration(milliseconds: 300),
-                    ),
+                  context.push(
+                    AppRouter.discuss,
+                    extra: myNotification.notification.questionId,
                   );
                 }
               },
