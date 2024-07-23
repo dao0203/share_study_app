@@ -45,29 +45,7 @@ class AnswerItem extends HookConsumerWidget {
           Logger().i('isMyQuestion: $isMyQuestion');
           return;
         }
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text(
-                answer.isBestAnswer ? 'ベストアンサーを外しますか？' : 'ベストアンサーにしますか？',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () async {
-                    onLongPress();
-                  },
-                  child: const Text('はい'),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('いいえ'),
-                ),
-              ],
-              elevation: 0,
-            );
-          },
-        );
+        onLongPress();
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

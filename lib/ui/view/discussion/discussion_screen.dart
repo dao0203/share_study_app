@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
+import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/data/domain/answer.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
@@ -14,7 +16,6 @@ import 'package:share_study_app/ui/state/question_state.dart';
 import 'package:share_study_app/ui/state/question_ui_model_state.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
 import 'package:share_study_app/ui/view/discussion/components/answer_item.dart';
-import 'package:share_study_app/ui/view/profile/profile_screen.dart';
 import 'package:share_study_app/util/date_formatter.dart';
 
 class DiscussionScreen extends StatefulHookConsumerWidget {
@@ -148,32 +149,9 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context).push(
-                                    PageRouteBuilder(
-                                      pageBuilder: (
-                                        context,
-                                        animation1,
-                                        animation2,
-                                      ) =>
-                                          ProfileScreen(
-                                        profileId: questionUiModel.questionerId,
-                                      ),
-                                      transitionsBuilder: (
-                                        context,
-                                        animation1,
-                                        animation2,
-                                        child,
-                                      ) =>
-                                          SlideTransition(
-                                        position: Tween<Offset>(
-                                          begin: const Offset(1, 0),
-                                          end: Offset.zero,
-                                        ).animate(animation1),
-                                        child: child,
-                                      ),
-                                      transitionDuration:
-                                          const Duration(milliseconds: 300),
-                                    ),
+                                  context.push(
+                                    AppRouter.profile,
+                                    extra: questionUiModel.questionerId,
                                   );
                                 },
                                 child: questionUiModel.questionerImageUrl !=
@@ -411,58 +389,62 @@ class _DiscussionScreenState extends ConsumerState<DiscussionScreen> {
                                   questionUiModel.asData?.value.isMyQuestion ??
                                       false,
                               onIconPressed: () {
-                                Navigator.of(context).push(
-                                  PageRouteBuilder(
-                                    pageBuilder: (
-                                      context,
-                                      animation1,
-                                      animation2,
-                                    ) =>
-                                        ProfileScreen(
-                                      profileId: answer.answerer.id,
-                                    ),
-                                    transitionsBuilder: (
-                                      context,
-                                      animation1,
-                                      animation2,
-                                      child,
-                                    ) =>
-                                        SlideTransition(
-                                      position: Tween<Offset>(
-                                        begin: const Offset(1, 0),
-                                        end: Offset.zero,
-                                      ).animate(animation1),
-                                      child: child,
-                                    ),
-                                    transitionDuration:
-                                        const Duration(milliseconds: 300),
-                                  ),
+                                context.push(
+                                  AppRouter.profile,
+                                  extra: answer.answerer.id,
                                 );
                               },
                               onLongPress: () async {
-                                ref
-                                    .watch(answerRepositoryProvider)
-                                    .updateIsBestAnswer(
-                                      answer.id,
-                                      answer.isBestAnswer,
-                                    )
-                                    .then((value) {
-                                  Navigator.of(
-                                    context,
-                                    rootNavigator: true,
-                                  ).pop();
-                                  _pagingController.refresh();
-                                  ref.invalidate(
-                                    questionUiModelStateProvider(
-                                      widget.questionId,
-                                    ),
-                                  );
-                                }).catchError(
-                                  (error, stackTrace) {
-                                    Navigator.of(
-                                      context,
-                                      rootNavigator: true,
-                                    ).pop();
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        answer.isBestAnswer
+                                            ? 'ベストアンサーを外しますか？'
+                                            : 'ベストアンサーにしますか？',
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () async {
+                                            ref
+                                                .watch(answerRepositoryProvider)
+                                                .updateIsBestAnswer(
+                                                  answer.id,
+                                                  answer.isBestAnswer,
+                                                )
+                                                .then((value) {
+                                              Navigator.of(
+                                                context,
+                                                rootNavigator: true,
+                                              ).pop();
+                                              _pagingController.refresh();
+                                              ref.invalidate(
+                                                questionUiModelStateProvider(
+                                                  widget.questionId,
+                                                ),
+                                              );
+                                            }).catchError(
+                                              (error, stackTrace) {
+                                                Navigator.of(
+                                                  context,
+                                                  rootNavigator: true,
+                                                ).pop();
+                                              },
+                                            );
+                                          },
+                                          child: const Text('はい'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () => Navigator.of(
+                                            context,
+                                            rootNavigator: true,
+                                          ).pop(),
+                                          child: const Text('いいえ'),
+                                        ),
+                                      ],
+                                      elevation: 0,
+                                    );
                                   },
                                 );
                               },
