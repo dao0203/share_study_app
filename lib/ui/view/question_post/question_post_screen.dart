@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
@@ -89,7 +90,7 @@ class QuestionPostScreen extends HookConsumerWidget {
                         );
                         //デバッグ用のメッセージを追加
                         Logger().d('質問の投稿が成功したよ！');
-                        Navigator.pop(context);
+                        context.pop();
                       },
                     ).catchError((error) {
                       ScaffoldMessenger.of(context).showSnackBar(

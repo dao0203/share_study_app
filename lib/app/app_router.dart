@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:share_study_app/app/bottom_nav_app_bar.dart';
 import 'package:share_study_app/auth_gate.dart';
 import 'package:share_study_app/data/domain/profile.dart';
+import 'package:share_study_app/ui/view/about_app/about_app_screen.dart';
 import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
 import 'package:share_study_app/ui/view/follow/follow_screen.dart';
 import 'package:share_study_app/ui/view/notification/notification_screen.dart';
@@ -23,6 +24,8 @@ class AppRouter {
   static const signIn = '/sign_in';
 
   static const signUp = '/sign_up';
+
+  static const aboutApp = '/about_app';
 
   static const privacyPolicy = '/privacy_policy';
 
@@ -70,6 +73,12 @@ class AppRouter {
         path: signUp,
         builder: (context, state) {
           return const SignUpScreen();
+        },
+      ),
+      GoRoute(
+        path: aboutApp,
+        builder: (context, state) {
+          return const AboutAppScreen();
         },
       ),
       GoRoute(

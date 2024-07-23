@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
 import 'package:share_study_app/ui/util/limit_text_ten_chars.dart';
-import 'package:share_study_app/ui/view/about_app/about_app_screen.dart';
-import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
-import 'package:share_study_app/ui/view/privacy_policy/privacy_policy_screen.dart';
-import 'package:share_study_app/ui/view/profile/profile_screen.dart';
-import 'package:share_study_app/ui/view/tos/tos_screen.dart';
 import 'package:share_study_app/util/email_sender.dart';
 
 class ShareStudyDrawer extends HookConsumerWidget {
@@ -29,29 +26,9 @@ class ShareStudyDrawer extends HookConsumerWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(
-                      PageRouteBuilder(
-                        pageBuilder: (
-                          context,
-                          animation1,
-                          animation2,
-                        ) =>
-                            ProfileScreen(profileId: myProfileState!.id),
-                        transitionsBuilder: (
-                          context,
-                          animation1,
-                          animation2,
-                          child,
-                        ) =>
-                            SlideTransition(
-                          position: Tween<Offset>(
-                            begin: const Offset(1, 0),
-                            end: Offset.zero,
-                          ).animate(animation1),
-                          child: child,
-                        ),
-                        transitionDuration: const Duration(milliseconds: 200),
-                      ),
+                    context.push(
+                      AppRouter.profile,
+                      extra: myProfileState!.id,
                     );
                   },
                   child: myProfileState?.imageUrl != null
@@ -137,29 +114,9 @@ class ShareStudyDrawer extends HookConsumerWidget {
             title: const Text('プロフィール'),
             onTap: () {
               if (myProfileState == null) return;
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                  ) =>
-                      ProfileScreen(profileId: myProfileState.id),
-                  transitionsBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                    child,
-                  ) =>
-                      SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation1),
-                    child: child,
-                  ),
-                  transitionDuration: const Duration(milliseconds: 200),
-                ),
+              context.push(
+                AppRouter.profile,
+                extra: myProfileState.id,
               );
             },
           ),
@@ -167,90 +124,21 @@ class ShareStudyDrawer extends HookConsumerWidget {
             leading: const Icon(Icons.info_outline),
             title: const Text('シェアスタについて'),
             onTap: () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                  ) =>
-                      const AboutAppScreen(),
-                  transitionsBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                    child,
-                  ) =>
-                      SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation1),
-                    child: child,
-                  ),
-                  transitionDuration: const Duration(milliseconds: 300),
-                ),
-              );
+              context.push(AppRouter.aboutApp);
             },
           ),
           ListTile(
             leading: const Icon(Icons.description_outlined),
             title: const Text('利用規約'),
             onTap: () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                  ) =>
-                      const TosScreen(),
-                  transitionsBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                    child,
-                  ) =>
-                      SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation1),
-                    child: child,
-                  ),
-                  transitionDuration: const Duration(milliseconds: 300),
-                ),
-              );
+              context.push(AppRouter.tos);
             },
           ),
           ListTile(
             leading: const Icon(Icons.privacy_tip_outlined),
             title: const Text('プライバシーポリシー'),
             onTap: () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                  ) =>
-                      const PrivacyPolicyScreen(),
-                  transitionsBuilder: (
-                    context,
-                    animation1,
-                    animation2,
-                    child,
-                  ) =>
-                      SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1, 0),
-                      end: Offset.zero,
-                    ).animate(animation1),
-                    child: child,
-                  ),
-                  transitionDuration: const Duration(milliseconds: 300),
-                ),
-              );
+              context.push(AppRouter.privacyPolicy);
             },
           ),
           ListTile(
@@ -271,7 +159,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                       TextButton(
                         child: const Text('キャンセル'),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          context.pop();
                         },
                       ),
                       TextButton(
@@ -288,10 +176,9 @@ class ShareStudyDrawer extends HookConsumerWidget {
                                   text: 'お問い合わせに失敗しました',
                                 ),
                               );
-                              // Navigator.of(context).pop();
                             },
                           ).whenComplete(() {
-                            Navigator.of(context).pop();
+                            context.pop();
                           });
                         },
                       ),
@@ -321,7 +208,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                       TextButton(
                         child: const Text('キャンセル'),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          context.pop();
                         },
                       ),
                       TextButton(
@@ -342,13 +229,7 @@ class ShareStudyDrawer extends HookConsumerWidget {
                           );
                           ref.watch(userAuthRepositoryProvider).signOut().then(
                             (value) {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                  builder: (context) => const SignInScreen(),
-                                  maintainState: false,
-                                ),
-                                (_) => false,
-                              );
+                              context.go(AppRouter.signIn);
                             },
                           ).catchError(
                             (error, stackTrace) {
@@ -363,8 +244,9 @@ class ShareStudyDrawer extends HookConsumerWidget {
                                   ),
                                 ),
                               );
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
+                              context
+                                ..pop()
+                                ..pop();
                             },
                           );
                         },
