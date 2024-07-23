@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
@@ -147,7 +148,7 @@ class QuestionItem extends HookConsumerWidget {
                                             ),
                                           );
                                         }).whenComplete(() {
-                                          Navigator.of(context).pop();
+                                          context.pop();
                                         });
                                       },
                                     )
@@ -205,7 +206,7 @@ class QuestionItem extends HookConsumerWidget {
                                             ),
                                           );
                                         }).whenComplete(() {
-                                          Navigator.of(context).pop();
+                                          context.pop();
                                         });
                                       },
                                     ),
@@ -244,7 +245,7 @@ class QuestionItem extends HookConsumerWidget {
                                             ),
                                           );
                                         }).whenComplete(() {
-                                          Navigator.of(context).pop();
+                                          context.pop();
                                         });
                                       },
                                     ),

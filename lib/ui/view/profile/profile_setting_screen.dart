@@ -2,14 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:share_study_app/app/app_router.dart';
 import 'package:share_study_app/data/domain/profile.dart';
 import 'package:share_study_app/data/repository/di/repository_providers.dart';
 import 'package:share_study_app/ui/components/custom_snack_bar.dart';
 import 'package:share_study_app/ui/state/activity_profile_state.dart';
 import 'package:share_study_app/ui/state/my_profile_state.dart';
-import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
 import 'package:share_study_app/util/image_picker_app.dart';
 
 class ProfileSettingScreen extends HookConsumerWidget {
@@ -47,7 +48,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
         useTextEditingController(text: profile.facultyName);
     final departmentNameController =
         useTextEditingController(text: profile.departmentName);
-    final gradeControler = useTextEditingController(text: profile.grade);
+    final gradeController = useTextEditingController(text: profile.grade);
     final bioController = useTextEditingController(text: profile.bio);
     final xFile = useState<XFile?>(null);
     final isLoading = useState(false);
@@ -85,7 +86,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                             universityName: universityNameController.text,
                             facultyName: facultyNameController.text,
                             departmentName: departmentNameController.text,
-                            grade: gradeControler.text,
+                            grade: gradeController.text,
                             bio: bioController.text,
                           ),
                           xFile.value?.path,
@@ -97,7 +98,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                         ref.invalidate(
                           activityProfileStateProvider(profile.id),
                         );
-                        Navigator.of(context).pop();
+                        context.pop();
                       },
                     ).catchError(
                       (e, s) {
@@ -263,7 +264,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                     maxLength: 20,
                   ),
                   TextField(
-                    controller: gradeControler,
+                    controller: gradeController,
                     decoration: const InputDecoration(
                       labelText: '学年',
                       prefixIcon: Icon(Icons.school),
@@ -282,8 +283,8 @@ class ProfileSettingScreen extends HookConsumerWidget {
                                 return ListTile(
                                   title: Text(gradeList[index]),
                                   onTap: () {
-                                    gradeControler.text = gradeList[index];
-                                    Navigator.of(context).pop();
+                                    gradeController.text = gradeList[index];
+                                    context.pop();
                                   },
                                 );
                               },
@@ -324,7 +325,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop();
+                                  context.pop();
                                 },
                                 child: Text(
                                   'キャンセル',
@@ -371,14 +372,7 @@ class ProfileSettingScreen extends HookConsumerWidget {
                                         ),
                                       );
                                       ref.invalidate(myProfileStateProvider);
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SignInScreen(),
-                                          maintainState: false,
-                                        ),
-                                        (_) => false,
-                                      );
+                                      context.go(AppRouter.signIn);
                                     },
                                   ).catchError(
                                     (e, s) {
@@ -395,8 +389,9 @@ class ProfileSettingScreen extends HookConsumerWidget {
                                           ),
                                         ),
                                       );
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pop();
+                                      context
+                                        ..pop()
+                                        ..pop();
                                     },
                                   );
                                 },
