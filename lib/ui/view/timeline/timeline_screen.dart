@@ -10,7 +10,6 @@ import 'package:share_study_app/app/share_study_drawer.dart';
 import 'package:share_study_app/ui/components/question_item.dart';
 import 'package:share_study_app/ui/components/question_post_fab.dart';
 import 'package:share_study_app/ui/ui_model/question_ui_model.dart';
-import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
 import 'package:share_study_app/use_case/di/use_case_providers.dart';
 import 'package:share_study_app/util/pagination_args.dart';
 
@@ -136,29 +135,9 @@ class _TimelineScreenState extends ConsumerState<TimelineScreen> {
                       );
                     },
                     onPressed: () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          pageBuilder: (
-                            context,
-                            animation1,
-                            animation2,
-                          ) =>
-                              DiscussionScreen(questionId: question.id),
-                          transitionsBuilder: (
-                            context,
-                            animation1,
-                            animation2,
-                            child,
-                          ) =>
-                              SlideTransition(
-                            position: Tween<Offset>(
-                              begin: const Offset(1, 0),
-                              end: Offset.zero,
-                            ).animate(animation1),
-                            child: child,
-                          ),
-                          transitionDuration: const Duration(milliseconds: 100),
-                        ),
+                      context.push(
+                        AppRouter.discuss,
+                        extra: question.id,
                       );
                     },
                   ),

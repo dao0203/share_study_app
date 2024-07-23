@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_study_app/app/bottom_nav_app_bar.dart';
 import 'package:share_study_app/auth_gate.dart';
+import 'package:share_study_app/ui/view/discussion/discussion_screen.dart';
 import 'package:share_study_app/ui/view/notification/notification_screen.dart';
 import 'package:share_study_app/ui/view/onboarding/registration_profile/registration_profile_screen.dart';
 import 'package:share_study_app/ui/view/onboarding/sign_in/sign_in_screen.dart';
@@ -102,7 +103,8 @@ class AppRouter {
                   return const TimelineScreen();
                 },
               ),
-              ...profileRoutes,
+              ..._profileRoutes,
+              _discussRoute,
             ],
           ),
           StatefulShellBranch(
@@ -114,7 +116,8 @@ class AppRouter {
                   return const SearchScreen();
                 },
               ),
-              ...profileRoutes,
+              ..._profileRoutes,
+              _discussRoute,
             ],
           ),
           StatefulShellBranch(
@@ -126,7 +129,8 @@ class AppRouter {
                   return const NotificationScreen();
                 },
               ),
-              ...profileRoutes,
+              ..._profileRoutes,
+              _discussRoute,
             ],
           ),
         ],
@@ -134,7 +138,7 @@ class AppRouter {
     ],
   );
 
-  static final profileRoutes = <RouteBase>[
+  static final _profileRoutes = <RouteBase>[
     GoRoute(
       path: profile,
       builder: (context, state) {
@@ -144,7 +148,13 @@ class AppRouter {
     ),
   ];
 
-  static final discussRoute = GoRoute(path: '/discuss');
+  static final _discussRoute = GoRoute(
+    path: discuss,
+    builder: (context, state) {
+      final questionId = state.extra as String;
+      return DiscussionScreen(questionId: questionId);
+    },
+  );
 
   static CustomTransitionPage _questionPostTransitionPage() {
     return CustomTransitionPage(
